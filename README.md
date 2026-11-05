@@ -1,81 +1,26 @@
-# Costa Rica · Atlas interactivo (v2)
+# Perezeando
 
-Mapa interactivo de Costa Rica: volcanes, parques nacionales, playas, ríos, fauna, historia y mar territorial.
-Búsqueda, fichas con Wikipedia, rutas en carro, favoritos, capas, vista 3D con relieve, impresión y exportación.
+Atlas interactivo de Costa Rica.
 
-**Stack:** Vite · React 19 · TypeScript · MapLibre GL JS (un solo motor para 2D y 3D) · Zustand · CSS con variables.
-Sin backend y sin base de datos: todo son archivos estáticos.
+Perezeando reúne en un mapa de consulta pública el territorio continental y el mar territorial. Cubre volcanes, cerros, parques nacionales, bosques, cataratas, ríos, islas, playas, fauna terrestre y marina, centros de población, sitios históricos, gastronomía, deporte y hitos oceánicos. La interfaz está en español y en inglés.
 
-## Requisitos
+## Contenido
 
-- Node.js **22.13 o superior** y pnpm 11. pnpm 11 usa `node:sqlite`, que no existe en Node 20.
+Cada lugar tiene ficha: nombre, categoría, provincia, coordenadas y descripción. Si hay una fotografía del sitio, o una referencia en Wikipedia, la ficha la incluye junto con un extracto.
 
-## Instalar y desarrollar
+La consulta es por nombre, por provincia o por categoría. El color del punto indica el grupo: naturaleza, fauna, cultura e historia, mar territorial, deporte, gastronomía o transporte.
 
-```bash
-pnpm install
-pnpm run dev        # http://localhost:5173 con recarga en caliente
-```
+## Consulta
 
-Otros comandos:
+La búsqueda abre la ficha del lugar. Al reducir la escala, los puntos próximos se agrupan; al aumentarla, cada lugar vuelve a mostrarse por separado.
 
-```bash
-pnpm run build      # revisa tipos (tsc) y genera la carpeta dist/
-pnpm run preview    # sirve dist/ en http://localhost:4173 para probar el build
-pnpm run lint       # ESLint
-pnpm run format     # Prettier
-```
+Se puede trazar una ruta por carretera entre varios destinos, conservarla y exportarla. Los favoritos se guardan en el navegador de quien consulta. El mapa permite medir una distancia, cambiar el fondo (imagen satelital, calles o relieve) y activar una vista tridimensional del terreno.
 
-> El build usa `base: './'`, así que `dist/` funciona en cualquier subcarpeta.
-> Hay que abrirlo desde un servidor (`pnpm run preview`, Cloudflare Pages, GitHub Pages…); con doble clic (`file://`) no carga, porque el navegador bloquea el worker del mapa y los JSON.
+Cada lugar tiene un enlace propio. Quien lo abre llega a esa ficha, con el nombre y la descripción del sitio. En pantallas pequeñas la ficha se presenta sobre el mapa. El atlas tiene un tema claro y un tema nocturno.
 
-## Estructura
+## Fuentes
 
-```
-data/                   lugares y geometría de trabajo (no se publican)
-public/data/            atlas.json, geoms.json, provinces-content.json (lo que carga el sitio)
-src/
-  components/           Panel, barra de herramientas, iconos, avisos, impresión
-  features/
-    map/                MapView (carga diferida) + MapController (MapLibre, imperativo)
-    search/             índice Fuse.js, caja de búsqueda, lista "Explorar"
-    route/              cálculo de ruta (OSRM), optimización, GPX/GeoJSON
-    favorites/          pestaña de favoritos
-    detail/             ficha de lugar y de provincia (Wikipedia)
-    layers/             categorías, mapas base y capas extra
-  data/                 tipos (Place, Category, Province), configuración y carga
-  store/                estado global (Zustand, persistido en localStorage) y acciones
-  hooks/                URL compartible (#hash), hoja móvil, ruta, media queries
-  i18n/                 español e inglés
-  lib/                  utilidades (formato, geo, iconos, Wikipedia…)
-  styles/               CSS con variables (diseño "atlas")
-```
-
-Para **agregar o editar lugares** basta con modificar `data/places.json` (cada lugar tiene `id`, `name`, `cat`, `prov`, `lat`, `lng`, `desc` y opcionalmente `wiki`, `img`, `geometry`…). `pnpm run dev` y `pnpm run build` rearman `public/data/atlas.json` a partir de esa carpeta.
-Las categorías y sus colores están en `src/data/config.ts`.
-
-## Publicar en Cloudflare Pages
-
-En el proyecto de Pages (Workers y Pages):
-
-- Comando de compilación: `pnpm run build`
-- Directorio de salida: `dist`
-- Variable de entorno `PNPM_VERSION`: `11.13.1` (Pages no lee la versión del lockfile; el valor por defecto es más viejo)
-- Node.js: el archivo `.node-version` fija la 22
-
-Las cabeceras salen de `functions/_middleware.js`, que Pages publica junto con `dist`. Conectá el repositorio: si solo subís la carpeta `dist/`, esa función no viaja.
-
-## Publicar en GitHub Pages
-
-1. Subí el proyecto a un repositorio de GitHub (rama `main`).
-2. En **Settings → Pages**, elegí **Source: GitHub Actions**.
-3. Cada `push` a `main` ejecuta `.github/workflows/pages.yml`, que compila y publica `dist/`.
-
-Como `base` es `./`, funciona igual en `usuario.github.io/repositorio/`.
-
-## Servicios externos (gratuitos, sin clave)
-
-- Mapas base: Esri (satélite, calles, gris oscuro y etiquetas), OpenTopoMap y OpenStreetMap.
-- Relieve 3D: Mapzen Terrain Tiles (AWS Open Data).
-- Rutas: OSRM público (`router.project-osrm.org`). Si no responde, se muestran distancias en línea recta.
-- Textos e imágenes: API REST de Wikipedia.
+- Cartografía: Esri, OpenTopoMap y OpenStreetMap.
+- Relieve: Mapzen Terrain Tiles (AWS Open Data).
+- Rutas: OSRM (`router.project-osrm.org`). Si el servicio no responde, el trazado se calcula en línea recta.
+- Textos e imágenes complementarios: Wikipedia y Wikimedia Commons.
