@@ -20,7 +20,7 @@
     "fetch-photos": "node scripts/fetch-photos.mjs"
   },
   "engines": {
-    "node": ">=20.19"
+    "node": ">=22.13"
   },
   "dependencies": {
     "fuse.js": "^7.5.0",

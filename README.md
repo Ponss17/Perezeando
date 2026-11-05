@@ -8,7 +8,7 @@ Sin backend y sin base de datos: todo son archivos estáticos.
 
 ## Requisitos
 
-- Node.js **20.19 o superior** (probado con Node 20.19.2) y pnpm.
+- Node.js **22.13 o superior** y pnpm 11. pnpm 11 usa `node:sqlite`, que no existe en Node 20.
 
 ## Instalar y desarrollar
 
@@ -61,7 +61,7 @@ En el proyecto de Pages (Workers y Pages):
 - Comando de compilación: `pnpm run build`
 - Directorio de salida: `dist`
 - Variable de entorno `PNPM_VERSION`: `11.13.1` (Pages no lee la versión del lockfile; el valor por defecto es más viejo)
-- Node.js: el archivo `.node-version` fija la 20
+- Node.js: el archivo `.node-version` fija la 22
 
 Las cabeceras salen de `functions/_middleware.js`, que Pages publica junto con `dist`. Conectá el repositorio: si solo subís la carpeta `dist/`, esa función no viaja.
 
