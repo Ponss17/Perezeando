@@ -14,18 +14,27 @@ const LIMITS = {
   [IMG_CACHE]: { max: 400, age: 30 * DAY },
   [ROUTE_CACHE]: { max: 30, age: DAY / 24 },
 };
-const TILE_HOSTS = /(^|\.)(arcgisonline\.com|tile\.openstreetmap\.org|tile\.opentopomap\.org|tiles\.openfreemap\.org|elevation-tiles-prod\.s3\.amazonaws\.com)$|^s3\.amazonaws\.com$/;
+const TILE_HOSTS =
+  /(^|\.)(arcgisonline\.com|tile\.openstreetmap\.org|tile\.opentopomap\.org|tiles\.openfreemap\.org|elevation-tiles-prod\.s3\.amazonaws\.com)$|^s3\.amazonaws\.com$/;
 const IMG_HOSTS = /^(upload|thumb)\.wikimedia\.org$/;
 const OSRM_HOST = /^router\.project-osrm\.org$/;
 
 const scope = new URL(self.registration.scope);
-const rel = (u) => (u.origin === scope.origin && u.pathname.startsWith(scope.pathname) ? u.pathname.slice(scope.pathname.length) : null);
+const rel = (u) =>
+  u.origin === scope.origin && u.pathname.startsWith(scope.pathname)
+    ? u.pathname.slice(scope.pathname.length)
+    : null;
 
 self.addEventListener('install', (e) => {
   e.waitUntil(
     (async () => {
       const c = await caches.open(SHELL_CACHE);
-      await c.addAll(SHELL.map((p) => new Request(new URL(p, scope), { cache: p.startsWith('assets/') ? 'force-cache' : 'no-cache' })));
+      await c.addAll(
+        SHELL.map(
+          (p) =>
+            new Request(new URL(p, scope), { cache: p.startsWith('assets/') ? 'force-cache' : 'no-cache' }),
+        ),
+      );
       const dc = await caches.open(DATA_CACHE);
       await Promise.all(
         Object.entries(DATA).map(async ([p, h]) => {
@@ -45,7 +54,8 @@ self.addEventListener('install', (e) => {
 self.addEventListener('activate', (e) => {
   e.waitUntil(
     (async () => {
-      for (const k of await caches.keys()) if (k.startsWith('pz-') && !KEEP.includes(k)) await caches.delete(k);
+      for (const k of await caches.keys())
+        if (k.startsWith('pz-') && !KEEP.includes(k)) await caches.delete(k);
       const dc = await caches.open(DATA_CACHE);
       for (const r of await dc.keys()) {
         const p = rel(new URL(r.url));
@@ -96,7 +106,12 @@ async function cacheFirstCapped(e, name, req) {
   try {
     const res = await fetch(req);
     if (res.ok && res.type !== 'opaque') {
-      e.waitUntil(stamp(res.clone()).then((r) => c.put(req, r)).then(() => trim(name)).catch(() => {}));
+      e.waitUntil(
+        stamp(res.clone())
+          .then((r) => c.put(req, r))
+          .then(() => trim(name))
+          .catch(() => {}),
+      );
     }
     return res;
   } catch (err) {
@@ -105,12 +120,32 @@ async function cacheFirstCapped(e, name, req) {
   }
 }
 
-async function shell(req, path) {
+async function shell(req, path, { networkFirst = false } = {}) {
   const c = await caches.open(SHELL_CACHE);
-  const hit = await c.match(new URL(path, scope).href, { ignoreSearch: true });
+  const url = new URL(path, scope).href;
+  const hit = await c.match(url, { ignoreSearch: true });
+  const fromNet = async () => {
+    const res = await fetch(path === 'index.html' ? new Request(url, { cache: 'no-cache' }) : req);
+    if (res.ok) {
+      try {
+        await c.put(url, res.clone());
+      } catch {}
+    }
+    return res;
+  };
+  if (networkFirst) {
+    try {
+      const res = await fromNet();
+      if (res.ok) return res;
+      if (hit) return hit;
+      return res;
+    } catch (err) {
+      if (hit) return hit;
+      throw err;
+    }
+  }
   if (hit) return hit;
-  const res = await fetch(req);
-  return res;
+  return fromNet();
 }
 
 async function data(e, req, path) {
@@ -153,13 +188,38 @@ self.addEventListener('fetch', (e) => {
   if (req.mode === 'navigate' && path !== null) {
     if (u.searchParams.has('nosw')) return;
     if (path === 'robots.txt' || path === 'llms.txt' || path.startsWith('.well-known/')) return;
-    e.respondWith(shell(req, 'index.html').catch(() => fetch(req)));
+    e.respondWith(
+      shell(req, 'index.html', { networkFirst: true }).catch(
+        () =>
+          new Response(
+            '<!doctype html><meta charset=utf-8><meta name=viewport content="width=device-width,initial-scale=1"><title>Perezeando</title><body style="font:16px/1.4 system-ui;padding:24px;background:#13281c;color:#fff"><p>No se pudo abrir el mapa.</p><p><a href="./" style="color:#d4ec8a">Reintentar</a></p></body>',
+            { headers: { 'content-type': 'text/html; charset=utf-8' } },
+          ),
+      ),
+    );
     return;
   }
   if (path !== null) {
     if (path === 'sw.js') return;
     if (path.startsWith('data/')) return e.respondWith(data(e, req, path));
-    if (SHELL.includes(path)) return e.respondWith(shell(req, path));
+    if (SHELL.includes(path)) {
+      return e.respondWith(
+        (async () => {
+          let res;
+          try {
+            res = await shell(req, path);
+          } catch {
+            res = await fetch(req);
+          }
+          if (res.status === 404 && path.startsWith('assets/')) {
+            for (const client of await self.clients.matchAll({ type: 'window' })) {
+              client.postMessage({ type: 'asset-missing' });
+            }
+          }
+          return res;
+        })(),
+      );
+    }
     return;
   }
   if (TILE_HOSTS.test(u.hostname)) return e.respondWith(cacheFirstCapped(e, TILE_CACHE, req));

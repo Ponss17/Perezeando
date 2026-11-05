@@ -35,7 +35,9 @@ export async function initSW() {
     console.info('[sw] desinstalado (?nosw)');
     return;
   }
-  const reg = await navigator.serviceWorker.register(import.meta.env.BASE_URL + 'sw.js', { updateViaCache: 'none' });
+  const reg = await navigator.serviceWorker.register(import.meta.env.BASE_URL + 'sw.js', {
+    updateViaCache: 'none',
+  });
   const offer = (w: ServiceWorker | null) => {
     // solo si ya hay una versión controlando la página (en la primera visita no hay nada que actualizar)
     if (!w || !navigator.serviceWorker.controller) return;
@@ -47,12 +49,21 @@ export async function initSW() {
     const w = reg.installing;
     w?.addEventListener('statechange', () => w.state === 'installed' && offer(w));
   });
-  // sin sondeos: se revisa sw.js (pocos bytes, no-cache) al volver a la pestaña, como mucho cada hora
-  let last = Date.now();
+  // al volver a la pestaña (o si un asset de la caché ya no está en el servidor) se pide sw.js
+  let last = 0;
+  const check = () => {
+    if (Date.now() - last < 3e4) return;
+    last = Date.now();
+    reg.update().catch(() => {});
+  };
   document.addEventListener('visibilitychange', () => {
-    if (document.visibilityState === 'visible' && Date.now() - last > 36e5) {
-      last = Date.now();
-      reg.update().catch(() => {});
-    }
+    if (document.visibilityState === 'visible') check();
   });
+  navigator.serviceWorker.addEventListener('message', (e) => {
+    if (e.data?.type !== 'asset-missing') return;
+    // un JS/CSS hasheado ya no está: forzar la versión nueva si hay una en espera
+    if (reg.waiting) applyUpdate();
+    else check();
+  });
+  check();
 }
