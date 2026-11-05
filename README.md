@@ -18,6 +18,10 @@ Se puede trazar una ruta por carretera entre varios destinos, conservarla y expo
 
 Cada lugar tiene un enlace propio. Quien lo abre llega a esa ficha, con el nombre y la descripción del sitio. En pantallas pequeñas la ficha se presenta sobre el mapa. El atlas tiene un tema claro y un tema nocturno.
 
+## Uso
+
+Perezeando es un atlas de consulta. No es un sitio oficial ni administra los lugares que muestra. Los mapas, las fotografías y los textos de terceros conservan la licencia de su autor. El sitio publica sus políticas de uso y la lista de créditos.
+
 ## Fuentes
 
 - Cartografía: Esri, OpenTopoMap y OpenStreetMap.

@@ -2,6 +2,7 @@
 // provincias y ZEE, más public/data/geoms.json con los trazados (diferido). Coordenadas a 5 decimales (~1 m) y geometrías simplificadas (Douglas-Peucker).
 // Lee data/ (no se publica) y se ejecuta antes de `pnpm run dev` y `pnpm run build` (predev / prebuild).
 import fs from 'node:fs';
+import { fillDesc } from './fill-desc.mjs';
 const SRC = new URL('../data/', import.meta.url);
 const OUT = new URL('../public/data/', import.meta.url);
 const rd = (f, opt) => { try { return JSON.parse(fs.readFileSync(new URL(f, SRC), 'utf8')); } catch (e) { if (opt) return opt; throw e; } };
@@ -107,6 +108,8 @@ const places = [...curated, ...wd, ...osm].map((p) => {
   if (!q.img && photos[p.id]) q.img = { ...photos[p.id] };
   if (q.img) q.img = { ...q.img, src: cleanUrl(q.img.src) };
   if (NICK.places[p.id]) q.nick = NICK.places[p.id]; // apodo y gentilicio con fuente
+  const filled = fillDesc(q);
+  if (filled) q.desc = filled;
   if (q.geometry) { geoms[q.id] = geom(q.geometry, 0.0003, 5); delete q.geometry; } // ~30 m, va aparte
   return q;
 });

@@ -50,7 +50,10 @@ export function Panel() {
 
   const showDetail = detailOpen && sel;
   const badges: Partial<Record<Tab, number>> = { route: nRoute, favs: nFavs };
-  const tabIndex = Math.max(0, TABS.findIndex(([id]) => id === tab));
+  const tabIndex = Math.max(
+    0,
+    TABS.findIndex(([id]) => id === tab),
+  );
 
   return (
     <aside
@@ -76,13 +79,20 @@ export function Panel() {
             className="icon-btn collapse-btn"
             aria-label={t('panel_hide')}
             title={t('panel_hide')}
-            onClick={() => togglePanel(false)}
+            onClick={(e) => {
+              e.currentTarget.blur();
+              togglePanel(false);
+            }}
           >
             <Icon name="panel-left-close" />
           </button>
         </div>
         <SearchBox />
-        <nav className={'tabs' + (showDetail ? ' in-detail' : '')} role="tablist" style={{ '--i': tabIndex } as CSSProperties}>
+        <nav
+          className={'tabs' + (showDetail ? ' in-detail' : '')}
+          role="tablist"
+          style={{ '--i': tabIndex } as CSSProperties}
+        >
           {TABS.map(([id, icon, label]) => (
             <button
               key={id}
@@ -154,7 +164,10 @@ export function PanelOpenButton() {
       aria-label={t('panel_show')}
       tabIndex={open ? -1 : 0}
       aria-hidden={open || undefined}
-      onClick={() => togglePanel(true)}
+      onClick={(e) => {
+        e.currentTarget.blur();
+        togglePanel(true);
+      }}
     >
       <BrandLogo as="span" />
       <span className="pob-text">

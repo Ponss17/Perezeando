@@ -7,6 +7,7 @@ import { locale, useT } from '../i18n';
 import { CATEGORIES, CATEGORY_ORDER } from '../data/config';
 import { catName, dismissNotice, provName, retryLocate } from '../store/actions';
 import { visiblePlaces } from '../lib/selectors';
+import { openPolicies } from '../lib/policies';
 import { Icon } from './Icon';
 
 export function Toast() {
@@ -46,7 +47,12 @@ export function Notice() {
   const [tk, dk, ico] = NOTICE_KEYS[n.code];
   const canRetry = n.code === 'denied' || n.code === 'unavailable' || n.code === 'timeout';
   return (
-    <div className={'notice' + (n.code === 'outside' ? ' info' : '')} role="status" aria-live="polite" key={n.n}>
+    <div
+      className={'notice' + (n.code === 'outside' ? ' info' : '')}
+      role="status"
+      aria-live="polite"
+      key={n.n}
+    >
       <span className="notice-ico" aria-hidden="true">
         <Icon name={ico} />
       </span>
@@ -73,6 +79,7 @@ export function CreditsDialog() {
   useEffect(() => {
     const d = ref.current;
     if (!d) return;
+    d.setAttribute('closedby', 'none');
     if (open && !d.open) d.showModal();
     if (!open && d.open) d.close();
   }, [open]);
@@ -81,66 +88,93 @@ export function CreditsDialog() {
     <dialog
       id="credits"
       ref={ref}
+      aria-labelledby="credits-title"
+      onCancel={(e) => e.preventDefault()}
       onClose={() => setApp({ creditsOpen: false })}
-      onClick={(e) => e.target === ref.current && ref.current?.close()}
     >
-      <button className="icon-btn close" aria-label={t('close')} onClick={() => ref.current?.close()}>
-        <Icon name="x" />
-      </button>
       {open && (
-        <div>
-          <MascotMono className="credits-mascot" size={96} />
-          <h2>{t('credits')}</h2>
-          <p>
-            {es
-              ? 'Mapa hecho con software libre y datos abiertos. Las descripciones son originales; la selección de lugares y categorías se inspiró en el mapa de Esencial Costa Rica.'
-              : 'Built with open-source software and open data. Descriptions are original; the selection of places and categories was inspired by the Esencial Costa Rica map.'}
-          </p>
-          <ul>
-            <li>
-              <b>{es ? 'Límites provinciales' : 'Province boundaries'}:</b>{' '}
-              <a href="https://www.geoboundaries.org" target="_blank" rel="noopener">
-                geoBoundaries
-              </a>{' '}
-              (gbOpen CRI ADM1, {es ? 'derivado de' : 'derived from'} OpenStreetMap · ODbL 1.0)
-            </li>
-            <li>
-              <b>{es ? 'Fotos y resúmenes' : 'Photos & summaries'}:</b> Wikipedia / Wikimedia Commons —{' '}
-              {es ? 'autor y licencia en cada foto' : 'author and license on each photo'}
-            </li>
-            <li>
-              <b>{es ? 'Mapas base' : 'Base maps'}:</b> © OpenStreetMap contributors, Esri World Imagery /
-              Street / Canvas, OpenTopoMap (CC-BY-SA)
-            </li>
-            <li>
-              <b>3D {es ? 'y relieve' : '& hillshade'}:</b> {es ? 'elevación' : 'elevation'} Mapzen Terrain
-              Tiles (AWS Open Data)
-            </li>
-            <li>
-              <b>{es ? 'Surf, gastronomía, cataratas, miradores y sitios arqueológicos' : 'Surf, food, waterfalls, viewpoints & archaeological sites'}:</b>{' '}
-              <a href="https://www.openstreetmap.org/copyright" target="_blank" rel="noopener">
-                © OpenStreetMap contributors
-              </a>{' '}
-              · ODbL 1.0 ({es ? 'extracto de' : 'extract from'}{' '}
-              <a href="https://download.geofabrik.de" target="_blank" rel="noopener">
-                Geofabrik
-              </a>
-              )
-            </li>
-            <li>
-              <b>{es ? 'Rutas' : 'Routing'}:</b> OSRM (router.project-osrm.org) · © OpenStreetMap
-            </li>
-            <li>
-              <b>{es ? 'Librerías' : 'Libraries'}:</b> MapLibre GL JS (BSD-3), React (MIT), Zustand (MIT),
-              Fuse.js (Apache-2.0), Lucide icons (ISC)
-            </li>
-          </ul>
-          <p style={{ color: 'var(--muted)', fontSize: 12.5 }}>
-            {es
-              ? 'Distancias y tiempos son estimaciones. Verificá el estado de carreteras y accesos antes de viajar.'
-              : 'Distances and times are estimates. Check road and access conditions before travelling.'}
-          </p>
-        </div>
+        <>
+          <header className="credits-head">
+            <MascotMono className="credits-mascot" size={64} />
+            <div className="credits-title">
+              <p className="brand-kicker">Perezeando</p>
+              <h2 id="credits-title">{t('credits')}</h2>
+            </div>
+            <button className="icon-btn close" aria-label={t('close')} onClick={() => ref.current?.close()}>
+              <Icon name="x" />
+            </button>
+          </header>
+          <div className="credits-body">
+            <p className="credits-lede">
+              {es
+                ? 'Atlas de consulta, hecho con software libre y datos abiertos. Los mapas, las fotos y los textos de otras personas conservan la licencia de su autor.'
+                : 'A reference atlas, built with open-source software and open data. Maps, photos, and text from other people keep their authors’ license.'}
+            </p>
+            <ul className="credits-list">
+              <li>
+                <b>{es ? 'Límites provinciales' : 'Province boundaries'}</b>
+                <span>
+                  <a href="https://www.geoboundaries.org" target="_blank" rel="noopener">
+                    geoBoundaries
+                  </a>{' '}
+                  (gbOpen CRI ADM1, {es ? 'derivado de' : 'derived from'} OpenStreetMap · ODbL 1.0)
+                </span>
+              </li>
+              <li>
+                <b>{es ? 'Fotos y resúmenes' : 'Photos & summaries'}</b>
+                <span>
+                  Wikipedia / Wikimedia Commons —{' '}
+                  {es ? 'autor y licencia en cada foto' : 'author and license on each photo'}
+                </span>
+              </li>
+              <li>
+                <b>{es ? 'Mapas base' : 'Base maps'}</b>
+                <span>
+                  © OpenStreetMap contributors, Esri World Imagery / Street / Canvas, OpenTopoMap (CC-BY-SA)
+                </span>
+              </li>
+              <li>
+                <b>3D {es ? 'y relieve' : '& hillshade'}</b>
+                <span>{es ? 'elevación' : 'elevation'} Mapzen Terrain Tiles (AWS Open Data)</span>
+              </li>
+              <li>
+                <b>
+                  {es
+                    ? 'Surf, gastronomía, cataratas, miradores y sitios arqueológicos'
+                    : 'Surf, food, waterfalls, viewpoints & archaeological sites'}
+                </b>
+                <span>
+                  <a href="https://www.openstreetmap.org/copyright" target="_blank" rel="noopener">
+                    © OpenStreetMap contributors
+                  </a>{' '}
+                  · ODbL 1.0 ({es ? 'extracto de' : 'extract from'}{' '}
+                  <a href="https://download.geofabrik.de" target="_blank" rel="noopener">
+                    Geofabrik
+                  </a>
+                  )
+                </span>
+              </li>
+              <li>
+                <b>{es ? 'Rutas' : 'Routing'}</b>
+                <span>OSRM (router.project-osrm.org) · © OpenStreetMap</span>
+              </li>
+              <li>
+                <b>{es ? 'Librerías' : 'Libraries'}</b>
+                <span>
+                  MapLibre GL JS (BSD-3), React (MIT), Zustand (MIT), Fuse.js (Apache-2.0), Lucide icons (ISC)
+                </span>
+              </li>
+            </ul>
+            <p className="credits-note">
+              {es
+                ? 'Distancias y tiempos son estimaciones. Verificá el estado de carreteras y accesos antes de viajar.'
+                : 'Distances and times are estimates. Check road and access conditions before travelling.'}
+            </p>
+            <button type="button" className="policies-jump" onClick={openPolicies}>
+              {t('policies_open')}
+            </button>
+          </div>
+        </>
       )}
     </dialog>
   );

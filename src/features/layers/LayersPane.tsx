@@ -82,7 +82,7 @@ function MarkerKey() {
           <i />
           <i />
           <i>
-            <Icon name="flame" />
+            <Icon name="volcano" />
           </i>
           <b>N</b>
         </span>

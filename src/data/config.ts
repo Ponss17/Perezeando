@@ -18,7 +18,7 @@ const c = (
 });
 
 export const CATEGORIES: Record<CategoryId, Category> = {
-  volcanes: c('volcanes', 'flame', '#a4473a', 'Volcanes', 'Volcanoes', 'Volcán', 'Volcano'),
+  volcanes: c('volcanes', 'volcano', '#a4473a', 'Volcanes', 'Volcanoes', 'Volcán', 'Volcano'),
   cerros: c('cerros', 'mountain', '#6f6a3e', 'Cerros y montañas', 'Peaks & mountains', 'Cerro', 'Peak'),
   parques: c(
     'parques',
@@ -94,10 +94,34 @@ export const CATEGORIES: Record<CategoryId, Category> = {
   aeropuertos: c('aeropuertos', 'plane', '#68737a', 'Aeropuertos', 'Airports', 'Aeropuerto', 'Airport'),
   museos: c('museos', 'library', '#7a5a3f', 'Museos', 'Museums', 'Museo', 'Museum'),
   iglesias: c('iglesias', 'church', '#a07d5c', 'Iglesias y templos', 'Churches', 'Iglesia', 'Church'),
-  arqueologia: c('arqueologia', 'pickaxe', '#8c6a3c', 'Sitios arqueológicos', 'Archaeological sites', 'Sitio arqueológico', 'Archaeological site'),
-  deportes: c('deportes', 'trophy', '#7d5260', 'Estadios y deporte', 'Stadiums & sport', 'Estadio', 'Stadium'),
+  arqueologia: c(
+    'arqueologia',
+    'pickaxe',
+    '#8c6a3c',
+    'Sitios arqueológicos',
+    'Archaeological sites',
+    'Sitio arqueológico',
+    'Archaeological site',
+  ),
+  deportes: c(
+    'deportes',
+    'trophy',
+    '#7d5260',
+    'Estadios y deporte',
+    'Stadiums & sport',
+    'Estadio',
+    'Stadium',
+  ),
   surf: c('surf', 'surfboard', '#0e7a7a', 'Surf', 'Surf', 'Spot de surf', 'Surf spot'),
-  gastronomia: c('gastronomia', 'utensils', '#b8613d', 'Gastronomía', 'Food & markets', 'Gastronomía', 'Food spot'),
+  gastronomia: c(
+    'gastronomia',
+    'utensils',
+    '#b8613d',
+    'Gastronomía',
+    'Food & markets',
+    'Gastronomía',
+    'Food spot',
+  ),
   puertos: c('puertos', 'anchor', '#3a4a5c', 'Puertos', 'Ports', 'Puerto', 'Port'),
 };
 

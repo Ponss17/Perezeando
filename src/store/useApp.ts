@@ -45,6 +45,7 @@ export interface AppState {
   sheet: SheetState;
   basemapPop: boolean;
   creditsOpen: boolean;
+  policiesOpen: boolean;
   locating: boolean;
   toast: { msg: string; n: number } | null;
   /** aviso con acciones (p. ej. errores de ubicación) */
@@ -83,6 +84,8 @@ export const useApp = create<AppState>()(
       sheet: 'peek' as SheetState,
       basemapPop: false,
       creditsOpen: false,
+      policiesOpen:
+        typeof location !== 'undefined' && new URLSearchParams(location.search).get('politicas') === '1',
       locating: false,
       toast: null,
       notice: null,
@@ -101,7 +104,8 @@ export const useApp = create<AppState>()(
           p.active = [...new Set([...p.active, ...add])];
         }
         // v3: surf y gastronomía (OpenStreetMap)
-        if (version < 3 && Array.isArray(p.active)) p.active = [...new Set([...p.active, 'surf', 'gastronomia'] as CategoryId[])];
+        if (version < 3 && Array.isArray(p.active))
+          p.active = [...new Set([...p.active, 'surf', 'gastronomia'] as CategoryId[])];
         return p as AppState;
       },
       storage: createJSONStorage(() => localStorage),

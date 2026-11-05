@@ -17,7 +17,8 @@
     "build-data": "node scripts/build-data.mjs",
     "fetch-osm": "node scripts/fetch-content.mjs --osm-only",
     "fetch-crests": "node scripts/fetch-content.mjs --crests",
-    "fetch-photos": "node scripts/fetch-photos.mjs"
+    "fetch-photos": "node scripts/fetch-photos.mjs",
+    "prepare": "husky"
   },
   "engines": {
     "node": ">=22.13"
@@ -40,6 +41,8 @@
     "eslint-plugin-react-hooks": "^7.1.1",
     "eslint-plugin-react-refresh": "^0.5.7",
     "globals": "^17.14.0",
+    "husky": "^9.1.7",
+    "lint-staged": "^17.6.0",
     "prettier": "^3.9.10",
     "typescript": "~6.0",
     "typescript-eslint": "^8.72.1",

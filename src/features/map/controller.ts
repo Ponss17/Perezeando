@@ -96,7 +96,8 @@ export class MapController implements MapApi {
     });
     this.map.touchZoomRotate.disableRotation();
     // gancho para pruebas automáticas (solo con ?e2e en la URL)
-    if (location.search.includes('e2e')) (window as unknown as { __crmap: maplibregl.Map }).__crmap = this.map;
+    if (location.search.includes('e2e'))
+      (window as unknown as { __crmap: maplibregl.Map }).__crmap = this.map;
     this.map.setPadding(this.panelPadding());
     // encuadre inicial: el padding del panel ya está aplicado, aquí solo el margen
     if (!view)
@@ -194,32 +195,42 @@ export class MapController implements MapApi {
   }
 
   clusterHost(): ClusterHost {
-    const c = this;
+    const lang = () => this.s.lang;
+    const listPop = () => this.listPop;
+    const setListPop = (v: maplibregl.Popup | null) => {
+      this.listPop = v;
+    };
+    const clPicking = () => this.clPicking;
+    const setClPicking = (v: boolean) => {
+      this.clPicking = v;
+    };
+    const selMarker = () => this.selMarker;
+    const selMarkerId = () => this.selMarkerId;
     return {
       map: this.map,
       d: this.d,
       ev: this.ev,
       tip: this.tip,
       get lang() {
-        return c.s.lang;
+        return lang();
       },
       get listPop() {
-        return c.listPop;
+        return listPop();
       },
       set listPop(v) {
-        c.listPop = v;
+        setListPop(v);
       },
       get clPicking() {
-        return c.clPicking;
+        return clPicking();
       },
       set clPicking(v) {
-        c.clPicking = v;
+        setClPicking(v);
       },
       get selMarker() {
-        return c.selMarker;
+        return selMarker();
       },
       get selMarkerId() {
-        return c.selMarkerId;
+        return selMarkerId();
       },
     };
   }
@@ -279,25 +290,30 @@ export class MapController implements MapApi {
     }
     return { top: 0, bottom: 0, left: this.s.panelOpen ? PANEL_W : 0, right: 0 };
   }
-  private padT = 0;
   /**
-   * Panel abierto/cerrado (escritorio): el lienzo del mapa ya ocupa toda la pantalla bajo el panel,
-   * así que NO se anima la cámara (antes: easeTo de 340 ms = el mapa se repintaba en cada cuadro
-   * mientras el panel se deslizaba). Se cambia el relleno una sola vez, al terminar la transición,
-   * compensando el centro para que la imagen no se mueva ni un píxel.
+   * El panel tapa el mapa, no lo empuja. El relleno cambia en el mismo instante
+   * y un punto de la esquina se queda en su píxel. Anclar el centro no sirve:
+   * MapLibre no mueve la cámara si el ancla es el centro del relleno.
    */
   private panelToggled() {
     if (isMobile()) return this.applyPadding(true);
-    clearTimeout(this.padT);
-    this.padT = window.setTimeout(() => {
-      const m = this.map;
-      const pad = this.panelPadding();
-      if (m.isMoving()) return void m.easeTo({ padding: pad, duration: 300 });
-      const c = m.getContainer();
-      const x = pad.left + (c.clientWidth - pad.left - pad.right) / 2;
-      const y = pad.top + (c.clientHeight - pad.top - pad.bottom) / 2;
-      m.jumpTo({ center: m.unproject([x, y]), padding: pad });
-    }, 360);
+    const m = this.map;
+    m.stop();
+    const pad = this.panelPadding();
+    const box = m.getContainer();
+    const ax = Math.max(8, box.clientWidth - 24);
+    const ay = 24;
+    const anchor = m.unproject([ax, ay]);
+    const bounds = m.getMaxBounds();
+    m.setMaxBounds(null);
+    m.setPadding(pad);
+    m.jumpTo(
+      m.calculateAnchoredCameraOptions({
+        anchorLocation: anchor,
+        anchorScreenPoint: [ax, ay],
+      }),
+    );
+    if (bounds) m.setMaxBounds(bounds);
   }
   applyPadding(animate: boolean) {
     this.map.easeTo({ padding: this.panelPadding(), duration: animate ? 340 : 0 });
@@ -335,7 +351,13 @@ export class MapController implements MapApi {
    *  - lejos: vuelo en arco; se aleja solo lo necesario para ver origen y destino (minZoom) y vuelve a
    *    acercarse; la duración crece con la distancia (1,4–3,5 s). En medio, el arco es apenas una leve bajada.
    */
-  private flyCam(center: LngLatLike, zoom: number, padding: maplibregl.PaddingOptions, reduce: boolean, keepCloser: boolean) {
+  private flyCam(
+    center: LngLatLike,
+    zoom: number,
+    padding: maplibregl.PaddingOptions,
+    reduce: boolean,
+    keepCloser: boolean,
+  ) {
     const m = this.map;
     m.stop();
     const cur = m.getZoom();
@@ -357,7 +379,10 @@ export class MapController implements MapApi {
     const a = m.getCenter();
     const b = maplibregl.LngLat.convert(center);
     const both = m.cameraForBounds(
-      [[Math.min(a.lng, b.lng), Math.min(a.lat, b.lat)], [Math.max(a.lng, b.lng), Math.max(a.lat, b.lat)]],
+      [
+        [Math.min(a.lng, b.lng), Math.min(a.lat, b.lat)],
+        [Math.max(a.lng, b.lng), Math.max(a.lat, b.lat)],
+      ],
       { padding },
     );
     let minZoom = Math.min(cur, zoom, (both?.zoom ?? cur) - 0.5);
@@ -365,8 +390,19 @@ export class MapController implements MapApi {
     const k = Math.min(1, (screens - 1.5) / 2.5);
     minZoom = Math.min(cur, zoom) - (Math.min(cur, zoom) - minZoom) * k;
     const km = a.distanceTo(b) / 1000;
-    const duration = Math.round(Math.min(3500, Math.max(1400, 1100 + Math.log2(1 + km) * 330, 900 + dz * 160)));
-    m.flyTo({ center, zoom, padding, minZoom, curve: 1.42, duration, easing: easeInOutCubic, essential: false });
+    const duration = Math.round(
+      Math.min(3500, Math.max(1400, 1100 + Math.log2(1 + km) * 330, 900 + dz * 160)),
+    );
+    m.flyTo({
+      center,
+      zoom,
+      padding,
+      minZoom,
+      curve: 1.42,
+      duration,
+      easing: easeInOutCubic,
+      essential: false,
+    });
   }
   /** relleno = zona tapada por el panel (escritorio) o por la hoja inferior visible (móvil) */
   private visiblePadding(): maplibregl.PaddingOptions {
@@ -388,7 +424,13 @@ export class MapController implements MapApi {
     this.map.fitBounds(b, { padding: pad, duration: 700, maxZoom: opts.maxZoom ?? 11 });
   }
   flyTo(lat: number, lng: number, zoom: number) {
-    this.flyCam([lng, lat], zoom, this.visiblePadding(), matchMedia('(prefers-reduced-motion: reduce)').matches, false);
+    this.flyCam(
+      [lng, lat],
+      zoom,
+      this.visiblePadding(),
+      matchMedia('(prefers-reduced-motion: reduce)').matches,
+      false,
+    );
   }
   getView(): [number, number, number] {
     const c = this.map.getCenter();
@@ -426,4 +468,3 @@ export class MapController implements MapApi {
     this.map.remove();
   }
 }
-

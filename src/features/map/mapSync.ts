@@ -35,7 +35,15 @@ export function setBase(c: MapController, initial = false) {
   if (m.getSource('base-labels')) m.removeSource('base-labels');
   if (b.labels) {
     m.addSource('base-labels', { type: 'raster', tiles: [b.labels], tileSize: 256, maxzoom: b.max });
-    m.addLayer({ id: 'base-labels', type: 'raster', source: 'base-labels' }, 'geom-fill');
+    m.addLayer(
+      {
+        id: 'base-labels',
+        type: 'raster',
+        source: 'base-labels',
+        layout: { visibility: c.s.ov.prov ? 'visible' : 'none' },
+      },
+      'geom-fill',
+    );
   }
   document.body.classList.toggle('dark', c.s.base === 'dark');
   document.body.classList.toggle('on-sat', !!b.dark);
@@ -54,6 +62,7 @@ export function syncOverlays(c: MapController) {
   ['prov-fill', 'prov-line', 'prov-line-sel'].forEach((l) =>
     m.setLayoutProperty(l, 'visibility', v(c.s.ov.prov)),
   );
+  if (m.getLayer('base-labels')) m.setLayoutProperty('base-labels', 'visibility', v(c.s.ov.prov));
   ['eez', 'eez-mma', 'eez-hit'].forEach((l) => m.setLayoutProperty(l, 'visibility', v(c.s.ov.eez)));
   syncProvLabels(c);
 }

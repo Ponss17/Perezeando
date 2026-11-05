@@ -9,6 +9,8 @@ import { Panel, PanelOpenButton, MobileTitle } from './components/Panel';
 import { Toolbar } from './components/Toolbar';
 import { AppStatus } from './components/AppStatus';
 import { CreditsDialog, PrintParts, Toast, Notice } from './components/Overlays';
+import { PoliciesPage } from './components/PoliciesPage';
+import { closePolicies, policiesInUrl } from './lib/policies';
 
 const MapView = lazy(() => import('./features/map/MapView'));
 
@@ -43,7 +45,9 @@ export default function App() {
 
   useEffect(() => {
     document.body.classList.toggle('night', night);
-    document.querySelector('meta[name="theme-color"]')?.setAttribute('content', night ? '#0e1f14' : '#386641');
+    document
+      .querySelector('meta[name="theme-color"]')
+      ?.setAttribute('content', night ? '#0e1f14' : '#386641');
   }, [night]);
 
   // atajos globales
@@ -52,12 +56,22 @@ export default function App() {
       const a = document.activeElement as HTMLElement | null;
       if (e.key === 'Escape' && !/INPUT|SELECT|TEXTAREA/.test(a?.tagName ?? '')) {
         const s = getApp();
+        if (s.policiesOpen) {
+          closePolicies();
+          return;
+        }
         if (s.basemapPop || s.creditsOpen) return;
         if (s.detailOpen) deselect();
       }
     };
     document.addEventListener('keydown', onKey);
     return () => document.removeEventListener('keydown', onKey);
+  }, []);
+
+  useEffect(() => {
+    const sync = () => setApp({ policiesOpen: policiesInUrl() });
+    window.addEventListener('popstate', sync);
+    return () => window.removeEventListener('popstate', sync);
   }, []);
 
   return (
@@ -88,6 +102,7 @@ export default function App() {
       <AppStatus />
       <Notice />
       <CreditsDialog />
+      <PoliciesPage />
     </div>
   );
 }
