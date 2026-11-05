@@ -3,7 +3,15 @@ import { loadContent, useContent, useData } from '../../data/load';
 import { HERO_W, placePicture, sizedThumb, useImageState } from '../../lib/photo';
 import { useT } from '../../i18n';
 import { CATEGORIES } from '../../data/config';
-import type { Nick, CategoryId, ContentItem, ContentText, Lang, ProvinceContent as ProvinceContentT, ProvinceId } from '../../data/types';
+import type {
+  Nick,
+  CategoryId,
+  ContentItem,
+  ContentText,
+  Lang,
+  ProvinceContent as ProvinceContentT,
+  ProvinceId,
+} from '../../data/types';
 import { catName, select, setProv, setTab, share } from '../../store/actions';
 import { wikiTarget, wikiUrl } from '../../lib/wiki';
 import { Icon } from '../../components/Icon';
@@ -82,7 +90,15 @@ export default function ProvinceDetail({ id }: { id: ProvinceId }) {
           {w && <Qa href={wikiUrl(w)} icon="globe" label="Wikipedia" />}
           <Qa icon="share-2" label={t('share')} onClick={() => share(null)} />
         </div>
-        <ProvinceTabs id={id} n={n} counts={counts} area={pp.area} capital={pp.capital} cantones={pp.cantones} nick={pp.nick} />
+        <ProvinceTabs
+          id={id}
+          n={n}
+          counts={counts}
+          area={pp.area}
+          capital={pp.capital}
+          cantones={pp.cantones}
+          nick={pp.nick}
+        />
       </div>
     </section>
   );
@@ -90,18 +106,20 @@ export default function ProvinceDetail({ id }: { id: ProvinceId }) {
 
 /* ------------------------------------------------------------------ pestañas */
 type PTab = 'food' | 'culture' | 'sports' | 'data';
-const PTABS: { id: PTab; icon: string }[] = [
-  { id: 'data', icon: 'users' },
-  { id: 'food', icon: 'utensils' },
-  { id: 'culture', icon: 'drama' },
-  { id: 'sports', icon: 'trophy' },
-];
+const PTABS: { id: PTab; icon: string; label: 'ptab_data' | 'ptab_food' | 'ptab_culture' | 'ptab_sports' }[] =
+  [
+    { id: 'data', icon: 'users', label: 'ptab_data' },
+    { id: 'food', icon: 'utensils', label: 'ptab_food' },
+    { id: 'culture', icon: 'drama', label: 'ptab_culture' },
+    { id: 'sports', icon: 'trophy', label: 'ptab_sports' },
+  ];
 /** quita repetidos (mismo Q-id o mismo nombre) entre listas de una pestaña */
 function dedupe(lists: ContentItem[][], lang: Lang) {
   const seen = new Set<string>();
   return lists.map((l) =>
     (l ?? []).filter((i) => {
-      const k1 = i.qid, k2 = nameOf(i.name, lang).toLowerCase();
+      const k1 = i.qid,
+        k2 = nameOf(i.name, lang).toLowerCase();
       if ((k1 && seen.has(k1)) || seen.has(k2)) return false;
       if (k1) seen.add(k1);
       seen.add(k2);
@@ -109,11 +127,21 @@ function dedupe(lists: ContentItem[][], lang: Lang) {
     }),
   );
 }
-const nameOf = (n: ContentItem['name'], lang: Lang) => (typeof n === 'string' ? n : n[lang] || n.es || n.en).replace(/\s*\([^)]*\)$/, '');
-const pick = <T,>(m: Partial<Record<Lang, T>> | undefined, lang: Lang) => m?.[lang] ?? m?.[lang === 'es' ? 'en' : 'es'];
+const nameOf = (n: ContentItem['name'], lang: Lang) =>
+  (typeof n === 'string' ? n : n[lang] || n.es || n.en).replace(/\s*\([^)]*\)$/, '');
+const pick = <T,>(m: Partial<Record<Lang, T>> | undefined, lang: Lang) =>
+  m?.[lang] ?? m?.[lang === 'es' ? 'en' : 'es'];
 
 /** Comida / Cultura / Deportes / Datos con contenido citado (provinces-content.json, carga diferida) */
-type TabsProps = { id: ProvinceId; n: number; counts: [CategoryId, number][]; area: number; capital: string; cantones: number; nick?: Nick };
+type TabsProps = {
+  id: ProvinceId;
+  n: number;
+  counts: [CategoryId, number][];
+  area: number;
+  capital: string;
+  cantones: number;
+  nick?: Nick;
+};
 function ProvinceTabs({ id, n, counts, area, capital, cantones, nick }: TabsProps) {
   const { t, lang } = useT();
   const content = useContent((s) => s.content);
@@ -133,7 +161,9 @@ function ProvinceTabs({ id, n, counts, area, capital, cantones, nick }: TabsProp
       if (i.qid) qids.add(i.qid);
       names.add(nameOf(i.name, lang).toLowerCase());
     }
-    return national.filter((x) => !((x.qid && qids.has(x.qid)) || names.has(nameOf(x.name, lang).toLowerCase())));
+    return national.filter(
+      (x) => !((x.qid && qids.has(x.qid)) || names.has(nameOf(x.name, lang).toLowerCase())),
+    );
   }, [c, national, lang]);
   const stadiums = useMemo(() => (c ? dedupe([c.sports.clubs, c.sports.stadiums], lang)[1] : []), [c, lang]);
   const index = PTABS.findIndex((x) => x.id === tab);
@@ -153,58 +183,81 @@ function ProvinceTabs({ id, n, counts, area, capital, cantones, nick }: TabsProp
             onClick={() => setT(x.id)}
           >
             <Icon name={x.icon} />
-            <span>{t(('ptab_' + x.id) as 'ptab_food')}</span>
+            <span>{t(x.label)}</span>
           </button>
         ))}
       </div>
       <SlideTrack index={index} panels paneClass="ptab-pane" onIndex={(i) => setT(PTABS[i].id)}>
         <DataTab c={c} n={n} counts={counts} area={area} capital={capital} cantones={cantones} nick={nick} />
         <>
-            {!c ? (
-              wait
-            ) : (
-              <>
-                <Items title={t('typical_dishes')} items={c.food.items} max={12} wrap sub={(i) => i.note?.[lang] || i.note?.es} />
-                {c.food.intro[0] && <TextBox x={c.food.intro[0]} />}
-                <Items
-                  title={t('national_dishes')}
-                  items={nationalLeft}
-                  max={4}
-                  compact
-                />
-                <VoyBox x={pick(c.food.voy, lang)} title={t('voy_eat')} />
-                <Empty show={!c.food.intro.length && !c.food.items.length && !pick(c.food.voy, lang)} />
-              </>
-            )}
+          {!c ? (
+            wait
+          ) : (
+            <>
+              <Items
+                title={t('typical_dishes')}
+                items={c.food.items}
+                max={12}
+                wrap
+                sub={(i) => i.note?.[lang] || i.note?.es}
+              />
+              {c.food.intro[0] && <TextBox x={c.food.intro[0]} />}
+              <Items title={t('national_dishes')} items={nationalLeft} max={4} compact />
+              <VoyBox x={pick(c.food.voy, lang)} title={t('voy_eat')} />
+              <Empty show={!c.food.intro.length && !c.food.items.length && !pick(c.food.voy, lang)} />
+            </>
+          )}
         </>
         <>{!c ? wait : <CultureTab c={c} />}</>
         <>
-            {!c ? (
-              wait
-            ) : (
-              <>
-                <Items title={t('clubs_lbl')} items={c.sports.clubs} crest sub={(i) => i.leagues?.join(' · ') || i.venue} />
-                <Items title={t('stadiums_lbl')} items={stadiums} />
-                <Items title={t('surf_lbl')} items={c.sports.surf} />
-                <VoyBox x={pick(c.sports.voy, lang)} title={t('voy_do')} />
-                {id === 'sanjose' && <Items title={t('orgs_lbl')} items={orgs} crest note={t('orgs_note')} />}
-                <Empty show={!c.sports.clubs.length && !c.sports.stadiums.length && !pick(c.sports.voy, lang)} />
-              </>
-            )}
+          {!c ? (
+            wait
+          ) : (
+            <>
+              <Items
+                title={t('clubs_lbl')}
+                items={c.sports.clubs}
+                crest
+                sub={(i) => i.leagues?.join(' · ') || i.venue}
+              />
+              <Items title={t('stadiums_lbl')} items={stadiums} />
+              <Items title={t('surf_lbl')} items={c.sports.surf} />
+              <VoyBox x={pick(c.sports.voy, lang)} title={t('voy_do')} />
+              {id === 'sanjose' && <Items title={t('orgs_lbl')} items={orgs} crest note={t('orgs_note')} />}
+              <Empty
+                show={!c.sports.clubs.length && !c.sports.stadiums.length && !pick(c.sports.voy, lang)}
+              />
+            </>
+          )}
         </>
       </SlideTrack>
     </div>
   );
 }
 
-function DataTab({ c, n, counts, area, capital, cantones, nick }: Omit<TabsProps, 'id'> & { c?: ProvinceContentT }) {
+function DataTab({
+  c,
+  n,
+  counts,
+  area,
+  capital,
+  cantones,
+  nick,
+}: Omit<TabsProps, 'id'> & { c?: ProvinceContentT }) {
   const { t, lang } = useT();
   const pop = c?.facts.pop;
   const ar = area || c?.facts.area;
   const num = (x: number, d = 0) => x.toLocaleString(lang, { maximumFractionDigits: d });
   const rows: [string, string][] = [
     [t('capital'), capital || c?.facts.capital || '—'],
-    ...(pop ? [[`${t('population')}${c?.facts.popYear ? ` (${c.facts.popYear})` : ''}`, num(pop)] as [string, string]] : []),
+    ...(pop
+      ? [
+          [`${t('population')}${c?.facts.popYear ? ` (${c.facts.popYear})` : ''}`, num(pop)] as [
+            string,
+            string,
+          ],
+        ]
+      : []),
     ...(ar ? [[t('area'), `${num(ar)} km²`] as [string, string]] : []),
     ...(pop && ar ? [[t('density'), `${num(pop / ar, 1)} ${t('per_km2')}`] as [string, string]] : []),
     ...(cantones ? [[t('cantones'), String(cantones)] as [string, string]] : []),
@@ -240,8 +293,7 @@ function DataTab({ c, n, counts, area, capital, cantones, nick }: Omit<TabsProps
       </ul>
       {(c?.facts.src || voy) && (
         <p className="src-foot">
-          {t('sources')}:{' '}
-          {c?.facts.src && <SourceChip name={c.facts.src.name} url={c.facts.src.url} />}
+          {t('sources')}: {c?.facts.src && <SourceChip name={c.facts.src.name} url={c.facts.src.url} />}
           {voy && <SourceChip name="Wikivoyage" url={voy} license="CC BY-SA 4.0" />}
         </p>
       )}
@@ -277,7 +329,10 @@ function TextBox({ x }: { x: ContentText }) {
   const { t } = useT();
   const [open, setOpen] = useState(false);
   return (
-    <SourceBox label={x.section ? `${t('from')} ${x.src.name} · ${x.section}` : `${t('from')} ${x.src.name}`} sources={[x.src]}>
+    <SourceBox
+      label={x.section ? `${t('from')} ${x.src.name} · ${x.section}` : `${t('from')} ${x.src.name}`}
+      sources={[x.src]}
+    >
       <p className={open ? '' : 'clamp'}>{x.text}</p>
       <button type="button" className="link-btn" aria-expanded={open} onClick={() => setOpen(!open)}>
         {open ? t('read_less') : t('read_more')}
@@ -316,7 +371,25 @@ function CardPic({ pic }: { pic: string | ReturnType<typeof placePicture> }) {
 }
 
 const MAX = 8;
-function Items({ title, items, sub, crest, max = MAX, compact, note, wrap }: { title: string; items: ContentItem[]; sub?: (i: ContentItem) => string | undefined; crest?: boolean; max?: number; compact?: boolean; note?: string; wrap?: boolean }) {
+function Items({
+  title,
+  items,
+  sub,
+  crest,
+  max = MAX,
+  compact,
+  note,
+  wrap,
+}: {
+  title: string;
+  items: ContentItem[];
+  sub?: (i: ContentItem) => string | undefined;
+  crest?: boolean;
+  max?: number;
+  compact?: boolean;
+  note?: string;
+  wrap?: boolean;
+}) {
   const { lang, t } = useT();
   const places = useData((s) => s.data?.byId);
   const [all, setAll] = useState(false);
@@ -340,16 +413,21 @@ function Items({ title, items, sub, crest, max = MAX, compact, note, wrap }: { t
               {crest ? (
                 <Crest i={i} name={nm} />
               ) : (
-              <span className="ic-ph">
-                <CardPic pic={pic} />
-              </span>
+                <span className="ic-ph">
+                  <CardPic pic={pic} />
+                </span>
               )}
               <span className="ic-txt">
                 <b>{nm}</b>
                 {s && <small className={wrap ? 'ic-note' : undefined}>{s}</small>}
                 {crest && i.crest && (
                   <small className="ic-attr">
-                    <a href={i.crest.page} target="_blank" rel="noopener" onClick={(e) => e.stopPropagation()}>
+                    <a
+                      href={i.crest.page}
+                      target="_blank"
+                      rel="noopener"
+                      onClick={(e) => e.stopPropagation()}
+                    >
                       {t('crest_img')}: {i.crest.from === 'commons' ? 'Wikimedia Commons' : 'Wikipedia'}
                     </a>
                     {i.crest.license ? ` · ${i.crest.license}` : ''}
@@ -396,7 +474,8 @@ function Items({ title, items, sub, crest, max = MAX, compact, note, wrap }: { t
 
 /* ---------------------------------------------------------------- escudos */
 const MONO_COLORS = ['#386641', '#6A994E', '#BC4749', '#1f8a9e', '#b5602f', '#5b5f97', '#8a6d3b'];
-const MONO_SKIP = /^(club|sport|fútbol|futbol|football|fc|ad|as|cs|asociación|asociacion|deportiva|deportivo|de|del|la|el|los|las|y)$/i;
+const MONO_SKIP =
+  /^(club|sport|fútbol|futbol|football|fc|ad|as|cs|asociación|asociacion|deportiva|deportivo|de|del|la|el|los|las|y)$/i;
 function initials(name: string) {
   const w = name.split(/[\s.-]+/).filter((x) => x && !MONO_SKIP.test(x));
   return (w.length >= 2 ? w[0][0] + w[1][0] : (w[0] || name).slice(0, 2)).toUpperCase();
@@ -416,8 +495,22 @@ function Crest({ i, name }: { i: ContentItem; name: string }) {
   return (
     <span className="ic-ph ic-crest ic-mono" title={t('crest_mono')}>
       <svg viewBox="0 0 40 46" aria-hidden="true">
-        <path d="M20 2 L37 8 V22 C37 33 29.5 40.5 20 44 C10.5 40.5 3 33 3 22 V8 Z" fill="none" stroke={col} strokeWidth="2" strokeDasharray="3 2.2" />
-        <text x="20" y="27.5" textAnchor="middle" fontSize="13" fontWeight="700" fill={col} letterSpacing=".5">
+        <path
+          d="M20 2 L37 8 V22 C37 33 29.5 40.5 20 44 C10.5 40.5 3 33 3 22 V8 Z"
+          fill="none"
+          stroke={col}
+          strokeWidth="2"
+          strokeDasharray="3 2.2"
+        />
+        <text
+          x="20"
+          y="27.5"
+          textAnchor="middle"
+          fontSize="13"
+          fontWeight="700"
+          fill={col}
+          letterSpacing=".5"
+        >
           {initials(name)}
         </text>
       </svg>
