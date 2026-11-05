@@ -1,0 +1,5 @@
+# Perezeando
+
+> Mapa interactivo de Costa Rica con volcanes, parques nacionales, playas, ríos, fauna, historia y mar territorial. Búsqueda, rutas, favoritos y vista 3D.
+
+- [Perezeando](https://perezeando.com/): el mapa del país, con las siete provincias y el mar territorial.

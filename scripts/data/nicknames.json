@@ -1,0 +1,424 @@
+{
+ "note": "Apodos y gentilicios con fuente (Wikipedia en español: ficha o texto). Solo datos verificados.",
+ "provinces": {
+  "sanjose": {
+   "demonym": "josefino, -na",
+   "src": "https://es.wikipedia.org/wiki/Provincia_de_San_Jos%C3%A9"
+  },
+  "alajuela": {
+   "nickname": "Provincia de los Mangos",
+   "demonym": "alajuelense",
+   "src": "https://es.wikipedia.org/wiki/Provincia_de_Alajuela"
+  },
+  "cartago": {
+   "nickname": "La Vieja Metrópoli",
+   "popularNickname": "Ciudad de las Brumas",
+   "demonym": "cartaginés, -esa",
+   "popularDemonym": "brumoso, -a",
+   "src": "https://es.wikipedia.org/wiki/Cartago_%28Costa_Rica%29"
+  },
+  "heredia": {
+   "nickname": "Provincia de las Flores",
+   "demonym": "herediano, -a",
+   "src": "https://es.wikipedia.org/wiki/Provincia_de_Heredia"
+  },
+  "guanacaste": {
+   "nickname": "Tierra de la Marimba",
+   "popularNickname": "La Pampa",
+   "demonym": "guanacasteco, -a",
+   "src": "https://es.wikipedia.org/wiki/Provincia_de_Guanacaste"
+  },
+  "puntarenas": {
+   "nickname": "La Perla del Pacífico",
+   "popularNickname": "El Puerto",
+   "demonym": "puntarenense",
+   "popularDemonym": "porteño, -a",
+   "src": "https://es.wikipedia.org/wiki/Provincia_de_Puntarenas"
+  },
+  "limon": {
+   "nickname": "La Perla del Caribe",
+   "demonym": "limonense",
+   "src": "https://es.wikipedia.org/wiki/Provincia_de_Lim%C3%B3n"
+  }
+ },
+ "places": {
+  "wd-canton-de-perez-zeledon": {
+   "demonym": "generaleño, -a",
+   "src": "https://es.wikipedia.org/wiki/Cant%C3%B3n_de_P%C3%A9rez_Zeled%C3%B3n"
+  },
+  "wd-canton-de-bagaces": {
+   "demonym": "bagaceño, -a",
+   "src": "https://es.wikipedia.org/wiki/Cant%C3%B3n_de_Bagaces"
+  },
+  "wd-canton-de-liberia": {
+   "demonym": "liberiano, -a",
+   "src": "https://es.wikipedia.org/wiki/Cant%C3%B3n_de_Liberia",
+   "nickname": "La Ciudad Blanca"
+  },
+  "wd-canton-de-san-ramon": {
+   "demonym": "ramonense",
+   "src": "https://es.wikipedia.org/wiki/Cant%C3%B3n_de_San_Ram%C3%B3n",
+   "nickname": "Tierra de poetas",
+   "popularNickname": "Moncho"
+  },
+  "wd-canton-de-pococi": {
+   "demonym": "pococeño, -a",
+   "src": "https://es.wikipedia.org/wiki/Cant%C3%B3n_de_Pococ%C3%AD"
+  },
+  "wd-canton-de-siquirres": {
+   "demonym": "siquirreño, -a",
+   "src": "https://es.wikipedia.org/wiki/Cant%C3%B3n_de_Siquirres"
+  },
+  "wd-canton-de-guacimo": {
+   "demonym": "guacimeño, -a",
+   "src": "https://es.wikipedia.org/wiki/Cant%C3%B3n_de_Gu%C3%A1cimo"
+  },
+  "wd-canton-de-san-rafael": {
+   "demonym": "rafaeleño, -a",
+   "src": "https://es.wikipedia.org/wiki/Cant%C3%B3n_de_San_Rafael"
+  },
+  "wd-canton-de-montes-de-oro": {
+   "demonym": "oromontano, -a",
+   "src": "https://es.wikipedia.org/wiki/Cant%C3%B3n_de_Montes_de_Oro"
+  },
+  "wd-canton-de-aserri": {
+   "demonym": "aserriceño, -a",
+   "src": "https://es.wikipedia.org/wiki/Cant%C3%B3n_de_Aserr%C3%AD",
+   "popularNickname": "Aqueserrí"
+  },
+  "wd-canton-de-desamparados": {
+   "demonym": "desamparadeño, -a",
+   "src": "https://es.wikipedia.org/wiki/Cant%C3%B3n_de_Desamparados",
+   "popularNickname": "Desampa"
+  },
+  "wd-canton-de-curridabat": {
+   "demonym": "curridabatense",
+   "src": "https://es.wikipedia.org/wiki/Cant%C3%B3n_de_Curridabat",
+   "nickname": "Ciudad Dulce",
+   "popularNickname": "Curri"
+  },
+  "wd-canton-de-turrubares": {
+   "demonym": "turrubareño, -a",
+   "src": "https://es.wikipedia.org/wiki/Cant%C3%B3n_de_Turrubares"
+  },
+  "wd-canton-de-alajuelita": {
+   "demonym": "alajueliteño, -a",
+   "src": "https://es.wikipedia.org/wiki/Cant%C3%B3n_de_Alajuelita"
+  },
+  "wd-canton-de-vazquez-de-coronado": {
+   "demonym": "coronadeño, -a",
+   "src": "https://es.wikipedia.org/wiki/Cant%C3%B3n_de_V%C3%A1zquez_de_Coronado"
+  },
+  "wd-canton-de-san-carlos": {
+   "demonym": "sancarleño, -a",
+   "src": "https://es.wikipedia.org/wiki/Cant%C3%B3n_de_San_Carlos"
+  },
+  "wd-canton-de-santa-ana": {
+   "demonym": "santaneño, -a",
+   "src": "https://es.wikipedia.org/wiki/Cant%C3%B3n_de_Santa_Ana_%28Costa_Rica%29",
+   "nickname": "Valle del Sol",
+   "popularDemonym": "cebollero, -a"
+  },
+  "wd-canton-de-tibas": {
+   "demonym": "tibaseño, -a",
+   "src": "https://es.wikipedia.org/wiki/Cant%C3%B3n_de_Tib%C3%A1s"
+  },
+  "wd-canton-de-moravia": {
+   "demonym": "moraviano, -a",
+   "src": "https://es.wikipedia.org/wiki/Cant%C3%B3n_de_Moravia"
+  },
+  "wd-canton-de-canas": {
+   "demonym": "cañero, -a",
+   "src": "https://es.wikipedia.org/wiki/Cant%C3%B3n_de_Ca%C3%B1as",
+   "nickname": "Corazón del Riego"
+  },
+  "wd-canton-de-mora": {
+   "demonym": "moreño, -a",
+   "src": "https://es.wikipedia.org/wiki/Cant%C3%B3n_de_Mora"
+  },
+  "wd-canton-de-tarrazu": {
+   "demonym": "tarrazuceño, -a",
+   "src": "https://es.wikipedia.org/wiki/Cant%C3%B3n_de_Tarraz%C3%BA"
+  },
+  "wd-canton-de-upala": {
+   "demonym": "upaleño, -a",
+   "src": "https://es.wikipedia.org/wiki/Cant%C3%B3n_de_Upala"
+  },
+  "wd-canton-de-puriscal": {
+   "demonym": "puriscaleño, -a",
+   "src": "https://es.wikipedia.org/wiki/Cant%C3%B3n_de_Puriscal"
+  },
+  "wd-canton-de-acosta": {
+   "demonym": "acosteño, -a",
+   "src": "https://es.wikipedia.org/wiki/Cant%C3%B3n_de_Acosta",
+   "nickname": "Tierra de Músicos"
+  },
+  "wd-canton-de-zarcero": {
+   "demonym": "zarcereño, -a",
+   "src": "https://es.wikipedia.org/wiki/Cant%C3%B3n_de_Zarcero"
+  },
+  "wd-canton-de-leon-cortes-castro": {
+   "demonym": "leoncortence",
+   "src": "https://es.wikipedia.org/wiki/Cant%C3%B3n_de_Le%C3%B3n_Cort%C3%A9s_Castro"
+  },
+  "wd-canton-de-dota": {
+   "demonym": "doteño, -a",
+   "src": "https://es.wikipedia.org/wiki/Cant%C3%B3n_de_Dota"
+  },
+  "wd-canton-de-garabito": {
+   "demonym": "jacobeño, -a",
+   "src": "https://es.wikipedia.org/wiki/Cant%C3%B3n_de_Garabito"
+  },
+  "wd-canton-de-escazu": {
+   "demonym": "escazuceño/a",
+   "src": "https://es.wikipedia.org/wiki/Cant%C3%B3n_de_Escaz%C3%BA",
+   "nickname": "La Ciudad de las Brujas"
+  },
+  "wd-canton-de-orotina": {
+   "demonym": "orotinense",
+   "src": "https://es.wikipedia.org/wiki/Cant%C3%B3n_de_Orotina",
+   "nickname": "La Ciudad de las Frutas"
+  },
+  "wd-canton-de-los-chiles": {
+   "demonym": "chileno, chilena",
+   "src": "https://es.wikipedia.org/wiki/Cant%C3%B3n_de_Los_Chiles"
+  },
+  "wd-canton-de-guatuso": {
+   "demonym": "guatuseño, -a",
+   "src": "https://es.wikipedia.org/wiki/Cant%C3%B3n_de_Guatuso"
+  },
+  "wd-canton-de-santa-cruz": {
+   "demonym": "santacruceño, -a",
+   "src": "https://es.wikipedia.org/wiki/Cant%C3%B3n_de_Santa_Cruz_%28Costa_Rica%29",
+   "nickname": "La Ciudad Folclórica"
+  },
+  "wd-canton-de-hojancha": {
+   "demonym": "hojancheño, -a",
+   "src": "https://es.wikipedia.org/wiki/Cant%C3%B3n_de_Hojancha"
+  },
+  "wd-canton-de-limon": {
+   "demonym": "limonense",
+   "src": "https://es.wikipedia.org/wiki/Cant%C3%B3n_de_Lim%C3%B3n"
+  },
+  "wd-canton-de-barva": {
+   "demonym": "barveño, -a",
+   "src": "https://es.wikipedia.org/wiki/Cant%C3%B3n_de_Barva"
+  },
+  "wd-canton-de-heredia": {
+   "demonym": "herediano, -a",
+   "src": "https://es.wikipedia.org/wiki/Cant%C3%B3n_de_Heredia"
+  },
+  "wd-canton-de-santo-domingo": {
+   "demonym": "domingueño, -a",
+   "src": "https://es.wikipedia.org/wiki/Cant%C3%B3n_de_Santo_Domingo_%28Costa_Rica%29"
+  },
+  "wd-canton-de-santa-barbara": {
+   "demonym": "barbareño, -a",
+   "src": "https://es.wikipedia.org/wiki/Cant%C3%B3n_de_Santa_B%C3%A1rbara"
+  },
+  "wd-canton-de-san-isidro": {
+   "demonym": "isidreño, -a",
+   "src": "https://es.wikipedia.org/wiki/Cant%C3%B3n_de_San_Isidro"
+  },
+  "wd-canton-de-belen": {
+   "demonym": "belemita",
+   "src": "https://es.wikipedia.org/wiki/Cant%C3%B3n_de_Bel%C3%A9n"
+  },
+  "wd-canton-de-san-pablo": {
+   "demonym": "pableño, -a",
+   "src": "https://es.wikipedia.org/wiki/Cant%C3%B3n_de_San_Pablo_%28Costa_Rica%29"
+  },
+  "wd-canton-de-sarapiqui": {
+   "demonym": "sarapiqueño, -a",
+   "src": "https://es.wikipedia.org/wiki/Cant%C3%B3n_de_Sarapiqu%C3%AD"
+  },
+  "wd-canton-de-flores": {
+   "demonym": "florense",
+   "src": "https://es.wikipedia.org/wiki/Cant%C3%B3n_de_Flores"
+  },
+  "wd-canton-de-nandayure": {
+   "demonym": "nandayureño, -a",
+   "src": "https://es.wikipedia.org/wiki/Cant%C3%B3n_de_Nandayure"
+  },
+  "wd-canton-de-goicoechea": {
+   "demonym": "guadalupano, -a",
+   "src": "https://es.wikipedia.org/wiki/Cant%C3%B3n_de_Goicoechea",
+   "popularNickname": "Goico"
+  },
+  "wd-canton-de-puntarenas": {
+   "demonym": "puntarenense",
+   "src": "https://es.wikipedia.org/wiki/Cant%C3%B3n_de_Puntarenas"
+  },
+  "wd-canton-de-paraiso": {
+   "demonym": "paraiseño, -a",
+   "src": "https://es.wikipedia.org/wiki/Cant%C3%B3n_de_Para%C3%ADso"
+  },
+  "wd-canton-de-naranjo": {
+   "demonym": "naranjeño, -a",
+   "src": "https://es.wikipedia.org/wiki/Cant%C3%B3n_de_Naranjo"
+  },
+  "wd-canton-de-palmares": {
+   "demonym": "palmareño, -a",
+   "src": "https://es.wikipedia.org/wiki/Cant%C3%B3n_de_Palmares"
+  },
+  "wd-canton-de-esparza": {
+   "demonym": "esparzano, -a",
+   "src": "https://es.wikipedia.org/wiki/Cant%C3%B3n_de_Esparza"
+  },
+  "wd-canton-de-parrita": {
+   "demonym": "parriteño, -a",
+   "src": "https://es.wikipedia.org/wiki/Cant%C3%B3n_de_Parrita"
+  },
+  "wd-canton-de-alvarado": {
+   "demonym": "alvaradeño, -a",
+   "src": "https://es.wikipedia.org/wiki/Cant%C3%B3n_de_Alvarado"
+  },
+  "wd-canton-de-tilaran": {
+   "demonym": "tilaranense",
+   "src": "https://es.wikipedia.org/wiki/Cant%C3%B3n_de_Tilar%C3%A1n"
+  },
+  "wd-canton-de-atenas": {
+   "demonym": "ateniense",
+   "src": "https://es.wikipedia.org/wiki/Cant%C3%B3n_de_Atenas"
+  },
+  "wd-canton-de-carrillo": {
+   "demonym": "carrillense",
+   "src": "https://es.wikipedia.org/wiki/Cant%C3%B3n_de_Carrillo"
+  },
+  "wd-canton-de-abangares": {
+   "demonym": "abangareño, -a",
+   "src": "https://es.wikipedia.org/wiki/Cant%C3%B3n_de_Abangares"
+  },
+  "wd-canton-de-la-cruz": {
+   "demonym": "cruceño, -a",
+   "src": "https://es.wikipedia.org/wiki/Cant%C3%B3n_de_La_Cruz"
+  },
+  "wd-canton-de-poas": {
+   "demonym": "poaseño, -a",
+   "src": "https://es.wikipedia.org/wiki/Cant%C3%B3n_de_Po%C3%A1s"
+  },
+  "wd-canton-de-osa": {
+   "demonym": "oseño, -a",
+   "src": "https://es.wikipedia.org/wiki/Cant%C3%B3n_de_Osa"
+  },
+  "wd-canton-de-grecia": {
+   "demonym": "griego (a), Greciense",
+   "src": "https://es.wikipedia.org/wiki/Cant%C3%B3n_de_Grecia",
+   "nickname": "La ciudad más limpia de América Latina"
+  },
+  "wd-canton-de-san-jose": {
+   "demonym": "josefino, -na",
+   "src": "https://es.wikipedia.org/wiki/Cant%C3%B3n_de_San_Jos%C3%A9",
+   "nickname": "Chepe"
+  },
+  "wd-canton-de-sarchi": {
+   "demonym": "sarchiseño, -a",
+   "src": "https://es.wikipedia.org/wiki/Cant%C3%B3n_de_Sarch%C3%AD",
+   "nickname": "Cuna de la Artesanía Costarricense"
+  },
+  "wd-canton-de-coto-brus": {
+   "demonym": "cotobruseño, -a",
+   "src": "https://es.wikipedia.org/wiki/Cant%C3%B3n_de_Coto_Brus"
+  },
+  "wd-canton-de-quepos": {
+   "demonym": "quepeño, -a",
+   "src": "https://es.wikipedia.org/wiki/Cant%C3%B3n_de_Quepos"
+  },
+  "wd-canton-de-buenos-aires": {
+   "demonym": "bonaerense",
+   "src": "https://es.wikipedia.org/wiki/Cant%C3%B3n_de_Buenos_Aires"
+  },
+  "wd-canton-de-golfito": {
+   "demonym": "golfiteño, -a",
+   "src": "https://es.wikipedia.org/wiki/Cant%C3%B3n_de_Golfito"
+  },
+  "wd-canton-de-turrialba": {
+   "demonym": "turrialbeño, -a",
+   "src": "https://es.wikipedia.org/wiki/Cant%C3%B3n_de_Turrialba",
+   "nickname": "La Campiña Azucarera",
+   "popularNickname": "El puerto sin mar"
+  },
+  "wd-canton-de-el-guarco": {
+   "demonym": "guarqueño, -a",
+   "src": "https://es.wikipedia.org/wiki/Cant%C3%B3n_de_El_Guarco"
+  },
+  "wd-canton-de-talamanca": {
+   "demonym": "talamanqueño, -a",
+   "src": "https://es.wikipedia.org/wiki/Cant%C3%B3n_de_Talamanca"
+  },
+  "wd-canton-de-matina": {
+   "demonym": "matineño",
+   "src": "https://es.wikipedia.org/wiki/Cant%C3%B3n_de_Matina"
+  },
+  "wd-canton-de-montes-de-oca": {
+   "demonym": "monteoqueño/eña",
+   "src": "https://es.wikipedia.org/wiki/Cant%C3%B3n_de_Montes_de_Oca"
+  },
+  "wd-canton-de-alajuela": {
+   "demonym": "alajuelense",
+   "src": "https://es.wikipedia.org/wiki/Cant%C3%B3n_de_Alajuela"
+  },
+  "wd-canton-de-nicoya": {
+   "demonym": "nicoyano, -a",
+   "src": "https://es.wikipedia.org/wiki/Cant%C3%B3n_de_Nicoya"
+  },
+  "ciu-san-jose": {
+   "nickname": "Chepe",
+   "popularNickname": "La Tacita de Plata",
+   "demonym": "josefino, -na",
+   "src": "https://es.wikipedia.org/wiki/San_Jos%C3%A9_%28Costa_Rica%29"
+  },
+  "ciu-alajuela": {
+   "nickname": "La Ciudad de los Mangos",
+   "demonym": "alajuelense",
+   "src": "https://es.wikipedia.org/wiki/Provincia_de_Alajuela"
+  },
+  "ciu-cartago": {
+   "nickname": "La Vieja Metrópoli",
+   "popularNickname": "Ciudad de las Brumas",
+   "demonym": "cartaginés, -esa",
+   "popularDemonym": "brumoso, -a",
+   "src": "https://es.wikipedia.org/wiki/Cartago_%28Costa_Rica%29"
+  },
+  "ciu-heredia": {
+   "nickname": "La Ciudad de las Flores",
+   "demonym": "herediano, -a",
+   "src": "https://es.wikipedia.org/wiki/Heredia_%28distrito%29"
+  },
+  "ciu-liberia": {
+   "nickname": "La Ciudad Blanca",
+   "demonym": "liberiano, -a",
+   "src": "https://es.wikipedia.org/wiki/Liberia_%28Costa_Rica%29"
+  },
+  "ciu-puntarenas": {
+   "nickname": "La Perla del Pacífico",
+   "popularNickname": "El Puerto",
+   "demonym": "puntarenense",
+   "popularDemonym": "porteño, -a",
+   "src": "https://es.wikipedia.org/wiki/Puntarenas_%28ciudad%29"
+  },
+  "ciu-limon": {
+   "demonym": "limonense",
+   "src": "https://es.wikipedia.org/wiki/Cant%C3%B3n_de_Lim%C3%B3n"
+  },
+  "ciu-nicoya": {
+   "nickname": "La Ciudad Colonial",
+   "demonym": "nicoyano, -a",
+   "src": "https://es.wikipedia.org/wiki/Cant%C3%B3n_de_Nicoya"
+  },
+  "ciu-turrialba": {
+   "nickname": "La Campiña Azucarera",
+   "popularNickname": "El puerto sin mar",
+   "demonym": "turrialbeño, -a",
+   "src": "https://es.wikipedia.org/wiki/Cant%C3%B3n_de_Turrialba"
+  },
+  "ciu-san-isidro-de-el-general": {
+   "demonym": "generaleño, -a",
+   "src": "https://es.wikipedia.org/wiki/Cant%C3%B3n_de_P%C3%A9rez_Zeled%C3%B3n"
+  },
+  "ciu-quepos": {
+   "demonym": "quepeño, -a",
+   "src": "https://es.wikipedia.org/wiki/Cant%C3%B3n_de_Quepos"
+  }
+ }
+}

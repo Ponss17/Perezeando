@@ -1,0 +1,44 @@
+{
+  "cat-catarata-nauyaca": {
+    "src": "https://thumb.wikimedia.org/wikipedia/commons/thumb/e/ed/Nauyaca_Waterfalls_-_panoramio.jpg/960px-Nauyaca_Waterfalls_-_panoramio.jpg",
+    "page": "https://commons.wikimedia.org/wiki/File:Nauyaca_Waterfalls_-_panoramio.jpg",
+    "artist": "Mark Cowell",
+    "license": "CC BY 3.0"
+  },
+  "cat-cataratas-montezuma": {
+    "src": "https://thumb.wikimedia.org/wikipedia/commons/thumb/a/a5/Waterfall_at_Montezuma.jpg/960px-Waterfall_at_Montezuma.jpg",
+    "page": "https://commons.wikimedia.org/wiki/File:Waterfall_at_Montezuma.jpg",
+    "artist": "User:Vargob",
+    "license": "CC BY-SA 3.0"
+  },
+  "osm-cascada-de-la-paz-n5930203005": {
+    "src": "https://thumb.wikimedia.org/wikipedia/commons/thumb/3/34/La_Paz_Waterfall%2C_Costa_Rica.JPG/960px-La_Paz_Waterfall%2C_Costa_Rica.JPG",
+    "page": "https://commons.wikimedia.org/wiki/File:La_Paz_Waterfall,_Costa_Rica.JPG",
+    "artist": "Erebus555",
+    "license": "CC BY-SA 3.0"
+  },
+  "cat-catarata-el-toro": {
+    "src": "https://thumb.wikimedia.org/wikipedia/commons/thumb/a/ac/Catartata_del_toro_ibo_bonilla_arquitecto.JPG/960px-Catartata_del_toro_ibo_bonilla_arquitecto.JPG",
+    "page": "https://commons.wikimedia.org/wiki/File:Catartata_del_toro_ibo_bonilla_arquitecto.JPG",
+    "artist": "Axxis10",
+    "license": "CC BY-SA 3.0"
+  },
+  "osm-witch-s-rock-playa-naranjo-n2684889831": {
+    "src": "https://thumb.wikimedia.org/wikipedia/commons/thumb/d/d1/Surfing-Roca_Bruja-Guanacaste-Costa_Rica.JPG/960px-Surfing-Roca_Bruja-Guanacaste-Costa_Rica.JPG",
+    "page": "https://commons.wikimedia.org/wiki/File:Surfing-Roca_Bruja-Guanacaste-Costa_Rica.JPG",
+    "artist": "dog4aday",
+    "license": "CC BY 2.0"
+  },
+  "osm-playa-guiones-w468979654": {
+    "src": "https://upload.wikimedia.org/wikipedia/commons/9/91/Guiones.jpg",
+    "page": "https://commons.wikimedia.org/wiki/File:Guiones.jpg",
+    "artist": "VanTucky",
+    "license": "CC BY-SA 3.0"
+  },
+  "wd-refugio-nacional-de-vida-silvestre-curu": {
+    "src": "https://thumb.wikimedia.org/wikipedia/commons/thumb/5/5c/Refugio_Nacional_Cur%C3%BA_-_panoramio.jpg/960px-Refugio_Nacional_Cur%C3%BA_-_panoramio.jpg",
+    "page": "https://commons.wikimedia.org/wiki/File:Refugio_Nacional_Curú_-_panoramio.jpg",
+    "artist": "Vlad Podvorny",
+    "license": "CC BY-SA 3.0"
+  }
+}
