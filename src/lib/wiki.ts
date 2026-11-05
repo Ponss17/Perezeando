@@ -47,8 +47,4 @@ export function fetchWikiSummary(w: WikiTarget): Promise<WikiSummary> {
   return p;
 }
 
-export function trimExtract(ex: string, max = 480) {
-  return ex.length > max ? ex.slice(0, ex.lastIndexOf(' ', max - 10)) + '…' : ex;
-}
-
 export const usableWikiThumb = (src?: string) => !!src && !/map|mapa|flag|svg/i.test(src);

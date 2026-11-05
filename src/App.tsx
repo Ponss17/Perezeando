@@ -10,7 +10,7 @@ import { Toolbar } from './components/Toolbar';
 import { AppStatus } from './components/AppStatus';
 import { CreditsDialog, PrintParts, Toast, Notice } from './components/Overlays';
 import { PoliciesPage } from './components/PoliciesPage';
-import { closePolicies, policiesInUrl } from './lib/policies';
+import { policiesInUrl } from './lib/policies';
 
 const MapView = lazy(() => import('./features/map/MapView'));
 
@@ -56,11 +56,7 @@ export default function App() {
       const a = document.activeElement as HTMLElement | null;
       if (e.key === 'Escape' && !/INPUT|SELECT|TEXTAREA/.test(a?.tagName ?? '')) {
         const s = getApp();
-        if (s.policiesOpen) {
-          closePolicies();
-          return;
-        }
-        if (s.basemapPop || s.creditsOpen) return;
+        if (s.policiesOpen || s.basemapPop || s.creditsOpen) return;
         if (s.detailOpen) deselect();
       }
     };

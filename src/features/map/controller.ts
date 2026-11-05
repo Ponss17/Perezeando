@@ -88,7 +88,11 @@ export class MapController implements MapApi {
       renderWorldCopies: false,
       maxZoom: 18,
       maxPitch: 80,
-      attributionControl: { compact: true },
+      attributionControl: {
+        compact: false,
+        customAttribution:
+          '© <a href="https://www.openstreetmap.org/copyright" target="_blank" rel="noopener">OpenStreetMap</a> contributors',
+      },
       canvasContextAttributes: { antialias: true },
       dragRotate: false,
       pitchWithRotate: false,

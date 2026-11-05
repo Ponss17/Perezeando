@@ -14,7 +14,7 @@ export interface PolicyCopy {
 
 const es: PolicyCopy = {
   title: 'Políticas de uso y derechos de autor',
-  lede: 'Perezeando es un atlas de consulta sobre Costa Rica. Esta página dice de quién es cada contenido, para qué sirve el sitio y qué datos quedan en el navegador.',
+  lede: 'Perezeando es un atlas de consulta sobre Costa Rica. Acá se dice de quién es cada contenido, para qué sirve el sitio y qué datos quedan en el navegador.',
   sections: [
     {
       h: 'Qué es este sitio',
@@ -74,7 +74,7 @@ const es: PolicyCopy = {
 
 const en: PolicyCopy = {
   title: 'Use and copyright',
-  lede: 'Perezeando is a reference atlas of Costa Rica. This page states who owns each kind of material, what the site is for, and which data stays in the browser.',
+  lede: 'Perezeando is a reference atlas of Costa Rica. This note states who owns each kind of material, what the site is for, and which data stays in the browser.',
   sections: [
     {
       h: 'What this site is',

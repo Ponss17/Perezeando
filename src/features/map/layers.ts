@@ -17,7 +17,7 @@ export function addContentLayers(map: MLMap, d: AtlasData, cluster: boolean): ma
     encoding: 'terrarium',
     tileSize: 256,
     maxzoom: 14,
-    attribution: 'Elevación: Mapzen Terrain Tiles (AWS Open Data)',
+    attribution: 'Relieve · Mapzen (AWS Open Data)',
   });
   map.addSource('prov', { type: 'geojson', data: d.provinces as FC, promoteId: 'id' });
   map.addSource('eez', { type: 'geojson', data: d.eez as FC, promoteId: 'id' });
@@ -167,20 +167,20 @@ export function addContentLayers(map: MLMap, d: AtlasData, cluster: boolean): ma
     type: 'symbol',
     source: 'places',
     filter: ['has', 'point_count'],
-      layout: {
-        'icon-image': clusterImageExpr as never,
-        'icon-allow-overlap': true,
-        'icon-ignore-placement': true,
-        'text-field': ['to-string', ['get', 'point_count']],
-        'text-font': ['Noto Sans Bold'],
-        'text-size': ['case', ['>=', ['get', 'point_count'], 100], 12.5, 13],
-        'text-anchor': 'center',
-        'text-allow-overlap': true,
-        'text-ignore-placement': true,
-      },
-      paint: {
-        'text-color': '#ffffff',
-      },
+    layout: {
+      'icon-image': clusterImageExpr as never,
+      'icon-allow-overlap': true,
+      'icon-ignore-placement': true,
+      'text-field': ['to-string', ['get', 'point_count']],
+      'text-font': ['Noto Sans Bold'],
+      'text-size': ['case', ['>=', ['get', 'point_count'], 100], 12.5, 13],
+      'text-anchor': 'center',
+      'text-allow-overlap': true,
+      'text-ignore-placement': true,
+    },
+    paint: {
+      'text-color': '#ffffff',
+    },
   });
   map.addLayer({
     id: 'pins',

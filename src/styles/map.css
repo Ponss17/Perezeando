@@ -51,9 +51,9 @@
     visibility: hidden;
     box-shadow: none;
     transition:
-      transform var(--panel-move) var(--panel-ease),
-      visibility 0s linear var(--panel-move),
-      box-shadow var(--panel-move);
+      transform 0.55s var(--panel-ease),
+      visibility 0s linear 0.55s,
+      box-shadow 0.55s;
   }
 }
 
@@ -86,14 +86,23 @@
   0% {
     opacity: 0;
     transform: scale(0.86);
+    pointer-events: none;
   }
   60% {
     opacity: 1;
     transform: scale(1.06);
+    pointer-events: auto;
   }
   100% {
     opacity: 1;
     transform: scale(1);
+    pointer-events: auto;
+  }
+}
+
+@media (min-width: 761px) {
+  .panel-open-btn.show {
+    animation: pob-pop 0.38s var(--panel-ease) 0.34s both;
   }
 }
 
@@ -189,23 +198,29 @@ body.dark #map .maplibregl-ctrl-group button .maplibregl-ctrl-icon {
 }
 
 #map .maplibregl-ctrl-attrib {
-  font-size: 10.5px;
-  background: rgba(255, 255, 255, 0.82) !important;
-  color: #555;
-  padding: 1px 6px !important;
+  font: 500 11px/1.35 var(--font);
+  background: color-mix(in srgb, var(--paper) 92%, transparent) !important;
+  color: var(--muted);
+  padding: 6px 10px !important;
+  border-radius: 10px;
+  max-width: min(248px, calc(100vw - 120px));
+  box-shadow:
+    0 1px 4px rgba(16, 24, 20, 0.16),
+    0 0 0 1px var(--line);
+  backdrop-filter: blur(10px);
+}
+
+#map .maplibregl-ctrl-attrib-inner {
+  display: block;
 }
 
 #map .maplibregl-ctrl-attrib a {
-  color: #3d4a44;
+  color: var(--accent);
+  text-decoration: none;
 }
 
-body.dark #map .maplibregl-ctrl-attrib {
-  background: rgba(22, 26, 24, 0.8) !important;
-  color: #aaa;
-}
-
-body.dark #map .maplibregl-ctrl-attrib a {
-  color: #cdd;
+#map .maplibregl-ctrl-attrib a:hover {
+  text-decoration: underline;
 }
 
 #map .maplibregl-ctrl-attrib.maplibregl-compact {
@@ -1262,6 +1277,13 @@ body.dark .cl-zoom:hover {
   }
   #map .maplibregl-ctrl-bottom-right .maplibregl-ctrl-group {
     display: none;
+  }
+  #map .maplibregl-ctrl-bottom-right .maplibregl-ctrl-attrib {
+    max-width: min(200px, calc(100vw - 20px));
+    margin: 0 8px 8px 0;
+    padding: 5px 8px !important;
+    border-radius: 9px;
+    font-size: 10px;
   }
   #map .maplibregl-ctrl-scale {
     display: none;
