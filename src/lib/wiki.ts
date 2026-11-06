@@ -74,5 +74,3 @@ export function fetchWikiSummary(w: WikiTarget): Promise<WikiSummary> {
   }
   return p;
 }
-
-export const usableWikiThumb = (src?: string) => !!src && !/map|mapa|flag|svg/i.test(src);

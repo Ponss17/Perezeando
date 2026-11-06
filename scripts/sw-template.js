@@ -27,16 +27,18 @@ const rel = (u) =>
     ? u.pathname.slice(scope.pathname.length)
     : null;
 
+async function notifyMissing() {
+  for (const client of await self.clients.matchAll({ type: 'window' })) {
+    client.postMessage({ type: 'asset-missing' });
+  }
+}
+
 self.addEventListener('install', (e) => {
   e.waitUntil(
     (async () => {
       const c = await caches.open(SHELL_CACHE);
-      await c.addAll(
-        SHELL.map(
-          (p) =>
-            new Request(new URL(p, scope), { cache: p.startsWith('assets/') ? 'force-cache' : 'no-cache' }),
-        ),
-      );
+      // no-cache: en móvil un 404 viejo en el HTTP cache no debe entrar al precache
+      await c.addAll(SHELL.map((p) => new Request(new URL(p, scope), { cache: 'no-cache' })));
       const dc = await caches.open(DATA_CACHE);
       await Promise.all(
         Object.entries(DATA).map(async ([p, h]) => {
@@ -44,11 +46,12 @@ self.addEventListener('install', (e) => {
           const hit = await dc.match(req);
           if (hit && hit.headers.get('sw-hash') === h) return;
           try {
-            const res = await fetch(req, { cache: 'force-cache' });
+            const res = await fetch(req, { cache: 'no-cache' });
             if (res.ok) await dc.put(req, await stamp(res, { 'sw-hash': h }));
           } catch {}
         }),
       );
+      await self.skipWaiting();
     })(),
   );
 });
@@ -104,7 +107,7 @@ async function cacheFirstCapped(e, name, req) {
   const c = await caches.open(name);
   const hit = await c.match(req);
   const lim = LIMITS[name];
-  if (hit && age(hit) < lim.age) return hit;
+  if (hit && hit.ok && age(hit) < lim.age) return hit;
   try {
     const res = await fetch(req);
     if (res.ok && res.type !== 'opaque') {
@@ -117,7 +120,7 @@ async function cacheFirstCapped(e, name, req) {
     }
     return res;
   } catch (err) {
-    if (hit) return hit;
+    if (hit && hit.ok) return hit;
     throw err;
   }
 }
@@ -126,12 +129,16 @@ async function shell(req, path, { networkFirst = false } = {}) {
   const c = await caches.open(SHELL_CACHE);
   const url = new URL(path, scope).href;
   const hit = await c.match(url, { ignoreSearch: true });
+  const good = hit && hit.ok ? hit : null;
   const fromNet = async () => {
     const res = await fetch(path === 'index.html' ? new Request(url, { cache: 'no-cache' }) : req);
     if (res.ok) {
       try {
         await c.put(url, res.clone());
       } catch {}
+    } else if (good && res.status === 404) {
+      // respuesta mala del borde: mejor la copia buena en caché que un 404
+      return good;
     }
     return res;
   };
@@ -139,28 +146,42 @@ async function shell(req, path, { networkFirst = false } = {}) {
     try {
       const res = await fromNet();
       if (res.ok) return res;
-      if (hit) return hit;
+      if (good) return good;
       return res;
     } catch (err) {
-      if (hit) return hit;
+      if (good) return good;
       throw err;
     }
   }
-  if (hit) return hit;
+  if (good) {
+    // revalidar en segundo plano para no quedarse con un JS/CSS viejo tras un deploy
+    eWait(fromNet().catch(() => {}));
+    return good;
+  }
   return fromNet();
+}
+
+/** waitUntil solo existe dentro del fetch handler; guardamos el evento actual */
+let currentEvent = null;
+function eWait(p) {
+  try {
+    currentEvent && currentEvent.waitUntil(Promise.resolve(p).catch(() => {}));
+  } catch {}
 }
 
 async function data(e, req, path) {
   const c = await caches.open(DATA_CACHE);
   const want = DATA[path];
   const hit = await c.match(req, { ignoreSearch: true });
-  if (hit && want && hit.headers.get('sw-hash') === want) return hit;
+  const good = hit && hit.ok ? hit : null;
+  if (good && want && good.headers.get('sw-hash') === want) return good;
   try {
     const res = await fetch(req, { cache: 'no-cache' });
     if (res.ok) e.waitUntil(stamp(res.clone(), { 'sw-hash': want || '' }).then((r) => c.put(req, r)));
+    else if (good) return good;
     return res;
   } catch (err) {
-    if (hit) return hit;
+    if (good) return good;
     throw err;
   }
 }
@@ -176,7 +197,7 @@ async function route(req) {
     return res;
   } catch (err) {
     const hit = await c.match(req);
-    if (hit && age(hit) < LIMITS[ROUTE_CACHE].age) return hit;
+    if (hit && hit.ok && age(hit) < LIMITS[ROUTE_CACHE].age) return hit;
     throw err;
   }
 }
@@ -186,6 +207,7 @@ self.addEventListener('fetch', (e) => {
   if (req.method !== 'GET') return;
   const u = new URL(req.url);
   const path = rel(u);
+  currentEvent = e;
 
   if (req.mode === 'navigate' && path !== null) {
     if (u.searchParams.has('nosw')) return;
@@ -204,19 +226,23 @@ self.addEventListener('fetch', (e) => {
   if (path !== null) {
     if (path === 'sw.js') return;
     if (path.startsWith('data/')) return e.respondWith(data(e, req, path));
-    if (SHELL.includes(path)) {
+    // assets hasheados: aunque no estén en SHELL de esta versión, interceptar 404 → recuperar
+    if (path.startsWith('assets/') || SHELL.includes(path)) {
       return e.respondWith(
         (async () => {
           let res;
           try {
-            res = await shell(req, path);
+            res = SHELL.includes(path) ? await shell(req, path) : await fetch(req);
           } catch {
             res = await fetch(req);
           }
           if (res.status === 404 && path.startsWith('assets/')) {
-            for (const client of await self.clients.matchAll({ type: 'window' })) {
-              client.postMessage({ type: 'asset-missing' });
+            if (SHELL.includes(path)) {
+              try {
+                await caches.open(SHELL_CACHE).then((c) => c.delete(new URL(path, scope).href));
+              } catch {}
             }
+            e.waitUntil(notifyMissing());
           }
           return res;
         })(),

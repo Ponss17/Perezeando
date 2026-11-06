@@ -139,16 +139,6 @@
   margin-top: 2px;
 }
 
-.panel-open-btn .pob-ico {
-  color: var(--muted);
-  margin-left: 4px;
-}
-
-.panel-open-btn .pob-ico svg {
-  width: 16px;
-  height: 16px;
-}
-
 body.dark .panel-open-btn {
   box-shadow:
     var(--sh-1),

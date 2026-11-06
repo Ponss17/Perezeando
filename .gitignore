@@ -10,4 +10,10 @@ screenshots
 
 # Medios: viven en disco local + R2 (no versionar ~50MB de WebP)
 public/media/
-perf/*.zip
+
+# Reportes locales de scripts (se regeneran)
+perf/*
+!perf/.gitkeep
+
+# Estado local de Wrangler
+.wrangler/
