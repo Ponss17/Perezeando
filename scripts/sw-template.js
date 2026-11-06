@@ -17,6 +17,8 @@ const LIMITS = {
 const TILE_HOSTS =
   /(^|\.)(arcgisonline\.com|tile\.openstreetmap\.org|tile\.opentopomap\.org|tiles\.openfreemap\.org|elevation-tiles-prod\.s3\.amazonaws\.com)$|^s3\.amazonaws\.com$/;
 const IMG_HOSTS = /^(upload|thumb)\.wikimedia\.org$/;
+/* hostname de VITE_MEDIA_BASE_URL (inyectado en build); vacío = sin remoto */
+const MEDIA_HOST = '__MEDIA_HOST__';
 const OSRM_HOST = /^router\.project-osrm\.org$/;
 
 const scope = new URL(self.registration.scope);
@@ -223,7 +225,11 @@ self.addEventListener('fetch', (e) => {
     return;
   }
   if (TILE_HOSTS.test(u.hostname)) return e.respondWith(cacheFirstCapped(e, TILE_CACHE, req));
-  if (IMG_HOSTS.test(u.hostname)) {
+  const pathRel = rel(u);
+  if (pathRel && pathRel.startsWith('media/')) {
+    return e.respondWith(cacheFirstCapped(e, IMG_CACHE, req));
+  }
+  if (IMG_HOSTS.test(u.hostname) || (MEDIA_HOST && u.hostname === MEDIA_HOST)) {
     const cors = req.mode === 'cors' ? req : new Request(req.url, { mode: 'cors', credentials: 'omit' });
     return e.respondWith(cacheFirstCapped(e, IMG_CACHE, cors).catch(() => fetch(req)));
   }

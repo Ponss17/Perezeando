@@ -1,0 +1,19 @@
+{
+  "wikiEsAdded": 2,
+  "namesFixed": 0,
+  "briefsAdded": 1,
+  "briefsUpdated": 1,
+  "failed": 118,
+  "samples": [
+    {
+      "id": "wd-rio-suerte",
+      "es": "Río Suerte es un río de Costa Rica. Se sitúa en la provincia de Limón, en el cantón de Pococí."
+    },
+    {
+      "id": "osm-sitio-arqueologico-finca-6-w1571115150",
+      "es": "El Sitio arqueológico Finca 6 o Sitio Museo Finca 6, denominado de esa forma por su ubicación geográfica, es un sitio arqueológico de la cul"
+    }
+  ],
+  "briefsTotal": 273,
+  "at": "2026-11-06T08:32:52.287Z"
+}

@@ -1,3 +1,4 @@
+import { mediaPath, mediaUrl } from './mediaUrl';
 import type { Lang } from '../data/types';
 import { translate, locale } from '../i18n';
 
@@ -44,9 +45,19 @@ export const norm = (s: string | undefined | null) =>
     .replace(/[\u0300-\u036f]/g, '')
     .toLowerCase();
 
-/** Miniatura de 120 px de Wikimedia (también para originales sin /thumb/, que pueden pesar cientos de KB) */
+/** Miniatura pequeña: Wikimedia 120px o variante local -120.webp */
 export const thumbUrl = (src: string) => {
+  if (!src) return src;
+  const local = mediaPath(src);
+  if (local.startsWith('/media/')) {
+    return mediaUrl(
+      local.replace(/-(?:120|320|800)\.webp$/i, '-120.webp').replace(/\.(jpe?g|png)$/i, '-120.webp'),
+    );
+  }
   if (src.includes('/960px-')) return src.replace('/960px-', '/120px-');
-  const m = /^(https:\/\/upload\.wikimedia\.org\/wikipedia\/commons)\/([0-9a-f]\/[0-9a-f]{2})\/([^/?#]+\.(?:jpe?g|png))(?:[?#].*)?$/i.exec(src);
+  const m =
+    /^(https:\/\/upload\.wikimedia\.org\/wikipedia\/commons)\/([0-9a-f]\/[0-9a-f]{2})\/([^/?#]+\.(?:jpe?g|png))(?:[?#].*)?$/i.exec(
+      src,
+    );
   return m ? `${m[1]}/thumb/${m[2]}/${m[3]}/120px-${m[3]}` : src;
 };

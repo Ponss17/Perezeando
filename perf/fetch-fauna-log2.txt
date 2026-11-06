@@ -1,0 +1,81 @@
+remote-fail fau-lapa-roja dl 404
+sin imagen fau-lapa-roja Ara macao
+OK-remote fau-tucan-pico-iris 25270
+OK-remote fau-mariposa-morpho-azul 70392
+OK-remote fau-venado-cola-blanca 90048
+OK-remote fau-ballena-jorobada 23192
+OK-remote fau-tiburon-martillo 26716
+OK-remote fau-tiburon-toro 49532
+OK-remote fau-tortuga-verde 137036
+OK-remote fau-tortuga-baula 124372
+OK-remote fau-delfin-nariz-de-botella 104520
+OK-remote fau-delfin-manchado 9126
+OK-remote fau-mantarraya-gigante 61536
+OK-remote fau-manati-del-caribe 70706
+OK-remote fau-pez-vela 35650
+OK-remote fau-tiburon-ballena 20924
+OK-remote fau-coral-caribeno 61876
+OK-remote fau-tiburon-punta-blanca 104930
+OK-remote fau-orca 61686
+OK-remote fau-tortuga-lora-la-arribada 57346
+OK-remote fau-tortuga-carey 60480
+remote-fail fau-perezoso-dos-dedos dl 404
+OK fau-perezoso-dos-dedos 113164 Choloepus_hoffmanni_(Puerto_Viejo,_CR)_crop.jpg
+OK-remote fau-mono-cara-blanca 127442
+remote-fail fau-mono-arana dl 404
+OK fau-mono-arana 81852 Panama_spider_monkey,_Costa_Rica.JPG
+remote-fail fau-puma dl 404
+OK fau-puma 142392 Puma_-_49044464307.jpg
+remote-fail fau-ocelote dl 404
+OK fau-ocelote 57390 Ocelot_(Jaguatirica)_Zoo_Itatiba.jpg
+remote-fail fau-caucel dl 404
+OK fau-caucel 65292 Margaykat_Leopardus_wiedii.jpg
+remote-fail fau-coati dl 404
+OK fau-coati 114286 Nasua_narica_-Costa_Rica-8.jpg
+remote-fail fau-tepezcuintle dl 404
+OK fau-tepezcuintle 103234 Cuniculus_paca.jpg
+remote-fail fau-tamandua dl 404
+OK fau-tamandua 96244 DirkvdM_tamandua.jpg
+remote-fail fau-kinkaju dl 404
+OK fau-kinkaju 139016 Potos_flavus_en_Zooaquarium_de_valencia,_Venezuela.jpg
+OK-remote fau-armadillo 108634
+remote-fail fau-mapache dl 404
+OK fau-mapache 106796 Raccoon_in_Central_Park_(35264).jpg
+remote-fail fau-lapa-verde dl 404
+OK fau-lapa-verde 79894 Ara_ambigua1.JPG
+remote-fail fau-pajaro-campana dl 404
+OK fau-pajaro-campana 16520 Procnias_tricarunculatus_Monteverde_03.jpg
+remote-fail fau-caracara dl 404
+OK fau-caracara 28380 Schopfkarakara.jpg
+remote-fail fau-pavon dl 404
+OK fau-pavon 57696 Crax_rubra_(Great_Curassow)_-_male.jpg
+remote-fail fau-basilisco dl 404
+OK fau-basilisco 114170 Green_Basilisk,_Alajuela,_Costa_Rica.jpg
+remote-fail fau-iguana-verde dl 404
+OK fau-iguana-verde 65812 Polish_20230102_131307806_(1).jpg
+remote-fail fau-caiman dl 404
+OK fau-caiman 23356 Spectacled_Caiman.JPG
+remote-fail fau-cocodrilo-americano dl 404
+OK fau-cocodrilo-americano 94858 Crocodylus_acutus_mexico_02-edit1.jpg
+remote-fail fau-boa dl 404
+OK fau-boa 105382 B._constrictor.jpg
+remote-fail fau-serpiente-coral dl 404
+OK fau-serpiente-coral 191804 Coralillo_(Micrurus_nigrocinctus)_(6955307478).jpg
+remote-fail fau-cascabel dl 404
+OK fau-cascabel 39108 Yucatan_Neotropical_Rattlesnake_045.jpg
+remote-fail fau-mariposa-buho dl 404
+OK fau-mariposa-buho 109746 Caligo_martia_(ventre).jpg
+remote-fail fau-pez-loro dl 404
+OK fau-pez-loro 116298 Rainbow_parrotfish.jpg
+remote-fail fau-raya-aguila dl 404
+OK fau-raya-aguila 55970 Spotted_Eagle_Ray_(Aetobatus_narinari)2.jpg
+remote-fail fau-tiburon-tigre dl 404
+OK fau-tiburon-tigre 18400 Tiger_shark(2).jpg
+remote-fail fau-ballena-piloto dl 404
+FAIL fau-ballena-piloto wiki 429
+{
+  ok: 46,
+  skip: 11,
+  fail: 2,
+  mediaDir: 'D:\\zpaginas\\cr-mapa-v2\\public\\media\\places'
+}

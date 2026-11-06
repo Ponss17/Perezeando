@@ -1,0 +1,28 @@
+{
+  "tabs": [
+    "data",
+    "food",
+    "culture",
+    "sports",
+    "activities"
+  ],
+  "deskTabs": [
+    "data",
+    "food",
+    "culture",
+    "sports",
+    "activities"
+  ],
+  "noFaunaTab": true,
+  "act": {
+    "selected": "true",
+    "items": 60
+  },
+  "detail": {
+    "title": "Perezoso de Tres Dedos",
+    "related": 3,
+    "hasTips": true,
+    "heroLocal": true
+  },
+  "errors": []
+}

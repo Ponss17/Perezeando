@@ -1,0 +1,296 @@
+{
+  "sanjose": {
+    "items": [
+      {
+        "name": {
+          "es": "Fiestas de Palmares (referencia cultural del Valle Central)",
+          "en": "Palmares Festival (Central Valley cultural reference)"
+        },
+        "note": {
+          "es": "Famosas fiestas de enero en el cantón de Palmares (Alajuela), muy concurridas por josefinos.",
+          "en": "Famous January festival in Palmares canton (Alajuela), heavily attended by San José residents."
+        },
+        "src": {
+          "name": "Wikipedia",
+          "url": "https://es.wikipedia.org/wiki/Fiestas_de_Palmares",
+          "license": "CC BY-SA"
+        }
+      },
+      {
+        "name": {
+          "es": "Senderos en Los Quetzales / Dota",
+          "en": "Trails in Los Quetzales / Dota"
+        },
+        "note": {
+          "es": "Cantón de Dota: observación de quetzales y caminatas de altura en temporada.",
+          "en": "Dota canton: seasonal quetzal watching and highland walks."
+        },
+        "src": {
+          "name": "SINAC — P.N. Los Quetzales",
+          "url": "https://www.sinac.go.cr/"
+        }
+      },
+      {
+        "name": {
+          "es": "Museo Nacional y Barrio Amón",
+          "en": "National Museum and Barrio Amón"
+        },
+        "note": {
+          "es": "Recorrido urbano en el cantón central: museo, arquitectura y cafés del casco histórico.",
+          "en": "Urban walk in the central canton: museum, architecture and historic-core cafés."
+        },
+        "src": {
+          "name": "Wikivoyage",
+          "url": "https://en.wikivoyage.org/wiki/San_Jos%C3%A9_(Costa_Rica)",
+          "license": "CC BY-SA 4.0"
+        }
+      }
+    ]
+  },
+  "alajuela": {
+    "items": [
+      {
+        "name": {
+          "es": "Fiestas de Palmares",
+          "en": "Palmares Festival"
+        },
+        "note": {
+          "es": "Celebración tradicional de enero en Palmares con tope y actividades comunales.",
+          "en": "Traditional January celebration in Palmares with tope and community events."
+        },
+        "src": {
+          "name": "Wikipedia",
+          "url": "https://es.wikipedia.org/wiki/Fiestas_de_Palmares",
+          "license": "CC BY-SA"
+        }
+      },
+      {
+        "name": {
+          "es": "Senderos Volcán Arenal / La Fortuna",
+          "en": "Arenal Volcano / La Fortuna trails"
+        },
+        "note": {
+          "es": "Cantón de San Carlos: senderismo, puentes y vistas del Arenal.",
+          "en": "San Carlos canton: hiking, bridges and Arenal views."
+        },
+        "src": {
+          "name": "Wikivoyage",
+          "url": "https://en.wikivoyage.org/wiki/Arenal",
+          "license": "CC BY-SA 4.0"
+        }
+      },
+      {
+        "name": {
+          "es": "Parque Nacional Volcán Poás",
+          "en": "Poás Volcano National Park"
+        },
+        "note": {
+          "es": "Miradores al cráter activo; acceso regulado según alerta del parque.",
+          "en": "Overlooks of the active crater; access follows park alerts."
+        },
+        "src": {
+          "name": "SINAC — P.N. Volcán Poás",
+          "url": "https://www.sinac.go.cr/"
+        }
+      }
+    ]
+  },
+  "cartago": {
+    "items": [
+      {
+        "name": {
+          "es": "Peregrinación a Cartago (La Negrita)",
+          "en": "Cartago pilgrimage (La Negrita)"
+        },
+        "note": {
+          "es": "Romería de agosto hacia la Basílica de Los Ángeles, tradición nacional.",
+          "en": "August pilgrimage to the Basílica de Los Ángeles, a national tradition."
+        },
+        "src": {
+          "name": "Wikipedia",
+          "url": "https://es.wikipedia.org/wiki/Bas%C3%ADlica_de_Nuestra_Se%C3%B1ora_de_los_%C3%81ngeles",
+          "license": "CC BY-SA"
+        }
+      },
+      {
+        "name": {
+          "es": "Ascenso a Chirripó (San Gerardo de Rivas)",
+          "en": "Chirripó ascent (San Gerardo de Rivas)"
+        },
+        "note": {
+          "es": "Punto de partida habitual del trekking al Chirripó con cupo regulado.",
+          "en": "Usual trailhead for the regulated Chirripó trek."
+        },
+        "src": {
+          "name": "Wikivoyage",
+          "url": "https://en.wikivoyage.org/wiki/Chirrip%C3%B3_National_Park",
+          "license": "CC BY-SA 4.0"
+        }
+      },
+      {
+        "name": {
+          "es": "Irazú — miradores del cráter",
+          "en": "Irazú crater overlooks"
+        },
+        "note": {
+          "es": "Visita al Parque Nacional Volcán Irazú con vistas a los cráteres (según apertura).",
+          "en": "Visit to Irazú Volcano National Park and crater views (subject to openings)."
+        },
+        "src": {
+          "name": "SINAC",
+          "url": "https://www.sinac.go.cr/"
+        }
+      }
+    ]
+  },
+  "heredia": {
+    "items": [
+      {
+        "name": {
+          "es": "Estación Biológica La Selva (Sarapiquí)",
+          "en": "La Selva Biological Station (Sarapiquí)"
+        },
+        "note": {
+          "es": "Senderos científicos y observación de fauna en bosque húmedo.",
+          "en": "Research trails and wildlife watching in humid forest."
+        },
+        "src": {
+          "name": "Wikipedia",
+          "url": "https://es.wikipedia.org/wiki/Estaci%C3%B3n_Biol%C3%B3gica_La_Selva",
+          "license": "CC BY-SA"
+        }
+      },
+      {
+        "name": {
+          "es": "Barva / Parque Nacional Braulio Carrillo",
+          "en": "Barva / Braulio Carrillo National Park"
+        },
+        "note": {
+          "es": "Accesos de altura hacia el volcán Barva y bosque nuboso en el cantón de Barva.",
+          "en": "Highland access toward Barva Volcano and cloud forest in Barva canton."
+        },
+        "src": {
+          "name": "SINAC",
+          "url": "https://www.sinac.go.cr/"
+        }
+      },
+      {
+        "name": {
+          "es": "Café y pueblos de Santa Bárbara / San Isidro",
+          "en": "Coffee towns of Santa Bárbara / San Isidro"
+        },
+        "note": {
+          "es": "Rutas de café de altura en cantones heredianos del Valle Central.",
+          "en": "Highland coffee routes in Heredia’s Central Valley cantons."
+        },
+        "src": {
+          "name": "Wikivoyage",
+          "url": "https://en.wikivoyage.org/wiki/Heredia",
+          "license": "CC BY-SA 4.0"
+        }
+      }
+    ]
+  },
+  "guanacaste": {
+    "items": [
+      {
+        "name": {
+          "es": "Fiestas cívicas / topes guanacastecos",
+          "en": "Civic festivals / Guanacaste topes"
+        },
+        "note": {
+          "es": "Tradición de topes y fiestas patronales en varios cantones guanacastecos (p. ej. Santa Cruz, Liberia).",
+          "en": "Tope and patron-saint festival tradition in several Guanacaste cantons (e.g. Santa Cruz, Liberia)."
+        },
+        "src": {
+          "name": "Wikipedia",
+          "url": "https://es.wikipedia.org/wiki/Anexo:Fiestas_populares_de_Costa_Rica",
+          "license": "CC BY-SA"
+        }
+      },
+      {
+        "name": {
+          "es": "Arribada de Ostional",
+          "en": "Ostional arribada"
+        },
+        "note": {
+          "es": "Fenómeno de anidación masiva de tortuga lora con manejo comunitario.",
+          "en": "Mass olive-ridley nesting with community management."
+        },
+        "src": {
+          "name": "Wikivoyage",
+          "url": "https://en.wikivoyage.org/wiki/Ostional",
+          "license": "CC BY-SA 4.0"
+        }
+      }
+    ]
+  },
+  "puntarenas": {
+    "items": [
+      {
+        "name": {
+          "es": "Avistamiento de ballenas — Uvita",
+          "en": "Whale watching — Uvita"
+        },
+        "note": {
+          "es": "Temporadas en el P.N. Marino Ballena con operadores locales.",
+          "en": "Seasons in Marino Ballena N.P. with local operators."
+        },
+        "src": {
+          "name": "Wikivoyage",
+          "url": "https://en.wikivoyage.org/wiki/Uvita",
+          "license": "CC BY-SA 4.0"
+        }
+      },
+      {
+        "name": {
+          "es": "Corcovado / Península de Osa",
+          "en": "Corcovado / Osa Peninsula"
+        },
+        "note": {
+          "es": "Senderismo y fauna en uno de los bloques de bosque más importantes del país.",
+          "en": "Hiking and wildlife in one of the country’s key forest blocks."
+        },
+        "src": {
+          "name": "Wikivoyage",
+          "url": "https://en.wikivoyage.org/wiki/Corcovado_National_Park",
+          "license": "CC BY-SA 4.0"
+        }
+      }
+    ]
+  },
+  "limon": {
+    "items": [
+      {
+        "name": {
+          "es": "Festival de la Cultura Day Digga (referencia afrocaribeña)",
+          "en": "Day Digga cultural festival (Afro-Caribbean reference)"
+        },
+        "note": {
+          "es": "Celebraciones de cultura afrocaribeña en Limón (fechas variables según organización local).",
+          "en": "Afro-Caribbean cultural celebrations in Limón (dates vary by local organizers)."
+        },
+        "src": {
+          "name": "Wikipedia",
+          "url": "https://es.wikipedia.org/wiki/Cultura_de_Costa_Rica",
+          "license": "CC BY-SA"
+        }
+      },
+      {
+        "name": {
+          "es": "Canales de Tortuguero",
+          "en": "Tortuguero canals"
+        },
+        "note": {
+          "es": "Recorridos en bote y temporada de tortugas con guías autorizados.",
+          "en": "Boat tours and turtle season with authorized guides."
+        },
+        "src": {
+          "name": "Wikivoyage",
+          "url": "https://en.wikivoyage.org/wiki/Tortuguero",
+          "license": "CC BY-SA 4.0"
+        }
+      }
+    ]
+  }
+}

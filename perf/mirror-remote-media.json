@@ -1,0 +1,19 @@
+{
+  "ok": 17,
+  "fail": 2,
+  "cached": 0,
+  "errors": [
+    {
+      "key": "data/places.json:fau-lapa-roja",
+      "src": "https://upload.wikimedia.org/wikipedia/commons/thumb/4/47/Scarlet_macaw_%28Ara_macao_cyanoptera%29.jpg/960px-Scarlet_mac",
+      "err": "HTTP 404"
+    },
+    {
+      "key": "data/fauna-extra.json:fau-ballena-piloto",
+      "src": "https://upload.wikimedia.org/wikipedia/commons/thumb/6/67/Pilot_whale.jpg/960px-Pilot_whale.jpg",
+      "err": "HTTP 404"
+    }
+  ],
+  "started": "2026-11-06T04:39:06.442Z",
+  "finished": "2026-11-06T04:39:11.054Z"
+}

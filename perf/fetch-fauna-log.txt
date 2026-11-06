@@ -1,0 +1,65 @@
+OK fau-jaguar 91560 Jaguar_(Panthera_onca_palustris)_female_Piquiri_River_2.JPG
+OK fau-quetzal-resplandeciente 52840 Quetzal01.jpg
+OK fau-perezoso-de-tres-dedos 273134 Bradypus.jpg
+OK fau-danta 77024 Central_American_Tapir-Belize20.jpg
+OK fau-rana-blue-jeans 123288 Dendrobates_pumilio.jpg
+OK fau-lapa-roja 20044 Distribution_Ara_macao.svg
+OK fau-mono-congo-o-aullador 40648 Allouataadulto_500px.jpg
+FAIL fau-tucan-pico-iris wiki 429
+FAIL fau-mariposa-morpho-azul wiki 429
+FAIL fau-venado-cola-blanca wiki 429
+FAIL fau-ballena-jorobada wiki 429
+FAIL fau-tiburon-martillo wiki 429
+FAIL fau-tiburon-toro wiki 429
+FAIL fau-tortuga-verde wiki 429
+FAIL fau-tortuga-baula wiki 429
+FAIL fau-delfin-nariz-de-botella wiki 429
+FAIL fau-delfin-manchado wiki 429
+FAIL fau-mantarraya-gigante wiki 429
+FAIL fau-manati-del-caribe wiki 429
+FAIL fau-pez-vela wiki 429
+FAIL fau-tiburon-ballena wiki 429
+FAIL fau-coral-caribeno wiki 429
+FAIL fau-tiburon-punta-blanca wiki 429
+FAIL fau-orca wiki 429
+FAIL fau-tortuga-lora-la-arribada wiki 429
+FAIL fau-tortuga-carey wiki 429
+FAIL fau-perezoso-dos-dedos wiki 429
+FAIL fau-mono-cara-blanca wiki 429
+FAIL fau-mono-arana wiki 429
+FAIL fau-puma wiki 429
+FAIL fau-ocelote wiki 429
+FAIL fau-caucel wiki 429
+FAIL fau-coati wiki 429
+FAIL fau-tepezcuintle wiki 429
+FAIL fau-tamandua wiki 429
+FAIL fau-kinkaju wiki 429
+FAIL fau-armadillo wiki 429
+FAIL fau-mapache wiki 429
+FAIL fau-lapa-verde wiki 429
+FAIL fau-pajaro-campana wiki 429
+FAIL fau-caracara wiki 429
+FAIL fau-pavon wiki 429
+OK fau-colibri-ermosura 21156 Green_Hermit,_Phaethornis_guy_1.jpg
+OK fau-buho-anteojos 85850 Pulsatrix_perspicillata_chapmani_(Costa_Rica).jpg
+OK fau-zopilote-rey 52688 Sarcoramphus_papa_-Atlanta_Zoo,_Georgia,_USA-8a.jpg
+OK fau-rana-ojos-rojos 5494 Agalychnis_callidryas_Costa_Rica.JPG
+OK fau-rana-cristal 20500 Hyalinobatrachium_valerioi_Costa_Rica.JPG
+FAIL fau-basilisco wiki 429
+FAIL fau-iguana-verde wiki 429
+FAIL fau-caiman wiki 429
+FAIL fau-cocodrilo-americano wiki 429
+FAIL fau-boa wiki 429
+FAIL fau-serpiente-coral wiki 429
+FAIL fau-cascabel wiki 429
+FAIL fau-mariposa-buho wiki 429
+FAIL fau-pez-loro wiki 429
+FAIL fau-raya-aguila wiki 429
+FAIL fau-tiburon-tigre wiki 429
+FAIL fau-ballena-piloto wiki 429
+{
+  ok: 12,
+  skip: 0,
+  fail: 47,
+  mediaDir: 'D:\\zpaginas\\cr-mapa-v2\\public\\media\\places'
+}

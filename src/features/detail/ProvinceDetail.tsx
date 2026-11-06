@@ -105,14 +105,18 @@ export default function ProvinceDetail({ id }: { id: ProvinceId }) {
 }
 
 /* ------------------------------------------------------------------ pestañas */
-type PTab = 'food' | 'culture' | 'sports' | 'data';
-const PTABS: { id: PTab; icon: string; label: 'ptab_data' | 'ptab_food' | 'ptab_culture' | 'ptab_sports' }[] =
-  [
-    { id: 'data', icon: 'users', label: 'ptab_data' },
-    { id: 'food', icon: 'utensils', label: 'ptab_food' },
-    { id: 'culture', icon: 'drama', label: 'ptab_culture' },
-    { id: 'sports', icon: 'trophy', label: 'ptab_sports' },
-  ];
+type PTab = 'food' | 'culture' | 'sports' | 'data' | 'activities';
+const PTABS: {
+  id: PTab;
+  icon: string;
+  label: 'ptab_data' | 'ptab_food' | 'ptab_culture' | 'ptab_sports' | 'ptab_activities';
+}[] = [
+  { id: 'data', icon: 'users', label: 'ptab_data' },
+  { id: 'food', icon: 'utensils', label: 'ptab_food' },
+  { id: 'culture', icon: 'drama', label: 'ptab_culture' },
+  { id: 'sports', icon: 'trophy', label: 'ptab_sports' },
+  { id: 'activities', icon: 'compass', label: 'ptab_activities' },
+];
 /** quita repetidos (mismo Q-id o mismo nombre) entre listas de una pestaña */
 function dedupe(lists: ContentItem[][], lang: Lang) {
   const seen = new Set<string>();
@@ -166,12 +170,14 @@ function ProvinceTabs({ id, n, counts, area, capital, cantones, nick }: TabsProp
     );
   }, [c, national, lang]);
   const stadiums = useMemo(() => (c ? dedupe([c.sports.clubs, c.sports.stadiums], lang)[1] : []), [c, lang]);
-  const index = PTABS.findIndex((x) => x.id === tab);
+  const index = Math.max(
+    0,
+    PTABS.findIndex((x) => x.id === tab),
+  );
   const wait = <p className="muted">{err ? t('content_err') : t('loading')}</p>;
   return (
     <div className="ptabs">
-      <div className="ptab-bar" role="tablist" style={{ '--i': index } as CSSProperties}>
-        <span className="ptab-pill" aria-hidden="true" />
+      <div className="ptab-bar" role="tablist">
         {PTABS.map((x) => (
           <button
             key={x.id}
@@ -208,6 +214,7 @@ function ProvinceTabs({ id, n, counts, area, capital, cantones, nick }: TabsProp
             </>
           )}
         </>
+
         <>{!c ? wait : <CultureTab c={c} />}</>
         <>
           {!c ? (
@@ -227,6 +234,23 @@ function ProvinceTabs({ id, n, counts, area, capital, cantones, nick }: TabsProp
               <Empty
                 show={!c.sports.clubs.length && !c.sports.stadiums.length && !pick(c.sports.voy, lang)}
               />
+            </>
+          )}
+        </>
+        <>
+          {!c ? (
+            wait
+          ) : (
+            <>
+              {!!c.activities?.note && (
+                <p className="muted">
+                  {typeof c.activities.note === 'string'
+                    ? c.activities.note
+                    : c.activities.note[lang] || c.activities.note.es || c.activities.note.en}
+                </p>
+              )}
+              <Items title={t('activities_section')} items={c.activities?.items || []} max={12} wrap />
+              <Empty show={!c.activities?.items?.length} />
             </>
           )}
         </>
@@ -407,7 +431,7 @@ function Items({
           const pid = i.id && places?.has(i.id) ? i.id : undefined;
           const s = sub?.(i);
           const linked = pid ? places?.get(pid) : undefined;
-          const pic = i.img ? i.img.src.replace('/960px-', '/250px-') : linked ? placePicture(linked) : null;
+          const pic = i.img ? sizedThumb(i.img.src, 250) : linked ? placePicture(linked) : null;
           const body = (
             <>
               {crest ? (

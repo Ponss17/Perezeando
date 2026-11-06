@@ -47,11 +47,7 @@ export default function PlaceDetail({ id }: { id: string }) {
     if (!w) return;
     let live = true;
     fetchWikiSummary(w)
-      .then(
-        (d) =>
-          live &&
-          setWiki({ key: wkey, ex: d.extract ?? '' }),
-      )
+      .then((d) => live && setWiki({ key: wkey, ex: d.extract ?? '' }))
       .catch(() => live && setWiki({ key: wkey, failed: true }));
     return () => {
       live = false;
@@ -68,10 +64,10 @@ export default function PlaceDetail({ id }: { id: string }) {
     // eslint-disable-next-line react-hooks/exhaustive-deps
   }, [pkey]);
 
-  const near = useMemo(() => nearbyOf(id, 5), [id]);
+  const near = useMemo(() => nearbyOf(id, 2), [id]);
   // precarga las portadas de los lugares cercanos (los siguientes clics más probables)
   useEffect(() => {
-    const tm = setTimeout(() => near.forEach(([q]) => prefetchPhoto(q, lang)), 600);
+    const tm = setTimeout(() => near.forEach(([q]) => prefetchPhoto(q, lang)), 1800);
     return () => clearTimeout(tm);
     // eslint-disable-next-line react-hooks/exhaustive-deps
   }, [id, lang]);
@@ -102,7 +98,8 @@ export default function PlaceDetail({ id }: { id: string }) {
   if (f.tag) rows.push([t('type_lbl'), fmt(lang, L(f.tag))]);
   const x = p.x ?? {};
   if (!f.alt && x.elev != null) rows.push([t('altitude'), `${Math.round(x.elev).toLocaleString(lang)} m`]);
-  if (!f.area && x.area != null && x.area > 0) rows.push([t('area'), `${x.area.toLocaleString(lang, { maximumFractionDigits: 1 })} km²`]);
+  if (!f.area && x.area != null && x.area > 0)
+    rows.push([t('area'), `${x.area.toLocaleString(lang, { maximumFractionDigits: 1 })} km²`]);
   if (x.pop) rows.push([t('population'), x.pop.toLocaleString(lang)]);
   if (!f.year && x.inception) rows.push([t('inception'), x.inception]);
   if (x.her) rows.push([t('heritage'), L(x.her)]);
@@ -131,12 +128,21 @@ export default function PlaceDetail({ id }: { id: string }) {
           </div>
         )}
         <ul className="chips" aria-label={t('details')}>
-          <li className="chip cat" style={{ '--c': c.color } as React.CSSProperties} title={t('category_lbl')}>
+          <li
+            className="chip cat"
+            style={{ '--c': c.color } as React.CSSProperties}
+            title={t('category_lbl')}
+          >
             <MiniMarker cat={p.cat} size={18} />
             {catOne(p.cat)}
           </li>
           {p.also?.map((a) => (
-            <li key={a} className="chip cat" style={{ '--c': CATEGORIES[a].color } as React.CSSProperties} title={t('category_lbl')}>
+            <li
+              key={a}
+              className="chip cat"
+              style={{ '--c': CATEGORIES[a].color } as React.CSSProperties}
+              title={t('category_lbl')}
+            >
               <MiniMarker cat={a} size={18} />
               {catOne(a)}
             </li>
@@ -177,7 +183,9 @@ export default function PlaceDetail({ id }: { id: string }) {
           <Qa icon="share-2" label={t('share')} onClick={() => share(id)} />
         </div>
         {p.desc && L(p.desc) && !sameText(L(p.desc), wk?.ex) && <p className="lead">{L(p.desc)}</p>}
-        {w && !wk?.failed && <WikiBlock key={p.id + (wk?.ex ? ':1' : ':0')} text={wk?.ex} href={wikiUrl(w)} />}
+        {w && !wk?.failed && (
+          <WikiBlock key={p.id + (wk?.ex ? ':1' : ':0')} text={wk?.ex} href={wikiUrl(w)} />
+        )}
         {p.surf && (
           <p className="surf-note">
             <MiniMarker cat="surf" size={18} />
@@ -186,7 +194,10 @@ export default function PlaceDetail({ id }: { id: string }) {
               {p.surf.osm && (
                 <>
                   {' '}
-                  <a href={'https://www.openstreetmap.org/' + p.surf.osm} target="_blank" rel="noopener">© OpenStreetMap contributors</a> (ODbL)
+                  <a href={'https://www.openstreetmap.org/' + p.surf.osm} target="_blank" rel="noopener">
+                    © OpenStreetMap contributors
+                  </a>{' '}
+                  (ODbL)
                 </>
               )}
             </span>
@@ -221,6 +232,9 @@ export default function PlaceDetail({ id }: { id: string }) {
             )}
           </div>
         )}
+        {p.visit && <VisitBlock v={p.visit} />}
+        {p.tips && <TipsBlock tips={p.tips} />}
+        {!!p.related?.length && <RelatedBlock ids={p.related} title={t('fauna_related')} />}
         <div className="nearby">
           <h3 className="section-title">{t('nearby')}</h3>
           <ul className="list compact">
@@ -235,10 +249,18 @@ export default function PlaceDetail({ id }: { id: string }) {
 }
 
 /** el resumen de Wikipedia ya dice lo mismo que la descripción corta (evita texto repetido) */
-const plain = (x: string) => x.normalize('NFD').replace(/[\u0300-\u036f]/g, '').toLowerCase().replace(/[^a-z0-9 ]/g, '').replace(/\s+/g, ' ').trim();
+const plain = (x: string) =>
+  x
+    .normalize('NFD')
+    .replace(/[\u0300-\u036f]/g, '')
+    .toLowerCase()
+    .replace(/[^a-z0-9 ]/g, '')
+    .replace(/\s+/g, ' ')
+    .trim();
 function sameText(a: string, b?: string) {
   if (!b) return false;
-  const x = plain(a), y = plain(b);
+  const x = plain(a),
+    y = plain(b);
   return x.length > 25 && (y.startsWith(x.slice(0, 60)) || y.includes(x));
 }
 
@@ -251,7 +273,12 @@ function PlaceSources({ p }: { p: Place }) {
   const src: { name: string; url: string; license?: string }[] = [];
   if (voy) src.push({ name: 'Wikivoyage', url: voy, license: 'CC BY-SA 4.0' });
   if (qid) src.push({ name: 'Wikidata', url: `https://www.wikidata.org/wiki/${qid}`, license: 'CC0' });
-  if (p.osm) src.push({ name: '© OpenStreetMap contributors', url: `https://www.openstreetmap.org/${p.osm}`, license: 'ODbL' });
+  if (p.osm)
+    src.push({
+      name: '© OpenStreetMap contributors',
+      url: `https://www.openstreetmap.org/${p.osm}`,
+      license: 'ODbL',
+    });
   if (x.sinac) src.push({ name: 'SINAC', url: x.sinac });
   else if (x.web) src.push({ name: t('official_site'), url: x.web });
   if (!src.length) return null;
@@ -310,7 +337,8 @@ function NoPhotoHero({ p, pending }: { p: Place; pending: boolean }) {
   const c = CATEGORIES[p.cat];
   const [sat, setSat] = useState<'loading' | 'ok' | 'err'>('loading');
   const pat = useMemo(
-    () => `url("data:image/svg+xml,${encodeURIComponent(iconSvg(c.icon, { size: 28, color: '#fff', stroke: 1.4 }))}")`,
+    () =>
+      `url("data:image/svg+xml,${encodeURIComponent(iconSvg(c.icon, { size: 28, color: '#fff', stroke: 1.4 }))}")`,
     [c.icon],
   );
   const src = useMemo(() => satelliteSnapshot(p), [p]);
@@ -379,9 +407,12 @@ function PhotoHero({ p, ph, w }: { p: Place; ph: PlacePhoto | undefined; w: Wiki
       aria-busy={state !== 'ok'}
     >
       <span className="hero-skel" aria-hidden="true" />
-      {state === 'ok' && <img className="hero-img" src={src} alt="" decoding="async" referrerPolicy="no-referrer" />}
+      {state === 'ok' && (
+        <img className="hero-img" src={src} alt="" decoding="async" referrerPolicy="no-referrer" />
+      )}
       <HeroTop />
-      {state === 'ok' && ph &&
+      {state === 'ok' &&
+        ph &&
         (ph.kind === 'img' && p.img ? (
           <Attrib img={p.img} />
         ) : ph.kind === 'wiki' && w ? (
@@ -389,6 +420,61 @@ function PhotoHero({ p, ph, w }: { p: Place; ph: PlacePhoto | undefined; w: Wiki
         ) : (
           <Attrib href={ph.href} label={ph.credit} license={ph.license ?? 'Wikimedia Commons'} />
         ))}
+    </div>
+  );
+}
+
+function VisitBlock({ v }: { v: NonNullable<Place['visit']> }) {
+  const { t, lang } = useT();
+  const L = (x?: { es?: string; en?: string } | string) => {
+    if (!x) return '';
+    if (typeof x === 'string') return x;
+    return (lang === 'es' ? x.es : x.en) || x.es || x.en || '';
+  };
+  const rows: [string, string][] = [];
+  if (v.access) rows.push([t('visit_access'), L(v.access)]);
+  if (v.activities) rows.push([t('visit_activities'), L(v.activities)]);
+  if (v.difficulty) rows.push([t('visit_difficulty'), L(v.difficulty)]);
+  if (v.note) rows.push([t('visit_note'), L(v.note)]);
+  if (!rows.length) return null;
+  return (
+    <div className="visit-block">
+      <Facts rows={rows} />
+      {v.src?.url && (
+        <p className="muted small">
+          <a href={v.src.url} target="_blank" rel="noopener">
+            {v.src.name || t('sources_more')}
+          </a>
+          {v.src.license ? ` · ${v.src.license}` : ''}
+        </p>
+      )}
+    </div>
+  );
+}
+
+function TipsBlock({ tips }: { tips: NonNullable<Place['tips']> }) {
+  const { t, lang } = useT();
+  const L = (x?: { es?: string; en?: string }) =>
+    x ? (lang === 'es' ? x.es : x.en) || x.es || x.en || '' : '';
+  const rows: [string, string][] = [];
+  if (tips.view) rows.push([t('fauna_view_tip'), L(tips.view)]);
+  if (tips.care) rows.push([t('fauna_care_tip'), L(tips.care)]);
+  if (!rows.length) return null;
+  return <Facts rows={rows} />;
+}
+
+function RelatedBlock({ ids, title }: { ids: string[]; title: string }) {
+  const places = useData((s) => s.data?.byId);
+  const list = ids.map((id) => places?.get(id)).filter(Boolean) as Place[];
+  if (!list.length) return null;
+  return (
+    <div className="related-block">
+      <h3 className="section-title">{title}</h3>
+      <ul className="list compact">
+        {list.slice(0, 8).map((q) => (
+          <PlaceItem key={q.id} p={q} />
+        ))}
+      </ul>
     </div>
   );
 }

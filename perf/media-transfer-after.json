@@ -1,0 +1,119 @@
+[
+  {
+    "label": "jade-opt",
+    "url": "http://127.0.0.1:4173/?lugar=museo-del-jade",
+    "shot": "D:/zpaginas/cr-mapa-v2/screenshots/v36b-s25u-jade-opt.png",
+    "localCount": 1,
+    "localBytes": 87636,
+    "wikiCount": 4,
+    "wikiBytes": 18096,
+    "otherImgCount": 87,
+    "otherImgBytes": 958354,
+    "totalImgBytes": 1064086,
+    "localFiles": [
+      {
+        "file": "26b1edd04a-800.webp",
+        "bytes": 87636
+      }
+    ],
+    "wikiSample": [
+      {
+        "file": "120px-General_view_Plaza_de_la_Democracia_Museo_Nacional_CRI_01_2020_4465.jpg",
+        "bytes": 6378
+      },
+      {
+        "file": "120px-Fachada_del_Museo_Nacional_de_Costa_Rica.JPG",
+        "bytes": 5184
+      },
+      {
+        "file": "320px-General_view_Plaza_de_la_Democracia_Museo_Nacional_CRI_01_2020_4465.jpg",
+        "bytes": 3267
+      },
+      {
+        "file": "320px-Fachada_del_Museo_Nacional_de_Costa_Rica.JPG",
+        "bytes": 3267
+      }
+    ]
+  },
+  {
+    "label": "teatro-opt",
+    "url": "http://127.0.0.1:4173/?lugar=teatro-nacional",
+    "shot": "D:/zpaginas/cr-mapa-v2/screenshots/v36b-s25u-teatro-opt.png",
+    "localCount": 1,
+    "localBytes": 112666,
+    "wikiCount": 4,
+    "wikiBytes": 19980,
+    "otherImgCount": 176,
+    "otherImgBytes": 2209415,
+    "totalImgBytes": 2342061,
+    "localFiles": [
+      {
+        "file": "f3cc41fbe8-800.webp",
+        "bytes": 112666
+      }
+    ],
+    "wikiSample": [
+      {
+        "file": "120px-Costa_Rican_Gold_Museum.jpg",
+        "bytes": 6336
+      },
+      {
+        "file": "120px-Gold_escudo_Costa_Rica_1825.jpg",
+        "bytes": 7110
+      },
+      {
+        "file": "320px-Costa_Rican_Gold_Museum.jpg",
+        "bytes": 3267
+      },
+      {
+        "file": "320px-Gold_escudo_Costa_Rica_1825.jpg",
+        "bytes": 3267
+      }
+    ]
+  },
+  {
+    "label": "comida-s25u",
+    "localCount": 8,
+    "localBytes": 99488,
+    "wikiCount": 60,
+    "wikiBytes": 1191173,
+    "localFiles": [
+      {
+        "file": "0b5c81b224-320.webp",
+        "bytes": 22990
+      },
+      {
+        "file": "281ad81342-320.webp",
+        "bytes": 14390
+      },
+      {
+        "file": "0fc41a3b31-320.webp",
+        "bytes": 7264
+      },
+      {
+        "file": "202fca9c23-320.webp",
+        "bytes": 11660
+      },
+      {
+        "file": "789a9a5739-320.webp",
+        "bytes": 7578
+      },
+      {
+        "file": "bb6717f104-320.webp",
+        "bytes": 10560
+      },
+      {
+        "file": "45e3be8262-320.webp",
+        "bytes": 10880
+      },
+      {
+        "file": "2318e0219c-320.webp",
+        "bytes": 14166
+      }
+    ],
+    "sizesUsed": [
+      "320"
+    ],
+    "shot": "D:/zpaginas/cr-mapa-v2/screenshots/v36b-s25u-comida-full.png"
+  }
+]

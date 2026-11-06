@@ -4172,64 +4172,87 @@ body.dark .sx-dot {
 }
 
 .ptabs {
-  margin: 14px 0 6px;
+  margin: 14px 0 8px;
 }
 
+/* Todas visibles: fila de 3 + fila de 2 (sin scroll, sin cortar Actividades) */
 .ptab-bar {
-  position: relative;
   display: grid;
-  grid-template-columns: repeat(4, 1fr);
-  gap: 4px;
-  padding: 4px;
-  background: var(--paper-3);
-  border-radius: 12px;
-}
-
-.ptab-pill {
-  position: absolute;
-  z-index: 0;
-  top: 4px;
-  bottom: 4px;
-  left: 4px;
-  width: calc((100% - 8px - 12px) / 4);
-  border-radius: 9px;
-  background: var(--paper);
-  box-shadow: 0 1px 3px rgba(43, 80, 50, 0.18);
-  transform: translateX(calc(var(--i) * (100% + 4px)));
-  transition: transform 0.42s cubic-bezier(0.22, 0.8, 0.32, 1);
-  pointer-events: none;
+  grid-template-columns: repeat(6, minmax(0, 1fr));
+  gap: 6px;
 }
 
 .ptab-bar button {
-  position: relative;
-  z-index: 1;
-  display: flex;
-  flex-direction: column;
+  grid-column: span 2;
+  display: inline-flex;
+  flex-direction: row;
   align-items: center;
-  gap: 3px;
-  padding: 7px 4px;
-  border: 0;
-  border-radius: 9px;
-  background: transparent;
+  justify-content: center;
+  gap: 6px;
+  min-width: 0;
+  min-height: 38px;
+  padding: 0 8px;
+  border: 1px solid color-mix(in srgb, var(--green-mid, #6a994e) 16%, transparent);
+  border-radius: 11px;
+  background: var(--paper-3);
   color: var(--muted);
-  font: 600 12px/1.1 inherit;
+  font: 700 12px/1.1 inherit;
+  letter-spacing: -0.02em;
   cursor: pointer;
+  transition:
+    background 0.18s ease,
+    color 0.18s ease,
+    border-color 0.18s ease,
+    box-shadow 0.18s ease;
+}
+
+.ptab-bar button[data-ptab='sports'],
+.ptab-bar button[data-ptab='activities'] {
+  grid-column: span 3;
+}
+
+.ptab-bar button span {
+  min-width: 0;
+  overflow: hidden;
+  white-space: nowrap;
+  text-overflow: ellipsis;
 }
 
 .ptab-bar button svg {
-  width: 18px;
-  height: 18px;
+  width: 15px;
+  height: 15px;
+  flex: 0 0 auto;
 }
 
 .ptab-bar button.on {
-  background: transparent;
-  color: var(--accent);
-  box-shadow: none;
+  background: color-mix(in srgb, var(--accent, #386641) 92%, #1a3320);
+  border-color: transparent;
+  color: #fff;
+  box-shadow: 0 2px 8px rgba(43, 80, 50, 0.28);
+}
+
+.ptab-bar button.on svg {
+  color: #fff;
 }
 
 .ptab-bar button:focus-visible {
   outline: 2px solid var(--lime);
   outline-offset: 1px;
+}
+
+body.night .ptab-bar button {
+  background: color-mix(in srgb, var(--lime, #a7c957) 8%, var(--paper-3));
+  border-color: color-mix(in srgb, var(--lime, #a7c957) 16%, transparent);
+}
+
+body.night .ptab-bar button.on {
+  background: color-mix(in srgb, var(--lime, #a7c957) 88%, #2a3a14);
+  color: #13281c;
+  box-shadow: 0 2px 10px rgba(0, 0, 0, 0.35);
+}
+
+body.night .ptab-bar button.on svg {
+  color: #13281c;
 }
 
 .ptab-pane {
@@ -4240,7 +4263,7 @@ body.dark .sx-dot {
   .slide-window,
   .slide-track,
   .tab-slide,
-  .ptab-pill {
+  .ptab-bar button {
     transition: none;
   }
 }
@@ -4936,3 +4959,209 @@ body.night #policies h3 {
   color: #d4ec8a;
 }
 
+
+
+/* === v36 responsive / tap / landscape === */
+html {
+  height: 100%;
+  height: 100dvh;
+}
+html,
+body,
+#root,
+.app-shell,
+.shell {
+  max-width: 100%;
+}
+
+@media (max-width: 760px) {
+  .meta-row {
+    flex-wrap: wrap;
+    align-items: flex-start;
+    row-gap: 8px;
+  }
+  .meta-row .result-meta {
+    flex: 1 1 100%;
+    flex-wrap: wrap;
+    min-width: 0;
+  }
+  .meta-row .text-btn {
+    min-height: 40px;
+    padding: 8px 10px;
+    margin: 0;
+  }
+  .text-btn.inline {
+    min-height: 36px;
+    padding: 6px 8px;
+  }
+  .round {
+    width: 44px;
+    height: 44px;
+  }
+  .round svg {
+    width: 18px;
+    height: 18px;
+  }
+  .icon-btn {
+    width: 44px;
+    height: 44px;
+  }
+  .tool-menu,
+  .toolbar.menu-on .tool-drawer .tool,
+  .tool {
+    min-width: 44px;
+    min-height: 44px;
+  }
+  .sel-label {
+    min-height: 44px;
+    padding: 10px 12px;
+    display: inline-flex;
+    align-items: center;
+  }
+  .chip {
+    min-height: 36px;
+    padding-top: 6px;
+    padding-bottom: 6px;
+  }
+  .link-btn,
+  .src-chip,
+  a.src-chip {
+    min-height: 40px;
+    display: inline-flex;
+    align-items: center;
+    padding: 8px 10px;
+  }
+  .panel {
+    height: calc(100% - 56px);
+    height: calc(100dvh - 56px);
+    padding-bottom: env(safe-area-inset-bottom);
+  }
+  .qa {
+    min-height: 64px;
+    padding: 8px 0;
+  }
+  .qa-ico {
+    width: 44px;
+    height: 44px;
+  }
+}
+
+@media (max-width: 760px) and (max-height: 520px) and (orientation: landscape) {
+  :root {
+    --peek: 96px;
+  }
+  .panel {
+    height: 100%;
+    height: 100dvh;
+  }
+  .panel[data-sheet='half'] {
+    transform: translateY(22%);
+  }
+  #mobileTitle {
+    top: 6px;
+    height: 36px;
+    padding-right: 10px;
+  }
+  .toolbar {
+    top: 6px;
+    right: 6px;
+  }
+  .hero {
+    height: 120px;
+  }
+  .detail h2 {
+    font-size: 20px;
+  }
+  .tabs button {
+    height: 44px;
+  }
+}
+
+@media (max-width: 760px) {
+  #map .maplibregl-ctrl-group button {
+    width: 44px;
+    height: 44px;
+  }
+  #map .maplibregl-ctrl-attrib {
+    max-width: min(70vw, 280px);
+    font-size: 10px;
+    line-height: 1.25;
+  }
+  #map .maplibregl-ctrl-attrib a {
+    padding: 4px 2px;
+  }
+}
+
+
+/* Taps en pantallas táctiles aunque el ancho pase de 760px (p. ej. S25 Ultra landscape). */
+@media (pointer: coarse) {
+  .round {
+    width: 44px;
+    height: 44px;
+  }
+  .round svg {
+    width: 18px;
+    height: 18px;
+  }
+  .icon-btn {
+    width: 44px;
+    height: 44px;
+  }
+  .sel-label {
+    min-height: 44px;
+    padding: 10px 12px;
+    display: inline-flex;
+    align-items: center;
+  }
+  .text-btn {
+    min-height: 40px;
+    padding: 8px 10px;
+  }
+  .tool-menu,
+  .tool {
+    min-width: 44px;
+    min-height: 44px;
+  }
+  #map .maplibregl-ctrl-group button {
+    width: 44px;
+    height: 44px;
+  }
+}
+
+@media (pointer: coarse) and (max-height: 520px) and (orientation: landscape) {
+  :root {
+    --peek: 96px;
+  }
+  .panel {
+    position: absolute;
+    left: 0;
+    right: 0;
+    bottom: 0;
+    top: auto;
+    width: auto;
+    height: 100%;
+    height: 100dvh;
+    z-index: 1100;
+    border-right: 0;
+    border-radius: var(--r-4) var(--r-4) 0 0;
+    transform: translateY(calc(100% - var(--peek, 96px)));
+  }
+  .panel[data-sheet='half'] {
+    transform: translateY(22%);
+  }
+  .panel[data-sheet='full'] {
+    transform: translateY(0);
+  }
+  .sheet-handle {
+    display: block;
+  }
+  .brand,
+  .collapse-btn,
+  .panel-foot,
+  .search-kbd {
+    display: none;
+  }
+  #mobileTitle {
+    display: flex;
+  }
+}

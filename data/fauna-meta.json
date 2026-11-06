@@ -1,0 +1,1085 @@
+{
+  "fau-perezoso-dos-dedos": {
+    "group": "mammal",
+    "related": [
+      "par-p-n-tortuguero",
+      "wd-santuario-de-perezosos-de-costa-rica",
+      "ext-gandoca-manzanillo"
+    ],
+    "tips": {
+      "view": {
+        "es": "Observación típica en Tortuguero y el Caribe sur; no hay garantía de avistamiento.",
+        "en": "Typical around Tortuguero and the southern Caribbean; sightings not guaranteed."
+      },
+      "care": {
+        "es": "No tocar ni alimentar; el estrés y las infecciones humanas les afectan.",
+        "en": "Do not touch or feed; stress and human pathogens harm them."
+      }
+    },
+    "commons": "Choloepus_hoffmanni"
+  },
+  "fau-mono-cara-blanca": {
+    "group": "mammal",
+    "related": [
+      "par-p-n-manuel-antonio",
+      "par-p-n-corcovado",
+      "wd-refugio-nacional-de-vida-silvestre-curu"
+    ],
+    "tips": {
+      "view": {
+        "es": "Fácil de ver en Manuel Antonio; mantené distancia: pueden quitar comida.",
+        "en": "Easy to see in Manuel Antonio; keep distance—they may take food."
+      },
+      "care": {
+        "es": "Prohibido alimentar. Guardá bolsos cerrados en senderos concurridos.",
+        "en": "Do not feed. Keep bags closed on busy trails."
+      }
+    },
+    "commons": "Cebus_capucinus"
+  },
+  "fau-mono-arana": {
+    "group": "mammal",
+    "related": [
+      "par-p-n-corcovado",
+      "bos-selva-de-la-peninsula-de-osa",
+      "par-p-n-piedras-blancas"
+    ],
+    "tips": {
+      "view": {
+        "es": "Corcovado y Golfo Dulce son bastiones; se oye más de lo que se ve.",
+        "en": "Corcovado and Golfo Dulce are strongholds; heard more than seen."
+      },
+      "care": {
+        "es": "Especie sensible a la fragmentación del bosque; respetá los senderos.",
+        "en": "Sensitive to forest fragmentation; stay on trails."
+      }
+    },
+    "commons": "Ateles_geoffroyi"
+  },
+  "fau-puma": {
+    "group": "mammal",
+    "related": [
+      "par-p-n-corcovado",
+      "par-p-n-chirripo",
+      "par-p-n-braulio-carrillo"
+    ],
+    "tips": {
+      "view": {
+        "es": "Avistamientos raros. Huellas y cámaras trampa documentan presencia.",
+        "en": "Rare sightings. Tracks and camera traps document presence."
+      },
+      "care": {
+        "es": "Si lo ves, no corras ni te acerques; dale espacio para retirarse.",
+        "en": "If you see one, do not run or approach; give it space to leave."
+      }
+    },
+    "commons": "Puma_concolor"
+  },
+  "fau-ocelote": {
+    "group": "mammal",
+    "related": [
+      "par-p-n-corcovado",
+      "par-p-n-tortuguero",
+      "par-p-n-santa-rosa"
+    ],
+    "tips": {
+      "view": {
+        "es": "Difícil de ver de día; guías nocturnos en Osa reportan más encuentros.",
+        "en": "Hard by day; night guides in Osa report more encounters."
+      },
+      "care": {
+        "es": "No uses flash a corta distancia; priorizá el bienestar del animal.",
+        "en": "No close-range flash; prioritize the animal's welfare."
+      }
+    },
+    "commons": "Leopardus_pardalis"
+  },
+  "fau-caucel": {
+    "group": "mammal",
+    "related": [
+      "wd-estacion-biologica-la-selva",
+      "par-p-n-braulio-carrillo",
+      "par-p-n-corcovado"
+    ],
+    "tips": {
+      "view": {
+        "es": "Casi solo por cámara trampa o guías especializados.",
+        "en": "Almost only via camera trap or specialist guides."
+      },
+      "care": {
+        "es": "Amenazado por pérdida de dosel continuo; no captures ni persigas.",
+        "en": "Threatened by canopy loss; do not capture or chase."
+      }
+    },
+    "commons": "Leopardus_wiedii"
+  },
+  "fau-coati": {
+    "group": "mammal",
+    "related": [
+      "par-p-n-volcan-arenal",
+      "bos-bosque-nuboso-monteverde",
+      "par-p-n-manuel-antonio"
+    ],
+    "tips": {
+      "view": {
+        "es": "Fácil en Arenal/Monteverde. No los alimentés aunque se acerquen.",
+        "en": "Easy around Arenal/Monteverde. Do not feed even if they approach."
+      },
+      "care": {
+        "es": "Alimentarlos genera agresividad y dependencia; bolsas cerradas.",
+        "en": "Feeding causes aggression and dependence; keep bags closed."
+      }
+    },
+    "commons": "Nasua_narica"
+  },
+  "fau-tepezcuintle": {
+    "group": "mammal",
+    "related": [
+      "par-p-n-corcovado",
+      "par-p-n-carara",
+      "par-p-n-piedras-blancas"
+    ],
+    "tips": {
+      "view": {
+        "es": "Más activo de noche cerca de agua; difícil de ver sin guía.",
+        "en": "More active at night near water; hard without a guide."
+      },
+      "care": {
+        "es": "Protegido: no cazar ni comprar carne silvestre ilegal.",
+        "en": "Protected: do not hunt or buy illegal bushmeat."
+      }
+    },
+    "commons": "Cuniculus_paca"
+  },
+  "fau-tamandua": {
+    "group": "mammal",
+    "related": [
+      "par-p-n-santa-rosa",
+      "par-p-n-palo-verde",
+      "par-p-n-corcovado"
+    ],
+    "tips": {
+      "view": {
+        "es": "Santa Rosa y Palo Verde reportan avistamientos diurnos ocasionales.",
+        "en": "Santa Rosa and Palo Verde report occasional daytime sightings."
+      },
+      "care": {
+        "es": "Garras potentes: observá a distancia y no lo acoses.",
+        "en": "Strong claws: watch from a distance and do not harass."
+      }
+    },
+    "commons": "Tamandua_mexicana"
+  },
+  "fau-kinkaju": {
+    "group": "mammal",
+    "related": [
+      "par-p-n-tortuguero",
+      "wd-estacion-biologica-la-selva",
+      "par-p-n-braulio-carrillo"
+    ],
+    "tips": {
+      "view": {
+        "es": "Caminatas nocturnas en La Selva/Tortuguero aumentan chances.",
+        "en": "Night walks at La Selva/Tortuguero improve odds."
+      },
+      "care": {
+        "es": "Nunca como mascota; es silvestre y protegido.",
+        "en": "Never as a pet; it is wild and protected."
+      }
+    },
+    "commons": "Potos_flavus"
+  },
+  "fau-armadillo": {
+    "group": "mammal",
+    "related": [
+      "par-p-n-santa-rosa",
+      "par-p-n-palo-verde",
+      "bos-bosque-seco-tropical-de-guanacaste"
+    ],
+    "tips": {
+      "view": {
+        "es": "A veces cruza caminos al anochecer en Guanacaste.",
+        "en": "Sometimes crosses roads at dusk in Guanacaste."
+      },
+      "care": {
+        "es": "No lo persigas ni lo saques de su madriguera.",
+        "en": "Do not chase or pull it from its burrow."
+      }
+    },
+    "commons": "Dasypus_novemcinctus"
+  },
+  "fau-mapache": {
+    "group": "mammal",
+    "related": [
+      "par-p-n-tortuguero",
+      "par-p-n-cahuita",
+      "ext-gandoca-manzanillo"
+    ],
+    "tips": {
+      "view": {
+        "es": "Común en Tortuguero cerca de lodges; no alimentar.",
+        "en": "Common near Tortuguero lodges; do not feed."
+      },
+      "care": {
+        "es": "La comida humana los enferma y vuelve conflictivos.",
+        "en": "Human food makes them sick and conflictive."
+      }
+    },
+    "commons": "Procyon_lotor"
+  },
+  "fau-lapa-verde": {
+    "group": "bird",
+    "related": [
+      "wd-refugio-de-vida-silvestre-maquenque",
+      "par-p-n-tortuguero",
+      "wd-refugio-nacional-de-fauna-silvestre-barra-del-co"
+    ],
+    "tips": {
+      "view": {
+        "es": "Maquenque y alrededores de Sarapiquí/San Carlos son sitios clave.",
+        "en": "Maquenque and Sarapiquí/San Carlos surroundings are key sites."
+      },
+      "care": {
+        "es": "Especie en peligro: denunciar tráfico y no comprar plumas.",
+        "en": "Endangered: report trafficking and do not buy feathers."
+      }
+    },
+    "commons": "Ara_ambiguus"
+  },
+  "fau-pajaro-campana": {
+    "group": "bird",
+    "related": [
+      "bos-bosque-nuboso-monteverde",
+      "wd-reserva-biologica-del-bicentenario-de-la-republi",
+      "par-p-n-volcan-arenal"
+    ],
+    "tips": {
+      "view": {
+        "es": "Monteverde en temporada; se oye antes de verse.",
+        "en": "Monteverde in season; heard before seen."
+      },
+      "care": {
+        "es": "Respetá distancias en miradores de aves; no reproduzcas cantos en exceso.",
+        "en": "Respect distances at bird overlooks; avoid excessive playback."
+      }
+    },
+    "commons": "Procnias_tricarunculatus"
+  },
+  "fau-caracara": {
+    "group": "bird",
+    "related": [
+      "par-p-n-santa-rosa",
+      "par-p-n-palo-verde",
+      "bos-bosque-seco-tropical-de-guanacaste"
+    ],
+    "tips": {
+      "view": {
+        "es": "Fácil en Guanacaste abierto y Palo Verde.",
+        "en": "Easy in open Guanacaste and Palo Verde."
+      },
+      "care": {
+        "es": "No la asustes cerca de nidos en temporada reproductiva.",
+        "en": "Do not flush it near nests in breeding season."
+      }
+    },
+    "commons": "Caracara_plancus"
+  },
+  "fau-pavon": {
+    "group": "bird",
+    "related": [
+      "par-p-n-corcovado",
+      "bos-selva-de-la-peninsula-de-osa",
+      "par-p-n-piedras-blancas"
+    ],
+    "tips": {
+      "view": {
+        "es": "Senderos de Corcovado al amanecer ofrecen más chances.",
+        "en": "Corcovado trails at dawn offer better odds."
+      },
+      "care": {
+        "es": "Sensible a la caza; no molestes ni alimentés.",
+        "en": "Hunting-sensitive; do not disturb or feed."
+      }
+    },
+    "commons": "Crax_rubra"
+  },
+  "fau-colibri-ermosura": {
+    "group": "bird",
+    "related": [
+      "par-p-n-tapanti",
+      "par-p-n-braulio-carrillo",
+      "wd-estacion-biologica-la-selva"
+    ],
+    "tips": {
+      "view": {
+        "es": "Jardines de colibríes y bordes de Tapantí.",
+        "en": "Hummingbird gardens and Tapantí edges."
+      },
+      "care": {
+        "es": "Evita químicos en jardines; las flores nativas ayudan.",
+        "en": "Avoid garden chemicals; native flowers help."
+      }
+    },
+    "commons": "Phaethornis_guy"
+  },
+  "fau-buho-anteojos": {
+    "group": "bird",
+    "related": [
+      "par-p-n-corcovado",
+      "par-p-n-carara",
+      "wd-estacion-biologica-la-selva"
+    ],
+    "tips": {
+      "view": {
+        "es": "Tour nocturno con guía aumenta probabilidad.",
+        "en": "Guided night tours improve odds."
+      },
+      "care": {
+        "es": "Sin luces fuertes a los ojos; priorizá linterna roja/tenue.",
+        "en": "No bright lights in the eyes; prefer dim/red light."
+      }
+    },
+    "commons": "Pulsatrix_perspicillata"
+  },
+  "fau-zopilote-rey": {
+    "group": "bird",
+    "related": [
+      "par-p-n-corcovado",
+      "bos-selva-de-la-peninsula-de-osa",
+      "par-p-n-piedras-blancas"
+    ],
+    "tips": {
+      "view": {
+        "es": "Cielos de Corcovado/Golfo Dulce; a veces en carroña con otros zopilotes.",
+        "en": "Skies over Corcovado/Golfo Dulce; sometimes at carcasses with other vultures."
+      },
+      "care": {
+        "es": "No te acerques a carroña; el animal necesita alimentarse sin estrés.",
+        "en": "Do not approach carcasses; the bird needs to feed without stress."
+      }
+    },
+    "commons": "Sarcoramphus_papa"
+  },
+  "fau-rana-ojos-rojos": {
+    "group": "amphibian",
+    "related": [
+      "wd-estacion-biologica-la-selva",
+      "par-p-n-tortuguero",
+      "par-p-n-braulio-carrillo"
+    ],
+    "tips": {
+      "view": {
+        "es": "La Selva y Tortuguero de noche tras lluvias.",
+        "en": "La Selva and Tortuguero at night after rains."
+      },
+      "care": {
+        "es": "Piel permeable: no las toques; residuos humanos las dañan.",
+        "en": "Permeable skin: do not touch; human residues harm them."
+      }
+    },
+    "commons": "Agalychnis_callidryas"
+  },
+  "fau-rana-cristal": {
+    "group": "amphibian",
+    "related": [
+      "wd-estacion-biologica-la-selva",
+      "par-p-n-braulio-carrillo",
+      "par-p-n-tapanti"
+    ],
+    "tips": {
+      "view": {
+        "es": "Quebradas en La Selva; se ve mejor con guía nocturno.",
+        "en": "Streams at La Selva; better with a night guide."
+      },
+      "care": {
+        "es": "No manipules huevos bajo hojas; son muy sensibles.",
+        "en": "Do not handle eggs under leaves; they are fragile."
+      }
+    },
+    "commons": "Hyalinobatrachium"
+  },
+  "fau-basilisco": {
+    "group": "reptile",
+    "related": [
+      "par-p-n-carara",
+      "par-p-n-manuel-antonio",
+      "par-p-n-tortuguero"
+    ],
+    "tips": {
+      "view": {
+        "es": "Orillas soleadas de ríos; se asusta fácil y huye al agua.",
+        "en": "Sunny riverbanks; startles easily and flees to water."
+      },
+      "care": {
+        "es": "Observá en silencio; persecuciones lo estresan.",
+        "en": "Watch quietly; chasing stresses it."
+      }
+    },
+    "commons": "Basiliscus_plumifrons"
+  },
+  "fau-iguana-verde": {
+    "group": "reptile",
+    "related": [
+      "par-p-n-palo-verde",
+      "par-p-n-manuel-antonio",
+      "par-p-n-carara"
+    ],
+    "tips": {
+      "view": {
+        "es": "Muy visible en árboles junto a ríos y parques.",
+        "en": "Very visible in trees by rivers and parks."
+      },
+      "care": {
+        "es": "No la alimentés con pan u otros restos humanos.",
+        "en": "Do not feed bread or other human scraps."
+      }
+    },
+    "commons": "Iguana_iguana"
+  },
+  "fau-caiman": {
+    "group": "reptile",
+    "related": [
+      "wd-refugio-nacional-de-vida-silvestre-cano-negro",
+      "par-p-n-tortuguero",
+      "par-p-n-palo-verde"
+    ],
+    "tips": {
+      "view": {
+        "es": "Paseos en bote en Caño Negro/Tortuguero.",
+        "en": "Boat trips in Caño Negro/Tortuguero."
+      },
+      "care": {
+        "es": "Nunca nades ni metas manos al agua turbia de humedales.",
+        "en": "Never swim or put hands in murky wetland water."
+      }
+    },
+    "commons": "Caiman_crocodilus"
+  },
+  "fau-cocodrilo-americano": {
+    "group": "reptile",
+    "related": [
+      "par-p-n-carara",
+      "par-p-n-santa-rosa",
+      "par-p-n-marino-ballena"
+    ],
+    "tips": {
+      "view": {
+        "es": "Mirador del puente de Tárcoles (con precaución) y estuarios.",
+        "en": "Tárcoles bridge overlook (with caution) and estuaries."
+      },
+      "care": {
+        "es": "Mantené distancia; no alimentar nunca. Es peligroso.",
+        "en": "Keep distance; never feed. It is dangerous."
+      }
+    },
+    "commons": "Crocodylus_acutus"
+  },
+  "fau-boa": {
+    "group": "reptile",
+    "related": [
+      "par-p-n-corcovado",
+      "par-p-n-santa-rosa",
+      "par-p-n-carara"
+    ],
+    "tips": {
+      "view": {
+        "es": "A veces atraviesa senderos; más activa al anochecer.",
+        "en": "Sometimes crosses trails; more active at dusk."
+      },
+      "care": {
+        "es": "No la manipules. Si está en un camino, dale tiempo a cruzar.",
+        "en": "Do not handle. If on a path, give it time to cross."
+      }
+    },
+    "commons": "Boa_constrictor"
+  },
+  "fau-serpiente-coral": {
+    "group": "reptile",
+    "related": [
+      "par-p-n-tortuguero",
+      "wd-estacion-biologica-la-selva",
+      "par-p-n-braulio-carrillo"
+    ],
+    "tips": {
+      "view": {
+        "es": "Encuentros raros en hojarasca; aprendé a no tocar ninguna coral.",
+        "en": "Rare leaf-litter encounters; learn not to touch any coral-pattern snake."
+      },
+      "care": {
+        "es": "Ante mordedura: evacuar a centro de salud. No torniquetes caseros.",
+        "en": "If bitten: get to medical care. No homemade tourniquets."
+      }
+    },
+    "commons": "Micrurus_nigrocinctus"
+  },
+  "fau-cascabel": {
+    "group": "reptile",
+    "related": [
+      "par-p-n-santa-rosa",
+      "par-p-n-guanacaste",
+      "bos-bosque-seco-tropical-de-guanacaste"
+    ],
+    "tips": {
+      "view": {
+        "es": "Senderos de Santa Rosa: mirá dónde pisás.",
+        "en": "Santa Rosa trails: watch your step."
+      },
+      "care": {
+        "es": "Si escuchás el cascabel, detenete y retiráte despacio.",
+        "en": "If you hear the rattle, stop and back away slowly."
+      }
+    },
+    "commons": "Crotalus_simus"
+  },
+  "fau-mariposa-buho": {
+    "group": "insect",
+    "related": [
+      "par-p-n-volcan-arenal",
+      "wd-estacion-biologica-la-selva",
+      "bos-bosque-nuboso-monteverde"
+    ],
+    "tips": {
+      "view": {
+        "es": "Mariposarios y bordes sombreados al final del día.",
+        "en": "Butterfly gardens and shaded edges late in the day."
+      },
+      "care": {
+        "es": "No atrapes mariposas silvestres para fotos.",
+        "en": "Do not net wild butterflies for photos."
+      }
+    },
+    "commons": "Caligo"
+  },
+  "fau-pez-loro": {
+    "group": "marine",
+    "related": [
+      "par-p-n-cahuita",
+      "ext-gandoca-manzanillo",
+      "pla-playa-manzanillo"
+    ],
+    "tips": {
+      "view": {
+        "es": "Snorkel en Cahuita/Gandoca con buen oleaje controlado.",
+        "en": "Snorkel at Cahuita/Gandoca when swell is manageable."
+      },
+      "care": {
+        "es": "No pateés coral ni alimentés peces.",
+        "en": "Do not kick coral or feed fish."
+      }
+    },
+    "commons": "Scarus_guacamaia"
+  },
+  "fau-raya-aguila": {
+    "group": "marine",
+    "related": [
+      "par-p-n-santa-rosa",
+      "isl-islas-catalinas",
+      "par-p-n-isla-del-coco"
+    ],
+    "tips": {
+      "view": {
+        "es": "Buceo en Catalinas/Coco; a veces desde bote en Guanacaste.",
+        "en": "Diving at Catalinas/Cocos; sometimes from boats in Guanacaste."
+      },
+      "care": {
+        "es": "Mantené distancia; no persigas para foto.",
+        "en": "Keep distance; do not chase for photos."
+      }
+    },
+    "commons": "Aetobatus_narinari"
+  },
+  "fau-tiburon-tigre": {
+    "group": "marine",
+    "related": [
+      "par-p-n-isla-del-coco",
+      "hit-isla-del-coco",
+      "isr-isla-del-coco-y-montes-submarinos-isra"
+    ],
+    "tips": {
+      "view": {
+        "es": "Solo con operadores autorizados en Isla del Coco.",
+        "en": "Only with authorized operators at Cocos Island."
+      },
+      "care": {
+        "es": "Seguí protocolos de buceo; no alimentés tiburones.",
+        "en": "Follow dive protocols; do not feed sharks."
+      }
+    },
+    "commons": "Galeocerdo_cuvier"
+  },
+  "fau-ballena-piloto": {
+    "group": "marine",
+    "related": [
+      "par-p-n-marino-ballena",
+      "imm-corredor-de-ballenas-jorobadas-imma",
+      "par-p-n-isla-del-coco"
+    ],
+    "tips": {
+      "view": {
+        "es": "Salidas de avistamiento responsables en el Pacífico sur.",
+        "en": "Responsible wildlife boats in the southern Pacific."
+      },
+      "care": {
+        "es": "Código de avistamiento: no cercar ni cortar el rumbo del grupo.",
+        "en": "Viewing code: do not surround or cut off the group."
+      }
+    },
+    "commons": "Globicephala_macrorhynchus"
+  },
+  "fau-jaguar": {
+    "group": "mammal",
+    "related": [
+      "par-p-n-corcovado",
+      "bos-selva-de-la-peninsula-de-osa",
+      "par-p-n-piedras-blancas"
+    ],
+    "tips": {
+      "view": {
+        "es": "Península de Osa / Corcovado: presencia confirmada, avistamiento raro.",
+        "en": "Osa/Corcovado: confirmed presence, rare sightings."
+      },
+      "care": {
+        "es": "No uses cebos ni drones bajos sobre fauna.",
+        "en": "No baiting or low drones over wildlife."
+      }
+    }
+  },
+  "fau-quetzal-resplandeciente": {
+    "group": "bird",
+    "related": [
+      "par-p-n-los-quetzales",
+      "rio-rio-savegre",
+      "par-p-n-tapanti"
+    ],
+    "tips": {
+      "view": {
+        "es": "San Gerardo de Dota / Los Quetzales en temporada de aguacatillo.",
+        "en": "San Gerardo de Dota / Los Quetzales in wild-avocado season."
+      },
+      "care": {
+        "es": "Silencio en miradores; no reproduzcas reclamos cerca del nido.",
+        "en": "Stay quiet at overlooks; avoid playback near nests."
+      }
+    }
+  },
+  "fau-perezoso-de-tres-dedos": {
+    "group": "mammal",
+    "related": [
+      "par-p-n-manuel-antonio",
+      "wd-santuario-de-perezosos-de-costa-rica",
+      "par-p-n-tortuguero"
+    ],
+    "tips": {
+      "view": {
+        "es": "Manuel Antonio y Caribe central; mirá las copas con calma.",
+        "en": "Manuel Antonio and central Caribbean; scan canopy slowly."
+      },
+      "care": {
+        "es": "Nunca los tomés en brazos ni pagues por manipulación.",
+        "en": "Never hold them or pay for handling."
+      }
+    }
+  },
+  "fau-danta": {
+    "group": "mammal",
+    "related": [
+      "par-p-n-corcovado",
+      "par-p-n-chirripo",
+      "bos-selva-de-la-peninsula-de-osa"
+    ],
+    "tips": {
+      "view": {
+        "es": "Corcovado es el mejor bastión; huellas en lodazales.",
+        "en": "Corcovado is the stronghold; tracks in mud."
+      },
+      "care": {
+        "es": "Especie vulnerable: distancias amplias, sin flash intenso.",
+        "en": "Vulnerable: keep distance, no harsh flash."
+      }
+    }
+  },
+  "fau-rana-blue-jeans": {
+    "group": "amphibian",
+    "related": [
+      "par-p-n-tortuguero",
+      "ext-gandoca-manzanillo",
+      "wd-estacion-biologica-la-selva"
+    ],
+    "tips": {
+      "view": {
+        "es": "Hojarasca del Caribe húmedo tras lluvias.",
+        "en": "Caribbean leaf litter after rains."
+      },
+      "care": {
+        "es": "Toxicidad cutánea: no tocar.",
+        "en": "Skin toxins: do not touch."
+      }
+    }
+  },
+  "fau-lapa-roja": {
+    "group": "bird",
+    "related": [
+      "par-p-n-corcovado",
+      "par-p-n-carara",
+      "pla-bahia-drake"
+    ],
+    "tips": {
+      "view": {
+        "es": "Carara y Osa al amanecer/atardecer.",
+        "en": "Carara and Osa at dawn/dusk."
+      },
+      "care": {
+        "es": "No compres artesanía con plumas silvestres.",
+        "en": "Do not buy crafts with wild feathers."
+      }
+    }
+  },
+  "fau-mono-congo-o-aullador": {
+    "group": "mammal",
+    "related": [
+      "par-p-n-manuel-antonio",
+      "par-p-n-tortuguero",
+      "par-p-n-corcovado"
+    ],
+    "tips": {
+      "view": {
+        "es": "Se escucha el aullido a kilómetros; buscá dosel.",
+        "en": "Howls carry for kilometers; scan canopy."
+      },
+      "care": {
+        "es": "No imités aullidos de forma prolongada.",
+        "en": "Avoid prolonged howl imitation."
+      }
+    }
+  },
+  "fau-tucan-pico-iris": {
+    "group": "bird",
+    "related": [
+      "bos-bosque-nuboso-monteverde",
+      "wd-estacion-biologica-la-selva",
+      "par-p-n-braulio-carrillo"
+    ],
+    "tips": {
+      "view": {
+        "es": "Bordes de bosque y comederos responsables.",
+        "en": "Forest edges and responsible feeders."
+      },
+      "care": {
+        "es": "Preferí observación sin comida humana.",
+        "en": "Prefer watching without human food."
+      }
+    }
+  },
+  "fau-mariposa-morpho-azul": {
+    "group": "insect",
+    "related": [
+      "bos-bosque-nuboso-monteverde",
+      "par-p-n-braulio-carrillo",
+      "wd-estacion-biologica-la-selva"
+    ],
+    "tips": {
+      "view": {
+        "es": "Claros soleados a media mañana.",
+        "en": "Sunny clearings mid-morning."
+      },
+      "care": {
+        "es": "No las atrapes; fotografíalas en vuelo/posa.",
+        "en": "Do not net them; photograph perched/in flight."
+      }
+    }
+  },
+  "fau-venado-cola-blanca": {
+    "group": "mammal",
+    "related": [
+      "par-p-n-santa-rosa",
+      "par-p-n-palo-verde",
+      "bos-bosque-seco-tropical-de-guanacaste"
+    ],
+    "tips": {
+      "view": {
+        "es": "Bosque seco de Guanacaste al atardecer.",
+        "en": "Guanacaste dry forest at dusk."
+      },
+      "care": {
+        "es": "No te acerques a crías; la madre puede estar cerca.",
+        "en": "Do not approach fawns; mother may be nearby."
+      }
+    }
+  },
+  "fau-ballena-jorobada": {
+    "group": "marine",
+    "related": [
+      "par-p-n-marino-ballena",
+      "imm-corredor-de-ballenas-jorobadas-imma",
+      "pla-playa-uvita"
+    ],
+    "tips": {
+      "view": {
+        "es": "Temporadas Pacífico sur con operadores certificados.",
+        "en": "Southern Pacific seasons with certified operators."
+      },
+      "care": {
+        "es": "Respetá distancias legales de avistamiento.",
+        "en": "Respect legal viewing distances."
+      }
+    }
+  },
+  "fau-tiburon-martillo": {
+    "group": "marine",
+    "related": [
+      "par-p-n-isla-del-coco",
+      "isr-isla-del-coco-y-montes-submarinos-isra"
+    ],
+    "tips": {
+      "view": {
+        "es": "Buceo avanzado en Isla del Coco.",
+        "en": "Advanced diving at Cocos Island."
+      },
+      "care": {
+        "es": "Solo con operadores autorizados; sin feeding.",
+        "en": "Authorized operators only; no feeding."
+      }
+    }
+  },
+  "fau-tiburon-toro": {
+    "group": "marine",
+    "related": [
+      "par-p-n-isla-del-coco",
+      "pla-playa-del-coco"
+    ],
+    "tips": {
+      "view": {
+        "es": "Reportes en ríos/estuarios y buceo oceánico; no garantizado.",
+        "en": "Reports in rivers/estuaries and ocean dives; not guaranteed."
+      },
+      "care": {
+        "es": "Precaución en desembocaduras turbias.",
+        "en": "Caution in murky river mouths."
+      }
+    }
+  },
+  "fau-tortuga-verde": {
+    "group": "marine",
+    "related": [
+      "par-p-n-tortuguero",
+      "par-p-n-cahuita",
+      "ext-gandoca-manzanillo"
+    ],
+    "tips": {
+      "view": {
+        "es": "Anidación en Tortuguero (temporada); snorkel en Cahuita.",
+        "en": "Nesting at Tortuguero; snorkel at Cahuita."
+      },
+      "care": {
+        "es": "Tours de tortugas solo con guías autorizados; sin flash en playa.",
+        "en": "Authorized turtle tours only; no beach flash."
+      }
+    }
+  },
+  "fau-tortuga-baula": {
+    "group": "marine",
+    "related": [
+      "par-p-n-marino-las-baulas",
+      "pla-playa-grande"
+    ],
+    "tips": {
+      "view": {
+        "es": "Playa Grande / Las Baulas en temporada de anidación.",
+        "en": "Playa Grande / Las Baulas in nesting season."
+      },
+      "care": {
+        "es": "Entradas controladas de noche; cero molestias al desove.",
+        "en": "Controlled night entries; zero nesting disturbance."
+      }
+    }
+  },
+  "fau-delfin-nariz-de-botella": {
+    "group": "marine",
+    "related": [
+      "par-p-n-marino-ballena",
+      "isl-isla-del-cano",
+      "par-p-n-santa-rosa"
+    ],
+    "tips": {
+      "view": {
+        "es": "Pacífico central/sur en salidas de avistamiento.",
+        "en": "Central/south Pacific wildlife boats."
+      },
+      "care": {
+        "es": "No nades hacia grupos ni los cercés con el bote.",
+        "en": "Do not swim at groups or box them with boats."
+      }
+    }
+  },
+  "fau-delfin-manchado": {
+    "group": "marine",
+    "related": [
+      "par-p-n-isla-del-coco",
+      "par-p-n-marino-ballena"
+    ],
+    "tips": {
+      "view": {
+        "es": "Aguas oceánicas y alrededores de Cocos.",
+        "en": "Oceanic waters and Cocos surroundings."
+      },
+      "care": {
+        "es": "Código de aproximación lenta y paralelo.",
+        "en": "Slow parallel approach code."
+      }
+    }
+  },
+  "fau-mantarraya-gigante": {
+    "group": "marine",
+    "related": [
+      "par-p-n-isla-del-coco",
+      "isl-islas-catalinas"
+    ],
+    "tips": {
+      "view": {
+        "es": "Buceo en Catalinas/Coco con corrientes.",
+        "en": "Diving Catalinas/Cocos with currents."
+      },
+      "care": {
+        "es": "No toques el cefalóforo ni te subas.",
+        "en": "Do not touch cephalic fins or hitch rides."
+      }
+    }
+  },
+  "fau-manati-del-caribe": {
+    "group": "marine",
+    "related": [
+      "ext-gandoca-manzanillo",
+      "wd-refugio-nacional-de-fauna-silvestre-barra-del-co"
+    ],
+    "tips": {
+      "view": {
+        "es": "Humedales del Caribe norte; avistamiento poco frecuente.",
+        "en": "Northern Caribbean wetlands; uncommon sightings."
+      },
+      "care": {
+        "es": "Velocidad baja en canales; hélices son una amenaza.",
+        "en": "Low speed in canals; props are a threat."
+      }
+    }
+  },
+  "fau-pez-vela": {
+    "group": "marine",
+    "related": [
+      "pla-playa-tamarindo",
+      "par-p-n-marino-ballena"
+    ],
+    "tips": {
+      "view": {
+        "es": "Pesca deportiva de liberación en el Pacífico.",
+        "en": "Catch-and-release sport fishing in the Pacific."
+      },
+      "care": {
+        "es": "Preferí operadores de catch-and-release.",
+        "en": "Prefer catch-and-release operators."
+      }
+    }
+  },
+  "fau-tiburon-ballena": {
+    "group": "marine",
+    "related": [
+      "par-p-n-isla-del-coco",
+      "isr-isla-del-coco-y-montes-submarinos-isra"
+    ],
+    "tips": {
+      "view": {
+        "es": "Encuentros ocasionales en Cocos y aguas oceánicas.",
+        "en": "Occasional Cocos / oceanic encounters."
+      },
+      "care": {
+        "es": "Sin tocar; distancia de seguridad en snorkel/buceo.",
+        "en": "No touching; safe snorkel/dive distance."
+      }
+    }
+  },
+  "fau-coral-caribeno": {
+    "group": "marine",
+    "related": [
+      "par-p-n-cahuita",
+      "ext-gandoca-manzanillo"
+    ],
+    "tips": {
+      "view": {
+        "es": "Arrecifes de Cahuita con chaleco/guía.",
+        "en": "Cahuita reefs with vest/guide."
+      },
+      "care": {
+        "es": "Cero contacto con coral; protector solar reef-safe.",
+        "en": "Zero coral contact; reef-safe sunscreen."
+      }
+    }
+  },
+  "fau-tiburon-punta-blanca": {
+    "group": "marine",
+    "related": [
+      "par-p-n-isla-del-coco",
+      "isl-isla-del-cano"
+    ],
+    "tips": {
+      "view": {
+        "es": "Arrecifes y rocas del Pacífico / Cocos.",
+        "en": "Pacific reefs/rocks and Cocos."
+      },
+      "care": {
+        "es": "Respetá al animal en cuevas; no bloqueés la salida.",
+        "en": "Do not block exits from resting caves."
+      }
+    }
+  },
+  "fau-orca": {
+    "group": "marine",
+    "related": [
+      "par-p-n-isla-del-coco",
+      "isr-corredor-marino-cocos-galapagos-isra"
+    ],
+    "tips": {
+      "view": {
+        "es": "Avistamientos raros costa afuera / Cocos.",
+        "en": "Rare offshore / Cocos sightings."
+      },
+      "care": {
+        "es": "Mantené rumbo paralelo y distancia amplia.",
+        "en": "Keep parallel course and wide distance."
+      }
+    }
+  },
+  "fau-tortuga-lora-la-arribada": {
+    "group": "marine",
+    "related": [
+      "pla-playa-ostional",
+      "wd-refugio-nacional-de-vida-silvestre-camaronal"
+    ],
+    "tips": {
+      "view": {
+        "es": "Ostional en arribadas (fechas variables); solo con control local.",
+        "en": "Ostional arribadas (variable dates); local control only."
+      },
+      "care": {
+        "es": "Seguí reglas de la comunidad y MINAE; sin flash.",
+        "en": "Follow community/MINAE rules; no flash."
+      }
+    }
+  },
+  "fau-tortuga-carey": {
+    "group": "marine",
+    "related": [
+      "par-p-n-cahuita",
+      "ext-gandoca-manzanillo",
+      "par-p-n-isla-del-coco"
+    ],
+    "tips": {
+      "view": {
+        "es": "Snorkel Caribe sur; buceo en Pacífico/Cocos.",
+        "en": "Southern Caribbean snorkel; Pacific/Cocos dives."
+      },
+      "care": {
+        "es": "Críticamente amenazada: cero consumo de carey.",
+        "en": "Critically endangered: zero tortoiseshell trade."
+      }
+    }
+  }
+}

@@ -3,3 +3,11 @@ dist
 *.local
 .DS_Store
 screenshots
+.env
+.env.*
+!.env.example
+!.env.production.example
+
+# Medios: viven en disco local + R2 (no versionar ~50MB de WebP)
+public/media/
+perf/*.zip

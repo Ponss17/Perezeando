@@ -17,7 +17,10 @@ export function Thumb({ p }: { p: Place }) {
   const [ok, setOk] = useState(false);
   const pic = !err ? placePicture(p) : null;
   return (
-    <div className={'thumb' + (pic && ok ? ' has-img' : '')} style={{ '--c': c.color } as React.CSSProperties}>
+    <div
+      className={'thumb' + (pic && ok ? ' has-img' : '')}
+      style={{ '--c': c.color } as React.CSSProperties}
+    >
       <Icon name={c.icon} />
       {pic && (
         <img
@@ -27,8 +30,7 @@ export function Thumb({ p }: { p: Place }) {
           decoding="async"
           fetchPriority="low"
           referrerPolicy="no-referrer"
-          className={(pic.kind === 'tile' ? 'sat-tile ' : '') + (ok ? 'ok' : '')}
-          style={pic.kind === 'tile' ? ({ '--px': pic.x + 'px', '--py': pic.y + 'px' } as React.CSSProperties) : undefined}
+          className={ok ? 'ok' : ''}
           onLoad={(e) => {
             const im = e.currentTarget;
             (im.decode ? im.decode() : Promise.resolve()).catch(() => {}).finally(() => setOk(true));

@@ -7,7 +7,7 @@
   "scripts": {
     "predev": "node scripts/build-data.mjs",
     "dev": "vite",
-    "prebuild": "node scripts/build-data.mjs",
+    "prebuild": "node scripts/build-data.mjs && node scripts/audit-quality.mjs",
     "build": "tsc -b && vite build",
     "preview": "vite preview",
     "typecheck": "tsc -b",
@@ -18,7 +18,18 @@
     "fetch-osm": "node scripts/fetch-content.mjs --osm-only",
     "fetch-crests": "node scripts/fetch-content.mjs --crests",
     "fetch-photos": "node scripts/fetch-photos.mjs",
-    "prepare": "husky"
+    "prepare": "husky",
+    "enrich-es": "node scripts/enrich-es-content.mjs",
+    "audit-lang": "node scripts/audit-lang.mjs",
+    "fetch-fauna": "node scripts/fetch-fauna-media.mjs",
+    "patch-fauna-content": "node scripts/patch-content-fauna.mjs",
+    "audit-quality": "node scripts/audit-quality.mjs",
+    "audit-remote": "node scripts/audit-remote.mjs",
+    "sync-media": "node scripts/sync-media-r2.mjs",
+    "sync-media:upload": "node scripts/sync-media-r2.mjs --upload",
+    "mirror-media": "node scripts/mirror-remote-media.mjs",
+    "mirror-media:dry": "node scripts/mirror-remote-media.mjs --dry-run",
+    "fetch-missing-media": "node scripts/fetch-missing-media.mjs"
   },
   "engines": {
     "node": ">=22.13"
@@ -46,6 +57,7 @@
     "prettier": "^3.9.10",
     "typescript": "~6.0",
     "typescript-eslint": "^8.72.1",
-    "vite": "^8.3.5"
+    "vite": "^8.3.5",
+    "aws4fetch": "^1.0.20"
   }
 }

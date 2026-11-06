@@ -8,8 +8,13 @@
     "en": "Stadium in Tibás, San José, and home of Deportivo Saprissa."
   },
   "wd-estadio-jose-rafael-fello-meza-ivancovich": {
-    "es": "Estadio de Cartago y casa del Club Sport Cartaginés.",
-    "en": "Cartago's stadium and home of Club Sport Cartaginés."
+    "es": "El estadio José Rafael \"Fello\" Meza Ivancovich es un estadio de fútbol ubicado en la ciudad de Cartago, Costa Rica. Es la sede oficial para los encuentros de local del Club Sport Cartaginés. Está ubicado entre avenida 12 y 14, calles 3 y 5, de dicha ciudad.",
+    "en": "Cartago's stadium and home of Club Sport Cartaginés.",
+    "src": {
+      "name": "Wikipedia ES",
+      "url": "https://es.wikipedia.org/wiki/Estadio_Jos%C3%A9_Rafael_%22Fello%22_Meza",
+      "license": "CC BY-SA 4.0"
+    }
   },
   "wd-estadio-nacional-de-costa-rica": {
     "es": "Estadio Nacional de Costa Rica, en el Parque Metropolitano La Sabana, San José. El edificio actual se inauguró en 2011.",
@@ -20,8 +25,13 @@
     "en": "The former National Stadium in La Sabana, San José. It opened in 1924 and no longer stands; the present stadium replaced it."
   },
   "wd-estadio-edgardo-baltodano-briceno": {
-    "es": "Estadio de fútbol de Liberia, en Guanacaste.",
-    "en": "Football stadium in Liberia, Guanacaste."
+    "es": "El Estadio Edgardo Baltodano Briceño, está ubicado en la ciudad de Liberia en la provincia de Guanacaste, Costa Rica.",
+    "en": "Football stadium in Liberia, Guanacaste.",
+    "src": {
+      "name": "Wikipedia ES",
+      "url": "https://es.wikipedia.org/wiki/Estadio_Edgardo_Baltodano_Brice%C3%B1o",
+      "license": "CC BY-SA 4.0"
+    }
   },
   "wd-estadio-carlos-ugalde-alvarez": {
     "es": "Estadio de Ciudad Quesada, en San Carlos de Alajuela. Ahí juega de local la Asociación Deportiva San Carlos.",
@@ -32,28 +42,53 @@
     "en": "Stadium in Guápiles, Pococí, Limón, home of Santos de Guápiles."
   },
   "wd-estadio-jorge-hernan-cuty-monge": {
-    "es": "Estadio de Desamparados, en San José.",
-    "en": "Stadium in Desamparados, San José."
+    "es": "El Estadio Jorge \"Cuty\" Monge está ubicado en la Villa Olímpica de Desamparados, San José, Costa Rica. El estadio se utiliza para la práctica del fútbol y presentaciones artísticas.",
+    "en": "Stadium in Desamparados, San José.",
+    "src": {
+      "name": "Wikipedia ES",
+      "url": "https://es.wikipedia.org/wiki/Estadio_Jorge_Hern%C3%A1n_%22Cuty%22_Monge",
+      "license": "CC BY-SA 4.0"
+    }
   },
   "wd-estadio-miguel-angel-lito-perez": {
     "es": "Estadio de la ciudad de Puntarenas, sobre el golfo de Nicoya.",
     "en": "Stadium in the city of Puntarenas, on the Gulf of Nicoya."
   },
   "wd-estadio-municipal-de-perez-zeledon": {
-    "es": "Estadio de San Isidro de El General, en Pérez Zeledón.",
-    "en": "Stadium in San Isidro de El General, Pérez Zeledón."
+    "es": "El Estadio Municipal de Pérez Zeledón es un estadio de fútbol. Está ubicado en la ciudad de San Isidro de El General, cantón de Pérez Zeledón, San José, Costa Rica. El estadio fue inaugurado en 1953.",
+    "en": "Stadium in San Isidro de El General, Pérez Zeledón.",
+    "src": {
+      "name": "Wikipedia ES",
+      "url": "https://es.wikipedia.org/wiki/Estadio_Municipal_de_P%C3%A9rez_Zeled%C3%B3n",
+      "license": "CC BY-SA 4.0"
+    }
   },
   "wd-estadio-jorge-palmareno-solis": {
-    "es": "Estadio de Palmares, en Alajuela.",
-    "en": "Stadium in Palmares, Alajuela."
+    "es": "El Estadio Jorge \"Palmareño\" Solís, es el estadio de la Asociación Deportiva Palmares. Se encuentra ubicado en las afueras de la ciudad de Palmares, Costa Rica, a una altitud de 1017 m s. n. m..",
+    "en": "Stadium in Palmares, Alajuela.",
+    "src": {
+      "name": "Wikipedia ES",
+      "url": "https://es.wikipedia.org/wiki/Estadio_Jorge_%22Palmare%C3%B1o%22_Sol%C3%ADs",
+      "license": "CC BY-SA 4.0"
+    }
   },
   "wd-estadio-nuevo-de-limon": {
-    "es": "Estadio de la ciudad de Limón, en el Caribe.",
-    "en": "Stadium in the city of Limón, on the Caribbean."
+    "es": "El Estadio Nuevo de Limón es un estadio de fútbol que está ubicado en Limón, cabecera de la provincia del mismo nombre, en la costa del Caribe de Costa Rica.",
+    "en": "Stadium in the city of Limón, on the Caribbean.",
+    "src": {
+      "name": "Wikipedia ES",
+      "url": "https://es.wikipedia.org/wiki/Estadio_Nuevo_de_Lim%C3%B3n",
+      "license": "CC BY-SA 4.0"
+    }
   },
   "wd-polideportivo-de-belen": {
-    "es": "Polideportivo de Belén, en Heredia.",
-    "en": "Sports complex in Belén, Heredia."
+    "es": "El Estadio Polideportivo de Belén es un estadio de fútbol ubicado en San Antonino de Belén, Costa Rica.",
+    "en": "Sports complex in Belén, Heredia.",
+    "src": {
+      "name": "Wikipedia ES",
+      "url": "https://es.wikipedia.org/wiki/Estadio_Polideportivo_de_Bel%C3%A9n",
+      "license": "CC BY-SA 4.0"
+    }
   },
   "wd-plaza-de-toros-chorotega": {
     "es": "Plaza de toros en Guanacaste. Se usa en las fiestas locales.",
@@ -80,8 +115,13 @@
     "en": "Natural-science museum in San José, with collections of the country's wildlife."
   },
   "wd-museo-de-sabanero": {
-    "es": "Museo de la cultura ganadera de Guanacaste, en Liberia.",
-    "en": "Museum of Guanacaste cattle-ranching culture, in Liberia."
+    "es": "Liberia es el distrito primero y ciudad cabecera del cantón de Liberia y de la provincia de Guanacaste, de Costa Rica.",
+    "en": "Museum of Guanacaste cattle-ranching culture, in Liberia.",
+    "src": {
+      "name": "Wikipedia ES",
+      "url": "https://es.wikipedia.org/wiki/Liberia_(Costa_Rica)",
+      "license": "CC BY-SA 4.0"
+    }
   },
   "wd-museum-of-italian-contemporary-art-in-america": {
     "es": "Museo de arte contemporáneo italiano en San José.",
@@ -132,8 +172,13 @@
     "en": "Church of San Diego, in the canton of La Unión, Cartago."
   },
   "wd-catedral-de-nuestra-senora-del-carmen-cartago-co": {
-    "es": "Catedral de Cartago, sede de la diócesis en esa ciudad.",
-    "en": "Cathedral of Cartago, seat of the diocese in that city."
+    "es": "La Catedral de Nuestra Señora del Carmen o simplemente Catedral de Cartago es el nombre que recibe un edificio religioso que pertenece a la Iglesia Católica y se encuentra ubicado en la ciudad de Cartago en el cantón homónimo parte del país centroamericano de Costa Rica. No debe confundirse con una iglesia del mismo…",
+    "en": "Cathedral of Cartago, seat of the diocese in that city.",
+    "src": {
+      "name": "Wikipedia ES",
+      "url": "https://es.wikipedia.org/wiki/Catedral_de_Nuestra_Se%C3%B1ora_del_Carmen_(Cartago%2C_Costa_Rica)",
+      "license": "CC BY-SA 4.0"
+    }
   },
   "wd-cathedral-of-st-charles-borromeo": {
     "es": "Catedral de Ciudad Quesada, en San Carlos de Alajuela.",
@@ -220,8 +265,13 @@
     "en": "Cone of an old volcano near Cañas, in Guanacaste. It now stands as an isolated hill on the plain."
   },
   "wd-cerro-tilaran": {
-    "es": "Cerro sobre la ciudad de Tilarán, en Guanacaste.",
-    "en": "Hill above the town of Tilarán, in Guanacaste."
+    "es": "El Parque Nacional Volcán Arenal se encuentra en la provincia de Alajuela. Tiene una extensión de 12,124 hectáreas. Está conformado principalmente por dos cerros, a saber, el Volcán Arenal y el Cerro Chato. Se ubica en el Área de Conservación Arenal Huetar Norte (ACAHN)",
+    "en": "Hill above the town of Tilarán, in Guanacaste.",
+    "src": {
+      "name": "Wikipedia ES",
+      "url": "https://es.wikipedia.org/wiki/Parque_nacional_Volc%C3%A1n_Arenal",
+      "license": "CC BY-SA 4.0"
+    }
   },
   "wd-palmar-sur": {
     "es": "Sitio arqueológico de Finca 6, en Palmar Sur de Osa. Conserva esferas de piedra del Diquís y es parte del patrimonio mundial.",
@@ -282,5 +332,1621 @@
   "wd-playa-la-islita": {
     "es": "Playa del sur de Nicoya, en Guanacaste, cerca de San Miguel.",
     "en": "Beach on the south of Nicoya, in Guanacaste, near San Miguel."
+  },
+  "wd-volcan-porvenir": {
+    "es": "El volcán Porvenir es un estratovolcán dormido, ubicado en el cantón de San Carlos, provincia de Alajuela, Costa Rica. Se encuentra a 3 km al sur del volcán Platanar, que geológicamente es su hermano. Forma parte de la Cordillera Volcánica Central, y se encuentra en la misma línea de los estratovolcanes principales Su…",
+    "src": {
+      "name": "Wikipedia ES",
+      "url": "https://es.wikipedia.org/wiki/Volc%C3%A1n_Porvenir",
+      "license": "CC BY-SA 4.0"
+    }
+  },
+  "wd-reserva-biologica-manuel-alberto-brenes": {
+    "es": "La Reserva Biológica Alberto Manuel Brenes es una reserva natural en la parte central de Costa Rica. Es parte del Área de Conservación Central; protege área de bosque tropical cercana a San Ramón. La reserva opera bajo la dirección de la Sede de Occidente de la Universidad de Costa Rica y el Sistema Nacional de Áreas…",
+    "src": {
+      "name": "Wikipedia ES",
+      "url": "https://es.wikipedia.org/wiki/Reserva_biol%C3%B3gica_Manuel_Alberto_Brenes",
+      "license": "CC BY-SA 4.0"
+    }
+  },
+  "wd-humedal-lacustrino-de-tamborcito": {
+    "es": "El Humedal Lacustrino de Tamborcito es una Reserva Natural, que forma parte del Área de Conservación Arenal Huetar Norte, en la zona septentrional del país centroamericano de Costa Rica, a cerca de 80 millas al norte de la ciudad capital de San José, al este de Boca Tapada. Protege las zonas de humedales forestales…",
+    "src": {
+      "name": "Wikipedia ES",
+      "url": "https://es.wikipedia.org/wiki/Humedal_lacustrino_de_Tamborcito",
+      "license": "CC BY-SA 4.0"
+    }
+  },
+  "wd-humedal-riberino-zapandi": {
+    "es": "El Humedal Riberino Zapandí es una reserva natural, que forma parte del Área de Conservación Guanacaste y del Área de Conservación Tempisque, en el noroeste del país centroamericano de Costa Rica, se trata de un territorio que protege los humedales bajos alrededor de la Quebrada Grande y el río Ahogados en la cuenca…",
+    "src": {
+      "name": "Wikipedia ES",
+      "url": "https://es.wikipedia.org/wiki/Humedal_Riberino_Zapand%C3%AD",
+      "license": "CC BY-SA 4.0"
+    }
+  },
+  "wd-canton-de-perez-zeledon": {
+    "es": "Pérez Zeledón es el cantón decimonoveno de la provincia de San José, en Costa Rica. Se ubica al sureste de la provincia. Limita con el cantón de Paraíso por el norte, con los cantones de Dota y Tarrazú por el noroeste, con el cantón de Quepos por el oeste, con el cantón de Osa por el sur, con los cantones de Buenos…",
+    "src": {
+      "name": "Wikipedia ES",
+      "url": "https://es.wikipedia.org/wiki/Cant%C3%B3n_de_P%C3%A9rez_Zeled%C3%B3n",
+      "license": "CC BY-SA 4.0"
+    }
+  },
+  "wd-canton-de-turrubares": {
+    "es": "Turrubares es el cantón número 16 de la provincia de San José, en Costa Rica. Limita con el cantón de Atenas por el norte, con los cantones de Orotina y Garabito por el oeste, con el cantón de Parrita por el sur, con el cantón de Puriscal por el este y con el cantón de Mora por el noreste, y cuenta con una extensión…",
+    "src": {
+      "name": "Wikipedia ES",
+      "url": "https://es.wikipedia.org/wiki/Cant%C3%B3n_de_Turrubares",
+      "license": "CC BY-SA 4.0"
+    }
+  },
+  "wd-canton-de-tarrazu": {
+    "es": "Tarrazú es el cantón número cinco de la provincia de San José. Está ubicado en la Zona de los Santos, que es un área mayoritariamente productora de café.",
+    "src": {
+      "name": "Wikipedia ES",
+      "url": "https://es.wikipedia.org/wiki/Cant%C3%B3n_de_Tarraz%C3%BA",
+      "license": "CC BY-SA 4.0"
+    }
+  },
+  "wd-canton-de-puriscal": {
+    "es": "Puriscal es el cuarto cantón de la provincia de San José de Costa Rica. Su capital o cabecera es la ciudad de Santiago.",
+    "src": {
+      "name": "Wikipedia ES",
+      "url": "https://es.wikipedia.org/wiki/Cant%C3%B3n_de_Puriscal",
+      "license": "CC BY-SA 4.0"
+    }
+  },
+  "wd-canton-de-leon-cortes-castro": {
+    "es": "León Cortés Castro es el cantón número 20 de la Provincia de San José, Costa Rica. Está localizado hacia el sureste de San José, en la denominada Zona de los Santos. Se encuentra dividido en 6 distritos.",
+    "src": {
+      "name": "Wikipedia ES",
+      "url": "https://es.wikipedia.org/wiki/Cant%C3%B3n_de_Le%C3%B3n_Cort%C3%A9s_Castro",
+      "license": "CC BY-SA 4.0"
+    }
+  },
+  "wd-canton-de-alajuelita": {
+    "es": "Alajuelita es un cantón de Costa Rica situado en el centro de la provincia de San José, sobre la meseta intervolcánica del Valle Central, y perteneciente parcialmente a la Gran Área Metropolitana. El cantón cuenta con un total de 89 154 habitantes, según la última proyección demográfica del INEC, ubicándose así como el…",
+    "src": {
+      "name": "Wikipedia ES",
+      "url": "https://es.wikipedia.org/wiki/Cant%C3%B3n_de_Alajuelita",
+      "license": "CC BY-SA 4.0"
+    }
+  },
+  "wd-canton-de-montes-de-oro": {
+    "es": "Montes de Oro es el cantón número 4 de la provincia de Puntarenas, en la costa pacífica de Costa Rica. Ubicado en el norte de la provincia, es uno de los cuatro cantones de la provincia de Puntarenas que no tiene límites con el océano Pacífico. Posee una extensión territorial de 244.76 km² y está dividido en 3…",
+    "src": {
+      "name": "Wikipedia ES",
+      "url": "https://es.wikipedia.org/wiki/Cant%C3%B3n_de_Montes_de_Oro",
+      "license": "CC BY-SA 4.0"
+    }
+  },
+  "wd-canton-de-tibas": {
+    "es": "Tibás es un cantón de Costa Rica situado en el norte de la provincia de San José, sobre la meseta intervolcánica del Valle Central, y perteneciente en su totalidad a la Gran Área Metropolitana. El cantón cuenta con un total de 82 216 habitantes, según la última proyección demográfica del INEC, ⁣ ubicándose así como el…",
+    "src": {
+      "name": "Wikipedia ES",
+      "url": "https://es.wikipedia.org/wiki/Cant%C3%B3n_de_Tib%C3%A1s",
+      "license": "CC BY-SA 4.0"
+    }
+  },
+  "wd-canton-de-san-rafael": {
+    "es": "San Rafael es el cantón número 5 de la provincia de Heredia, Costa Rica. Su cabecera es la ciudad de San Rafael.",
+    "src": {
+      "name": "Wikipedia ES",
+      "url": "https://es.wikipedia.org/wiki/Cant%C3%B3n_de_San_Rafael",
+      "license": "CC BY-SA 4.0"
+    }
+  },
+  "wd-canton-de-guacimo": {
+    "es": "Guácimo es el sexto y más reciente cantón de la provincia de Limón, Costa Rica. Fue creado mediante la ley 4573 del 8 de mayo de 1971, segregándolo así del cantón de Pococí. Previo al 2021, era el único cantón de la provincia sin costas en el Mar Caribe. Su cabecera es la ciudad de Guácimo.",
+    "src": {
+      "name": "Wikipedia ES",
+      "url": "https://es.wikipedia.org/wiki/Cant%C3%B3n_de_Gu%C3%A1cimo",
+      "license": "CC BY-SA 4.0"
+    }
+  },
+  "wd-canton-de-bagaces": {
+    "es": "Bagaces es el cuarto cantón de la provincia de Guanacaste, al norte de Costa Rica. Su cabecera es la homónima ciudad de Bagaces.",
+    "src": {
+      "name": "Wikipedia ES",
+      "url": "https://es.wikipedia.org/wiki/Cant%C3%B3n_de_Bagaces",
+      "license": "CC BY-SA 4.0"
+    }
+  },
+  "wd-canton-de-orotina": {
+    "es": "Orotina es el noveno cantón de la provincia de Alajuela, en Costa Rica. Por su posición geográfica, el cantón se encuentra ubicado en la Región Pacífico Central. Se encuentra dividido en cinco distritos. Su cabecera es la ciudad de Orotina.",
+    "src": {
+      "name": "Wikipedia ES",
+      "url": "https://es.wikipedia.org/wiki/Cant%C3%B3n_de_Orotina",
+      "license": "CC BY-SA 4.0"
+    }
+  },
+  "wd-canton-de-siquirres": {
+    "es": "Siquirres es el tercer cantón de la provincia de Limón en Costa Rica, es un lugar lleno de historia, naturaleza y oportunidades. Fundado el 19 de septiembre de 1911, este cantón limita al oeste con Guácimo, al este con Matina, al norte con el Mar Caribe y al sur con Turrialba, en la provincia de Cartago.",
+    "src": {
+      "name": "Wikipedia ES",
+      "url": "https://es.wikipedia.org/wiki/Cant%C3%B3n_de_Siquirres",
+      "license": "CC BY-SA 4.0"
+    }
+  },
+  "wd-canton-de-san-carlos": {
+    "es": "San Carlos es el cantón número 10 de la provincia de Alajuela en Costa Rica. Con una superficie de 3347.98 km², es el cantón de mayor extensión de los 84 que conforman el país, superando en tamaño a las provincias de Cartago y Heredia, así como el más desarrollado y eje principal de la Región Huetar Norte. Se encuentra…",
+    "src": {
+      "name": "Wikipedia ES",
+      "url": "https://es.wikipedia.org/wiki/Cant%C3%B3n_de_San_Carlos",
+      "license": "CC BY-SA 4.0"
+    }
+  },
+  "wd-canton-de-oreamuno": {
+    "es": "Oreamuno es el cantón número 7 de la provincia de Cartago, Costa Rica. Su ciudad cabecera es San Rafael, unida a la conurbación de la ciudad de Cartago de la que apenas la separa un kilómetro de distancia, hacia el noreste. El cantón está situado a las faldas del volcán Irazú.",
+    "src": {
+      "name": "Wikipedia ES",
+      "url": "https://es.wikipedia.org/wiki/Cant%C3%B3n_de_Oreamuno",
+      "license": "CC BY-SA 4.0"
+    }
+  },
+  "wd-canton-de-garabito": {
+    "es": "Garabito es el cantón número 11 de la provincia de Puntarenas, Costa Rica. Ocupa una estrecha llanura litoral, en la costa del Pacífico Central costarricense.",
+    "src": {
+      "name": "Wikipedia ES",
+      "url": "https://es.wikipedia.org/wiki/Cant%C3%B3n_de_Garabito",
+      "license": "CC BY-SA 4.0"
+    }
+  },
+  "wd-canton-de-los-chiles": {
+    "es": "Los Chiles es el cantón número 14 de la provincia de Alajuela, en Costa Rica, ubicado en el sector más septentrional de la República, en la frontera con Nicaragua. Está dividido en 4 distritos.",
+    "src": {
+      "name": "Wikipedia ES",
+      "url": "https://es.wikipedia.org/wiki/Cant%C3%B3n_de_Los_Chiles",
+      "license": "CC BY-SA 4.0"
+    }
+  },
+  "wd-canton-de-guatuso": {
+    "es": "Guatuso es el cantón número 15 de la provincia de Alajuela, en Costa Rica. Por su posición geográfica, el cantón se encuentra ubicado en la Región Huetar Norte. Cuenta con la particularidad de ser el único cantón de esta región que, junto al Cantón de Río Cuarto, no es fronterizo con Nicaragua. Está dividido en 4…",
+    "src": {
+      "name": "Wikipedia ES",
+      "url": "https://es.wikipedia.org/wiki/Cant%C3%B3n_de_Guatuso",
+      "license": "CC BY-SA 4.0"
+    }
+  },
+  "wd-canton-de-desamparados": {
+    "es": "Desamparados es un cantón de Costa Rica situado en el centro de la provincia de San José, sobre la meseta intervolcánica del Valle Central, y perteneciente parcialmente a la Gran Área Metropolitana. El cantón cuenta con un total de 249 367 habitantes, según la última proyección demográfica del INEC, ubicándose así como…",
+    "src": {
+      "name": "Wikipedia ES",
+      "url": "https://es.wikipedia.org/wiki/Cant%C3%B3n_de_Desamparados",
+      "license": "CC BY-SA 4.0"
+    }
+  },
+  "wd-canton-de-pococi": {
+    "es": "Pococí es el cantón 2 de la provincia de Limón, Costa Rica. Es el más septentrional y occidental de los 6 cantones que la componen. Tiene una extensión de 2.403,49 km², y es el segundo en importancia demográfica y económica de la provincia. Fue creado por la ley n.° 12 del 19 de septiembre de 1911, durante la…",
+    "src": {
+      "name": "Wikipedia ES",
+      "url": "https://es.wikipedia.org/wiki/Cant%C3%B3n_de_Pococ%C3%AD",
+      "license": "CC BY-SA 4.0"
+    }
+  },
+  "wd-canton-de-san-ramon": {
+    "es": "San Ramón es el cantón número 2 de la provincia de Alajuela, en Costa Rica. Se encuentra localizado en la sección occidental del Valle Central de Costa Rica. Su cabecera es la ciudad de San Ramón, un importante centro económico en la región occidente del país.",
+    "src": {
+      "name": "Wikipedia ES",
+      "url": "https://es.wikipedia.org/wiki/Cant%C3%B3n_de_San_Ram%C3%B3n",
+      "license": "CC BY-SA 4.0"
+    }
+  },
+  "wd-canton-de-vazquez-de-coronado": {
+    "es": "Vázquez de Coronado es el cantón undécimo de la provincia de San José, en Costa Rica. Se ubica al norte del Valle Central y forma parte de la Gran Área Metropolitana. Su cabecera es el distrito de San Isidro, con categoría de ciudad, y administrativamente se divide en cinco distritos: San Isidro, San Rafael, Dulce…",
+    "src": {
+      "name": "Wikipedia ES",
+      "url": "https://es.wikipedia.org/wiki/Cant%C3%B3n_de_V%C3%A1zquez_de_Coronado",
+      "license": "CC BY-SA 4.0"
+    }
+  },
+  "wd-canton-de-curridabat": {
+    "es": "Curridabat es un cantón de Costa Rica situado en el norte de la provincia de San José, sobre la meseta intervolcánica del Valle Central, y perteneciente en su totalidad a la Gran Área Metropolitana. El cantón cuenta con un total de 77 028 habitantes, según la última proyección demográfica del INEC, ubicándose así como…",
+    "src": {
+      "name": "Wikipedia ES",
+      "url": "https://es.wikipedia.org/wiki/Cant%C3%B3n_de_Curridabat",
+      "license": "CC BY-SA 4.0"
+    }
+  },
+  "wd-canton-de-acosta": {
+    "es": "Acosta es un cantón de Costa Rica situado en el centro de la provincia de San José, sobre la meseta intervolcánica del Valle Central. El cantón cuenta con un total de 21 335 habitantes, según la última proyección demográfica del INEC, ubicándose así como el sexagésimo más poblado del país y el decimosexto de la…",
+    "src": {
+      "name": "Wikipedia ES",
+      "url": "https://es.wikipedia.org/wiki/Cant%C3%B3n_de_Acosta",
+      "license": "CC BY-SA 4.0"
+    }
+  },
+  "wd-canton-de-santa-ana": {
+    "es": "Santa Ana es un cantón de Costa Rica situado en el oeste de la provincia de San José, sobre la meseta intervolcánica del Valle Central, y perteneciente a la Gran Área Metropolitana. El cantón cuenta con un total de 60 453 habitantes, según la última proyección demográfica, ubicándose así como el vigesimonoveno más…",
+    "src": {
+      "name": "Wikipedia ES",
+      "url": "https://es.wikipedia.org/wiki/Cant%C3%B3n_de_Santa_Ana_(Costa_Rica)",
+      "license": "CC BY-SA 4.0"
+    }
+  },
+  "wd-canton-de-mora": {
+    "es": "Mora es un cantón de Costa Rica situado en el oeste de la provincia de San José, sobre la meseta intervolcánica del Valle Central, y perteneciente a la Gran Área Metropolitana. El cantón cuenta con un total de 30 318 habitantes, según la última proyección demográfica, ubicándose así como el quincuagésimo quinto más…",
+    "src": {
+      "name": "Wikipedia ES",
+      "url": "https://es.wikipedia.org/wiki/Cant%C3%B3n_de_Mora",
+      "license": "CC BY-SA 4.0"
+    }
+  },
+  "wd-canton-de-aserri": {
+    "es": "Aserrí es un cantón de Costa Rica situado en el centro de la provincia de San José, sobre la meseta intervolcánica del Valle Central, y perteneciente parcialmente a la Gran Área Metropolitana. El cantón cuenta con un total de 61 338 habitantes, según la última proyección demográfica del INEC, ubicándose así como el…",
+    "src": {
+      "name": "Wikipedia ES",
+      "url": "https://es.wikipedia.org/wiki/Cant%C3%B3n_de_Aserr%C3%AD",
+      "license": "CC BY-SA 4.0"
+    }
+  },
+  "wd-canton-de-dota": {
+    "es": "Dota es el cantón número 17 de la provincia de San José, Costa Rica. Junto con León Cortés Castro y Tarrazú, forma la Zona de los Santos, conocida por su actividad cafetalera y turística como el Eje Cafetalero. Posee un área de 400.22 km², lo que lo hace el cuarto cantón más grande de la provincia de San José, y se…",
+    "src": {
+      "name": "Wikipedia ES",
+      "url": "https://es.wikipedia.org/wiki/Cant%C3%B3n_de_Dota",
+      "license": "CC BY-SA 4.0"
+    }
+  },
+  "wd-canton-de-moravia": {
+    "es": "Moravia es un cantón situado en el área norte de la provincia de San José, en Costa Rica, y perteneciente al Gran Área Metropolitana. Limita al oeste con los cantones de San Isidro y Santo Domingo, al suroeste con el cantón de Tibás, al sur con el cantón de Goicoechea y al este y norte con el cantón de Vázquez de…",
+    "src": {
+      "name": "Wikipedia ES",
+      "url": "https://es.wikipedia.org/wiki/Cant%C3%B3n_de_Moravia",
+      "license": "CC BY-SA 4.0"
+    }
+  },
+  "wd-canton-de-san-mateo": {
+    "es": "San Mateo es el cantón número 4 de la provincia de Alajuela en Costa Rica. Su cabecera es la ciudad de San Mateo.",
+    "src": {
+      "name": "Wikipedia ES",
+      "url": "https://es.wikipedia.org/wiki/Cant%C3%B3n_de_San_Mateo",
+      "license": "CC BY-SA 4.0"
+    }
+  },
+  "wd-canton-de-cartago": {
+    "es": "El cantón de Cartago es el cantón número 1 y central de la provincia del mismo nombre, Costa Rica.",
+    "src": {
+      "name": "Wikipedia ES",
+      "url": "https://es.wikipedia.org/wiki/Cant%C3%B3n_de_Cartago",
+      "license": "CC BY-SA 4.0"
+    }
+  },
+  "wd-canton-de-escazu": {
+    "es": "Escazú es un cantón de Costa Rica situado en el Oeste de la provincia de San José, sobre la meseta intervolcánica del Valle Central, y perteneciente a la Gran Área Metropolitana. El cantón cuenta con un total de 71 202 habitantes, según la última proyección demográfica del INEC, ubicándose así como el vigesimosegundo…",
+    "src": {
+      "name": "Wikipedia ES",
+      "url": "https://es.wikipedia.org/wiki/Cant%C3%B3n_de_Escaz%C3%BA",
+      "license": "CC BY-SA 4.0"
+    }
+  },
+  "wd-canton-de-upala": {
+    "es": "Upala es el cantón número 13 de la provincia de Alajuela, Costa Rica. Según la división zonal del país, se localiza en la Región Huetar Norte. Se encuentra dividido en ocho distritos.",
+    "src": {
+      "name": "Wikipedia ES",
+      "url": "https://es.wikipedia.org/wiki/Cant%C3%B3n_de_Upala",
+      "license": "CC BY-SA 4.0"
+    }
+  },
+  "wd-canton-de-canas": {
+    "es": "Cañas es el sexto cantón de la provincia de Guanacaste, Costa Rica. Su cabecera es la homónima ciudad de Cañas.",
+    "src": {
+      "name": "Wikipedia ES",
+      "url": "https://es.wikipedia.org/wiki/Cant%C3%B3n_de_Ca%C3%B1as",
+      "license": "CC BY-SA 4.0"
+    }
+  },
+  "wd-canton-de-santa-cruz": {
+    "es": "Santa Cruz es el cantón tercero de la provincia de Guanacaste, Costa Rica, que se ubica al noroeste del país. Su cabecera es la ciudad de Santa Cruz, conocida como \"La Ciudad Folclórica\".",
+    "src": {
+      "name": "Wikipedia ES",
+      "url": "https://es.wikipedia.org/wiki/Cant%C3%B3n_de_Santa_Cruz_(Costa_Rica)",
+      "license": "CC BY-SA 4.0"
+    }
+  },
+  "wd-canton-de-santo-domingo": {
+    "es": "Santo Domingo es el cantón número 3 de la provincia de Heredia, Costa Rica. El origen del nombre del cantón se remonta a la creación de la ermita dedicada a Santo Domingo, el cual se le otorgó al barrio, luego al distrito cuando se estableció, y por consiguiente conservó al crearse el cantón.",
+    "src": {
+      "name": "Wikipedia ES",
+      "url": "https://es.wikipedia.org/wiki/Cant%C3%B3n_de_Santo_Domingo_(Costa_Rica)",
+      "license": "CC BY-SA 4.0"
+    }
+  },
+  "wd-canton-de-goicoechea": {
+    "es": "Goicoechea es un cantón de Costa Rica situado en el norte de la provincia de San José, sobre la meseta intervolcánica del Valle Central, y perteneciente en su totalidad a la Gran Área Metropolitana. El cantón cuenta con un total de 132 104 habitantes, según la última proyección demográfica del INEC, ubicándose así como…",
+    "src": {
+      "name": "Wikipedia ES",
+      "url": "https://es.wikipedia.org/wiki/Cant%C3%B3n_de_Goicoechea",
+      "license": "CC BY-SA 4.0"
+    }
+  },
+  "wd-canton-de-atenas": {
+    "es": "Atenas es el cantón número 5 de la provincia de Alajuela, Costa Rica. Está ubicado en el occidente del Valle Central. Se divide en ocho distritos de los cuales sólo cinco forman parte de la Gran Área Metropolitana. Su cabecera es la ciudad de Atenas.",
+    "src": {
+      "name": "Wikipedia ES",
+      "url": "https://es.wikipedia.org/wiki/Cant%C3%B3n_de_Atenas",
+      "license": "CC BY-SA 4.0"
+    }
+  },
+  "wd-canton-de-carrillo": {
+    "es": "Carrillo es el quinto cantón de la provincia de Guanacaste, Costa Rica, se creó el 16 de junio de 1877 mediante decreto presidencial N.º 22, durante el periodo presidencial provisional del Dr. Vicente Herrera Zeledón.",
+    "src": {
+      "name": "Wikipedia ES",
+      "url": "https://es.wikipedia.org/wiki/Cant%C3%B3n_de_Carrillo",
+      "license": "CC BY-SA 4.0"
+    }
+  },
+  "wd-canton-de-abangares": {
+    "es": "Abangares es el séptimo cantón de la provincia de Guanacaste, en Costa Rica, siendo el más cercano de dicha provincia a la capital nacional San José.",
+    "src": {
+      "name": "Wikipedia ES",
+      "url": "https://es.wikipedia.org/wiki/Cant%C3%B3n_de_Abangares",
+      "license": "CC BY-SA 4.0"
+    }
+  },
+  "wd-canton-de-tilaran": {
+    "es": "Tilarán es el octavo cantón de la provincia de Guanacaste, al norte de Costa Rica. Está ubicado en una zona montañosa al extremo oeste de la Sierra Minera de Tilarán, una sección de la Cordillera Volcánica de Guanacaste.",
+    "src": {
+      "name": "Wikipedia ES",
+      "url": "https://es.wikipedia.org/wiki/Cant%C3%B3n_de_Tilar%C3%A1n",
+      "license": "CC BY-SA 4.0"
+    }
+  },
+  "wd-canton-de-nandayure": {
+    "es": "Nandayure es el cantón número nueve de la provincia de Guanacaste, Costa Rica. Es de reciente formación, ya que se fundó el 9 de octubre de 1961. Posee un extenso litoral sobre el océano Pacífico y está ubicado en la parte más meridional de la provincia, en la península de Nicoya.",
+    "src": {
+      "name": "Wikipedia ES",
+      "url": "https://es.wikipedia.org/wiki/Cant%C3%B3n_de_Nandayure",
+      "license": "CC BY-SA 4.0"
+    }
+  },
+  "wd-canton-de-la-cruz": {
+    "es": "La Cruz es el décimo cantón de la provincia de Guanacaste en Costa Rica, constituido como tal desde 1969, siendo a su vez uno de los más septentrionales de la República.",
+    "src": {
+      "name": "Wikipedia ES",
+      "url": "https://es.wikipedia.org/wiki/Cant%C3%B3n_de_La_Cruz",
+      "license": "CC BY-SA 4.0"
+    }
+  },
+  "wd-canton-de-hojancha": {
+    "es": "Hojancha es el undécimo cantón de la provincia de Guanacaste, en Costa Rica y está ubicado en el extremo sur de la península de Nicoya. Es el cantón de más reciente creación de la provincia.",
+    "src": {
+      "name": "Wikipedia ES",
+      "url": "https://es.wikipedia.org/wiki/Cant%C3%B3n_de_Hojancha",
+      "license": "CC BY-SA 4.0"
+    }
+  },
+  "wd-canton-de-san-jose": {
+    "es": "El cantón San José es el cantón número 1 de la provincia de San José, Costa Rica. El cantón contiene a la capital costarricense, aunque la influencia de la misma manifestada en extensión territorial y población supera ampliamente las dimensiones cantonales, en lo que se denomina el Gran Área Metropolitana.",
+    "src": {
+      "name": "Wikipedia ES",
+      "url": "https://es.wikipedia.org/wiki/Cant%C3%B3n_de_San_Jos%C3%A9",
+      "license": "CC BY-SA 4.0"
+    }
+  },
+  "wd-canton-de-naranjo": {
+    "es": "Naranjo es el cantón número 6 de la provincia de Alajuela en Costa Rica. Está localizado al noroeste de la ciudad de Alajuela.",
+    "src": {
+      "name": "Wikipedia ES",
+      "url": "https://es.wikipedia.org/wiki/Cant%C3%B3n_de_Naranjo",
+      "license": "CC BY-SA 4.0"
+    }
+  },
+  "wd-canton-de-grecia": {
+    "es": "Grecia es el tercer cantón de la provincia de Alajuela, en Costa Rica. Su cabecera es la ciudad de Grecia. Se ubica a 45 km de la capital San José y a 30 km de la ciudad de Alajuela.",
+    "src": {
+      "name": "Wikipedia ES",
+      "url": "https://es.wikipedia.org/wiki/Cant%C3%B3n_de_Grecia",
+      "license": "CC BY-SA 4.0"
+    }
+  },
+  "wd-canton-de-sarchi": {
+    "es": "Sarchí es el décimo segundo cantón de la provincia de Alajuela, en Costa Rica. Anteriormente llevaba el nombre de Valverde Vega. Su cabecera es la ciudad de Sarchí Norte.",
+    "src": {
+      "name": "Wikipedia ES",
+      "url": "https://es.wikipedia.org/wiki/Cant%C3%B3n_de_Sarch%C3%AD",
+      "license": "CC BY-SA 4.0"
+    }
+  },
+  "wd-canton-de-osa": {
+    "es": "Osa es el cantón número 5 de la provincia de Puntarenas, en la costa del océano Pacífico de Costa Rica. Se ubica al sureste del país, en la Región Brunca. Posee una superficie de 1930.24 km², lo que lo hace el sexto cantón de mayor área del país, y el segundo más extenso de la provincia de Puntarenas. Limita al norte…",
+    "src": {
+      "name": "Wikipedia ES",
+      "url": "https://es.wikipedia.org/wiki/Cant%C3%B3n_de_Osa",
+      "license": "CC BY-SA 4.0"
+    }
+  },
+  "wd-canton-de-esparza": {
+    "es": "Esparza es el segundo cantón de la provincia de Puntarenas. Se localiza en el norte de la provincia. Su cabecera es la ciudad de Esparza, en el distrito de Espíritu Santo.",
+    "src": {
+      "name": "Wikipedia ES",
+      "url": "https://es.wikipedia.org/wiki/Cant%C3%B3n_de_Esparza",
+      "license": "CC BY-SA 4.0"
+    }
+  },
+  "wd-canton-de-quepos": {
+    "es": "Quepos es el cantón número 6 de la provincia de Puntarenas, en la costa pacífica central de Costa Rica. Está dividido en 3 distritos su cabecera es la ciudad de Quepos. Fue fundado el 30 de octubre de 1948 con el nombre de Aguirre, nombre con el que se denominó hasta febrero de 2015.",
+    "src": {
+      "name": "Wikipedia ES",
+      "url": "https://es.wikipedia.org/wiki/Cant%C3%B3n_de_Quepos",
+      "license": "CC BY-SA 4.0"
+    }
+  },
+  "wd-canton-de-palmares": {
+    "es": "Palmares es el cantón número 7 de la provincia de Alajuela, Costa Rica, es el cantón más pequeño de Alajuela. Ubicado en la zona occidental del Valle Central, adquiere el título de cantón el 30 de julio de 1888. Limita al norte y al oeste con San Ramón, al sur con Atenas y al este con el cantón de Naranjo. Se encuentra…",
+    "src": {
+      "name": "Wikipedia ES",
+      "url": "https://es.wikipedia.org/wiki/Cant%C3%B3n_de_Palmares",
+      "license": "CC BY-SA 4.0"
+    }
+  },
+  "wd-canton-de-parrita": {
+    "es": "Parrita es el cantón número 9 de la provincia de Puntarenas, en la costa pacífica de Costa Rica. Está localizado en la región Pacífico Central del país. Junto con el cantón de Monteverde y el cantón de Puerto Jiménez, son los únicos 3 cantones del país que cuentan con un único distrito.",
+    "src": {
+      "name": "Wikipedia ES",
+      "url": "https://es.wikipedia.org/wiki/Cant%C3%B3n_de_Parrita",
+      "license": "CC BY-SA 4.0"
+    }
+  },
+  "wd-canton-de-turrialba": {
+    "es": "Turrialba es el cantón número 5 de la provincia de Cartago. Costa Rica. Fue creado el 19 de agosto de 1903, durante la administración del presidente de la República Lic. Ascensión Esquivel Ibarra, producto de la gestión política de don Jenaro Bonilla Aguilar. Es uno de los cantones más extensos del país.",
+    "src": {
+      "name": "Wikipedia ES",
+      "url": "https://es.wikipedia.org/wiki/Cant%C3%B3n_de_Turrialba",
+      "license": "CC BY-SA 4.0"
+    }
+  },
+  "wd-canton-de-santa-barbara": {
+    "es": "Santa Bárbara es el cantón número 4 de la provincia de Heredia, Costa Rica. El cantón forma parte de la Gran Área Metropolitana. Su cabecera es la ciudad de Santa Bárbara, ubicada a 8 km al oeste de Heredia.",
+    "src": {
+      "name": "Wikipedia ES",
+      "url": "https://es.wikipedia.org/wiki/Cant%C3%B3n_de_Santa_B%C3%A1rbara",
+      "license": "CC BY-SA 4.0"
+    }
+  },
+  "wd-canton-de-corredores": {
+    "es": "Corredores es el cantón número 10 de la provincia de Puntarenas, Costa Rica y el tercero más poblado de dicha región. La cabecera es Ciudad Neily. Corredores es parte de la Región Brunca, ubicada al sur del país.",
+    "src": {
+      "name": "Wikipedia ES",
+      "url": "https://es.wikipedia.org/wiki/Cant%C3%B3n_de_Corredores",
+      "license": "CC BY-SA 4.0"
+    }
+  },
+  "wd-canton-de-jimenez": {
+    "es": "Jiménez es el cuarto cantón de la provincia de Cartago, Costa Rica. Se encuentra al este de la ciudad de Cartago, en los límites del Valle de El Guarco. Su ciudad cabecera es Juan Viñas.",
+    "src": {
+      "name": "Wikipedia ES",
+      "url": "https://es.wikipedia.org/wiki/Cant%C3%B3n_de_Jim%C3%A9nez",
+      "license": "CC BY-SA 4.0"
+    }
+  },
+  "wd-canton-de-san-isidro": {
+    "es": "San Isidro es el cantón número 6 de la provincia de Heredia, Costa Rica. Forma parte de la Gran Área Metropolitana. Se encuentra ubicado 8 km al este de la ciudad de Heredia. Posee una superficie territorial de 26.96 km² y está dividido en 4 distritos. Limita al norte con los cantones de Vázquez de Coronado y Moravia,…",
+    "src": {
+      "name": "Wikipedia ES",
+      "url": "https://es.wikipedia.org/wiki/Cant%C3%B3n_de_San_Isidro",
+      "license": "CC BY-SA 4.0"
+    }
+  },
+  "wd-canton-de-golfito": {
+    "es": "Golfito es el cantón número 7 de la provincia de Puntarenas, en la costa pacífica de Costa Rica. La cabecera es Golfito, que se ubica a unos 290 km de San José, y a unos 40 km de la frontera con Panamá.",
+    "src": {
+      "name": "Wikipedia ES",
+      "url": "https://es.wikipedia.org/wiki/Cant%C3%B3n_de_Golfito",
+      "license": "CC BY-SA 4.0"
+    }
+  },
+  "wd-canton-de-heredia": {
+    "es": "Heredia es el cantón primero de la provincia de Heredia, Costa Rica.",
+    "src": {
+      "name": "Wikipedia ES",
+      "url": "https://es.wikipedia.org/wiki/Cant%C3%B3n_de_Heredia",
+      "license": "CC BY-SA 4.0"
+    }
+  },
+  "wd-canton-de-san-pablo": {
+    "es": "San Pablo es el cantón número 9 de la provincia de Heredia, Costa Rica.",
+    "src": {
+      "name": "Wikipedia ES",
+      "url": "https://es.wikipedia.org/wiki/Cant%C3%B3n_de_San_Pablo_(Costa_Rica)",
+      "license": "CC BY-SA 4.0"
+    }
+  },
+  "wd-canton-de-flores": {
+    "es": "Flores es el cantón número 8 de la provincia de Heredia ; por su área de apenas 6,96 km², es el más pequeño del país. Flores forma parte de la Gran Área Metropolitana.",
+    "src": {
+      "name": "Wikipedia ES",
+      "url": "https://es.wikipedia.org/wiki/Cant%C3%B3n_de_Flores",
+      "license": "CC BY-SA 4.0"
+    }
+  },
+  "wd-canton-de-coto-brus": {
+    "es": "Coto Brus es el cantón número 8 de la provincia de Puntarenas, Costa Rica. Su cabecera con categoría de ciudad es San Vito. Coto Brus es uno de los cantones que conforman la Región Brunca.",
+    "src": {
+      "name": "Wikipedia ES",
+      "url": "https://es.wikipedia.org/wiki/Cant%C3%B3n_de_Coto_Brus",
+      "license": "CC BY-SA 4.0"
+    }
+  },
+  "wd-canton-de-poas": {
+    "es": "Poás es el octavo cantón de la provincia de Alajuela, Costa Rica. La ciudad de San Pedro, se encuentra ubicado a unos 35 km al noroeste de la capital San José, en las faldas de la cordillera Volcánica Central. Está dividido en cinco distritos.",
+    "src": {
+      "name": "Wikipedia ES",
+      "url": "https://es.wikipedia.org/wiki/Cant%C3%B3n_de_Po%C3%A1s",
+      "license": "CC BY-SA 4.0"
+    }
+  },
+  "wd-canton-de-alvarado": {
+    "es": "Alvarado es el cantón número 6 de la provincia de Cartago, Costa Rica. Su ciudad cabecera es Pacayas.",
+    "src": {
+      "name": "Wikipedia ES",
+      "url": "https://es.wikipedia.org/wiki/Cant%C3%B3n_de_Alvarado",
+      "license": "CC BY-SA 4.0"
+    }
+  },
+  "wd-canton-de-sarapiqui": {
+    "es": "Sarapiquí es el cantón número 10 de la provincia de Heredia, en Costa Rica. Se encuentra ubicado en la parte septentrional del país. Posee una superficie de 2140,54 km², lo que lo convierte en el cantón más extenso de la provincia, y está dividido en 5 distritos. Limita con los cantones de San Carlos, Río Cuarto y…",
+    "src": {
+      "name": "Wikipedia ES",
+      "url": "https://es.wikipedia.org/wiki/Cant%C3%B3n_de_Sarapiqu%C3%AD",
+      "license": "CC BY-SA 4.0"
+    }
+  },
+  "wd-canton-de-puntarenas": {
+    "es": "Puntarenas es el cantón primero de la provincia de Puntarenas, en la costa pacífica de Costa Rica. Es el cantón más poblado de la provincia. Su ciudad cabecera es la ciudad de Puntarenas.",
+    "src": {
+      "name": "Wikipedia ES",
+      "url": "https://es.wikipedia.org/wiki/Cant%C3%B3n_de_Puntarenas",
+      "license": "CC BY-SA 4.0"
+    }
+  },
+  "wd-canton-de-la-union": {
+    "es": "La Unión es el tercer cantón de la provincia de Cartago, en Costa Rica, siendo el más pequeño de los ocho que la componen, pero el más densamente poblado. Su cabecera es la ciudad de Tres Ríos.",
+    "src": {
+      "name": "Wikipedia ES",
+      "url": "https://es.wikipedia.org/wiki/Cant%C3%B3n_de_La_Uni%C3%B3n",
+      "license": "CC BY-SA 4.0"
+    }
+  },
+  "wd-canton-de-belen": {
+    "es": "Belén es el cantón número 7 de la provincia de Heredia, Costa Rica. Forma parte de la Gran Área Metropolitana, donde el área habitacional constituye por lo menos un 25% de la superficie del cantón.",
+    "src": {
+      "name": "Wikipedia ES",
+      "url": "https://es.wikipedia.org/wiki/Cant%C3%B3n_de_Bel%C3%A9n",
+      "license": "CC BY-SA 4.0"
+    }
+  },
+  "wd-canton-de-el-guarco": {
+    "es": "El Guarco es el cantón octavo de la provincia de Cartago, Costa Rica.",
+    "src": {
+      "name": "Wikipedia ES",
+      "url": "https://es.wikipedia.org/wiki/Cant%C3%B3n_de_El_Guarco",
+      "license": "CC BY-SA 4.0"
+    }
+  },
+  "wd-canton-de-barva": {
+    "es": "Barva es el cantón número 2 de la provincia de Heredia, Costa Rica. Se encuentra ubicado a tres kilómetros al norte de la ciudad de Heredia y pertenece a la Gran Área Metropolitana.",
+    "src": {
+      "name": "Wikipedia ES",
+      "url": "https://es.wikipedia.org/wiki/Cant%C3%B3n_de_Barva",
+      "license": "CC BY-SA 4.0"
+    }
+  },
+  "wd-canton-de-paraiso": {
+    "es": "El cantón Paraíso es el segundo cantón de la provincia de Cartago de Costa Rica. Está situado al este del Valle del Guarco, dentro del área conocida como la Meseta Central, constituyendo una de las fronteras del Gran Área Metropolitana. Su ciudad cabecera del mismo nombre se ubica a 8 kilómetros al sureste de la ciudad…",
+    "src": {
+      "name": "Wikipedia ES",
+      "url": "https://es.wikipedia.org/wiki/Cant%C3%B3n_de_Para%C3%ADso",
+      "license": "CC BY-SA 4.0"
+    }
+  },
+  "wd-canton-de-limon": {
+    "es": "Limón es el primer cantón de la provincia de Limón, ubicada en el Caribe de Costa Rica.",
+    "src": {
+      "name": "Wikipedia ES",
+      "url": "https://es.wikipedia.org/wiki/Cant%C3%B3n_de_Lim%C3%B3n",
+      "license": "CC BY-SA 4.0"
+    }
+  },
+  "wd-canton-de-matina": {
+    "es": "Matina es el quinto cantón de la provincia de Limón, Costa Rica. Su cabecera es la ciudad de Matina.",
+    "src": {
+      "name": "Wikipedia ES",
+      "url": "https://es.wikipedia.org/wiki/Cant%C3%B3n_de_Matina",
+      "license": "CC BY-SA 4.0"
+    }
+  },
+  "wd-canton-de-buenos-aires": {
+    "es": "Buenos Aires es el cantón número 3 de la provincia de Puntarenas, Costa Rica. Su cabecera de cantón es Buenos Aires ubicada aproximadamente a unos 196 km de San José la capital costarricense, el cantón de Buenos Aires se encuentra en la Región Brunca al sur de Costa Rica",
+    "src": {
+      "name": "Wikipedia ES",
+      "url": "https://es.wikipedia.org/wiki/Cant%C3%B3n_de_Buenos_Aires",
+      "license": "CC BY-SA 4.0"
+    }
+  },
+  "wd-canton-de-talamanca": {
+    "es": "Talamanca es el cantón número 4 y el más extenso de los seis que componen la provincia de Limón, Costa Rica. Es el segundo de mayor superficie en el país, después del de San Carlos. Su cabecera es la ciudad de Bribri, ubicada a orillas del río Sixaola, en la frontera con Panamá.",
+    "src": {
+      "name": "Wikipedia ES",
+      "url": "https://es.wikipedia.org/wiki/Cant%C3%B3n_de_Talamanca",
+      "license": "CC BY-SA 4.0"
+    }
+  },
+  "wd-canton-de-alajuela": {
+    "es": "Alajuela es el cantón número 1 de la provincia de Alajuela, Costa Rica. Está localizado en el Valle Central del país. Posee un área de 388.43 km² y se encuentra dividido en 14 distritos. Limita al este con los cantones de Sarapiquí, Heredia, Belén y Santa Bárbara, al sur con Santa Ana y Mora, al oeste con Atenas,…",
+    "src": {
+      "name": "Wikipedia ES",
+      "url": "https://es.wikipedia.org/wiki/Cant%C3%B3n_de_Alajuela",
+      "license": "CC BY-SA 4.0"
+    }
+  },
+  "wd-canton-de-montes-de-oca": {
+    "es": "Montes de Oca es un cantón de Costa Rica situado en el norte de la provincia de San José, sobre la meseta intervolcánica del Valle Central, y perteneciente en su totalidad a la Gran Área Metropolitana. El cantón cuenta con un total de 61 661 habitantes, según la última proyección demográfica del INEC, ubicándose así…",
+    "src": {
+      "name": "Wikipedia ES",
+      "url": "https://es.wikipedia.org/wiki/Cant%C3%B3n_de_Montes_de_Oca",
+      "license": "CC BY-SA 4.0"
+    }
+  },
+  "wd-canton-de-nicoya": {
+    "es": "Nicoya es el segundo cantón de la provincia de Guanacaste en Costa Rica, es uno de los trece primeros cantones que tuvo el país. Se divide en siete distritos. Su cabecera es la ciudad de Nicoya, ubicada a 207 km por carretera de la capital del país San José, en el corazón de la península del mismo nombre.",
+    "src": {
+      "name": "Wikipedia ES",
+      "url": "https://es.wikipedia.org/wiki/Cant%C3%B3n_de_Nicoya",
+      "license": "CC BY-SA 4.0"
+    }
+  },
+  "wd-canton-de-zarcero": {
+    "es": "Zarcero es el cantón número 11 de la provincia de Alajuela, en Costa Rica. Hasta el 2010 llevaba el nombre de Alfaro Ruiz y se encuentra ubicado hacia el occidente del Valle Central de Costa Rica, a 67 km al noroeste de la ciudad de San José. Está dividido en siete distritos. Limita al norte con el cantón de San…",
+    "src": {
+      "name": "Wikipedia ES",
+      "url": "https://es.wikipedia.org/wiki/Cant%C3%B3n_de_Zarcero",
+      "license": "CC BY-SA 4.0"
+    }
+  },
+  "wd-canton-de-rio-cuarto": {
+    "es": "Río Cuarto es el cantón número 16 de la provincia de Alajuela, Costa Rica. Fue creado el 30 de marzo de 2017 al ser segregado del cantón de Grecia.",
+    "src": {
+      "name": "Wikipedia ES",
+      "url": "https://es.wikipedia.org/wiki/Cant%C3%B3n_de_R%C3%ADo_Cuarto",
+      "license": "CC BY-SA 4.0"
+    }
+  },
+  "wd-canton-de-liberia": {
+    "es": "Liberia es el cantón primero de la provincia de Guanacaste. Surgió en la segunda mitad del siglo XVIII, el 4 de septiembre de 1769, con el nombre de pueblo de Guanacaste, como consecuencia del establecimiento de una ayuda de parroquia en su emplazamiento, aunque sin acto jurídico de fundación.",
+    "src": {
+      "name": "Wikipedia ES",
+      "url": "https://es.wikipedia.org/wiki/Cant%C3%B3n_de_Liberia",
+      "license": "CC BY-SA 4.0"
+    }
+  },
+  "wd-templo-de-san-jose": {
+    "es": "El Templo de San José, Costa Rica, es uno de los templos construidos y operados por la Iglesia de Jesucristo de los Santos de los Últimos Días, el número 87 construido por esta iglesia y el primero de Costa Rica, ubicado en la urbanización Ribera de Belén de la ciudad de San Antonio de Belén en la provincia de Heredia…",
+    "src": {
+      "name": "Wikipedia ES",
+      "url": "https://es.wikipedia.org/wiki/Templo_de_San_Jos%C3%A9_(Costa_Rica)",
+      "license": "CC BY-SA 4.0"
+    }
+  },
+  "wd-parroquia-san-bartolome-apostol": {
+    "es": "La Parroquia San Bartolomé Apóstol, es una iglesia católica en el distrito de Barva del cantón de Barva, Heredia, Costa Rica. La primera iglesia se estableció entre 1568 y 1575, una construcción de adobe y techo de paja, y se dedicó a San Bartolomé Apóstol; se rumorea que se construyó sobre un cementerio indígena, ya…",
+    "src": {
+      "name": "Wikipedia ES",
+      "url": "https://es.wikipedia.org/wiki/Parroquia_San_Bartolom%C3%A9_Ap%C3%B3stol",
+      "license": "CC BY-SA 4.0"
+    }
+  },
+  "wd-estadio-guillermo-vargas-roldan": {
+    "es": "El Estadio Guillermo Vargas Roldán es un estadio ubicado en la ciudad de San Ramón, Alajuela, Costa Rica.",
+    "src": {
+      "name": "Wikipedia ES",
+      "url": "https://es.wikipedia.org/wiki/Estadio_Guillermo_Vargas_Rold%C3%A1n",
+      "license": "CC BY-SA 4.0"
+    }
+  },
+  "wd-estadio-rafael-bolanos": {
+    "es": "El Estadio Rafael Bolaños, es un estadio privado multi uso con gramilla sintética ubicado en El Coyol, en las afueras de la ciudad de Alajuela, Costa Rica.",
+    "src": {
+      "name": "Wikipedia ES",
+      "url": "https://es.wikipedia.org/wiki/Estadio_Rafael_Bola%C3%B1os",
+      "license": "CC BY-SA 4.0"
+    }
+  },
+  "wd-area-de-conservacion-guanacaste": {
+    "es": "El Área de Conservación Guanacaste (ACG) es un sitio Patrimonio de la Humanidad declarado por la Unesco en el año 1999. Está situado en el noroeste de Costa Rica, y comprende el parque nacional Santa Rosa, el parque nacional Guanacaste, el parque nacional Rincón de la Vieja, el Refugio de Vida Silvestre Iguanita, el…",
+    "src": {
+      "name": "Wikipedia ES",
+      "url": "https://es.wikipedia.org/wiki/%C3%81rea_de_conservaci%C3%B3n_Guanacaste",
+      "license": "CC BY-SA 4.0"
+    }
+  },
+  "wd-volcan-tortuguero": {
+    "es": "El volcán Tortuguero, también llamado Cerro Tortuguero, es un volcán extinto localizado 5,5 km al noroeste del pueblo de Tortuguero y dentro del Parque nacional Tortuguero.",
+    "src": {
+      "name": "Wikipedia ES",
+      "url": "https://es.wikipedia.org/wiki/Volc%C3%A1n_Tortuguero",
+      "license": "CC BY-SA 4.0"
+    }
+  },
+  "wd-zone-de-proteccion-tivives": {
+    "es": "La Zona protectora Tivives es un importante bosque seco tropical protegido ubicando en la Región Pacífico Central de Costa Rica y administrada bajo el área de conservación Pacífico Central.",
+    "src": {
+      "name": "Wikipedia ES",
+      "url": "https://es.wikipedia.org/wiki/Zona_protectora_Tivives",
+      "license": "CC BY-SA 4.0"
+    }
+  },
+  "wd-reserva-forestal-golfo-dulce": {
+    "es": "La Reserva forestal Golfo Dulce, es un área protegida en Costa Rica, administrada bajo el Área de conservación Osa. Fue creada el 28 de abril de 1975 por medio del decreto 8494-A.",
+    "src": {
+      "name": "Wikipedia ES",
+      "url": "https://es.wikipedia.org/wiki/Reserva_forestal_Golfo_Dulce",
+      "license": "CC BY-SA 4.0"
+    }
+  },
+  "wd-tambor": {
+    "es": "Tambor es un poblado ubicado en Costa Rica. Se encuentra localizado en el extremo sur de la península de Nicoya, cerca de río Pánica entre los distritos de Paquera y Cóbano, en el cantón y provincia de Puntarenas. En sus inicios fue un pequeño pueblo de pescadores, actualmente forma parte de uno de los más importantes…",
+    "src": {
+      "name": "Wikipedia ES",
+      "url": "https://es.wikipedia.org/wiki/Tambor_(Costa_Rica)",
+      "license": "CC BY-SA 4.0"
+    }
+  },
+  "wd-basilica-de-nuestra-senora-de-los-angeles": {
+    "es": "La Basílica de Nuestra Señora de los Ángeles es un templo católico de la ciudad de Cartago, Costa Rica y el Santuario principal de Costa Rica, dedicado a Nuestra Señora de los Ángeles.",
+    "src": {
+      "name": "Wikipedia ES",
+      "url": "https://es.wikipedia.org/wiki/Bas%C3%ADlica_de_Nuestra_Se%C3%B1ora_de_los_%C3%81ngeles_(Cartago)",
+      "license": "CC BY-SA 4.0"
+    }
+  },
+  "wd-refugio-nacional-de-fauna-silvestre-barra-del-co": {
+    "es": "El Refugio Nacional de Vida Silvestre Barra del Colorado se encuentra ubicado en Costa Rica, específicamente en la frontera norte, en el distrito de Colorado, cantón de Pococí, provincia de Limón, colindando al Norte con el Refugio Nacional de Vida Silvestre Corredor Fronterizo Norte. Esta Área Silvestre Protegida…",
+    "src": {
+      "name": "Wikipedia ES",
+      "url": "https://es.wikipedia.org/wiki/Refugio_Nacional_de_Vida_Silvestre_Barra_del_Colorado",
+      "license": "CC BY-SA 4.0"
+    }
+  },
+  "wd-reserva-natural-absoluta-cabo-blanco": {
+    "es": "Cabo Blanco es un accidente geográfico ubicado en Costa Rica, en el extremo sur de la península de Nicoya, sobre las aguas del océano Pacífico. Pertenece al distrito de Cóbano, en el cantón y provincia de Puntarenas. Frente a las costas de este cabo, se ubica también la Isla Cabo Blanco. Tanto el cabo como la isla…",
+    "src": {
+      "name": "Wikipedia ES",
+      "url": "https://es.wikipedia.org/wiki/Cabo_Blanco_(Costa_Rica)",
+      "license": "CC BY-SA 4.0"
+    }
+  },
+  "wd-area-de-conservacion-tortuguero": {
+    "es": "El Área de Conservación Tortuguero (ACTo) es un área que cubre el Caribe Norte de Costa Rica y forma parte del Sistema Nacional de Áreas de Conservación.",
+    "src": {
+      "name": "Wikipedia ES",
+      "url": "https://es.wikipedia.org/wiki/%C3%81rea_de_Conservaci%C3%B3n_Tortuguero",
+      "license": "CC BY-SA 4.0"
+    }
+  },
+  "wd-area-de-conservacion-arenal-tempisque": {
+    "es": "El Área de conservación Arenal Tempisque (ACAT) es un área que abarca parcialmente la parte norte Costa Rica y forma parte del Sistema Nacional de Áreas de Conservación.",
+    "src": {
+      "name": "Wikipedia ES",
+      "url": "https://es.wikipedia.org/wiki/%C3%81rea_de_conservaci%C3%B3n_Arenal_Tempisque",
+      "license": "CC BY-SA 4.0"
+    }
+  },
+  "wd-area-de-conservacion-arenal-huetar-norte": {
+    "es": "El área de conservación Arenal Huetar Norte (ACAHN) es un área que abarca parcialmente la parte norte Costa Rica y forma parte del Sistema Nacional de Áreas de Conservación.",
+    "src": {
+      "name": "Wikipedia ES",
+      "url": "https://es.wikipedia.org/wiki/%C3%81rea_de_conservaci%C3%B3n_Arenal_Huetar_Norte",
+      "license": "CC BY-SA 4.0"
+    }
+  },
+  "wd-museo-de-cultura-popular": {
+    "es": "El Museo de Cultura Popular es un museo en la Provincia de Heredia de Costa Rica, ubicado en el distrito de Santa Lucía del cantón de Barva. Está albergado en la antigua casa del presidente costarricense Alfredo González Flores y está construida en Bahareque, un sistema de construcción a partir de palos o cañas…",
+    "src": {
+      "name": "Wikipedia ES",
+      "url": "https://es.wikipedia.org/wiki/Museo_de_Cultura_Popular",
+      "license": "CC BY-SA 4.0"
+    }
+  },
+  "wd-volcan-congo": {
+    "es": "El volcán Congo es un estratovolcán inactivo localizado en el cantón de Río Cuarto, provincia de Alajuela, Costa Rica. Está ubicado dentro del Parque nacional Volcán Poás. Alcanza los 2.014 m s. n. m. y forma parte de la Cordillera Volcánica Central.",
+    "src": {
+      "name": "Wikipedia ES",
+      "url": "https://es.wikipedia.org/wiki/Volc%C3%A1n_Congo",
+      "license": "CC BY-SA 4.0"
+    }
+  },
+  "wd-museo-de-numismatica-jaime-solera-bennett": {
+    "es": "El Museo de Numismática Jaime Solera Bennett es un museo ubicado en San José, Costa Rica, especializado en la conservación y exhibición de objetos relacionados con la historia numismática del país. Pertenece a los museos del Banco Central de Costa Rica y se encuentra ubicado en un edificio subterráneo bajo la Plaza de…",
+    "src": {
+      "name": "Wikipedia ES",
+      "url": "https://es.wikipedia.org/wiki/Museo_de_Numism%C3%A1tica_(Costa_Rica)",
+      "license": "CC BY-SA 4.0"
+    }
+  },
+  "wd-catedral-metropolitana-de-san-jose": {
+    "es": "La Catedral Metropolitana de San José es la iglesia principal de la arquidiócesis católica de San José, en Costa Rica, y sede del arzobispo metropolitano.",
+    "src": {
+      "name": "Wikipedia ES",
+      "url": "https://es.wikipedia.org/wiki/Catedral_metropolitana_de_San_Jos%C3%A9",
+      "license": "CC BY-SA 4.0"
+    }
+  },
+  "wd-estadio-juan-goban": {
+    "es": "El Estadio Juan Gobán es un estadio de fútbol que está ubicado en Limón, cabecera de la provincia del mismo nombre, en la costa del Caribe de Costa Rica.",
+    "src": {
+      "name": "Wikipedia ES",
+      "url": "https://es.wikipedia.org/wiki/Estadio_Juan_Gob%C3%A1n",
+      "license": "CC BY-SA 4.0"
+    }
+  },
+  "wd-estadio-municipal-el-labrador": {
+    "es": "El Estadio Municipal el Labrador está ubicado en el cantón de Vázquez de Coronado, San José, Costa Rica.",
+    "src": {
+      "name": "Wikipedia ES",
+      "url": "https://es.wikipedia.org/wiki/Estadio_Municipal_El_Labrador",
+      "license": "CC BY-SA 4.0"
+    }
+  },
+  "wd-estadio-allen-riggioni": {
+    "es": "El Estadio Municipal Allen Riggioni Suárez es un estadio deportivo ubicado en la ciudad de Grecia, Alajuela, Costa Rica. Fue inaugurado en 1973 y en 2012 recibió varias remodelaciones importantes en su infraestructura.",
+    "src": {
+      "name": "Wikipedia ES",
+      "url": "https://es.wikipedia.org/wiki/Estadio_Allen_Riggioni",
+      "license": "CC BY-SA 4.0"
+    }
+  },
+  "wd-estadio-hamilton-villalobos": {
+    "es": "El Estadio Hamilton Villalobos Briceño es un recinto deportivo ubicado en la ciudad de San Vito, en el cantón de Coto Brus, Puntarenas.",
+    "src": {
+      "name": "Wikipedia ES",
+      "url": "https://es.wikipedia.org/wiki/Estadio_Hamilton_Villalobos",
+      "license": "CC BY-SA 4.0"
+    }
+  },
+  "wd-s-t-center": {
+    "es": "El Estadio ST Center es un pequeño estadio de fútbol. Está ubicado en la localidad de Santa Teresita de Aserrí, San José, Costa Rica",
+    "src": {
+      "name": "Wikipedia ES",
+      "url": "https://es.wikipedia.org/wiki/Estadio_ST_Center",
+      "license": "CC BY-SA 4.0"
+    }
+  },
+  "wd-estadio-jose-joaquin-coyella-fonseca": {
+    "es": "El Estadio José Joaquín “Colleya” Fonseca es un estadio de fútbol. Está ubicado en la ciudad de Guadalupe de Goicoechea, en la provincia de San José, Costa Rica.",
+    "src": {
+      "name": "Wikipedia ES",
+      "url": "https://es.wikipedia.org/wiki/Estadio_Jos%C3%A9_Joaqu%C3%ADn_%22Colleya%22_Fonseca",
+      "license": "CC BY-SA 4.0"
+    }
+  },
+  "wd-estadio-rafael-angel-camacho": {
+    "es": "El Estadio Rafael Ángel Camacho es un recinto deportivo ubicado en la ciudad de Turrialba, Costa Rica.",
+    "src": {
+      "name": "Wikipedia ES",
+      "url": "https://es.wikipedia.org/wiki/Estadio_Rafael_%C3%81ngel_Camacho",
+      "license": "CC BY-SA 4.0"
+    }
+  },
+  "wd-estadio-jose-angel-lito-monge": {
+    "es": "El Estadio Municipal José Ángel \"Lito\" Monge es un pequeño estadio de fútbol. Está ubicado en la ciudad de Curridabat, en el cantón del mismo nombre, en San José, Costa Rica.",
+    "src": {
+      "name": "Wikipedia ES",
+      "url": "https://es.wikipedia.org/wiki/Estadio_Jos%C3%A9_%C3%81ngel_%22Lito%22_Monge",
+      "license": "CC BY-SA 4.0"
+    }
+  },
+  "wd-estadio-luis-angel-pipilo-umana": {
+    "es": "El Estadio Luis Ángel \"Pipilo\" Umaña es un recinto deportivo propiedad de la Municipalidad de Moravia, situado en San Vicente en el cantón de Moravia, San José, Costa Rica. Se inauguró el 20 de septiembre de 1983 y su aforo actualmente es de 9 000 espectadores. Fue reabierto con su remodelación el 9 de febrero de 2020.",
+    "src": {
+      "name": "Wikipedia ES",
+      "url": "https://es.wikipedia.org/wiki/Estadio_Luis_%C3%81ngel_%22Pipilo%22_Uma%C3%B1a",
+      "license": "CC BY-SA 4.0"
+    }
+  },
+  "wd-estadio-asociacion-civica-jicaralena": {
+    "es": "El estadio Asociación Cívica Jicaraleña, es un estadio deportivo ubicado en el caserío de Jicaral, Puntarenas, Costa Rica y es la sede de los encuentros de local de la Jicaral Sercoba. Fue inaugurado en 1981 y en 2019 recibió varias remodelaciones importantes en su infraestructura.",
+    "src": {
+      "name": "Wikipedia ES",
+      "url": "https://es.wikipedia.org/wiki/Estadio_Asociaci%C3%B3n_C%C3%ADvica_Jicarale%C3%B1a",
+      "license": "CC BY-SA 4.0"
+    }
+  },
+  "wd-estadio-de-pital": {
+    "es": "El Estadio de Pital es un estadio de fútbol ubicado en el distrito de Pital, en San Carlos, Costa Rica. Es la actual sede del Inter de San Carlos de la Segunda División de Costa Rica. El estadio cuenta con una capacidad para 3000 espectadores.",
+    "src": {
+      "name": "Wikipedia ES",
+      "url": "https://es.wikipedia.org/wiki/Estadio_de_Pital",
+      "license": "CC BY-SA 4.0"
+    }
+  },
+  "wd-lago-arenal": {
+    "es": "El lago Arenal es un embalse artificial situado en Costa Rica formado tras la construcción de una presa en 1979 aprovechando la existencia de un pequeño lago del mismo nombre.",
+    "src": {
+      "name": "Wikipedia ES",
+      "url": "https://es.wikipedia.org/wiki/Lago_Arenal",
+      "license": "CC BY-SA 4.0"
+    }
+  },
+  "wd-estadio-nicolas-masis": {
+    "es": "Estadio Nicolás Masís Quesada, es un recinto deportivo ubicado en la ciudad de Escazú en la provincia de San José, Costa Rica.",
+    "src": {
+      "name": "Wikipedia ES",
+      "url": "https://es.wikipedia.org/wiki/Estadio_Nicol%C3%A1s_Mas%C3%ADs",
+      "license": "CC BY-SA 4.0"
+    }
+  },
+  "wd-refugio-de-vida-silvestre-playa-hermosa-punta-ma": {
+    "es": "El Refugio Nacional de Vida Silvestre Playa Hermosa-Punta Mala es un área de conservación natural de Costa Rica, perteneciente al Área de Conservación Pacífico Central. Se encuentra ubicado en el cantón de Garabito, provincia de Puntarenas, a unos 5 km de la ciudad de Jacó, y a 1.5 horas en automóvil desde San José,…",
+    "src": {
+      "name": "Wikipedia ES",
+      "url": "https://es.wikipedia.org/wiki/Refugio_nacional_de_vida_silvestre_Playa_Hermosa",
+      "license": "CC BY-SA 4.0"
+    }
+  },
+  "wd-reserva-biologica-del-bicentenario-de-la-republi": {
+    "es": "La Reserva biológica del Bicentenario de la República-Pájaro Campana es una reserva biológica ubicada en el cantón de Coto Brus, de la provincia de Puntarenas, en Costa Rica.",
+    "src": {
+      "name": "Wikipedia ES",
+      "url": "https://es.wikipedia.org/wiki/Reserva_biol%C3%B3gica_del_Bicentenario_de_la_Rep%C3%BAblica-P%C3%A1jaro_Campana",
+      "license": "CC BY-SA 4.0"
+    }
+  },
+  "wd-playa-esterillos": {
+    "es": "Playa Esterillos es una playa ubicada en el Pacífico Central de Costa Rica, localizada a 124 km de la ciudad de San José, capital del país, y cercana a la ciudad de Jacó. Se encuentra en el cantón de Parrita, provincia de Puntarenas.",
+    "src": {
+      "name": "Wikipedia ES",
+      "url": "https://es.wikipedia.org/wiki/Playa_Esterillos",
+      "license": "CC BY-SA 4.0"
+    }
+  },
+  "wd-rio-toro": {
+    "es": "El río Toro, es un río de Costa Rica, perteneciente a la sub-vertiente norte de la vertiente del mar Caribe. Es uno de los afluentes más importantes del río Sarapiquí. Nace en los cerros Palmira de la cordillera Volcánica Central, al noroeste del volcán Poás, entre los volcanes Platanar y Porvenir, provincia de…",
+    "src": {
+      "name": "Wikipedia ES",
+      "url": "https://es.wikipedia.org/wiki/R%C3%ADo_Toro_(Costa_Rica)",
+      "license": "CC BY-SA 4.0"
+    }
+  },
+  "wd-rio-atirro": {
+    "es": "El río Atirro es un pequeño río de la vertiente del mar Caribe de Costa Rica, que nace en el cerro de las Cruces y es tributario del río Reventazón. En sus riberas se fundaron varios asentamientos de colonos siendo el más importante el pueblo de Atirro, una de las reducciones indígenas que pertenecieron al…",
+    "src": {
+      "name": "Wikipedia ES",
+      "url": "https://es.wikipedia.org/wiki/R%C3%ADo_Atirro",
+      "license": "CC BY-SA 4.0"
+    }
+  },
+  "wd-rio-chirripo-atlantico": {
+    "es": "El río Chirripó o Duchí es un río ubicado en Costa Rica, entre las provincias de Cartago y Limón, perteneciente a la Vertiente del Caribe costarricense. No debe confundirse con el río Chirripó Norte, que nace en Sarapiquí, la provincia de Heredia, y también pertenece a la vertiente caribeña, ni con el río Chirripó…",
+    "src": {
+      "name": "Wikipedia ES",
+      "url": "https://es.wikipedia.org/wiki/R%C3%ADo_Chirrip%C3%B3_Atl%C3%A1ntico",
+      "license": "CC BY-SA 4.0"
+    }
+  },
+  "wd-rio-guacimal": {
+    "es": "El río Guacimal es un río de Costa Rica, perteneciente a la vertiente del océano Pacífico. Nace en las montañas de Monteverde, en el cantón de Puntarenas, y fluye hacia el suroeste, desembocando en el golfo de Nicoya. Su cuenca tiene un área de 18.850 ha y 37 km de largo. Posee cinco cabeceras y tres afluentes…",
+    "src": {
+      "name": "Wikipedia ES",
+      "url": "https://es.wikipedia.org/wiki/R%C3%ADo_Guacimal",
+      "license": "CC BY-SA 4.0"
+    }
+  },
+  "wd-rio-tortuguero": {
+    "es": "El río Tortuguero es un río de Costa Rica, perteneciente a la vertiente del Caribe. Se halla en el Parque nacional Tortuguero, un área protegida que se ubica a lo largo de la costa caribeña norte, en la provincia de Limón. Nace de un brazo del río Toro Amarillo. Durante su trayecto, de 66.8 km de cauce, está conectado…",
+    "src": {
+      "name": "Wikipedia ES",
+      "url": "https://es.wikipedia.org/wiki/R%C3%ADo_Tortuguero",
+      "license": "CC BY-SA 4.0"
+    }
+  },
+  "wd-rio-sabogal": {
+    "es": "El río Sabogal es un río de Costa Rica, perteneciente a la subvertiente norte de la vertiente del Mar Caribe. Es uno de los afluentes principales del río Frío. Su principal afluente es el río Purgatorio. Su curso discurre en dirección sur a norte principalmente por el cantón de Los Chiles, de la provincia de Alajuela,…",
+    "src": {
+      "name": "Wikipedia ES",
+      "url": "https://es.wikipedia.org/wiki/R%C3%ADo_Sabogal",
+      "license": "CC BY-SA 4.0"
+    }
+  },
+  "wd-rio-sierpe": {
+    "es": "El Río Sierpe es un río de la zona sur de Costa Rica que desemboca en el Océano Pacífico. Tiene una longitud de 82 kilómetros.",
+    "src": {
+      "name": "Wikipedia ES",
+      "url": "https://es.wikipedia.org/wiki/R%C3%ADo_Sierpe",
+      "license": "CC BY-SA 4.0"
+    }
+  },
+  "wd-rio-suerte": {
+    "es": "Río Suerte es un río de Costa Rica. Se sitúa en la provincia de Limón, en el cantón de Pococí.",
+    "src": {
+      "name": "Wikipedia ES",
+      "url": "https://es.wikipedia.org/wiki/R%C3%ADo_Suerte",
+      "license": "CC BY-SA 4.0"
+    }
+  },
+  "wd-rio-telire": {
+    "es": "El río Telire es un cuerpo de agua de Costa Rica localizado en la provincia de Limón, en la parte oriental del país. La confluencia del Telire con el río Yorkín crea el Sixaola, que hace parte de la frontera entre Costa Rica y Panamá.",
+    "src": {
+      "name": "Wikipedia ES",
+      "url": "https://es.wikipedia.org/wiki/R%C3%ADo_Telire",
+      "license": "CC BY-SA 4.0"
+    }
+  },
+  "wd-rio-yorkin": {
+    "es": "El río Yorkin o Yorkín es un afluente del río Sixaola y marca parte de la frontera entre Costa Rica y Panamá.",
+    "src": {
+      "name": "Wikipedia ES",
+      "url": "https://es.wikipedia.org/wiki/R%C3%ADo_Yorkin",
+      "license": "CC BY-SA 4.0"
+    }
+  },
+  "wd-rio-zapote": {
+    "es": "El río Zapote es un río de Costa Rica, perteneciente a la sub-vertiente norte de la vertiente del mar Caribe. Nace en las faldas del volcán Miravalles, en la zona del distrito de Bijagua de Upala, provincia de Alajuela, y vierte sus aguas en el lago de Nicaragua. Entre sus principales afluentes están los ríos: Bijagua,…",
+    "src": {
+      "name": "Wikipedia ES",
+      "url": "https://es.wikipedia.org/wiki/R%C3%ADo_Zapote_(Upala)",
+      "license": "CC BY-SA 4.0"
+    }
+  },
+  "wd-isla-brava-costa-rica": {
+    "es": "Isla Brava es el nombre de una isla fluvial ubicada entre el Caño Bravo y el río Colorado de Costa Rica, y al sur de la isla Calero, muy cerca del mar Caribe y que posee una superficie aproximada de 4.440 hectáreas. Es la segunda isla más grande de ese país centroamericano, administrativamente forma parte de la…",
+    "src": {
+      "name": "Wikipedia ES",
+      "url": "https://es.wikipedia.org/wiki/Isla_Brava_(Costa_Rica)",
+      "license": "CC BY-SA 4.0"
+    }
+  },
+  "wd-iglesia-de-orosi": {
+    "es": "La Templo de Orosi, también conocida como Iglesia Colonial de Orosi o Iglesia de San José de Orosi, es un templo cristiano católico y parroquia ubicado en el distrito de Orosi, perteneciente al cantón de Paraíso de Cartago, en Costa Rica. Es una de las más antiguas edificaciones del país, que datan de la época de la…",
+    "src": {
+      "name": "Wikipedia ES",
+      "url": "https://es.wikipedia.org/wiki/Iglesia_de_Orosi",
+      "license": "CC BY-SA 4.0"
+    }
+  },
+  "wd-cerro-cedral": {
+    "es": "El Cerro Cedral es la segunda montaña más alta de la Cerros de Escazú, Costa Rica, con 2.420 m. El cerro lleva ese nombre en honor al \"cedro del bosque, refiriéndose a una especie de árbol en peligro de extinción localmente llamada como Cedro Dulce, que se produce allí.",
+    "src": {
+      "name": "Wikipedia ES",
+      "url": "https://es.wikipedia.org/wiki/Cerro_Cedral",
+      "license": "CC BY-SA 4.0"
+    }
+  },
+  "wd-cerro-pico-alto": {
+    "es": "El Cerro Pico Alto es la tercera montaña más alta de los Cerros de Escazú, Costa Rica, con 2.428 m. Pico Alto hace alusión a una sección de la montaña de la cual sobresale del resto.",
+    "src": {
+      "name": "Wikipedia ES",
+      "url": "https://es.wikipedia.org/wiki/Cerro_Pico_Alto",
+      "license": "CC BY-SA 4.0"
+    }
+  },
+  "wd-cerro-rabo-de-mico": {
+    "es": "El Cerro Rabo de Mico es la montaña más alta de los Cerros de Escazú, Costa Rica, con 2.428 m la cual pertenece al Cantón de Alajuelita. En este cerro convergen los cantones de Alajuelita, Aserrí y Acosta. Rabo de mico significa literalmente \"cola de mono\", aunque esta denominación viene probablemente de un helecho…",
+    "src": {
+      "name": "Wikipedia ES",
+      "url": "https://es.wikipedia.org/wiki/Cerro_Rabo_de_Mico",
+      "license": "CC BY-SA 4.0"
+    }
+  },
+  "wd-cerro-piedra-blanca": {
+    "es": "El cerro Piedra Blanca es la cuarta montaña más alta de los cerros de Escazú en Costa Rica con 2271 metros sobre el nivel del mar. Piedra Blanca hace referencia, literalmente, al afloramiento rocoso cercano a su punto más alto, que se ve como una luz gris desde el Valle Central. El Cerro Piedra Blanca tiene un origen…",
+    "src": {
+      "name": "Wikipedia ES",
+      "url": "https://es.wikipedia.org/wiki/Cerro_Piedra_Blanca",
+      "license": "CC BY-SA 4.0"
+    }
+  },
+  "wd-iglesia-de-la-soledad": {
+    "es": "La Iglesia de Nuestra Señora de la Soledad se localiza en la ciudad de San José, al centro de Costa Rica. Fue construida a mediados del siglo XIX. Fue incorporada al Patrimonio Histórico y Arquitectónico del país el 8 de diciembre de 1999.",
+    "src": {
+      "name": "Wikipedia ES",
+      "url": "https://es.wikipedia.org/wiki/Iglesia_de_la_Soledad_(San_Jos%C3%A9)",
+      "license": "CC BY-SA 4.0"
+    }
+  },
+  "wd-estadio-chorotega": {
+    "es": "El Estadio Chorotega es un estadio diseñado para la práctica del fútbol. Está ubicado en la ciudad de Nicoya, siendo uno de los más grandes de la provincia de Guanacaste, junto con el estadio Edgardo Baltodano de Liberia. Es propiedad de la Municipalidad de Nicoya.",
+    "src": {
+      "name": "Wikipedia ES",
+      "url": "https://es.wikipedia.org/wiki/Estadio_Chorotega",
+      "license": "CC BY-SA 4.0"
+    }
+  },
+  "wd-museo-del-oro-precolombino": {
+    "es": "El Museo del Oro Precolombino Álvaro Vargas Echeverría, llamado simplemente Museo del Oro Precolombino o Museo del Oro, es un museo histórico, arqueológico y cultural ubicado en San José, capital de Costa Rica. Se encuentra localizado en un edificio subterráneo bajo la Plaza de la Cultura, en Calle 5, Avenida Central y…",
+    "src": {
+      "name": "Wikipedia ES",
+      "url": "https://es.wikipedia.org/wiki/Museo_del_Oro_Precolombino",
+      "license": "CC BY-SA 4.0"
+    }
+  },
+  "wd-volcan-chato": {
+    "es": "El Volcán Cerro Chato es un estratovolcán ubicado en Costa Rica. Se encuentra localizado en La Fortuna de San Carlos, al lado sureste del Volcán Arenal, en la provincia de Alajuela en el noroeste del país. Posee una altura de 1.140 m s. n. m. y se encuentra inactivo desde hace 3500 años. Su cima se encuentra ocupada…",
+    "src": {
+      "name": "Wikipedia ES",
+      "url": "https://es.wikipedia.org/wiki/Volc%C3%A1n_Chato",
+      "license": "CC BY-SA 4.0"
+    }
+  },
+  "wd-iglesia-de-san-blas-de-nicoya": {
+    "es": "La Iglesia de San Blas, en Nicoya, Guanacaste, es la iglesia más antigua de Costa Rica, declarada de interés histórico-arquitectónico el lunes 6 de noviembre de 1995. La iglesia que le sigue es la de Chomes, construida aproximadamente en 1556, pero ya no existe, pues el pueblo cambió de lugar.",
+    "src": {
+      "name": "Wikipedia ES",
+      "url": "https://es.wikipedia.org/wiki/Iglesia_de_San_Blas_de_Nicoya",
+      "license": "CC BY-SA 4.0"
+    }
+  },
+  "wd-estadio-antonio-escarre": {
+    "es": "El Estadio Antonio Escarré Cruxent, más conocido como el Parque de Béisbol Antonio Escarré, es un estadio para la práctica del béisbol, ubicado en el barrio de San Cayetano de Catedral, al sur de la ciudad de San José, Costa Rica.",
+    "src": {
+      "name": "Wikipedia ES",
+      "url": "https://es.wikipedia.org/wiki/Estadio_Antonio_Escarr%C3%A9",
+      "license": "CC BY-SA 4.0"
+    }
+  },
+  "wd-rio-maria-aguilar": {
+    "es": "El río María Aguilar es un río de Costa Rica, ubicado en el Valle Central. Es uno de los cuatro ríos que atraviesan el cantón de San José, junto a los río Ocloro, Tiribí y Torres. Pertenece a la cuenca del río Grande de Tárcoles, que desemboca en el océano Pacífico. El río María Aguilar nace en las faldas del Cerrillo…",
+    "src": {
+      "name": "Wikipedia ES",
+      "url": "https://es.wikipedia.org/wiki/R%C3%ADo_Mar%C3%ADa_Aguilar",
+      "license": "CC BY-SA 4.0"
+    }
+  },
+  "wd-rio-blanco-costa-rica": {
+    "es": "El río Blanco es un río perteneciente a la vertiente del Atlántico de Costa Rica, cercano a la ciudad de Guápiles, cantón de Pococí, en la provincia de Limón. Nace en las faldas del volcán Turrialba y su cauce presenta dirección sur-norte. Es afluente del río Toro Amarillo, a su vez afluente del río Sucio. De este se…",
+    "src": {
+      "name": "Wikipedia ES",
+      "url": "https://es.wikipedia.org/wiki/R%C3%ADo_Blanco_(Costa_Rica)",
+      "license": "CC BY-SA 4.0"
+    }
+  },
+  "wd-isla-violin": {
+    "es": "Isla Violín es el nombre que recibe una isla marítimo-fluvial del país centroamericano de Costa Rica frente al océano Pacífico en la desembocadura del río Sierpe. Se ubica en las coordenadas geográficas 08°48′N 83°38′O y posee una superficie de 15,7 kilómetros cuadrados",
+    "src": {
+      "name": "Wikipedia ES",
+      "url": "https://es.wikipedia.org/wiki/Isla_Viol%C3%ADn",
+      "license": "CC BY-SA 4.0"
+    }
+  },
+  "wd-isla-muertos": {
+    "es": "Isla Muertos es una isla del país centroamericano de Costa Rica, geográficamente se ubica cerca de la Bahía Gigante, en la Península de Nicoya, en el Océano Pacífico. Posee una superficie de 30 hectáreas, y se encuentra deshabitada. El nombre de muertos se deriva del hecho de que antiguamente había un cementerio en el…",
+    "src": {
+      "name": "Wikipedia ES",
+      "url": "https://es.wikipedia.org/wiki/Isla_Muertos",
+      "license": "CC BY-SA 4.0"
+    }
+  },
+  "wd-cerro-ventisqueros": {
+    "es": "El Cerro Ventisqueros es el segundo pico más alto de Costa Rica. Su cima se encuentra a 3812 m s. n. m., con tan solo 8 metros de diferencia con el Cerro Chirripó, el pico más alto de Costa Rica; lo cual generó en el pasado una discusión acerca de cual correspondía al \"techo\" del país.",
+    "src": {
+      "name": "Wikipedia ES",
+      "url": "https://es.wikipedia.org/wiki/Cerro_Ventisqueros",
+      "license": "CC BY-SA 4.0"
+    }
+  },
+  "wd-cerro-caraigres": {
+    "es": "El cerro Dragón en la fila de Bustamante, es un macizo montañoso localizado en Costa Rica",
+    "src": {
+      "name": "Wikipedia ES",
+      "url": "https://es.wikipedia.org/wiki/Cerro_Caraigres",
+      "license": "CC BY-SA 4.0"
+    }
+  },
+  "wd-cerro-zurqui": {
+    "es": "El Cerro Zurquí es una montaña ubicada en Costa Rica, que forma parte de la Cordillera Volcánica Central. Se encuentra situado al sureste del volcán Barva, e incluye una serie de cerros de origen volcánico. Por la parte norte, el cerro Zurquí sirve de contrafuerte al Valle Central de Costa Rica, en la sección entre el…",
+    "src": {
+      "name": "Wikipedia ES",
+      "url": "https://es.wikipedia.org/wiki/Cerro_Zurqu%C3%AD",
+      "license": "CC BY-SA 4.0"
+    }
+  },
+  "wd-cerro-uran": {
+    "es": "El Cerro Urán es uno de los puntos más altos de Costa Rica, forma parte de la Cordillera de Talamanca y se encuentra dentro del parque nacional Chirripó. Cuenta con una altura de 3660 m.",
+    "src": {
+      "name": "Wikipedia ES",
+      "url": "https://es.wikipedia.org/wiki/Cerro_Ur%C3%A1n",
+      "license": "CC BY-SA 4.0"
+    }
+  },
+  "wd-cerro-pando": {
+    "es": "El cerro Pando es una montaña fronteriza entre Costa Rica y Panamá, que marca un tripunto entre las fronteras de las provincias panameñas de Bocas del Toro y Chiriquí y la línea fronteriza con Costa Rica. Forma parte de la Cordillera Central y posee una altura de 2468 m.",
+    "src": {
+      "name": "Wikipedia ES",
+      "url": "https://es.wikipedia.org/wiki/Cerro_Pando",
+      "license": "CC BY-SA 4.0"
+    }
+  },
+  "pla-playa-del-coco": {
+    "es": "El Coco (Playas del Coco) es una comunidad costera ubicada en el distrito de Sardinal, cantón de Carrillo, de la provincia de Guanacaste, en la República de Costa Rica. Es la zona de mayor crecimiento turístico del Golfo de Papagayo y uno de los más populares destinos vacacionales para turistas costarricenses y…",
+    "src": {
+      "name": "Wikipedia ES",
+      "url": "https://es.wikipedia.org/wiki/Playas_del_Coco",
+      "license": "CC BY-SA 4.0"
+    }
+  },
+  "pla-playa-pavones": {
+    "es": "Pavón es un distrito del cantón de Golfito, en la provincia de Puntarenas, de Costa Rica. Su ciudad cabecera homónima se ubica en la ribera este de la entrada del Golfo Dulce.",
+    "src": {
+      "name": "Wikipedia ES",
+      "url": "https://es.wikipedia.org/wiki/Pav%C3%B3n_(Costa_Rica)",
+      "license": "CC BY-SA 4.0"
+    }
+  },
+  "ciu-puerto-jimenez": {
+    "es": "Puerto Jiménez es el decimotercer cantón en la provincia de Puntarenas, de Costa Rica. Su cabecera es la ciudad homónima de Puerto Jiménez, que se ubica en la entrada del Golfo Dulce, siendo el puerto marítimo más meridional del país.",
+    "src": {
+      "name": "Wikipedia ES",
+      "url": "https://es.wikipedia.org/wiki/Cant%C3%B3n_de_Puerto_Jim%C3%A9nez",
+      "license": "CC BY-SA 4.0"
+    }
+  },
+  "pla-playa-montezuma": {
+    "es": "Cóbano es el décimo distrito del cantón de Puntarenas, en la provincia de Puntarenas, de Costa Rica.",
+    "src": {
+      "name": "Wikipedia ES",
+      "url": "https://es.wikipedia.org/wiki/C%C3%B3bano",
+      "license": "CC BY-SA 4.0"
+    }
+  },
+  "ciu-turrialba": {
+    "es": "Turrialba es el distrito primero y ciudad cabecera del cantón homónimo de Turrialba, fundado en 1867 por Jorge Alvarez Floyd en la provincia de Cartago, de Costa Rica. Además el cantón como tal, es el más extenso de toda la provincia de Cartago,.",
+    "src": {
+      "name": "Wikipedia ES",
+      "url": "https://es.wikipedia.org/wiki/Turrialba_(distrito)",
+      "license": "CC BY-SA 4.0"
+    }
+  },
+  "pla-puerto-viejo-de-talamanca": {
+    "es": "Puerto Viejo es una localidad costera ubicada en el distrito de Cahuita, en el Cantón de Talamanca, Provincia de Limón, al sureste de Costa Rica. Es un popular destino turístico del Caribe costarricense.",
+    "src": {
+      "name": "Wikipedia ES",
+      "url": "https://es.wikipedia.org/wiki/Puerto_Viejo_(Talamanca)",
+      "license": "CC BY-SA 4.0"
+    }
+  },
+  "pla-playa-ostional": {
+    "es": "El Refugio de Vida Silvestre Ostional es un área de conservación natural situada en la playa de Ostional, en el cantón de Santa Cruz, provincia de Guanacaste, Costa Rica. Es una zona que protege el desove de diversas especies de tortugas marinas del océano Pacífico, particularmente la tortuga lora. Además, alberga…",
+    "src": {
+      "name": "Wikipedia ES",
+      "url": "https://es.wikipedia.org/wiki/Refugio_de_vida_silvestre_Ostional",
+      "license": "CC BY-SA 4.0"
+    }
+  },
+  "ciu-liberia": {
+    "es": "Liberia es el distrito primero y ciudad cabecera del cantón de Liberia y de la provincia de Guanacaste, de Costa Rica.",
+    "src": {
+      "name": "Wikipedia ES",
+      "url": "https://es.wikipedia.org/wiki/Liberia_(Costa_Rica)",
+      "license": "CC BY-SA 4.0"
+    }
+  },
+  "ciu-heredia": {
+    "es": "Heredia es un distrito y ciudad cabecera del cantón de Heredia, Provincia de Heredia, Costa Rica. Se ubica a unos 10 km al noroeste de San José.",
+    "src": {
+      "name": "Wikipedia ES",
+      "url": "https://es.wikipedia.org/wiki/Heredia_(distrito)",
+      "license": "CC BY-SA 4.0"
+    }
+  },
+  "ciu-tortuguero": {
+    "es": "El Parque Nacional Tortuguero es un parque nacional de Costa Rica. Está ubicado en el distrito de Colorado, en el cantón de Pococí, provincia de Limón, en el Caribe costarricense. Al norte se ubica el pueblo de Tortuguero y al sur el de Parismina. Creado en 1970, forma parte del Área de Conservación Tortuguero (ACTo),…",
+    "src": {
+      "name": "Wikipedia ES",
+      "url": "https://es.wikipedia.org/wiki/Parque_nacional_Tortuguero",
+      "license": "CC BY-SA 4.0"
+    }
+  },
+  "ciu-quepos": {
+    "es": "Quepos es un distrito del cantón de Quepos, en la provincia de Puntarenas, de Costa Rica.",
+    "src": {
+      "name": "Wikipedia ES",
+      "url": "https://es.wikipedia.org/wiki/Quepos",
+      "license": "CC BY-SA 4.0"
+    }
+  },
+  "pla-bahia-drake": {
+    "es": "Bahía Drake es un distrito del cantón de Osa, en la provincia de Puntarenas, de Costa Rica. Es además una pequeña bahía en el lado norte de la Península de Osa, en la costa del pacífico suroeste de Costa Rica. La Isla del Caño, una reserva biológica con hallazgos arqueológicos pertenece a este distrito.",
+    "src": {
+      "name": "Wikipedia ES",
+      "url": "https://es.wikipedia.org/wiki/Bah%C3%ADa_Drake",
+      "license": "CC BY-SA 4.0"
+    }
+  },
+  "ciu-san-isidro-de-el-general": {
+    "es": "San Isidro de El General es el distrito primero y ciudad cabecera del cantón de Pérez Zeledón, en la provincia de San José, de Costa Rica.",
+    "src": {
+      "name": "Wikipedia ES",
+      "url": "https://es.wikipedia.org/wiki/San_Isidro_de_El_General",
+      "license": "CC BY-SA 4.0"
+    }
+  },
+  "wd-cerro-del-espiritu-santo": {
+    "es": "El Cerro del Espíritu Santo o también volcán Espíritu Santo es un cono volcánico en el Valle Central de Costa Rica, ubicado en el cantón de Naranjo, en el extremo sur de la provincia de Alajuela. Con una altura de 1.363 m s. n. m., es una de las 10 montañas más elevadas dentro de la provincia. El cráter está ubicado…",
+    "src": {
+      "name": "Wikipedia ES",
+      "url": "https://es.wikipedia.org/wiki/Cerro_del_Esp%C3%ADritu_Santo_(Costa_Rica)",
+      "license": "CC BY-SA 4.0"
+    }
+  },
+  "aer-aerodromo-de-tamarindo": {
+    "es": "El aeródromo de Cabo Velas es un aeródromo público costarricense ubicado en la provincia de Guanacaste. El aeródromo está localizado al norte de Tamarindo y sirve a los pueblos costeros del Pacífico a lo largo de Playa Grande.",
+    "src": {
+      "name": "Wikipedia ES",
+      "url": "https://es.wikipedia.org/wiki/Aer%C3%B3dromo_de_Cabo_Velas",
+      "license": "CC BY-SA 4.0"
+    }
+  },
+  "rio-rio-pocosol": {
+    "es": "El río Pokosol es un río de Costa Rica, perteneciente a la sub-vertiente norte de la vertiente del mar Caribe. Se encuentra ubicado en la zona norte del país, cerca de la frontera con Nicaragua. Nace en la laguna Pocosol y desemboca en el río San Juan, con la particularidad de que todo su recorrido, desde su nacimiento…",
+    "src": {
+      "name": "Wikipedia ES",
+      "url": "https://es.wikipedia.org/wiki/R%C3%ADo_Pocosol",
+      "license": "CC BY-SA 4.0"
+    }
+  },
+  "fau-delfin-manchado": {
+    "es": "El delfín manchado tropical es una especie de cetáceo odontoceto de la familia Delphinidae. Se encuentran en zonas templadas y tropicales de los mares del mundo. Esta especie se vio amenazada tras la muerte de miles de ejemplares en redes de pesca. Durante la década de 1980 la comunidad internacional presionó para…",
+    "src": {
+      "name": "Wikipedia ES",
+      "url": "https://es.wikipedia.org/wiki/Stenella_attenuata",
+      "license": "CC BY-SA 4.0"
+    }
+  },
+  "isl-isla-venado": {
+    "es": "La isla Venado es una pequeña isla costarricense perteneciente al distrito peninsular de Lepanto que se encuentra ubicada en el golfo de Nicoya, en el Océano Pacífico, cerca de las islas Bejuco y Caballo.",
+    "src": {
+      "name": "Wikipedia ES",
+      "url": "https://es.wikipedia.org/wiki/Isla_Venado",
+      "license": "CC BY-SA 4.0"
+    }
+  },
+  "isl-isla-guayabo": {
+    "es": "Isla Guayabo es una isla de Costa Rica, parte del archipiélago del golfo de Nicoya. Está localizada a 8 km al sur de Puntarenas, y posee una superficie de 15 ha. Administrativamente pertenece al cantón de Puntarenas. La isla es parte de la Reserva Biológica islas Guayabo, Pájaros y Negritos, establecida por decreto…",
+    "src": {
+      "name": "Wikipedia ES",
+      "url": "https://es.wikipedia.org/wiki/Isla_Guayabo",
+      "license": "CC BY-SA 4.0"
+    }
+  },
+  "wd-playa-hermosa": {
+    "es": "Playa Hermosa es un balneario del departamento de Maldonado, Uruguay. Está localizado sobre la costa del Río de la Plata y su principal vía de acceso es la ruta 10. Se ubica a 4,5 km de Piriápolis y limita con Playa Verde al noroeste y Playa Grande en el sudeste.",
+    "src": {
+      "name": "Wikipedia ES",
+      "url": "https://es.wikipedia.org/wiki/Playa_Hermosa",
+      "license": "CC BY-SA 4.0"
+    }
+  },
+  "isl-isla-negritos": {
+    "es": "La isla de los Negritos es una isla de Costa Rica, parte del archipiélago ubicado en el golfo de Nicoya. Se encuentra ubicada 16 km al sur de la ciudad de Puntarenas. Posee una superficie territorial de 140 ha y una altitud máxima de 100 m s. n. m. Su clima es cálido y soleado la mayoría del año, con una estación…",
+    "src": {
+      "name": "Wikipedia ES",
+      "url": "https://es.wikipedia.org/wiki/Isla_de_los_Negritos",
+      "license": "CC BY-SA 4.0"
+    }
+  },
+  "osm-playa-dominical-r13566222": {
+    "es": "Dominical es un poblado costero en el Pacífico Sur de la provincia de Puntarenas en Costa Rica, a unos 45 km al sur de Quepos y a 29 km al suroeste de San Isidro de El General. Pertenece al distrito de Bahía Ballena del cantón de Osa.",
+    "src": {
+      "name": "Wikipedia ES",
+      "url": "https://es.wikipedia.org/wiki/Dominical_(Costa_Rica)",
+      "license": "CC BY-SA 4.0"
+    }
+  },
+  "osm-playa-langosta-r6905153": {
+    "es": "Playa La Angosta, también conocida como Langosta, está ubicada en el puerto de Acapulco, Guerrero, en el sur de México. Consiste en una pequeña penetración del mar hacia tierra siendo limitada hacia el sur por el cerro del Patal y hacia el norte por el Cerro de la Pinzona también conocido como los Dragos, dichos…",
+    "src": {
+      "name": "Wikipedia ES",
+      "url": "https://es.wikipedia.org/wiki/Playa_Langosta",
+      "license": "CC BY-SA 4.0"
+    }
+  },
+  "osm-playa-negra-r6997819": {
+    "es": "Playa Negra, es una playa ubicada en la comuna de Penco (Chile) perteneciente a la Playa de Penco pero obtiene este nombre por el color de la arena que es muy oscuro, además que es una playa donde existen sitios para realizar pícnic y camping con buena vegetación, además de juegos infantiles y cabañas a los…",
+    "src": {
+      "name": "Wikipedia ES",
+      "url": "https://es.wikipedia.org/wiki/Playa_Negra",
+      "license": "CC BY-SA 4.0"
+    }
+  },
+  "osm-playa-bonita-w132685404": {
+    "es": "La Playa Bajada de los Palitos, también conocida como Playa Belvedere o Refugio de Lobos, se encuentra en la Ciudad de Comodoro Rivadavia provincia de Chubut, Argentina. Se localiza a 20 kilómetros aproximadamente del centro de la ciudad en dirección sur y se puede llegar a través de la Ruta Nacional 3. Posee una…",
+    "src": {
+      "name": "Wikipedia ES",
+      "url": "https://es.wikipedia.org/wiki/Playa_Bajada_de_los_Palitos",
+      "license": "CC BY-SA 4.0"
+    }
+  },
+  "osm-playa-negra-n9201485320": {
+    "es": "Playa Negra, es una playa ubicada en la comuna de Penco (Chile) perteneciente a la Playa de Penco pero obtiene este nombre por el color de la arena que es muy oscuro, además que es una playa donde existen sitios para realizar pícnic y camping con buena vegetación, además de juegos infantiles y cabañas a los…",
+    "src": {
+      "name": "Wikipedia ES",
+      "url": "https://es.wikipedia.org/wiki/Playa_Negra",
+      "license": "CC BY-SA 4.0"
+    }
+  },
+  "osm-playa-hermosa-n390096365": {
+    "es": "Playa Hermosa es un balneario del departamento de Maldonado, Uruguay. Está localizado sobre la costa del Río de la Plata y su principal vía de acceso es la ruta 10. Se ubica a 4,5 km de Piriápolis y limita con Playa Verde al noroeste y Playa Grande en el sudeste.",
+    "src": {
+      "name": "Wikipedia ES",
+      "url": "https://es.wikipedia.org/wiki/Playa_Hermosa",
+      "license": "CC BY-SA 4.0"
+    }
+  },
+  "osm-playa-manzanillo-r6997829": {
+    "es": "La Playa Manzanillo es una playa ubicada en Acapulco, Guerrero, en el sur de México. Se localiza en el fraccionamiento Las Playas, junto a la avenida Costera Miguel Alemán de dicha ciudad, formando parte de la zona turística del Acapulco tradicional o náutico, junto al Paseo del Pescador.",
+    "src": {
+      "name": "Wikipedia ES",
+      "url": "https://es.wikipedia.org/wiki/Playa_Manzanillo",
+      "license": "CC BY-SA 4.0"
+    }
+  },
+  "osm-playa-tamarindo-r6905151": {
+    "es": "Tamarindo es el noveno distrito del cantón de Santa Cruz, en la provincia de Guanacaste, de Costa Rica.",
+    "src": {
+      "name": "Wikipedia ES",
+      "url": "https://es.wikipedia.org/wiki/Tamarindo_(Costa_Rica)",
+      "license": "CC BY-SA 4.0"
+    }
+  },
+  "wd-volcan-el-viejo": {
+    "es": "El volcán Rincón de la Vieja es un estratovolcán complejo ubicado en Costa Rica, localizado en el noroeste del país, en el cantón de Upala en la provincia de Alajuela y en el cantón de Liberia en la provincia de Guanacaste, a 23 km NNE de la ciudad de Liberia. Posee una altura de 1895 m s. n. m., con una extensión…",
+    "src": {
+      "name": "Wikipedia ES",
+      "url": "https://es.wikipedia.org/wiki/Volc%C3%A1n_Rinc%C3%B3n_de_la_Vieja",
+      "license": "CC BY-SA 4.0"
+    }
+  },
+  "wd-humedal-cariari": {
+    "es": "El Refugio Nacional de Vida Silvestre Barra del Colorado se encuentra ubicado en Costa Rica, específicamente en la frontera norte, en el distrito de Colorado, cantón de Pococí, provincia de Limón, colindando al Norte con el Refugio Nacional de Vida Silvestre Corredor Fronterizo Norte. Esta Área Silvestre Protegida…",
+    "src": {
+      "name": "Wikipedia ES",
+      "url": "https://es.wikipedia.org/wiki/Refugio_Nacional_de_Vida_Silvestre_Barra_del_Colorado",
+      "license": "CC BY-SA 4.0"
+    }
+  },
+  "wd-refugio-de-vida-silvestre-corredor-fronterizo": {
+    "es": "El Refugio Nacional de Vida Silvestre Barra del Colorado se encuentra ubicado en Costa Rica, específicamente en la frontera norte, en el distrito de Colorado, cantón de Pococí, provincia de Limón, colindando al Norte con el Refugio Nacional de Vida Silvestre Corredor Fronterizo Norte. Esta Área Silvestre Protegida…",
+    "src": {
+      "name": "Wikipedia ES",
+      "url": "https://es.wikipedia.org/wiki/Refugio_Nacional_de_Vida_Silvestre_Barra_del_Colorado",
+      "license": "CC BY-SA 4.0"
+    }
+  },
+  "wd-cueva-murcielago-wildlife-refuge": {
+    "es": "El parque nacional Tingo María (PNT) es una reserva ecológica ubicada en el departamento de Huánuco, Perú. Se encuentra en el valle del Huallaga y protege una bella zona de montañas en la cadena conocida como la Bella Durmiente, visibles desde la ciudad de Tingo María, que cuenta con una frondosa vegetación selvática y…",
+    "src": {
+      "name": "Wikipedia ES",
+      "url": "https://es.wikipedia.org/wiki/Parque_nacional_Tingo_Mar%C3%ADa",
+      "license": "CC BY-SA 4.0"
+    }
+  },
+  "wd-refugio-de-vida-silvestre-maquenque": {
+    "es": "El río Sucio es un río de Costa Rica, perteneciente a la sub-vertiente norte de la vertiente del mar Caribe. Es uno de los principales afluentes del río Sarapiquí. Debe su nombre a que arrastra gran cantidad de sedimento y material de origen volcánico, lo que da a sus aguas un color cafezusco.",
+    "src": {
+      "name": "Wikipedia ES",
+      "url": "https://es.wikipedia.org/wiki/R%C3%ADo_Sucio_(Costa_Rica)",
+      "license": "CC BY-SA 4.0"
+    }
+  },
+  "wd-refugio-de-vida-silvestre-romelia": {
+    "es": "El parque nacional Cotopaxi (PNC) es un área protegida de Ecuador situada en las provincias de Cotopaxi, Pichincha y Napo. Dentro del parque y el territorio de la provincia cotopaxi se encuentra el nevado Volcán Cotopaxi. Fue el primer parque nacional en ser creado en el territorio continental del Ecuador.",
+    "src": {
+      "name": "Wikipedia ES",
+      "url": "https://es.wikipedia.org/wiki/Parque_nacional_Cotopaxi",
+      "license": "CC BY-SA 4.0"
+    }
+  },
+  "wd-la-ceiba-wildlife-refuge": {
+    "es": "La Ceiba es un municipio y ciudad de la República de Honduras, capital del departamento de Atlántida, además es la cuarta ciudad más poblada del país, con 222 055 habitantes (2020). Se dice que es ciudad hermana de Tela, en Atlántida.",
+    "src": {
+      "name": "Wikipedia ES",
+      "url": "https://es.wikipedia.org/wiki/La_Ceiba",
+      "license": "CC BY-SA 4.0"
+    }
+  },
+  "wd-las-nubes-forest-reserve": {
+    "es": "La reserva forestal Monte Santa Catalina es la segunda reserva más grande declarada área terrestre protegida en Granada después de las reservas forestales de Grand Etang y Annandale. Con una extensión de 934 ha y un perímetro de 31,7 km, las cabeceras de sus ríos desembocan en siete de las cuencas más grandes de la…",
+    "src": {
+      "name": "Wikipedia ES",
+      "url": "https://es.wikipedia.org/wiki/Reserva_forestal_Monte_Santa_Catalina",
+      "license": "CC BY-SA 4.0"
+    }
+  },
+  "wd-caraigres-protected-zone": {
+    "es": "El cerro Dragón en la fila de Bustamante, es un macizo montañoso localizado en Costa Rica",
+    "src": {
+      "name": "Wikipedia ES",
+      "url": "https://es.wikipedia.org/wiki/Cerro_Caraigres",
+      "license": "CC BY-SA 4.0"
+    }
+  },
+  "wd-golfito-mixed-wildlife-refuge": {
+    "es": "Las regiones socioeconómicas de Costa Rica son una subdivisión político-económica en la que se ha delimitado este país centroamericano. Esta subdivisión fue establecida inicialmente por el Decreto Ejecutivo N.º 7944 del 26 de enero de 1978 y actualizada mediante decretos posteriores.",
+    "src": {
+      "name": "Wikipedia ES",
+      "url": "https://es.wikipedia.org/wiki/Regiones_socioecon%C3%B3micas_de_Costa_Rica",
+      "license": "CC BY-SA 4.0"
+    }
+  },
+  "wd-grecia-forest-reserve": {
+    "es": "Los parques nacionales de Grecia son áreas naturales del territorio griego clasificadas como parque nacional.",
+    "src": {
+      "name": "Wikipedia ES",
+      "url": "https://es.wikipedia.org/wiki/Parques_nacionales_de_Grecia",
+      "license": "CC BY-SA 4.0"
+    }
+  },
+  "wd-reserva-biologica-isla-guayabo": {
+    "es": "Isla Guayabo es una isla de Costa Rica, parte del archipiélago del golfo de Nicoya. Está localizada a 8 km al sur de Puntarenas, y posee una superficie de 15 ha. Administrativamente pertenece al cantón de Puntarenas. La isla es parte de la Reserva Biológica islas Guayabo, Pájaros y Negritos, establecida por decreto…",
+    "src": {
+      "name": "Wikipedia ES",
+      "url": "https://es.wikipedia.org/wiki/Isla_Guayabo",
+      "license": "CC BY-SA 4.0"
+    }
+  },
+  "wd-las-tablas-protected-zone": {
+    "es": "La Reserva biológica del Bicentenario de la República-Pájaro Campana es una reserva biológica ubicada en el cantón de Coto Brus, de la provincia de Puntarenas, en Costa Rica.",
+    "src": {
+      "name": "Wikipedia ES",
+      "url": "https://es.wikipedia.org/wiki/Reserva_biol%C3%B3gica_del_Bicentenario_de_la_Rep%C3%BAblica-P%C3%A1jaro_Campana",
+      "license": "CC BY-SA 4.0"
+    }
+  },
+  "wd-macho-river-forest-reserve": {
+    "es": "El Yali es una Reserva Nacional ubicada en Chile, en la comuna de Santo Domingo. Corresponde a un humedal, es decir, una zona húmeda o inundada; temporal o permantemente. Se compone de 13 cuerpos y cursos de agua.",
+    "src": {
+      "name": "Wikipedia ES",
+      "url": "https://es.wikipedia.org/wiki/Reserva_nacional_El_Yali",
+      "license": "CC BY-SA 4.0"
+    }
+  },
+  "wd-osa-mixed-wildlife-refuge": {
+    "es": "Costa Rica se encuentra localizada dentro de las coordenadas geográficas 8° y 11°15′, de latitud norte, y 82° y 86°, de longitud oeste. Incluyendo su área insular, tiene una extensión de 51.100 km². Junto a Belice y El Salvador es uno de los estados más pequeños de América Central. Limita al norte con Nicaragua con la…",
+    "src": {
+      "name": "Wikipedia ES",
+      "url": "https://es.wikipedia.org/wiki/Geograf%C3%ADa_de_Costa_Rica",
+      "license": "CC BY-SA 4.0"
+    }
+  },
+  "wd-portalon-mixed-wildlife-refuge": {
+    "es": "El parque natural de Urkiola es un espacio protegido situado en el extremo sur oriental de Vizcaya y norte de Álava en el País Vasco, España. Es una área protegida de 5768 ha que se hallan en el conjunto montañoso que forman las sierras de Aramotz-Eskubaratz, los Montes del Duranguesado y la sierra de Arangio.",
+    "src": {
+      "name": "Wikipedia ES",
+      "url": "https://es.wikipedia.org/wiki/Parque_natural_de_Urkiola",
+      "license": "CC BY-SA 4.0"
+    }
+  },
+  "wd-banano-river": {
+    "es": "Banan es un distrito urbano bajo la administración del municipio de Chongqing, en el centro de la República Popular China. Se ubica en las riveras del río Yangtsé y al sur de la cuenca de Sichuan. Su área es de 1822 km² y su población total para 2019 fue cercana al millón de habitantes.",
+    "src": {
+      "name": "Wikipedia ES",
+      "url": "https://es.wikipedia.org/wiki/Banan",
+      "license": "CC BY-SA 4.0"
+    }
+  },
+  "wd-liberia-river": {
+    "es": "Liberia, oficialmente la República de Liberia, es un país ubicado en la costa oeste de África y que limita con Sierra Leona al noroeste, Costa de Marfil al este y Guinea al norte. Por el sur y el oeste limita con el golfo de Guinea, parte del océano Atlántico, en el punto más cercano del continente africano con…",
+    "src": {
+      "name": "Wikipedia ES",
+      "url": "https://es.wikipedia.org/wiki/Liberia",
+      "license": "CC BY-SA 4.0"
+    }
+  },
+  "wd-museo-de-formas-espacios-y-sonidos": {
+    "es": "El Parque-Museo La Venta es un museo al aire libre en Villahermosa, Tabasco, México. Exhibe y protege las colecciones más grandes del mundo de piezas de la cultura olmeca, que representadas en un entorno natural similar a su hábitat original, fueron rescatadas de la ciudad prehispánica La Venta. Fue inaugurada por…",
+    "src": {
+      "name": "Wikipedia ES",
+      "url": "https://es.wikipedia.org/wiki/Parque-Museo_La_Venta",
+      "license": "CC BY-SA 4.0"
+    }
+  },
+  "osm-sitio-arqueologico-finca-6-w1571115150": {
+    "es": "El Sitio arqueológico Finca 6 o Sitio Museo Finca 6, denominado de esa forma por su ubicación geográfica, es un sitio arqueológico de la cultura del Diquís situado en Palmar Sur, en el cantón de Osa, al sur de Costa Rica, en el sector denominado como el Delta del Diquís y en el extremo sur de la provincia de…",
+    "src": {
+      "name": "Wikipedia ES",
+      "url": "https://es.wikipedia.org/wiki/Sitio_arqueol%C3%B3gico_Finca_6",
+      "license": "CC BY-SA 4.0"
+    }
   }
 }

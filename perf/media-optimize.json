@@ -1,0 +1,117 @@
+{
+  "before": {
+    "n": 65,
+    "b": 19528719
+  },
+  "after": {
+    "n": 189,
+    "b": 4373516
+  },
+  "savedBytes": 15155203,
+  "savedMB": 15.16,
+  "ratio": 0.224,
+  "unique": 62,
+  "mapped": 65,
+  "samples": [
+    {
+      "old": "/media/food/0804b39b19.jpg",
+      "neu": "/media/food/a13797ffc2-800.webp",
+      "sha": "a13797ffc2"
+    },
+    {
+      "old": "/media/food/0c6ec35930.jpg",
+      "neu": "/media/food/8fca1fe5ed-800.webp",
+      "sha": "8fca1fe5ed"
+    },
+    {
+      "old": "/media/food/0f1d969f19.png",
+      "neu": "/media/food/9857754ba7-800.webp",
+      "sha": "9857754ba7"
+    },
+    {
+      "old": "/media/food/0f6ef7818f.png",
+      "neu": "/media/food/d6247d47ea-800.webp",
+      "sha": "d6247d47ea"
+    },
+    {
+      "old": "/media/food/14e113a1d2.jpg",
+      "neu": "/media/food/9935844b07-800.webp",
+      "sha": "9935844b07"
+    },
+    {
+      "old": "/media/food/16ea6726e1.jpg",
+      "neu": "/media/food/b16b543a20-800.webp",
+      "sha": "b16b543a20"
+    },
+    {
+      "old": "/media/food/1979021bf0.jpg",
+      "neu": "/media/food/e67795f423-800.webp",
+      "sha": "e67795f423"
+    },
+    {
+      "old": "/media/food/1ad5815a62.png",
+      "neu": "/media/food/0b5c81b224-800.webp",
+      "sha": "0b5c81b224"
+    },
+    {
+      "old": "/media/food/1bb1af661f.jpg",
+      "neu": "/media/food/3de6100665-800.webp",
+      "sha": "3de6100665"
+    },
+    {
+      "old": "/media/food/1d6b696592.png",
+      "neu": "/media/food/45e3be8262-800.webp",
+      "sha": "45e3be8262"
+    },
+    {
+      "old": "/media/food/234b1735ed.jpg",
+      "neu": "/media/food/f620bb37ed-800.webp",
+      "sha": "f620bb37ed"
+    },
+    {
+      "old": "/media/food/266522048d.jpg",
+      "neu": "/media/food/8aa645c706-800.webp",
+      "sha": "8aa645c706"
+    },
+    {
+      "old": "/media/food/27df6caf9b.png",
+      "neu": "/media/food/5cb49b2ec9-800.webp",
+      "sha": "5cb49b2ec9"
+    },
+    {
+      "old": "/media/food/2b6342ff23.jpg",
+      "neu": "/media/food/01c9cc2c2c-800.webp",
+      "sha": "01c9cc2c2c"
+    },
+    {
+      "old": "/media/food/2ebad4600f.jpg",
+      "neu": "/media/food/278cc73894-800.webp",
+      "sha": "278cc73894"
+    },
+    {
+      "old": "/media/food/3045d2fc5c.jpg",
+      "neu": "/media/food/ccd39799be-800.webp",
+      "sha": "ccd39799be"
+    },
+    {
+      "old": "/media/food/3cebf9f92a.jpg",
+      "neu": "/media/food/8cac6da272-800.webp",
+      "sha": "8cac6da272"
+    },
+    {
+      "old": "/media/food/416b86bc4f.jpg",
+      "neu": "/media/food/0fc41a3b31-800.webp",
+      "sha": "0fc41a3b31"
+    },
+    {
+      "old": "/media/food/43712c8d4e.png",
+      "neu": "/media/food/1ce2ce6ead-800.webp",
+      "sha": "1ce2ce6ead"
+    },
+    {
+      "old": "/media/food/4812b6ff65.png",
+      "neu": "/media/food/8c27aaf95b-800.webp",
+      "sha": "8c27aaf95b"
+    }
+  ]
+}

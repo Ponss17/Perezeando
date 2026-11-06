@@ -65,6 +65,8 @@ export interface PlaceImage {
   page?: string;
   artist?: string;
   license?: string;
+  /** true = remoto verificado a propósito hasta migrar a /media (p. ej. 2 especies sin WebP local) */
+  allowRemote?: boolean;
 }
 
 export interface PlaceFacts {
@@ -130,6 +132,20 @@ export interface Place {
   q?: string;
   x?: PlaceExtra;
   nick?: Nick;
+  /** lugares relacionados (p. ej. parques donde se observa una especie) */
+  related?: string[];
+  /** tips de avistamiento / cuidado (fauna) */
+  tips?: { view?: LocalizedText; care?: LocalizedText };
+  /** grupo taxonómico amplio para filtros de fauna */
+  group?: 'mammal' | 'bird' | 'reptile' | 'amphibian' | 'insect' | 'marine';
+  /** info de visita citada (sin precios/teléfonos inventados) */
+  visit?: {
+    access?: LocalizedText;
+    activities?: LocalizedText;
+    difficulty?: LocalizedText;
+    note?: LocalizedText;
+    src?: SourceRef;
+  };
 }
 
 export interface ProvinceProps {
@@ -215,8 +231,35 @@ export interface ContentItem {
   src?: SourceRef;
 }
 export interface ProvinceContent {
-  facts: { qid?: string; pop?: number; popYear?: string; area?: number; capital?: string; envoy?: string; esvoy?: string; src?: SourceRef };
-  food: { intro: ContentText[]; items: ContentItem[]; voy: Partial<Record<Lang, ContentText>>; drink: Partial<Record<Lang, ContentText>> };
-  culture: { wiki: ContentText | null; heritage: ContentItem[]; museums: ContentItem[]; churches: ContentItem[]; archaeology: ContentItem[]; voy: Partial<Record<Lang, ContentText>> };
-  sports: { clubs: ContentItem[]; stadiums: ContentItem[]; surf: (ContentItem & { lat: number; lng: number })[]; voy: Partial<Record<Lang, ContentText>> };
+  activities?: { items?: ContentItem[]; note?: LocalizedText };
+  facts: {
+    qid?: string;
+    pop?: number;
+    popYear?: string;
+    area?: number;
+    capital?: string;
+    envoy?: string;
+    esvoy?: string;
+    src?: SourceRef;
+  };
+  food: {
+    intro: ContentText[];
+    items: ContentItem[];
+    voy: Partial<Record<Lang, ContentText>>;
+    drink: Partial<Record<Lang, ContentText>>;
+  };
+  culture: {
+    wiki: ContentText | null;
+    heritage: ContentItem[];
+    museums: ContentItem[];
+    churches: ContentItem[];
+    archaeology: ContentItem[];
+    voy: Partial<Record<Lang, ContentText>>;
+  };
+  sports: {
+    clubs: ContentItem[];
+    stadiums: ContentItem[];
+    surf: (ContentItem & { lat: number; lng: number })[];
+    voy: Partial<Record<Lang, ContentText>>;
+  };
 }

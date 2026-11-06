@@ -1,0 +1,16 @@
+{
+  "places": 835,
+  "fauna": 59,
+  "issues": 1,
+  "byType": {
+    "near-dup": 1
+  },
+  "responsiveTokens": true,
+  "sample": [
+    {
+      "t": "near-dup",
+      "a": "wd-estadio-nacional-de-costa-rica",
+      "b": "wd-estadio-nacional-de-costa-rica-q3067683"
+    }
+  ]
+}

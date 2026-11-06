@@ -23,6 +23,21 @@ const SRC = path.join(ROOT, 'data');
 const OUT = path.join(SRC, 'photos.json');
 const UA = 'PerezeandoContentBot/1.0 (https://perezeando.com; mapa de Costa Rica; build-time fetch)';
 const REFRESH = process.argv.includes('--refresh');
+const LIMIT = Number((process.argv.find((a) => a.startsWith('--limit=')) || '').split('=')[1] || 0) || Infinity;
+const SKIP_CATS = new Set(
+  (process.argv.find((a) => a.startsWith('--skip-cat=')) || '')
+    .split('=')[1]
+    ?.split(',')
+    .map((s) => s.trim())
+    .filter(Boolean) || [],
+);
+/** Prioridad Fase B: primero hitos con foto libre probable; gastronomía al final. */
+const CAT_PRIO = {
+  volcanes: 0, parques: 1, museos: 2, iglesias: 3, playas: 4, cataratas: 5, cerros: 6, rios: 7,
+  islas: 8, bosques: 9, arqueologia: 10, hitos: 11, deportes: 12, ciudades: 13, surf: 14,
+  submarinas: 15, hitosOceanicos: 16, isras: 17, immas: 18, aeropuertos: 19, puertos: 20,
+  datos: 21, gastronomia: 90,
+};
 const sleep = (ms) => new Promise((r) => setTimeout(r, ms));
 const log = (...a) => console.log('[fotos]', ...a);
 
@@ -40,11 +55,14 @@ async function api(host, params, tries = 6) {
         throw new Error('HTTP ' + r.status);
       }
       const j = await r.json();
-      if (j.error?.code === 'maxlag') throw new Error('maxlag');
+      if (j.error?.code === 'maxlag') {
+        await sleep(Math.min(90000, 8000 * (i + 1)));
+        throw new Error('maxlag');
+      }
       return j;
     } catch (e) {
       if (i === tries - 1) throw e;
-      await sleep(2500 * (i + 1));
+      await sleep(e.message === 'maxlag' ? 5000 * (i + 1) : 2500 * (i + 1));
     }
   }
 }
@@ -72,10 +90,13 @@ const atlas = rd(PUB, 'atlas.json');
 if (!atlas) { console.error('Falta public/data/atlas.json: corre primero npm run build-data'); process.exit(1); }
 const prev = REFRESH ? {} : rd(SRC, 'photos.json', {});
 const found = { ...(prev.found || {}) }, checked = { ...(prev.checked || {}) };
-const todo = atlas.places.filter((p) => (!p.img || p.img.how) && !found[p.id] && (checked[p.id] || 0) < 3);
+let todo = atlas.places
+  .filter((p) => !p.img?.src && !found[p.id] && (checked[p.id] || 0) < 3 && !SKIP_CATS.has(p.cat))
+  .sort((a, b) => (CAT_PRIO[a.cat] ?? 50) - (CAT_PRIO[b.cat] ?? 50) || String(a.id).localeCompare(String(b.id)));
+if (Number.isFinite(LIMIT)) todo = todo.slice(0, LIMIT);
 const save = () => fs.writeFileSync(OUT, JSON.stringify({ v: 1, found, checked }));
-const total = atlas.places.length, before = atlas.places.filter((p) => p.img && !p.img.how).length;
-log(`${total} lugares; con foto propia ${before}; ya resueltos ${Object.keys(found).length}; por revisar ${todo.length}`);
+const total = atlas.places.length, before = atlas.places.filter((p) => p.img?.src).length;
+log(`${total} lugares; con foto ${before}; en photos.json ${Object.keys(found).length}; por revisar ${todo.length}${SKIP_CATS.size ? ` (skip ${[...SKIP_CATS]})` : ''}`);
 
 // ---------------------------------------------------------------- metadatos de Commons
 const meta = new Map();
@@ -109,9 +130,14 @@ const set = (p, file, how) => { const m = meta.get(file); if (!m) return false; 
 // --------------------------------------------------------------- 1. P18 del propio qid
 const st = { p18: 0, wdname: 0, geo: 0, none: 0 };
 const withQ = todo.filter((p) => p.q);
-const ents = withQ.length ? await p18(withQ.map((p) => p.q)) : {};
-await commonsMeta(Object.values(ents).map((e) => e.file).filter(Boolean));
-for (const p of withQ) if (ents[p.q]?.file && set(p, ents[p.q].file, 'wikidata')) st.p18++;
+try {
+  const ents = withQ.length ? await p18(withQ.map((p) => p.q)) : {};
+  await commonsMeta(Object.values(ents).map((e) => e.file).filter(Boolean));
+  for (const p of withQ) if (ents[p.q]?.file && set(p, ents[p.q].file, 'wikidata')) st.p18++;
+} catch (err) {
+  log('1) P18 interrumpido:', err.message, '— se sigue con nombre/geo');
+  save();
+}
 log(`1) P18 por qid: ${st.p18}`);
 
 // ------------------------------------------- 2. Wikidata por nombre + distancia

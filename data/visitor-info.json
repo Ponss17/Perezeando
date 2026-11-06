@@ -1,0 +1,344 @@
+{
+  "par-p-n-corcovado": {
+    "access": {
+      "es": "Acceso principal vía Bahía Drake o Puerto Jiménez; se recomienda guía en varios sectores.",
+      "en": "Main access via Drake Bay or Puerto Jiménez; guides recommended in several sectors."
+    },
+    "activities": {
+      "es": "Senderismo, observación de fauna, visitas a playas y estaciones biológicas.",
+      "en": "Hiking, wildlife watching, beach and biological-station visits."
+    },
+    "difficulty": {
+      "es": "Media a alta según sendero y clima; terreno irregular y húmedo.",
+      "en": "Moderate to hard depending on trail and weather; uneven wet terrain."
+    },
+    "note": {
+      "es": "Uno de los parques más biodiversos del país; cupos y reglas SINAC aplican.",
+      "en": "One of the most biodiverse parks; SINAC quotas and rules apply."
+    },
+    "src": {
+      "name": "SINAC / Wikivoyage",
+      "url": "https://en.wikivoyage.org/wiki/Corcovado_National_Park",
+      "license": "CC BY-SA 4.0"
+    }
+  },
+  "par-p-n-manuel-antonio": {
+    "access": {
+      "es": "Acceso por Quepos; senderos cortos desde el sector principal.",
+      "en": "Access via Quepos; short trails from the main sector."
+    },
+    "activities": {
+      "es": "Playas, senderos interpretativos, observación de monos y mapaches.",
+      "en": "Beaches, interpretive trails, monkey and raccoon watching."
+    },
+    "difficulty": {
+      "es": "Baja a media; algunos tramos con gradas.",
+      "en": "Easy to moderate; some staired stretches."
+    },
+    "note": {
+      "es": "Parque muy visitado: llegá temprano y respetá distancias con fauna habituada.",
+      "en": "Very visited: arrive early and keep distance from habituated wildlife."
+    },
+    "src": {
+      "name": "Wikivoyage",
+      "url": "https://en.wikivoyage.org/wiki/Manuel_Antonio_National_Park",
+      "license": "CC BY-SA 4.0"
+    }
+  },
+  "par-p-n-tortuguero": {
+    "access": {
+      "es": "Principalmente por lancha/canal desde La Pavona u otros embarcaderos; no hay carretera directa al pueblo.",
+      "en": "Mostly by boat/canal from La Pavona or other docks; no direct road to the village."
+    },
+    "activities": {
+      "es": "Canales, observación de tortugas en temporada, senderos y aves.",
+      "en": "Canals, seasonal turtle watching, trails and birds."
+    },
+    "difficulty": {
+      "es": "Baja en canales; senderos planos pero húmedos.",
+      "en": "Easy on canals; flat but wet trails."
+    },
+    "note": {
+      "es": "Anidación de tortugas solo con tours autorizados.",
+      "en": "Turtle nesting only with authorized tours."
+    },
+    "src": {
+      "name": "Wikivoyage",
+      "url": "https://en.wikivoyage.org/wiki/Tortuguero",
+      "license": "CC BY-SA 4.0"
+    }
+  },
+  "par-p-n-volcan-poas": {
+    "access": {
+      "es": "Acceso por carretera desde Alajuela/Poasito; sector de visitante con miradores.",
+      "en": "Road access from Alajuela/Poasito; visitor sector with overlooks."
+    },
+    "activities": {
+      "es": "Mirador del cráter, senderos cortos, paisajes de altura.",
+      "en": "Crater overlook, short trails, highland views."
+    },
+    "difficulty": {
+      "es": "Baja en el circuito principal; altitud ~2700 m.",
+      "en": "Easy on the main loop; elevation ~2700 m."
+    },
+    "note": {
+      "es": "Puede cerrar por actividad volcánica o gases; consultá SINAC el día de la visita.",
+      "en": "May close for volcanic activity or gases; check SINAC the day you go."
+    },
+    "src": {
+      "name": "SINAC",
+      "url": "https://www.sinac.go.cr/EN-US/ac/accvc/pnvp/Pages/default.aspx"
+    }
+  },
+  "par-p-n-volcan-arenal": {
+    "access": {
+      "es": "Sectores alrededor de La Fortuna; varios ingresos y reservas privadas lindantes.",
+      "en": "Sectors around La Fortuna; several entrances and neighboring private reserves."
+    },
+    "activities": {
+      "es": "Senderismo, puentes colgantes cercanos, lagunas y vistas del cono.",
+      "en": "Hiking, nearby hanging bridges, lagoons and cone views."
+    },
+    "difficulty": {
+      "es": "Baja a media según sendero.",
+      "en": "Easy to moderate by trail."
+    },
+    "note": {
+      "es": "El volcán está en reposo relativo; el parque protege bosques y lava histórica.",
+      "en": "Volcano relatively quiet; park protects forest and historic lava."
+    },
+    "src": {
+      "name": "Wikivoyage",
+      "url": "https://en.wikivoyage.org/wiki/Arenal",
+      "license": "CC BY-SA 4.0"
+    }
+  },
+  "par-p-n-chirripo": {
+    "access": {
+      "es": "Ingreso típico por San Gerardo de Rivas; requiere reserva de cupo.",
+      "en": "Typical entry via San Gerardo de Rivas; quota reservation required."
+    },
+    "activities": {
+      "es": "Trekking de altura hasta el cerro Chirripó y páramos.",
+      "en": "High-altitude trek to Chirripó peak and páramo."
+    },
+    "difficulty": {
+      "es": "Alta: desnivel fuerte, frío y clima cambiante.",
+      "en": "Hard: big elevation gain, cold and changeable weather."
+    },
+    "note": {
+      "es": "Cupos limitados; prepará equipo de frío y lluvia.",
+      "en": "Limited quotas; pack for cold and rain."
+    },
+    "src": {
+      "name": "Wikivoyage",
+      "url": "https://en.wikivoyage.org/wiki/Chirrip%C3%B3_National_Park",
+      "license": "CC BY-SA 4.0"
+    }
+  },
+  "par-p-n-cahuita": {
+    "access": {
+      "es": "Sectores Cahuita pueblo y Puerto Vargas; sendero costero.",
+      "en": "Cahuita town and Puerto Vargas sectors; coastal trail."
+    },
+    "activities": {
+      "es": "Snorkel en arrecife (con reglas locales), playa y sendero de costa.",
+      "en": "Reef snorkel (local rules), beach and coastal trail."
+    },
+    "difficulty": {
+      "es": "Baja.",
+      "en": "Easy."
+    },
+    "note": {
+      "es": "Arrecife sensible: sin tocar coral y con buen criterio de oleaje.",
+      "en": "Sensitive reef: no coral contact and good swell judgment."
+    },
+    "src": {
+      "name": "Wikivoyage",
+      "url": "https://en.wikivoyage.org/wiki/Cahuita",
+      "license": "CC BY-SA 4.0"
+    }
+  },
+  "par-p-n-santa-rosa": {
+    "access": {
+      "es": "Acceso por la Interamericana norte; sector histórico y playas distantes.",
+      "en": "Access via northern Interamericana; historic sector and distant beaches."
+    },
+    "activities": {
+      "es": "Bosque seco, historia de la Batalla de Santa Rosa, playas y fauna.",
+      "en": "Dry forest, Santa Rosa battle history, beaches and wildlife."
+    },
+    "difficulty": {
+      "es": "Baja a media; calor fuerte en estación seca.",
+      "en": "Easy to moderate; strong heat in dry season."
+    },
+    "note": {
+      "es": "Llevá agua; distancias largas entre playas.",
+      "en": "Bring water; long distances between beaches."
+    },
+    "src": {
+      "name": "Wikivoyage",
+      "url": "https://en.wikivoyage.org/wiki/Santa_Rosa_National_Park",
+      "license": "CC BY-SA 4.0"
+    }
+  },
+  "par-p-n-marino-ballena": {
+    "access": {
+      "es": "Sectores Uvita/Bahía Ballena; playas y miradores costeros.",
+      "en": "Uvita/Bahía Ballena sectors; beaches and coastal overlooks."
+    },
+    "activities": {
+      "es": "Avistamiento de ballenas en temporada, snorkel y playa del tombolo.",
+      "en": "Seasonal whale watching, snorkel and tombolo beach."
+    },
+    "difficulty": {
+      "es": "Baja.",
+      "en": "Easy."
+    },
+    "note": {
+      "es": "Avistamiento solo con operadores que respeten distancias.",
+      "en": "Whale watching only with operators who respect distances."
+    },
+    "src": {
+      "name": "Wikivoyage",
+      "url": "https://en.wikivoyage.org/wiki/Uvita",
+      "license": "CC BY-SA 4.0"
+    }
+  },
+  "par-p-n-carara": {
+    "access": {
+      "es": "Sobre la costanera cerca de Tárcoles/Jacó.",
+      "en": "On the coastal highway near Tárcoles/Jacó."
+    },
+    "activities": {
+      "es": "Senderos de bosque húmedo de transición; lapas y aves.",
+      "en": "Transitional rainforest trails; macaws and birds."
+    },
+    "difficulty": {
+      "es": "Baja a media; calor y humedad.",
+      "en": "Easy to moderate; heat and humidity."
+    },
+    "note": {
+      "es": "Buen punto para lapas al amanecer/atardecer cerca del río.",
+      "en": "Good macaw spot at dawn/dusk near the river."
+    },
+    "src": {
+      "name": "Wikivoyage",
+      "url": "https://en.wikivoyage.org/wiki/Central_Pacific_Coast_(Costa_Rica)",
+      "license": "CC BY-SA 4.0"
+    }
+  },
+  "par-p-n-isla-del-coco": {
+    "access": {
+      "es": "Solo por expedición marítima autorizada; sin turismo de día casual.",
+      "en": "Authorized marine expeditions only; no casual day tourism."
+    },
+    "activities": {
+      "es": "Buceo avanzado, tiburones y biodiversidad marina.",
+      "en": "Advanced diving, sharks and marine biodiversity."
+    },
+    "difficulty": {
+      "es": "Alta (logística y buceo).",
+      "en": "Hard (logistics and diving)."
+    },
+    "note": {
+      "es": "Patrimonio natural; cupos y operadores regulados.",
+      "en": "Natural heritage; regulated quotas and operators."
+    },
+    "src": {
+      "name": "UNESCO / SINAC",
+      "url": "https://whc.unesco.org/en/list/820/"
+    }
+  },
+  "par-p-n-palo-verde": {
+    "access": {
+      "es": "Cerca de Bagaces; humedales del Tempisque.",
+      "en": "Near Bagaces; Tempisque wetlands."
+    },
+    "activities": {
+      "es": "Observación de aves acuáticas, bote y senderos de bosque seco.",
+      "en": "Waterbird watching, boats and dry-forest trails."
+    },
+    "difficulty": {
+      "es": "Baja a media.",
+      "en": "Easy to moderate."
+    },
+    "note": {
+      "es": "Temporada seca concentra aves en cuerpos de agua.",
+      "en": "Dry season concentrates birds at water bodies."
+    },
+    "src": {
+      "name": "Wikivoyage",
+      "url": "https://en.wikivoyage.org/wiki/Guanacaste",
+      "license": "CC BY-SA 4.0"
+    }
+  },
+  "bos-bosque-nuboso-monteverde": {
+    "access": {
+      "es": "Santa Elena / Monteverde; reservas privadas y caminos de montaña.",
+      "en": "Santa Elena / Monteverde; private reserves and mountain roads."
+    },
+    "activities": {
+      "es": "Senderos de bosque nuboso, aves (quetzal en temporada), puentes.",
+      "en": "Cloud-forest trails, birds (seasonal quetzal), bridges."
+    },
+    "difficulty": {
+      "es": "Baja a media; frío y lluvia frecuentes.",
+      "en": "Easy to moderate; frequent cold and rain."
+    },
+    "note": {
+      "es": "Varias reservas con entradas propias; no es un único parque SINAC.",
+      "en": "Several reserves with their own tickets; not a single SINAC park."
+    },
+    "src": {
+      "name": "Wikivoyage",
+      "url": "https://en.wikivoyage.org/wiki/Monteverde",
+      "license": "CC BY-SA 4.0"
+    }
+  },
+  "vol-volcan-poas": {
+    "access": {
+      "es": "Carretera a Poasito; visitá el parque nacional asociado.",
+      "en": "Road to Poasito; visit the associated national park."
+    },
+    "activities": {
+      "es": "Mirador del cráter cuando el parque está abierto.",
+      "en": "Crater overlook when the park is open."
+    },
+    "difficulty": {
+      "es": "Baja; atención a la altitud.",
+      "en": "Easy; mind the altitude."
+    },
+    "note": {
+      "es": "Cierres posibles por gases/actividad — verificá avisos oficiales.",
+      "en": "Closures possible for gas/activity — check official notices."
+    },
+    "src": {
+      "name": "SINAC",
+      "url": "https://www.sinac.go.cr/EN-US/ac/accvc/pnvp/Pages/default.aspx"
+    }
+  },
+  "pla-playa-ostional": {
+    "access": {
+      "es": "Comunidad de Ostional (Guanacaste); acceso local controlado en arribadas.",
+      "en": "Ostional community (Guanacaste); local controlled access during arribadas."
+    },
+    "activities": {
+      "es": "Observación de arribadas de tortuga lora con guías locales.",
+      "en": "Olive-ridley arribada watching with local guides."
+    },
+    "difficulty": {
+      "es": "Baja.",
+      "en": "Easy."
+    },
+    "note": {
+      "es": "Reglas comunitarias estrictas; no inventes horarios: preguntá en el refugio.",
+      "en": "Strict community rules; do not invent hours—ask at the refuge."
+    },
+    "src": {
+      "name": "Wikivoyage",
+      "url": "https://en.wikivoyage.org/wiki/Ostional",
+      "license": "CC BY-SA 4.0"
+    }
+  }
+}

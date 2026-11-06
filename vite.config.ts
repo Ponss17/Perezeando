@@ -4,6 +4,16 @@ import fs from 'node:fs';
 import path from 'node:path';
 import crypto from 'node:crypto';
 
+const mediaHostFromEnv = () => {
+  const raw = (process.env.VITE_MEDIA_BASE_URL || '').trim().replace(/\/+$/, '');
+  if (!raw) return '';
+  try {
+    return new URL(raw).hostname;
+  } catch {
+    return '';
+  }
+};
+
 const sha = (b: Buffer | string) => crypto.createHash('sha256').update(b).digest('hex').slice(0, 12);
 const walk = (d: string): string[] =>
   fs.readdirSync(d, { withFileTypes: true }).flatMap((e) => (e.isDirectory() ? walk(path.join(d, e.name)) : [path.join(d, e.name)]));
@@ -33,7 +43,8 @@ function writeServiceWorker(out: string, root: string) {
     tpl
       .replace("= '__VERSION__'", `= '${version}'`)
       .replace('= __SHELL__;', `= ${JSON.stringify(shell)};`)
-      .replace('= __DATA__;', `= ${JSON.stringify(data)};`),
+      .replace('= __DATA__;', `= ${JSON.stringify(data)};`)
+      .replace("= '__MEDIA_HOST__'", `= '${mediaHostFromEnv()}'`),
   );
   console.log(`sw.js ${version}: ${shell.length} archivos de la app, ${Object.keys(data).length} de datos`);
 }
