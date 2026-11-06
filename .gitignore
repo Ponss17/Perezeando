@@ -7,6 +7,8 @@ screenshots
 .env.*
 !.env.example
 !.env.production.example
+# Público (CDN R2); sin secretos — hace falta en builds de CF/Git
+!.env.production
 
 # Medios: viven en disco local + R2 (no versionar ~50MB de WebP)
 public/media/
