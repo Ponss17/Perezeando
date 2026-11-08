@@ -1,11 +1,12 @@
 # Handoff — Perezeando (`cr-mapa-v2`)
 
-**Fecha:** 2026-11-05 (America/Costa_Rica)  
+**Fecha:** 2026-11-08 (America/Costa_Rica)  
 **Proyecto en disco (fuente de verdad):** `D:\zpaginas\cr-mapa-v2`  
 **Máquina:** Windows del usuario (Ponss), clone GitHub `https://github.com/Ponss17/Perezeando.git` (`origin/main`)  
-**Trabajo reciente:** Grok Bot en directo sobre esa carpeta (no Cursor Cloud Agent, no commit/push en esta secuencia).
+**Hosting prod:** Cloudflare Worker assets `perezeando` → https://perezeando.lospherris.workers.dev (`wrangler.toml`, SPA `not_found_handling`)  
+**Trabajo reciente:** agente en disco local (no Cloud Agent).
 
-Este archivo resume el estado real inspeccionado en el repo. **No uses** copias viejas del box (`/workspace/cr-mapa*`, zips v35/v36) para sobrescribir `D:\zpaginas\cr-mapa-v2`. El árbol local tiene cambios intencionales sin pushear.
+Este archivo resume el estado real del repo. **No uses** copias viejas del box (`/workspace/cr-mapa*`, zips v35/v36) para sobrescribir `D:\zpaginas\cr-mapa-v2`.
 
 ---
 
@@ -57,15 +58,17 @@ pnpm fetch-fauna             # build-time fotos fauna → /media
 pnpm fetch-photos            # build-time photos.json
 ```
 
-Producción con R2 (opt-in):
+Producción con R2 (**obligatorio en build de prod**):
 
 ```bash
-# .env.production (no versionar secretos; hay .env.production.example)
+# .env.production está VERSIONADO (solo URL pública CDN; sin secretos)
 VITE_MEDIA_BASE_URL=https://pub-409cfb54b50741928198b4469fad8d4e.r2.dev
 pnpm build
+npx wrangler deploy
 ```
 
-Sin esa variable, el default es `/media` local (correcto para `pnpm dev`).
+Sin esa variable el bundle pide `/media` al Worker; el SPA responde HTML → miniaturas rotas.  
+`public/media/` sigue gitignored (~50 MB); vive en disco local + R2. Dev: dejar `VITE_MEDIA_BASE_URL` vacío.
 
 ---
 
@@ -75,7 +78,7 @@ Números tomados de `public/data/atlas.json`, `pnpm audit-quality`, `pnpm audit-
 
 | Tema | Antes → ahora / actual |
 |------|-------------------------|
-| Lugares | **802 → 835** (`places-extra.json`: **13** nuevos) |
+| Lugares | **835** (`places-extra` incluye Parque Juan Santamaría) |
 | Fauna en mapa | **59** especies (**39** `faunaTerrestre` + **20** `fauna` marina) |
 | Visit info | **15** sitios (`data/visitor-info.json`) |
 | Actividades cantón/provincia | **18** ítems en 7 provincias (`canton-activities` + merge en provinces-content) |
@@ -84,7 +87,7 @@ Números tomados de `public/data/atlas.json`, `pnpm audit-quality`, `pnpm audit-
 | Entradas cortas | **0** `thinUnder50` (antes 273; plantillas honestas + briefs) |
 | Wiki EN sin título ES | **60** (`wikiEnWithoutEs`) |
 | Actividades cantón | **18** ítems (antes 13) |
-| Audit quality | 1 issue `near-dup` estadios nacionales; `responsiveTokens: true` |
+| Audit quality | **0** issues (`near-dup` estadios resuelto); `responsiveTokens: true` |
 
 **Fauna:** solo como lugares + filtros del mapa. **No** hay pestaña Fauna en ficha de provincia (se quitó por redundancia).
 
@@ -112,9 +115,9 @@ Tres tamaños: `-120`, `-320`, `-800`. Paths: `/media/places/…`, `/media/food/
 
 ### Curación en atlas (hoy, post-mirror)
 
-- Lugares con `img` local `/media/…`: **493** (0 missing-file)
+- Lugares con `img` local `/media/…`: **~495+** (0 missing-file; plaza Alajuela + monumento Juan Santamaría reasignados)
 - Lugares con `img` remoto: **2** (`fau-lapa-roja`, `fau-ballena-piloto` — URLs Commons 404; siguen `allowRemote`)
-- Lugares sin foto: **340** (114 gastronomía; resto sin match Commons fiable)
+- Lugares sin foto: **~340** (114 gastronomía; cataratas/bosques/cerros sin match Commons libre fiable)
 - `provinces-content` walk: **192** local / **0** remoto
 
 ### Runtime (importante)
@@ -168,7 +171,7 @@ R2 **no** es base de datos: solo archivos de imagen. El mapa sigue leyendo JSON 
 ## 8. Git / working tree
 
 - Rama: `main` tracking `origin/main`.
-- **Muchos cambios locales sin commit** (modificados + untracked: `public/media/`, fauna/visitor/canton data, audits, R2 scripts, `mediaUrl`, photo runtime, README medios, `.env*.example`, `perf/`, etc.).
+- **Oleada 2026-11-08 publicada** (filtros/lima/fauna/assetsignore/estadios/Alajuela). `public/media/` sigue gitignored; vive en disco + R2.
 - **No resetear, no force-checkout, no pisar con backups viejos del box.**
 
 Backups recientes (Windows Temp), tras inspeccionar nombres:
@@ -227,8 +230,41 @@ Objetivo: traer a `/media` las imágenes **ya curadas** (sin discovery runtime).
 5. Dominio custom para media + hosting prod final (Pages/Workers/etc.) con `.env.production` real.
 6. Si prod usa R2: valorar **no empaquetar** `public/media` en el deploy (opt-in); mantener local para dev.
 7. Suite de tests automatizados: **casi no hay**; no asumir cobertura.
-8. Resolver o documentar el `near-dup` de estadios en audit-quality.
+8. ~~Resolver `near-dup` estadios~~ → **hecho** (se quitó el estadio viejo `…-q3067683`; queda el actual).
 9. **Fase B + cierres (2026-11-06):** fauna `lapa-roja`/`ballena-piloto` en `/media`; Lito Monge sin foto Commons (sí desc). `thinUnder50` → **0**. Actividades **18**. Lugares `/media` **495**/835; **340** sin foto (gastro).
+
+### Hecho (2026-11-06 tarde) — SW móvil, media prod, filtros provincia
+
+| Tema | Qué |
+|------|-----|
+| SW móvil | `skipWaiting` + reload en `controllerchange`; recuperación dura si asset 404 (`src/lib/sw.ts`, `scripts/sw-template.js`) |
+| Fotos en prod | `.env.production` con R2 versionado; Worker **no** sirve `/media` (SPA). Caché: R2 `immutable` 1 año + SW `pz-img-v1` (~400, 30 d) |
+| Limpieza | CSS muerto (`.select-wrap`, `.cat-breakdown`, …); `perf/` gitignored; `usableWikiThumb` quitado |
+| Filtros provincia | Conteos de categoría/provincia **cruzados** en Explorar + Capas; cats vacías ocultas; `setProv` resetea cat si queda en 0 |
+| Límites mapa | Con provincia: solo borde activo **lima** `#d4ec8a` + casco oscuro; resto oscurecido; **sin** overlay Esri `base-labels` (compite). `all` = líneas discontinuas + Esri si `ov.prov` |
+| Consola beacon | Errores `cloudflareinsights.com/beacon` = Web Analytics de CF / adblock; **no** es bug del atlas. Desactivar Analytics en el dashboard del Worker si molestan |
+
+Archivos: `ExplorePane.tsx`, `LayersPane.tsx`, `mapSync.ts`, `actions.ts`, `sw.ts`, `sw-template.js`, `.env.production`, `wrangler.toml`.
+
+### Hecho (2026-11-06 noche) — fauna dentro del polígono
+
+- **Problema:** `prov` curado ≠ pin; 24/59 especies fuera del ADM1 de su provincia (filtro por `prov`, no point-in-polygon).
+- **Fix terrestre:** `scripts/snap-fauna-prov.mjs` ancla al parque/bosque más cercano **ya en el atlas** (misma `prov`). Actualiza `data/places.json` + `data/fauna-extra.json`.
+- **Marina (`cat: fauna`):** no se mueve — anclar a islas/playas las dejaba **en tierra** (p. ej. tiburones encima de Isla del Coco). Se restauraron coords oceánicas originales.
+- **Merge:** `build-data` ya no trata fauna apilada sobre un parque como dup a 25 m.
+
+### Hecho (2026-11-08) — publicar + deploy limpio + datos
+
+| Tema | Qué |
+|------|-----|
+| Deploy limpio | `.assetsignore` + `vite` escribe `dist/.assetsignore` con `media/**` (fotos solo por R2) |
+| Estadios | near-dup cerrado; audit-quality **0** |
+| Alajuela | P18 del monumento sacado del cantón; cantón → fuente Parque Central (`Plaza_Alajuela_fuente`); **Parque Juan Santamaría** (`ext-…`, Q111089635) con el monumento. `photos-hand` gana sobre img inline |
+| Naturaleza fotos | Pasada `fetch-photos`/`fetch-missing-media` (cataratas/bosques/cerros): **0** nuevas — Wikidata `maxlag` + sin pageimage/Commons fiable. Flags `--geo-only` / `--p18-only` / `--only-wiki` |
+| R2 | Subidos 3 WebP plaza Alajuela (`ea40e50b85-*`) |
+| Local vs remoto | Resuelto tras commit/push/`wrangler deploy` de esta oleada |
+
+**Siguiente (no bloquea):** gastro sin foto; dominio custom media; OG middleware; tests filtros/`visiblePlaces`.
 
 ---
 
@@ -249,7 +285,7 @@ Objetivo: traer a `/media` las imágenes **ya curadas** (sin discovery runtime).
 
 - `src/lib/mediaUrl.ts`, `src/lib/photo.ts`, `src/lib/format.ts`
 - `scripts/sync-media-r2.mjs`, `scripts/mirror-remote-media.mjs`, `scripts/sw-template.js`, `vite.config.ts`
-- `.env.example`, `.env.production.example`, `.gitignore`, `README.md` (sección Medios)
+- `.env.example`, `.env.production` (URL R2 pública), `.env.production.example`, `.gitignore`, `README.md`, `wrangler.toml`
 - Datos reescritos por el espejo: `data/places.json`, `places-wd.json`, `places-extra.json`, `places-osm.json`, `fauna-extra.json`, `enrich.json`, `photos.json`, `photos-hand.json`, `public/data/provinces-content.json`, `scripts/data/food-photos.json`
 - `package.json` (`aws4fetch`, `sync-media*`, `mirror-media*`)
 - Reportes: `perf/mirror-remote-media.json`

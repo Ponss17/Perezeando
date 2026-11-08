@@ -35,12 +35,14 @@ export function setBase(c: MapController, initial = false) {
   if (m.getSource('base-labels')) m.removeSource('base-labels');
   if (b.labels) {
     m.addSource('base-labels', { type: 'raster', tiles: [b.labels], tileSize: 256, maxzoom: b.max });
+    // solo con «todo el país»: si hay provincia, esos bordes Esri compiten con el límite lima
+    const showLabels = c.s.ov.prov && c.s.prov === 'all';
     m.addLayer(
       {
         id: 'base-labels',
         type: 'raster',
         source: 'base-labels',
-        layout: { visibility: c.s.ov.prov ? 'visible' : 'none' },
+        layout: { visibility: showLabels ? 'visible' : 'none' },
       },
       'geom-fill',
     );
@@ -62,7 +64,9 @@ export function syncOverlays(c: MapController) {
   ['prov-fill', 'prov-line', 'prov-line-sel'].forEach((l) =>
     m.setLayoutProperty(l, 'visibility', v(c.s.ov.prov)),
   );
-  if (m.getLayer('base-labels')) m.setLayoutProperty('base-labels', 'visibility', v(c.s.ov.prov));
+  // etiquetas/bordes Esri del satélite: solo a escala país (si no, se confunden con el límite activo)
+  const showBaseLabels = c.s.ov.prov && c.s.prov === 'all';
+  if (m.getLayer('base-labels')) m.setLayoutProperty('base-labels', 'visibility', v(showBaseLabels));
   ['eez', 'eez-mma', 'eez-hit'].forEach((l) => m.setLayoutProperty(l, 'visibility', v(c.s.ov.eez)));
   syncProvLabels(c);
 }
@@ -73,10 +77,39 @@ export function syncProvStyle(c: MapController) {
   const sel = c.s.prov;
   const isProv = sel !== 'all' && sel !== 'mar';
   const line = dark ? '#ffffff' : '#4b524e';
-  m.setPaintProperty('prov-line', 'line-color', line);
-  m.setPaintProperty('prov-line', 'line-opacity', sel === 'all' ? (dark ? 0.7 : 0.55) : 0.35);
-  m.setPaintProperty('prov-line-sel', 'line-color', dark ? '#ffffff' : '#386641');
-  m.setFilter('prov-line-sel', ['==', ['get', 'id'], isProv ? sel : '']);
+
+  if (isProv) {
+    // borde activo: casco oscuro + trazo lima (legible sobre satélite)
+    m.setFilter('prov-line', ['==', ['get', 'id'], sel]);
+    m.setPaintProperty('prov-line', 'line-color', '#0c1810');
+    m.setPaintProperty('prov-line', 'line-opacity', 0.9);
+    m.setPaintProperty('prov-line', 'line-width', 6);
+    m.setPaintProperty('prov-line', 'line-dasharray', [1, 0]);
+    m.setFilter('prov-line-sel', ['==', ['get', 'id'], sel]);
+    m.setPaintProperty('prov-line-sel', 'line-color', '#d4ec8a');
+    m.setPaintProperty('prov-line-sel', 'line-opacity', 1);
+    m.setPaintProperty('prov-line-sel', 'line-width', 3);
+  } else if (sel === 'mar') {
+    m.setFilter('prov-line', ['==', ['get', 'id'], '']);
+    m.setFilter('prov-line-sel', ['==', ['get', 'id'], '']);
+  } else {
+    m.setFilter('prov-line', null);
+    m.setPaintProperty('prov-line', 'line-color', line);
+    m.setPaintProperty('prov-line', 'line-opacity', dark ? 0.7 : 0.55);
+    m.setPaintProperty('prov-line', 'line-width', 1.1);
+    m.setPaintProperty('prov-line', 'line-dasharray', [5, 3, 1, 3]);
+    m.setFilter('prov-line-sel', ['==', ['get', 'id'], '']);
+    m.setPaintProperty('prov-line-sel', 'line-color', dark ? '#ffffff' : '#386641');
+    m.setPaintProperty('prov-line-sel', 'line-opacity', 1);
+    m.setPaintProperty('prov-line-sel', 'line-width', 2.5);
+  }
+
+  // sin bordes Esri cuando hay provincia/mar (evita el “todo blanco/celeste”)
+  if (m.getLayer('base-labels')) {
+    const showBaseLabels = c.s.ov.prov && sel === 'all';
+    m.setLayoutProperty('base-labels', 'visibility', showBaseLabels ? 'visible' : 'none');
+  }
+
   m.setPaintProperty('prov-fill', 'fill-color', dark ? '#000' : '#1b1f1d');
   m.setPaintProperty('pin-labels', 'text-color', dark ? '#ffffff' : '#1b1f1d');
   m.setPaintProperty('pin-labels', 'text-halo-color', dark ? 'rgba(24,52,32,.92)' : 'rgba(255,255,255,.95)');
@@ -85,7 +118,11 @@ export function syncProvStyle(c: MapController) {
     'fill-opacity',
     sel === 'all'
       ? ['case', ['boolean', ['feature-state', 'hover'], false], 0.08, 0]
-      : ['case', ['==', ['get', 'id'], sel], 0, dark ? 0.32 : 0.12],
+      : sel === 'mar'
+        ? dark
+          ? 0.34
+          : 0.14
+        : ['case', ['==', ['get', 'id'], sel], 0, dark ? 0.42 : 0.18],
   );
 }
 

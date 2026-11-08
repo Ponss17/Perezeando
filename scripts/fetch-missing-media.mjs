@@ -34,6 +34,7 @@ if (!sharp) {
 const args = process.argv.slice(2);
 const LIMIT = Number((args.find((a) => a.startsWith('--limit=')) || '').split('=')[1] || 0) || Infinity;
 const INCLUDE_GASTRO = args.includes('--include-gastro');
+const ONLY_WIKI = args.includes('--only-wiki');
 const SKIP = new Set(
   (args.find((a) => a.startsWith('--skip-cat=')) || `skip-cat=${INCLUDE_GASTRO ? '' : 'gastronomia'}`)
     .split('=')[1]
@@ -216,10 +217,11 @@ photos.checked ||= {};
 
 let todo = atlas.places
   .filter((p) => !p.img?.src && !photos.found[p.id]?.src?.startsWith('/media/') && !SKIP.has(p.cat) && (photos.checked[p.id] || 0) < 4)
+  .filter((p) => !ONLY_WIKI || p.wiki?.es || p.wiki?.en)
   .sort((a, b) => (CAT_PRIO[a.cat] ?? 50) - (CAT_PRIO[b.cat] ?? 50) || String(a.id).localeCompare(b.id));
 if (Number.isFinite(LIMIT)) todo = todo.slice(0, LIMIT);
 
-console.log(JSON.stringify({ missingQueue: todo.length, skip: [...SKIP], limit: LIMIT }, null, 2));
+console.log(JSON.stringify({ missingQueue: todo.length, skip: [...SKIP], limit: LIMIT, onlyWiki: ONLY_WIKI }, null, 2));
 
 const st = { ok: 0, fail: 0, wiki: 0, commons: 0 };
 const save = () => fs.writeFileSync(PHOTOS, JSON.stringify(photos));

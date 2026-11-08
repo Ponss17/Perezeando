@@ -29,7 +29,8 @@
     "sync-media:upload": "node scripts/sync-media-r2.mjs --upload",
     "mirror-media": "node scripts/mirror-remote-media.mjs",
     "mirror-media:dry": "node scripts/mirror-remote-media.mjs --dry-run",
-    "fetch-missing-media": "node scripts/fetch-missing-media.mjs"
+    "fetch-missing-media": "node scripts/fetch-missing-media.mjs",
+    "snap-fauna-prov": "node scripts/snap-fauna-prov.mjs"
   },
   "engines": {
     "node": ">=22.13"

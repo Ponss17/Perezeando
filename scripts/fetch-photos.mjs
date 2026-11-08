@@ -23,6 +23,8 @@ const SRC = path.join(ROOT, 'data');
 const OUT = path.join(SRC, 'photos.json');
 const UA = 'PerezeandoContentBot/1.0 (https://perezeando.com; mapa de Costa Rica; build-time fetch)';
 const REFRESH = process.argv.includes('--refresh');
+const GEO_ONLY = process.argv.includes('--geo-only');
+const P18_ONLY = process.argv.includes('--p18-only');
 const LIMIT = Number((process.argv.find((a) => a.startsWith('--limit=')) || '').split('=')[1] || 0) || Infinity;
 const SKIP_CATS = new Set(
   (process.argv.find((a) => a.startsWith('--skip-cat=')) || '')
@@ -129,45 +131,55 @@ const set = (p, file, how) => { const m = meta.get(file); if (!m) return false; 
 
 // --------------------------------------------------------------- 1. P18 del propio qid
 const st = { p18: 0, wdname: 0, geo: 0, none: 0 };
-const withQ = todo.filter((p) => p.q);
-try {
-  const ents = withQ.length ? await p18(withQ.map((p) => p.q)) : {};
-  await commonsMeta(Object.values(ents).map((e) => e.file).filter(Boolean));
-  for (const p of withQ) if (ents[p.q]?.file && set(p, ents[p.q].file, 'wikidata')) st.p18++;
-} catch (err) {
-  log('1) P18 interrumpido:', err.message, '— se sigue con nombre/geo');
-  save();
-}
-log(`1) P18 por qid: ${st.p18}`);
-
-// ------------------------------------------- 2. Wikidata por nombre + distancia
 let i = 0;
-for (const p of todo.filter((p) => !found[p.id] && (checked[p.id] || 0) < 2)) {
-  if (++i % 25 === 0) { log(`2) ${i}…`); save(); }
-  const name = p.name?.es || p.name?.en;
-  checked[p.id] = 2;
-  if (!tokens(name).length) continue;
-  const ids = new Set();
-  for (const lang of p.name?.en && p.name.en !== p.name.es ? ['es', 'en'] : ['es']) {
-    const d = await api('www.wikidata.org', { action: 'wbsearchentities', search: name, language: lang, uselang: lang, type: 'item', limit: '7' }).catch(() => null);
-    for (const s of d?.search || []) ids.add(s.id);
+if (!GEO_ONLY) {
+  const withQ = todo.filter((p) => p.q);
+  try {
+    const ents = withQ.length ? await p18(withQ.map((p) => p.q)) : {};
+    await commonsMeta(Object.values(ents).map((e) => e.file).filter(Boolean));
+    for (const p of withQ) if (ents[p.q]?.file && set(p, ents[p.q].file, 'wikidata')) st.p18++;
+  } catch (err) {
+    log('1) P18 interrumpido:', err.message, '— se sigue con nombre/geo');
+    save();
   }
-  if (!ids.size) continue;
-  let e;
-  try { e = await p18([...ids]); } catch (err) { log('Wikidata:', err.message, '(se reintenta en la próxima corrida)'); delete checked[p.id]; save(); continue; }
-  const tk = tokens(name);
-  const hit = Object.entries(e)
-    .filter(([, x]) => x.file && x.lat != null && km(p, x) < WD_KM(p.cat) && tk.some((w) => tokens(x.label).includes(w)))
-    .sort((a, b) => km(p, a[1]) - km(p, b[1]))[0];
-  if (!hit) continue;
-  await commonsMeta([hit[1].file]);
-  if (set(p, hit[1].file, 'wikidata-nombre')) { found[p.id].q = hit[0]; st.wdname++; }
+  log(`1) P18 por qid: ${st.p18}`);
+
+  // ------------------------------------------- 2. Wikidata por nombre + distancia
+  if (!P18_ONLY) {
+    for (const p of todo.filter((p) => !found[p.id] && (checked[p.id] || 0) < 2)) {
+      if (++i % 25 === 0) { log(`2) ${i}…`); save(); }
+      const name = p.name?.es || p.name?.en;
+      checked[p.id] = 2;
+      if (!tokens(name).length) continue;
+      const ids = new Set();
+      for (const lang of p.name?.en && p.name.en !== p.name.es ? ['es', 'en'] : ['es']) {
+        const d = await api('www.wikidata.org', { action: 'wbsearchentities', search: name, language: lang, uselang: lang, type: 'item', limit: '7' }).catch(() => null);
+        for (const s of d?.search || []) ids.add(s.id);
+      }
+      if (!ids.size) continue;
+      let e;
+      try { e = await p18([...ids]); } catch (err) { log('Wikidata:', err.message, '(se reintenta en la próxima corrida)'); delete checked[p.id]; save(); continue; }
+      const tk = tokens(name);
+      const hit = Object.entries(e)
+        .filter(([, x]) => x.file && x.lat != null && km(p, x) < WD_KM(p.cat) && tk.some((w) => tokens(x.label).includes(w)))
+        .sort((a, b) => km(p, a[1]) - km(p, b[1]))[0];
+      if (!hit) continue;
+      await commonsMeta([hit[1].file]);
+      if (set(p, hit[1].file, 'wikidata-nombre')) { found[p.id].q = hit[0]; st.wdname++; }
+    }
+    log(`2) Wikidata por nombre: ${st.wdname}`);
+  } else {
+    log('modo --p18-only: se omite búsqueda Wikidata por nombre');
+  }
+} else {
+  log('modo --geo-only: se omiten P18 y búsqueda Wikidata por nombre');
 }
-log(`2) Wikidata por nombre: ${st.wdname}`);
 
 // ------------------------------------------- 3. Commons por coordenadas
 i = 0;
-for (const p of todo.filter((p) => !found[p.id] && (checked[p.id] || 0) < 3)) {
+if (P18_ONLY) {
+  log('modo --p18-only: se omite Commons geosearch');
+} else for (const p of todo.filter((p) => !found[p.id] && (checked[p.id] || 0) < 3)) {
   if (++i % 25 === 0) { log(`3) ${i}…`); save(); }
   const d = await api('commons.wikimedia.org', { action: 'query', list: 'geosearch', gscoord: `${p.lat}|${p.lng}`, gsradius: String(RADIUS(p.cat)), gsnamespace: '6', gslimit: '40' }).catch(() => null);
   const near = (d?.query?.geosearch || []).filter((g) => /\.(jpe?g|png|webp)$/i.test(g.title) && !BAD.test(norm(g.title).replace(/[_.-]/g, ' ')));

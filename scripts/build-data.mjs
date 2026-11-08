@@ -115,9 +115,11 @@ function mergeAdded(base, list) {
     if (!p?.id || !p?.name?.es || !Number.isFinite(p.lat) || !Number.isFinite(p.lng)) { skipped++; continue; }
     if (ids.has(p.id) || (p.q && qids.has(p.q))) { skipped++; continue; }
     const k = nameKey(p.name.es);
+    const faunaish = (c) => c === 'fauna' || c === 'faunaTerrestre';
     const dup = pool.some((o) => {
       const d = km(o, p);
-      if (d < 0.025) return true; // mismo edificio (~25 m); el centro de SJ es denso
+      // fauna puede compartir pin con un parque ancla; no tratarlo como dup de edificio
+      if (d < 0.025 && !faunaish(p.cat) && !faunaish(o.cat)) return true;
       if (!k || !o.k) return false;
       const same = o.k === k || (k.length > 4 && o.k.length > 4 && (o.k.includes(k) || k.includes(o.k)));
       return same && d < 2.5;
@@ -139,8 +141,9 @@ const places = [...curated, ...wd, ...osm, ...added, ...faunaAdded].map((p) => {
   const q = { ...p, lat: r(p.lat, 5), lng: r(p.lng, 5) };
   const x = extra[p.id];
   if (x) { q.x = { ...x }; if (x.img) q.x.img = { ...x.img, src: cleanUrl(x.img.src) }; if (!q.img && x.img) q.img = q.x.img; }
-  if (!q.img && hand[p.id]) q.img = { ...hand[p.id] };
-  if (!q.img && photos[p.id]) q.img = { ...photos[p.id] };
+  // photos-hand siempre gana (correcciones curadas, p.ej. P18 de Wikidata mal asignada)
+  if (hand[p.id]) q.img = { ...hand[p.id] };
+  else if (!q.img && photos[p.id]) q.img = { ...photos[p.id] };
   if (q.img) q.img = { ...q.img, src: cleanUrl(q.img.src) };
   if (NICK.places[p.id]) q.nick = NICK.places[p.id]; // apodo y gentilicio con fuente
   const fm = faunaMeta[p.id];

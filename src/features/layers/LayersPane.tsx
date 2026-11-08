@@ -12,12 +12,16 @@ import { Icon } from '../../components/Icon';
 export default function LayersPane() {
   const { t, L } = useT();
   const active = useApp((s) => s.active);
+  const prov = useApp((s) => s.prov);
   const places = useData((s) => s.data!.places);
   const counts = useMemo(() => {
     const m = new Map<CategoryId, number>();
-    places.forEach((p) => [p.cat, ...(p.also ?? [])].forEach((c) => m.set(c, (m.get(c) ?? 0) + 1)));
+    for (const p of places) {
+      if (prov !== 'all' && p.prov !== prov) continue;
+      for (const c of [p.cat, ...(p.also ?? [])]) m.set(c, (m.get(c) ?? 0) + 1);
+    }
     return m;
-  }, [places]);
+  }, [places, prov]);
   const on = new Set(active);
 
   return (

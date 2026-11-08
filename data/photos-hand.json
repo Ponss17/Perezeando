@@ -47,5 +47,12 @@
     "artist": "Vlad Podvorny",
     "license": "CC BY-SA 3.0",
     "remote": "https://thumb.wikimedia.org/wikipedia/commons/thumb/5/5c/Refugio_Nacional_Cur%C3%BA_-_panoramio.jpg/960px-Refugio_Nacional_Cur%C3%BA_-_panoramio.jpg"
+  },
+  "wd-canton-de-alajuela": {
+    "src": "/media/places/ea40e50b85-800.webp",
+    "page": "https://commons.wikimedia.org/wiki/File:Plaza_Alajuela_fuente.jpg",
+    "artist": "Rodrigo Fernández",
+    "license": "CC BY-SA 4.0",
+    "remote": "https://thumb.wikimedia.org/wikipedia/commons/thumb/f/fc/Plaza_Alajuela_fuente.jpg/960px-Plaza_Alajuela_fuente.jpg"
   }
 }

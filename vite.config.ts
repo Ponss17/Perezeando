@@ -81,6 +81,8 @@ function serviceWorker(): Plugin {
     },
     closeBundle() {
       writeServiceWorker(out, root);
+      // R2 sirve /media; no subir WebP al Worker (SPA devolvería HTML si faltan)
+      fs.writeFileSync(path.join(out, '.assetsignore'), 'media/**\n');
     },
   };
 }

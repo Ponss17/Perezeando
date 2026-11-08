@@ -2,9 +2,6 @@
 const RAW = String(import.meta.env.VITE_MEDIA_BASE_URL ?? '').trim();
 export const MEDIA_BASE_URL = RAW.replace(/\/+$/, '');
 
-/** ¿Hay base remota configurada? */
-export const hasRemoteMedia = MEDIA_BASE_URL.length > 0;
-
 /**
  * Resuelve una ruta canónica `/media/...` (o ya absoluta) a la URL final.
  * Los JSON siguen guardando `/media/...`; aquí se antepone VITE_MEDIA_BASE_URL si existe.

@@ -14,7 +14,7 @@ import { CATEGORIES, CATEGORY_ORDER, CR_BOUNDS, GROUPS } from '../data/config';
 import { pick, translate } from '../i18n';
 import { boundsOf, haversine, ll, positions } from '../lib/geo';
 import { getMap, withMap } from '../lib/mapBus';
-import { isMobile, visiblePlaces } from '../lib/selectors';
+import { inCat, isMobile, visiblePlaces } from '../lib/selectors';
 import { download } from '../lib/download';
 import { wikiTarget, wikiUrl } from '../lib/wiki';
 import { buildGpx, optimizeOrder } from '../features/route/routing';
@@ -61,7 +61,10 @@ export function select(id: string, opts: { noFly?: boolean; fromMap?: boolean } 
   if (isMobile()) setSheet('half');
   // primero se pinta la ficha y luego arranca el vuelo del mapa (que ocupa cada cuadro)
   // en móvil se espera a que la hoja termine de subir (su relleno detendría el vuelo)
-  if (!opts.noFly) requestAnimationFrame(() => setTimeout(() => withMap((m) => m.focusPlace(p, { fromMap: opts.fromMap })), isMobile() ? 380 : 0));
+  if (!opts.noFly)
+    requestAnimationFrame(() =>
+      setTimeout(() => withMap((m) => m.focusPlace(p, { fromMap: opts.fromMap })), isMobile() ? 380 : 0),
+    );
 }
 
 export function showProvince(id: ProvinceId) {
@@ -95,7 +98,14 @@ export function fitProvince(id: ProvinceFilter) {
 }
 
 export function setProv(id: ProvinceFilter, fit = false) {
-  setApp({ prov: id });
+  const s = getApp();
+  const places = getData()?.places;
+  let cat = s.cat;
+  // si la categoría actual no tiene lugares en la nueva provincia, volver a «todas»
+  if (cat !== 'all' && places && !places.some((p) => (id === 'all' || p.prov === id) && inCat(p, cat))) {
+    cat = 'all';
+  }
+  setApp({ prov: id, cat });
   if (fit) fitProvince(id);
 }
 
@@ -183,7 +193,9 @@ export function setRoute(ids: string[]) {
 export function toggleDayStart(id: string) {
   const s = getApp();
   if (s.route[0] === id || !s.route.includes(id)) return;
-  setApp({ dayStarts: s.dayStarts.includes(id) ? s.dayStarts.filter((x) => x !== id) : [...s.dayStarts, id] });
+  setApp({
+    dayStarts: s.dayStarts.includes(id) ? s.dayStarts.filter((x) => x !== id) : [...s.dayStarts, id],
+  });
 }
 
 /** Mete un pueblo para dormir al cierre del día y arranca el día siguiente en la parada que venía después. */
@@ -287,11 +299,16 @@ export function exportGeojson() {
 /* ---------------- Geolocalización ---------------- */
 let lastListNear = false;
 export const dismissNotice = () => setApp({ notice: null });
-const geoNotice = (code: GeoIssue) => setApp({ locating: false, notice: { kind: 'geo', code, n: Date.now() } });
+const geoNotice = (code: GeoIssue) =>
+  setApp({ locating: false, notice: { kind: 'geo', code, n: Date.now() } });
 
 const getPos = (high: boolean, timeout: number) =>
   new Promise<GeolocationPosition>((res, rej) =>
-    navigator.geolocation.getCurrentPosition(res, rej, { enableHighAccuracy: high, timeout, maximumAge: 60000 }),
+    navigator.geolocation.getCurrentPosition(res, rej, {
+      enableHighAccuracy: high,
+      timeout,
+      maximumAge: 60000,
+    }),
   );
 
 export const retryLocate = () => locate(lastListNear);
@@ -412,4 +429,11 @@ export const nearbyOf = (id: string, n = 5) => {
 
 // ganchos para pruebas automáticas (?e2e)
 if (typeof location !== 'undefined' && location.search.includes('e2e'))
-  (window as unknown as { __cract: unknown }).__cract = { showProvince, select, setCat, setProv, deselect, setBase };
+  (window as unknown as { __cract: unknown }).__cract = {
+    showProvince,
+    select,
+    setCat,
+    setProv,
+    deselect,
+    setBase,
+  };
