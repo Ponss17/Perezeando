@@ -1,6 +1,8 @@
 @import './theme.css';
 @import './app.css';
 @import './panel.css';
+@import './layers.css';
+@import './overlays.css';
 @import './detail.css';
 @import './route.css';
 @import './toolbar.css';

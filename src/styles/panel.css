@@ -681,13 +681,6 @@
   color: var(--ink-2);
 }
 
-.intent-row {
-  display: flex;
-  flex-wrap: wrap;
-  gap: 6px;
-  padding: 0 0 10px;
-}
-
 .discover-head {
   font-family: var(--serif);
   font-size: 15px;

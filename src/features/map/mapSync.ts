@@ -53,7 +53,7 @@ export function setBase(c: MapController, initial = false) {
   syncProvLabels(c);
 }
 
-export function syncProvLabels(c: MapController) {
+function syncProvLabels(c: MapController) {
   const show = c.s.ov.prov && c.s.base === 'dark';
   c.provLabels.forEach((mk) => (show ? mk.addTo(c.map) : mk.remove()));
 }

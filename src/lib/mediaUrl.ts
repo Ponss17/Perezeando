@@ -1,6 +1,6 @@
 /** Prefijo opcional de medios (R2 / CDN). Vacío = servir /media local. */
 const RAW = String(import.meta.env.VITE_MEDIA_BASE_URL ?? '').trim();
-export const MEDIA_BASE_URL = RAW.replace(/\/+$/, '');
+const MEDIA_BASE_URL = RAW.replace(/\/+$/, '');
 
 /**
  * Resuelve una ruta canónica `/media/...` (o ya absoluta) a la URL final.

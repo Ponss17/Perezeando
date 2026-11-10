@@ -43,7 +43,7 @@ export const PROVINCE_IDS = [
 ] as const;
 export type ProvinceId = (typeof PROVINCE_IDS)[number];
 /** 'mar' = mar territorial (pseudo-provincia) */
-export type PlaceProvince = ProvinceId | 'mar';
+type PlaceProvince = ProvinceId | 'mar';
 export type ProvinceFilter = PlaceProvince | 'all';
 
 export interface Category {
@@ -69,7 +69,7 @@ export interface PlaceImage {
   allowRemote?: boolean;
 }
 
-export interface PlaceFacts {
+interface PlaceFacts {
   alt?: string;
   area?: string;
   depth?: string;
@@ -79,14 +79,14 @@ export interface PlaceFacts {
 }
 
 /** Fuente citada (chip con enlace) */
-export interface SourceRef {
+interface SourceRef {
   name: string;
   url: string;
   license?: string;
 }
 
 /** Datos extra por lugar generados por scripts/fetch-content.mjs */
-export interface PlaceExtra {
+interface PlaceExtra {
   qid?: string;
   elev?: number;
   inception?: string;
@@ -154,11 +154,7 @@ export interface Place {
     nearestCity?: LocalizedText;
     src?: SourceRef;
   };
-  /** etiquetas de intención (kids, calm_beach, adventure…) */
-  tags?: IntentionTag[];
 }
-
-export type IntentionTag = 'kids' | 'calm_beach' | 'adventure';
 
 export interface ProvinceProps {
   id: ProvinceId;
@@ -204,7 +200,7 @@ export type Selection = { kind: 'place'; id: string } | { kind: 'province'; id: 
 export type SheetState = 'peek' | 'half' | 'full';
 export type LatLng = [number, number];
 
-export interface RouteLeg {
+interface RouteLeg {
   d: number; // km
   t: number; // s
 }

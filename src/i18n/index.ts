@@ -4,7 +4,7 @@ import { es, type DictKey } from './es';
 import { en } from './en';
 import type { Lang, LocalizedText } from '../data/types';
 
-export const DICTS = { es, en } as const;
+const DICTS = { es, en } as const;
 export type { DictKey };
 
 export const translate = (lang: Lang, k: DictKey): string => DICTS[lang][k] ?? es[k] ?? k;

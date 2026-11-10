@@ -7,7 +7,6 @@ import type {
   Lang,
   LatLng,
   Overlays,
-  IntentionTag,
   ProvinceFilter,
   RouteResult,
   Selection,
@@ -34,8 +33,6 @@ export interface AppState {
   active: CategoryId[];
   prov: ProvinceFilter;
   cat: CategoryId | 'all';
-  /** filtro por intención (playas tranquilas, niños, aventura) */
-  intention: IntentionTag | null;
   query: string;
   near: boolean;
   /** ordenar Explorar por cercanía a este lugar (no es el pin GPS) */
@@ -78,7 +75,6 @@ export const useApp = create<AppState>()(
       active: [...DEFAULT_ACTIVE],
       prov: 'all' as ProvinceFilter,
       cat: 'all' as const,
-      intention: null,
       query: '',
       near: false,
       nearPlace: null,

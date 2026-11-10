@@ -3,7 +3,6 @@ import { getData } from '../data/load';
 import type {
   BasemapId,
   CategoryId,
-  IntentionTag,
   Overlays,
   Place,
   ProvinceFilter,
@@ -24,7 +23,7 @@ const t = (k: Parameters<typeof translate>[1]) => translate(getApp().lang, k);
 const L = (o: Parameters<typeof pick>[1]) => pick(getApp().lang, o);
 
 let toastTimer: ReturnType<typeof setTimeout> | undefined;
-export function toast(msg: string) {
+function toast(msg: string) {
   clearTimeout(toastTimer);
   setApp({ toast: { msg, n: Date.now() } });
   toastTimer = setTimeout(() => setApp({ toast: null }), 2600);
@@ -82,7 +81,7 @@ export function closeDetail(kind: 'close' | 'back') {
   deselect();
 }
 
-export function fitProvince(id: ProvinceFilter) {
+function fitProvince(id: ProvinceFilter) {
   const d = getData();
   if (!d) return;
   if (id === 'all') return withMap((m) => m.fitBounds(CR_BOUNDS));
@@ -136,18 +135,14 @@ export const layersAll = () => setApp({ active: [...CATEGORY_ORDER] });
 export const layersNone = () => setApp({ active: [], cat: 'all' });
 
 export function clearFilters() {
-  setApp({ near: false, nearPlace: null, cat: 'all', intention: null, query: '' });
+  setApp({ near: false, nearPlace: null, cat: 'all', query: '' });
   setProv('all', true);
-}
-
-export function setIntention(tag: IntentionTag | null) {
-  setApp({ intention: tag, near: false, nearPlace: null, query: '' });
 }
 
 export const setBase = (base: BasemapId) => setApp({ base, basemapPop: false });
 export const toggleOv = (k: keyof Overlays) => setApp((s) => ({ ov: { ...s.ov, [k]: !s.ov[k] } }));
 
-export function hasWebGL() {
+function hasWebGL() {
   try {
     const c = document.createElement('canvas');
     return !!(c.getContext('webgl2') || c.getContext('webgl'));

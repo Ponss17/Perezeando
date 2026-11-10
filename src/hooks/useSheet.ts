@@ -4,7 +4,7 @@ import { isMobile } from '../lib/selectors';
 import type { SheetState } from '../data/types';
 
 /** Mide la altura "peek" (asa + encabezado) y la publica en --peek */
-export function measurePeek(panel: HTMLElement | null) {
+function measurePeek(panel: HTMLElement | null) {
   if (!panel || !isMobile()) return;
   const h = panel.querySelector<HTMLElement>('.sheet-handle');
   const head = panel.querySelector<HTMLElement>('.panel-head');

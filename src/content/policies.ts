@@ -1,6 +1,6 @@
 import type { Lang } from '../data/types';
 
-export interface PolicySection {
+interface PolicySection {
   h: string;
   p?: string[];
   items?: string[];

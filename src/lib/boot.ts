@@ -18,7 +18,3 @@ export function onMapReady(fn: BootFn) {
   waiters.add(fn);
   return () => waiters.delete(fn);
 }
-
-export function isMapReady() {
-  return mapReady;
-}

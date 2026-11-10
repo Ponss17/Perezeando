@@ -3,8 +3,6 @@ import { CATEGORIES, CATEGORY_ORDER } from '../../data/config';
 import type { CategoryId } from '../../data/types';
 import { pinShapeMarkup, PIN, PIN_PAD as PAD } from '../../lib/markerShape';
 
-export { PIN };
-
 const PR = Math.min(2, typeof devicePixelRatio === 'number' ? devicePixelRatio || 1 : 1);
 
 function svgPin(cat: CategoryId, fav: boolean) {
@@ -77,7 +75,7 @@ function shareSteps(props: Record<string, unknown>, total: number) {
 }
 
 /** Misma cuenta que `clusterImageExpr`: cubo de tamaño + partes redondeadas. */
-export function clusterIconId(props: Record<string, unknown>): string {
+function clusterIconId(props: Record<string, unknown>): string {
   const total = Math.max(1, Number(props.point_count) || 0);
   return `cl:${sizeBucket(total)}:${shareSteps(props, total).join(',')}`;
 }

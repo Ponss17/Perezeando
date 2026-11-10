@@ -19,7 +19,7 @@ export interface PlacePhoto {
 export type RowPicture = { kind: 'photo'; src: string } | { kind: 'tile'; src: string; x: number; y: number };
 
 /** ¿La URL es media local/R2 (`/media/...`)? */
-export const isLocalMediaSrc = (src?: string | null) => {
+const isLocalMediaSrc = (src?: string | null) => {
   if (!src) return false;
   return mediaPath(src).startsWith('/media/');
 };
@@ -30,7 +30,7 @@ export const isLocalMediaSrc = (src?: string | null) => {
  * - HTTPS curado con `allowRemote: true` (p. ej. 2 especies aún sin WebP local)
  * - HTTPS curado legacy en photos.json / places (build-time); sin búsquedas en runtime
  */
-export function isAllowedPhotoSrc(src: string, allowRemote?: boolean) {
+function isAllowedPhotoSrc(src: string, allowRemote?: boolean) {
   if (!src) return false;
   if (isLocalMediaSrc(src)) return true;
   if (/^https?:\/\//i.test(src)) return allowRemote !== false;
@@ -45,7 +45,7 @@ export function placePicture(p: Place): RowPicture | null {
 }
 
 /** Foto curada (síncrona) desde datos de build; sin peticiones de red */
-export const curatedPhoto = (p: Place): PlacePhoto | null => {
+const curatedPhoto = (p: Place): PlacePhoto | null => {
   const img = p.img;
   if (!img?.src || !isAllowedPhotoSrc(img.src, img.allowRemote)) return null;
   return { src: img.src, kind: 'img', href: img.page, credit: img.artist, license: img.license };

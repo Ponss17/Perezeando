@@ -10,7 +10,6 @@ import {
   layersAll,
   locate,
   setCat,
-  setIntention,
   setProv,
   setTab,
   showProvince,
@@ -23,7 +22,7 @@ import { EmptyState, PlaceItem } from '../../components/PlaceItem';
 import { inCat } from '../../lib/selectors';
 import { computeResults, useKb } from './results';
 import { subscribeSearch } from './searchIndex';
-import { DISCOVER_SECTIONS, INTENTION_ORDER } from '../../data/discover';
+import { DISCOVER_SECTIONS } from '../../data/discover';
 
 export default function ExplorePane() {
   const { t, L, lang } = useT();
@@ -34,7 +33,6 @@ export default function ExplorePane() {
   const active = useApp((s) => s.active);
   const near = useApp((s) => s.near);
   const nearPlace = useApp((s) => s.nearPlace);
-  const intention = useApp((s) => s.intention);
   const me = useApp((s) => s.me);
   const locating = useApp((s) => s.locating);
   const kb = useKb((s) => s.i);
@@ -43,9 +41,9 @@ export default function ExplorePane() {
 
   const r = useMemo(() => {
     void searchTick; // invalida cuando el índice Fuse termina de cargar
-    return computeResults({ query, prov, cat, active, near, nearPlace, me, lang, intention }, data);
-  }, [query, prov, cat, active, near, nearPlace, me, lang, intention, data, searchTick]);
-  const filtered = prov !== 'all' || cat !== 'all' || near || !!nearPlace || !!intention;
+    return computeResults({ query, prov, cat, active, near, nearPlace, me, lang }, data);
+  }, [query, prov, cat, active, near, nearPlace, me, lang, data, searchTick]);
+  const filtered = prov !== 'all' || cat !== 'all' || near || !!nearPlace;
   const showDiscover = !filtered && query.trim().length < 2;
   const hidden = CATEGORY_ORDER.length - active.length;
   const allHidden = active.length === 0;
@@ -70,6 +68,7 @@ export default function ExplorePane() {
     }
     return { prov: byProv, cat: byCat };
   }, [data, prov, cat]);
+
   const provOpts = useMemo<SelectOption[]>(() => {
     return [
       { value: 'all', label: t('all_provinces') },
@@ -136,19 +135,6 @@ export default function ExplorePane() {
 
   return (
     <section className="tab-pane active" data-pane="explore">
-      <div className="intent-row" role="toolbar" aria-label={t('intention_lbl')}>
-        {INTENTION_ORDER.map((tag) => (
-          <button
-            key={tag}
-            type="button"
-            className={'pill sm' + (intention === tag ? ' primary' : '')}
-            aria-pressed={intention === tag}
-            onClick={() => setIntention(intention === tag ? null : tag)}
-          >
-            {t(('intent_' + tag) as 'intent_kids')}
-          </button>
-        ))}
-      </div>
       <div className="filters">
         <div className="field">
           <span className="field-lbl">{t('province_lbl')}</span>
@@ -182,9 +168,9 @@ export default function ExplorePane() {
           {hidden > 0 && (
             <button
               className="text-btn inline hidden-cats"
-              title={t('hidden_tip')}
-              aria-label={t('hidden_tip')}
-              onClick={() => setTab('layers')}
+              title={allHidden ? t('show_all') : t('hidden_tip')}
+              aria-label={allHidden ? t('show_all') : t('hidden_tip')}
+              onClick={() => (allHidden ? layersAll() : setTab('layers'))}
             >
               <Icon name="eye-off" />
               {allHidden
@@ -208,7 +194,24 @@ export default function ExplorePane() {
         </button>
       </div>
       <ul className="list" id="resultList">
-        {showDiscover ? (
+        {allHidden ? (
+          <EmptyState
+            icon="eye-off"
+            mascot="filters"
+            title={t('all_hidden_title')}
+            text={t('all_hidden_text')}
+          >
+            <span className="empty-actions">
+              <button className="pill sm primary" onClick={layersAll}>
+                <Icon name="eye" />
+                {t('show_all')}
+              </button>
+              <button className="pill sm" onClick={() => setTab('layers')}>
+                {t('go_filters')}
+              </button>
+            </span>
+          </EmptyState>
+        ) : showDiscover ? (
           <DiscoverHome />
         ) : (
           <>
@@ -234,23 +237,6 @@ export default function ExplorePane() {
                   <li key="more" ref={sentinel} className="list-more" aria-hidden="true" />
                 )}
               </>
-            ) : allHidden ? (
-              <EmptyState
-                icon="eye-off"
-                mascot="filters"
-                title={t('all_hidden_title')}
-                text={t('all_hidden_text')}
-              >
-                <span className="empty-actions">
-                  <button className="pill sm primary" onClick={layersAll}>
-                    <Icon name="eye" />
-                    {t('show_all')}
-                  </button>
-                  <button className="pill sm" onClick={() => setTab('layers')}>
-                    {t('go_filters')}
-                  </button>
-                </span>
-              </EmptyState>
             ) : (
               <EmptyState icon="search" mascot="filters" title={t('no_results_title')} text={t('no_results')}>
                 {filtered && (

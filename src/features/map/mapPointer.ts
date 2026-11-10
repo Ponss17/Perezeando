@@ -28,7 +28,7 @@ function markListHover(id: string) {
   el?.classList.add('map-hot');
 }
 
-export function hitFeature(c: MapController, e: MapMouseEvent): MapGeoJSONFeature | null {
+function hitFeature(c: MapController, e: MapMouseEvent): MapGeoJSONFeature | null {
   const layers = (c.hitLayers ??= INTERACTIVE.filter((l) => l !== 'eez')
     .concat(['eez-hit'])
     .filter((l) => c.map.getLayer(l)));

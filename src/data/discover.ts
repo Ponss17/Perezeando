@@ -1,5 +1,3 @@
-import type { IntentionTag } from './types';
-
 /** Secciones curadas del home de Explorar (ids reales del atlas) */
 export const DISCOVER_SECTIONS: { id: string; labelKey: string; ids: string[] }[] = [
   {
@@ -49,47 +47,3 @@ export const DISCOVER_SECTIONS: { id: string; labelKey: string; ids: string[] }[
     ],
   },
 ];
-
-/**
- * Tags de intención: lista curada a mano (ids del atlas).
- * No se inventan fichas; solo agrupa lugares ya existentes.
- */
-export const INTENTION_IDS: Record<IntentionTag, string[]> = {
-  kids: [
-    'par-p-n-manuel-antonio',
-    'pla-playa-manuel-antonio',
-    'pla-playa-conchal',
-    'pla-playa-samara',
-    'vol-volcan-poas',
-    'par-p-n-volcan-poas',
-    'cat-catarata-la-fortuna',
-    'par-p-n-marino-ballena',
-  ],
-  calm_beach: [
-    'pla-playa-conchal',
-    'wd-playa-la-islita',
-    'pla-playa-flamingo',
-    'pla-playa-samara',
-    'pla-playa-punta-uva',
-    'pla-playa-manzanillo',
-    'par-p-n-cahuita',
-    'pla-playa-montezuma',
-  ],
-  adventure: [
-    'par-p-n-corcovado',
-    'par-p-n-isla-del-coco',
-    'par-p-n-chirripo',
-    'cat-catarata-nauyaca',
-    'rio-rio-celeste',
-    'vol-volcan-arenal',
-    'pla-bahia-drake',
-    'pla-playa-pavones',
-    'par-p-n-volcan-rincon-de-la-vieja',
-  ],
-};
-
-export const INTENTION_ORDER: IntentionTag[] = ['calm_beach', 'kids', 'adventure'];
-
-export function intentionOf(id: string): IntentionTag[] {
-  return INTENTION_ORDER.filter((t) => INTENTION_IDS[t].includes(id));
-}

@@ -164,7 +164,7 @@ export const CAT_SHAPE = Object.fromEntries(
   GROUPS.flatMap((g) => g.cats.map((c) => [c, SHAPE_BY_GROUP[g.id] ?? 'circle'])),
 ) as Record<CategoryId, MarkerShape>;
 
-export const DEFAULT_OFF: CategoryId[] = ['isras', 'immas', 'submarinas'];
+const DEFAULT_OFF: CategoryId[] = ['isras', 'immas', 'submarinas'];
 export const DEFAULT_ACTIVE: CategoryId[] = CATEGORY_IDS.filter((x) => !DEFAULT_OFF.includes(x));
 export const DEFAULT_OVERLAYS: Overlays = { prov: true, eez: true, hill: false, cluster: true };
 export const DEFAULT_BASE: BasemapId = 'satellite';
