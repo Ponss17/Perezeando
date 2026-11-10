@@ -74,15 +74,14 @@ export default function RoutePane() {
     }
     return best;
   };
-  const sugg = useMemo(
-    () =>
-      q.trim().length >= 2
-        ? searchPlaces(data, q.trim())
-            .filter((p) => !route.includes(p.id))
-            .slice(0, 6)
-        : [],
-    [q, data, route, searchTick],
-  );
+  const sugg = useMemo(() => {
+    void searchTick;
+    return q.trim().length >= 2
+      ? searchPlaces(data, q.trim())
+          .filter((p) => !route.includes(p.id))
+          .slice(0, 6)
+      : [];
+  }, [q, data, route, searchTick]);
 
   const add = (p: Place) => {
     toggleRoute(p.id);
@@ -184,7 +183,11 @@ export default function RoutePane() {
                       </button>
                     )}
                     {town && (
-                      <button type="button" className="text-btn" onClick={() => sleepInTown(town.id, stops[end - 1].id)}>
+                      <button
+                        type="button"
+                        className="text-btn"
+                        onClick={() => sleepInTown(town.id, stops[end - 1].id)}
+                      >
                         {t('sleep_at')}: {L(town.name)}
                       </button>
                     )}
@@ -211,7 +214,7 @@ export default function RoutePane() {
             );
           })
         ) : (
-          <EmptyState icon="route" title={t('route_empty_title')} text={t('route_empty')} />
+          <EmptyState icon="route" mascot="route" title={t('route_empty_title')} text={t('route_empty')} />
         )}
       </ol>
 

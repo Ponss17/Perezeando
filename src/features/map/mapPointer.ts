@@ -7,7 +7,26 @@ import { clusterBreakdown } from './images';
 import type { MapController } from './controller';
 import { clusterSummary, placeTip, plainTip } from './markers';
 
-const INTERACTIVE = ['pins', 'pin-labels', 'clusters', 'geom-dashed', 'geom-lines', 'geom-fill', 'eez', 'prov-fill'];
+const INTERACTIVE = [
+  'pins',
+  'pin-labels',
+  'clusters',
+  'geom-dashed',
+  'geom-lines',
+  'geom-fill',
+  'eez',
+  'prov-fill',
+];
+
+let listHot: string | null = null;
+function markListHover(id: string) {
+  if (listHot === id) return;
+  if (listHot) document.querySelector(`.item[data-id="${CSS.escape(listHot)}"]`)?.classList.remove('map-hot');
+  listHot = id || null;
+  if (!listHot) return;
+  const el = document.querySelector(`.item[data-id="${CSS.escape(listHot)}"]`);
+  el?.classList.add('map-hot');
+}
 
 export function hitFeature(c: MapController, e: MapMouseEvent): MapGeoJSONFeature | null {
   const layers = (c.hitLayers ??= INTERACTIVE.filter((l) => l !== 'eez')
@@ -68,20 +87,23 @@ export function onMove(c: MapController, e: MapMouseEvent) {
   const gid =
     f && (id === 'geom-fill' || id === 'geom-lines' || id === 'geom-dashed') ? (f.id as string) : null;
   if (gid !== c.hoverGeom) {
-    if (c.hoverGeom != null)
-      c.map.setFeatureState({ source: 'geoms', id: c.hoverGeom }, { hover: false });
+    if (c.hoverGeom != null) c.map.setFeatureState({ source: 'geoms', id: c.hoverGeom }, { hover: false });
     if (gid != null) c.map.setFeatureState({ source: 'geoms', id: gid }, { hover: true });
     c.hoverGeom = gid;
   }
   const hid = f && id === 'pins' ? String(f.properties?.id ?? '') : '';
   if (hid !== c.hoverPin) {
     c.hoverPin = hid;
-    c.map.setFilter('pins-hover', ['all', ['!', ['has', 'point_count']], ['==', ['get', 'id'], hid]] as never);
+    c.map.setFilter('pins-hover', [
+      'all',
+      ['!', ['has', 'point_count']],
+      ['==', ['get', 'id'], hid],
+    ] as never);
+    markListHover(hid);
   }
   const pid = f && id === 'prov-fill' && c.s.prov === 'all' ? (f.id as string) : null;
   if (pid !== c.hoverProv) {
-    if (c.hoverProv != null)
-      c.map.setFeatureState({ source: 'prov', id: c.hoverProv }, { hover: false });
+    if (c.hoverProv != null) c.map.setFeatureState({ source: 'prov', id: c.hoverProv }, { hover: false });
     if (pid != null) c.map.setFeatureState({ source: 'prov', id: pid }, { hover: true });
     c.hoverProv = pid;
   }
@@ -90,7 +112,8 @@ export function onMove(c: MapController, e: MapMouseEvent) {
     c.tip.remove();
     return;
   }
-  const tipKey = !f || id === 'prov-fill' ? '' : `${id}:${f.properties?.cluster_id ?? f.properties?.id ?? ''}`;
+  const tipKey =
+    !f || id === 'prov-fill' ? '' : `${id}:${f.properties?.cluster_id ?? f.properties?.id ?? ''}`;
   const follows = id === 'geom-fill' || id === 'geom-lines' || id === 'geom-dashed' || id === 'eez-hit';
   if (tipKey === c.hoverTip) {
     if (!tipKey) return;
@@ -124,9 +147,7 @@ export function onMove(c: MapController, e: MapMouseEvent) {
     c.tip.setOffset(17).setLngLat([p.lng, p.lat]);
   } else {
     const p = c.d.byId.get(String(f.properties.id));
-    el = p
-      ? placeTip(p, c.s.lang)
-      : plainTip(String(f.properties.catLabel), String(f.properties.name));
+    el = p ? placeTip(p, c.s.lang) : plainTip(String(f.properties.catLabel), String(f.properties.name));
     c.tip.setOffset(10).setLngLat(e.lngLat);
   }
   c.tip.setDOMContent(el).addTo(c.map);
@@ -139,9 +160,8 @@ export function clearHover(c: MapController) {
     c.hoverPin = '';
     c.map.setFilter('pins-hover', ['==', ['get', 'id'], ''] as never);
   }
-  if (c.hoverGeom != null)
-    c.map.setFeatureState({ source: 'geoms', id: c.hoverGeom }, { hover: false });
-  if (c.hoverProv != null)
-    c.map.setFeatureState({ source: 'prov', id: c.hoverProv }, { hover: false });
+  markListHover('');
+  if (c.hoverGeom != null) c.map.setFeatureState({ source: 'geoms', id: c.hoverGeom }, { hover: false });
+  if (c.hoverProv != null) c.map.setFeatureState({ source: 'prov', id: c.hoverProv }, { hover: false });
   c.hoverGeom = c.hoverProv = null;
 }

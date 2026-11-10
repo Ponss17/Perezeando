@@ -92,6 +92,15 @@ function MarkerKey() {
         </span>
         <span>{t('legend_cluster')}</span>
       </div>
+      <div className="mk-key-rings" aria-label={t('legend_cluster_rings')}>
+        <span className="cl-ring-sample" aria-hidden="true">
+          <i style={{ background: '#2e7d4f' }} />
+          <i style={{ background: '#a4473a' }} />
+          <i style={{ background: '#1f6f9a' }} />
+          <i style={{ background: '#a87a22' }} />
+        </span>
+        <span>{t('legend_cluster_rings')}</span>
+      </div>
     </div>
   );
 }

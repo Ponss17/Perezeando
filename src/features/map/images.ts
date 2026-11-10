@@ -37,8 +37,6 @@ function addImg(map: MLMap, name: string, img: HTMLImageElement) {
     map.addImage(name, { width: cv.width, height: cv.height, data: data.data }, { pixelRatio: PR });
 }
 
-
-
 /** Rasteriza las chinchetas normales (una por categoría); las de favorito se hacen al pedirlas */
 export async function addPinImages(map: MLMap) {
   await Promise.all(
@@ -88,11 +86,7 @@ const shareExpr = (c: string) => [
   'to-string',
   [
     'round',
-    [
-      '*',
-      ['/', ['coalesce', ['get', c], 0], ['max', ['coalesce', ['get', 'point_count'], 0], 1]],
-      SHARE,
-    ],
+    ['*', ['/', ['coalesce', ['get', c], 0], ['max', ['coalesce', ['get', 'point_count'], 0], 1]], SHARE],
   ],
 ];
 
@@ -138,7 +132,10 @@ export function drawCluster(map: MLMap, id: string) {
   const body = id.slice(3);
   const colon = body.indexOf(':');
   const bucket = Number(body.slice(0, colon));
-  const weights = body.slice(colon + 1).split(',').map(Number);
+  const weights = body
+    .slice(colon + 1)
+    .split(',')
+    .map(Number);
   const r = SIZE_R[bucket] ?? SIZE_R[0];
   const ring = 4;
   const S = (r + ring + 6) * 2;
@@ -189,7 +186,7 @@ export function pruneClusterImages(map: MLMap) {
   for (const f of map.queryRenderedFeatures({ layers: ['clusters'] })) {
     if (f.properties) live.add(clusterIconId(f.properties));
   }
-  for (let i = 0; i < clusterLru.length && clusterLru.length > CLUSTER_CAP; ) {
+  for (let i = 0; i < clusterLru.length && clusterLru.length > CLUSTER_CAP;) {
     const id = clusterLru[i];
     if (live.has(id)) {
       i++;
@@ -199,4 +196,3 @@ export function pruneClusterImages(map: MLMap) {
     if (map.hasImage(id)) map.removeImage(id);
   }
 }
-

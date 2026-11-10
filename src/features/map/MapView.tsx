@@ -7,6 +7,8 @@ import { getData, loadGeoms, useGeoms } from '../../data/load';
 import { emitMapMove, registerMap } from '../../lib/mapBus';
 import { isMobile } from '../../lib/selectors';
 import { select, setSheet } from '../../store/actions';
+import { isFirstVisit, markSeen } from '../../hooks/hash';
+import { signalMapReady } from '../../lib/boot';
 import type { ProvinceId } from '../../data/types';
 import { MapController } from './controller';
 import { ProvincePopup } from './ProvincePopup';
@@ -60,7 +62,12 @@ export default function MapView() {
         closePopup();
         ctrl.closePopups();
         const el = document.createElement('div');
-        popup = new maplibregl.Popup({ maxWidth: '330px', offset: 10, focusAfterOpen: false, className: 'prov-pop' })
+        popup = new maplibregl.Popup({
+          maxWidth: '330px',
+          offset: 10,
+          focusAfterOpen: false,
+          className: 'prov-pop',
+        })
           .setLngLat(lngLat)
           .setDOMContent(el)
           .addTo(ctrl.map);
@@ -74,7 +81,9 @@ export default function MapView() {
         setPop({ id, el });
         const opened = popup;
         // tras renderizar el contenido, correr el mapa si la tarjeta queda bajo la barra de herramientas
-        requestAnimationFrame(() => requestAnimationFrame(() => popup === opened && keepClear(ctrl.map, opened)));
+        requestAnimationFrame(() =>
+          requestAnimationFrame(() => popup === opened && keepClear(ctrl.map, opened)),
+        );
       },
       emptyClick: () => {
         closePopup();
@@ -87,6 +96,20 @@ export default function MapView() {
     registerMap(ctrl);
     // los trazados (rutas, áreas) llegan después del primer pintado del mapa
     const unGeoms = useGeoms.subscribe((g) => g.ready && ctrl.refreshPlaces());
+    let booted = false;
+    const boot = () => {
+      if (booted) return;
+      booted = true;
+      ctrl.map.off('idle', onIdle);
+      signalMapReady();
+      if (isFirstVisit()) markSeen();
+    };
+    const onIdle = () => {
+      if (!ctrl.ready) return;
+      boot();
+    };
+    ctrl.map.on('idle', onIdle);
+    const bootMax = window.setTimeout(boot, 14000);
     ctrl.map.once('idle', () => {
       void loadGeoms();
     });
@@ -109,6 +132,8 @@ export default function MapView() {
     window.addEventListener('resize', onResize);
     return () => {
       clearTimeout(tipT);
+      clearTimeout(bootMax);
+      ctrl.map.off('idle', onIdle);
       unsub();
       unGeoms();
       window.removeEventListener('resize', onResize);

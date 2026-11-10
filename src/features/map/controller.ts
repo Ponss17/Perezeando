@@ -37,6 +37,20 @@ import { areaZoom, easeInOutCubic, targetZoom } from './placeZoom';
 
 maplibregl.setWorkerUrl(workerUrl);
 
+const BOOT_CONTENT = [
+  'clusters',
+  'pins',
+  'pins-hover',
+  'pin-labels',
+  'geom-fill',
+  'geom-outline-dash',
+  'geom-lines',
+  'geom-dashed',
+  'eez',
+  'eez-mma',
+  'eez-hit',
+] as const;
+
 export interface ControllerEvents {
   selectPlace(id: string, fly: boolean): void;
   provinceClick(id: ProvinceId, lngLat: [number, number]): void;
@@ -69,9 +83,12 @@ export class MapController implements MapApi {
   hoverProv: string | number | null = null;
   selMarker: maplibregl.Marker | null = null;
   selMarkerId: string | null = null;
+  measureLabel: maplibregl.Marker | null = null;
   clPicking = false;
   listPop: maplibregl.Popup | null = null;
   extOverlay = false;
+  contentVisible = false;
+  wantReveal = false;
 
   constructor(container: HTMLElement, state: AppState, data: AtlasData, ev: ControllerEvents) {
     this.s = state;
@@ -89,7 +106,7 @@ export class MapController implements MapApi {
       maxZoom: 18,
       maxPitch: 80,
       attributionControl: {
-        compact: false,
+        compact: isMobile(),
         customAttribution:
           '© <a href="https://www.openstreetmap.org/copyright" target="_blank" rel="noopener">OpenStreetMap</a> contributors',
       },
@@ -103,11 +120,11 @@ export class MapController implements MapApi {
     if (location.search.includes('e2e'))
       (window as unknown as { __crmap: maplibregl.Map }).__crmap = this.map;
     this.map.setPadding(this.panelPadding());
-    // encuadre inicial: el padding del panel ya está aplicado, aquí solo el margen
     if (!view)
       this.map.fitBounds(CR_BOUNDS as maplibregl.LngLatBoundsLike, {
-        padding: isMobile() ? 12 : { top: 16, bottom: 16, left: 16, right: 64 },
+        padding: isMobile() ? 22 : { top: 36, bottom: 36, left: 36, right: 80 },
         duration: 0,
+        maxZoom: 7.85,
       });
     this.map.addControl(
       new maplibregl.NavigationControl({ visualizePitch: true, showCompass: false }),
@@ -138,6 +155,8 @@ export class MapController implements MapApi {
       this.addLayers();
       this.ready = true;
       this.syncAll();
+      this.hideBootContent();
+      if (this.wantReveal) this.revealContent();
       if (state.is3d) set3d(this, true, false);
     });
     this.map.on('moveend', () => {
@@ -261,6 +280,7 @@ export class MapController implements MapApi {
     if (filters || lang || s.favs !== p.favs) syncPlaces(this, filters || lang);
     if (s.prov !== p.prov || s.base !== p.base) syncProvStyle(this);
     if (s.sel !== p.sel || s.favs !== p.favs || s.lang !== p.lang) syncSelected(this);
+    if (s.sel !== p.sel || s.prov !== p.prov) syncOverlays(this);
     if (s.routeData !== p.routeData || s.route !== p.route || s.lang !== p.lang) syncRoute(this);
     if (s.measure !== p.measure || s.measurePts !== p.measurePts) syncMeasure(this);
     if (s.me !== p.me) syncMe(this);
@@ -268,6 +288,7 @@ export class MapController implements MapApi {
       this.meMarker.getElement().title = translate(s.lang, 'you_are_here');
     if (s.is3d !== p.is3d) set3d(this, s.is3d, true);
     if (s.panelOpen !== p.panelOpen) this.panelToggled();
+    if (!this.contentVisible) this.hideBootContent();
   }
 
   private syncAll() {
@@ -283,7 +304,50 @@ export class MapController implements MapApi {
 
   /** Vuelve a pintar lugares (p. ej. cuando llegan los trazados diferidos) */
   refreshPlaces() {
-    if (this.ready) syncPlaces(this);
+    if (!this.ready) return;
+    syncPlaces(this);
+    if (!this.contentVisible) this.hideBootContent();
+  }
+
+  revealContent() {
+    this.wantReveal = true;
+    if (this.contentVisible || !this.ready) return;
+    this.contentVisible = true;
+    for (const id of BOOT_CONTENT) {
+      if (!this.map.getLayer(id)) continue;
+      this.map.setLayoutProperty(id, 'visibility', 'visible');
+    }
+    syncOverlays(this);
+    this.fadeInPlaces();
+  }
+
+  private hideBootContent() {
+    for (const id of BOOT_CONTENT) {
+      if (!this.map.getLayer(id)) continue;
+      this.map.setLayoutProperty(id, 'visibility', 'none');
+    }
+  }
+
+  private fadeInPlaces() {
+    const m = this.map;
+    const setOp = (op: number) => {
+      if (m.getLayer('clusters')) {
+        m.setPaintProperty('clusters', 'icon-opacity', op);
+        m.setPaintProperty('clusters', 'text-opacity', op);
+      }
+      if (m.getLayer('pins')) m.setPaintProperty('pins', 'icon-opacity', op);
+      if (m.getLayer('pin-labels')) m.setPaintProperty('pin-labels', 'text-opacity', op);
+    };
+    setOp(0);
+    const t0 = performance.now();
+    const dur = 650;
+    const tick = (now: number) => {
+      const t = Math.min(1, (now - t0) / dur);
+      const e = 1 - (1 - t) * (1 - t);
+      setOp(e);
+      if (t < 1) requestAnimationFrame(tick);
+    };
+    requestAnimationFrame(tick);
   }
 
   /* -------------------------------------------------------- relleno */
@@ -454,6 +518,17 @@ export class MapController implements MapApi {
   }
   resize() {
     this.map.resize();
+  }
+  highlightPlace(id: string | null) {
+    if (!this.ready) return;
+    const hid = id ?? '';
+    if (hid === this.hoverPin) return;
+    this.hoverPin = hid;
+    this.map.setFilter('pins-hover', [
+      'all',
+      ['!', ['has', 'point_count']],
+      ['==', ['get', 'id'], hid],
+    ] as never);
   }
   /** Hay una tarjeta externa abierta (popup de provincia): sin tooltips y sin rótulo del seleccionado encima */
   setOverlay(on: boolean) {

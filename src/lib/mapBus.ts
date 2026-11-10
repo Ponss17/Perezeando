@@ -8,6 +8,10 @@ export interface MapApi {
   flyTo(lat: number, lng: number, zoom: number): void;
   getView(): [number, number, number];
   snapshot(): Promise<string | null>;
+  resize(): void;
+  revealContent(): void;
+  /** resalta un pin desde la lista (hover); null limpia */
+  highlightPlace(id: string | null): void;
 }
 
 let api: MapApi | null = null;

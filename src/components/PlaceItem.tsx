@@ -2,6 +2,7 @@ import { memo, useState, type ReactNode } from 'react';
 import type { Place } from '../data/types';
 import { CATEGORIES } from '../data/config';
 import { MascotMono } from './MascotMono';
+import { MascotArt, type MascotKind } from './MascotArt';
 import { Icon } from './Icon';
 import { useT } from '../i18n';
 import { fmtKm } from '../lib/format';
@@ -10,6 +11,9 @@ import { catOne, provName, select } from '../store/actions';
 import { placePicture, prefetchPhoto } from '../lib/photo';
 import { prefetchDetails } from '../lib/prefetch';
 import { Highlight } from '../features/search/Highlight';
+import { withMap } from '../lib/mapBus';
+import { genericLabel, isGenericName } from '../lib/names';
+import { nearbyOf } from '../store/actions';
 
 export function Thumb({ p }: { p: Place }) {
   const c = CATEGORIES[p.cat];
@@ -56,16 +60,22 @@ export const PlaceItem = memo(function PlaceItem({ p, q, dist, right, kb, onClic
   const { t, L, lang } = useT();
   const on = useApp((s) => s.sel?.kind === 'place' && s.sel.id === p.id);
   const open = onClick ?? (() => select(p.id));
+  const generic = isGenericName(p, lang);
+  const title = generic ? genericLabel(p, lang, nearbyOf(p.id, 1)[0]?.[0]) : L(p.name);
   return (
     <li
-      className={'item' + (on ? ' active' : '') + (kb ? ' kb' : '')}
+      className={'item' + (on ? ' active' : '') + (kb ? ' kb' : '') + (generic ? ' is-generic' : '')}
       aria-selected={on || undefined}
       data-id={p.id}
       tabIndex={0}
       onClick={open}
-      onPointerEnter={() => {
+      onPointerEnter={(e) => {
         prefetchPhoto(p, lang);
         prefetchDetails();
+        if (e.pointerType === 'mouse') withMap((m) => m.highlightPlace(p.id));
+      }}
+      onPointerLeave={(e) => {
+        if (e.pointerType === 'mouse') withMap((m) => m.highlightPlace(null));
       }}
       onFocus={() => {
         prefetchPhoto(p, lang);
@@ -80,8 +90,8 @@ export const PlaceItem = memo(function PlaceItem({ p, q, dist, right, kb, onClic
     >
       <Thumb p={p} />
       <div className="item-text">
-        <div className="item-title">
-          <Highlight text={L(p.name)} q={q} />
+        <div className="item-title" title={title}>
+          <Highlight text={title} q={q} />
         </div>
         <div className="item-sub">
           <i className="cdot" style={{ '--c': CATEGORIES[p.cat].color } as React.CSSProperties} />
@@ -112,11 +122,15 @@ export function EmptyState({
   title: string;
   text: string;
   children?: ReactNode;
-  mascot?: boolean;
+  mascot?: boolean | MascotKind;
 }) {
+  const fig: MascotKind | 'mono' | null =
+    mascot === 'route' || mascot === 'filters' || mascot === 'favs' ? mascot : mascot ? 'mono' : null;
   return (
-    <li className={mascot ? 'empty has-mascot' : 'empty'}>
-      {mascot ? (
+    <li className={fig ? 'empty has-mascot' : 'empty'}>
+      {fig === 'route' || fig === 'filters' || fig === 'favs' ? (
+        <MascotArt kind={fig} className="empty-mascot" size={112} />
+      ) : fig === 'mono' ? (
         <MascotMono className="empty-mascot" size={112} />
       ) : (
         <span className="empty-ico">

@@ -22,7 +22,10 @@ function ProvHero({
   const ready = photo.state === 'ok';
   const label = `${credit}: ${img.artist || img.license || ''}`.trim();
   return (
-    <div className={'prov-hero' + (ready ? ' loaded' : '') + (photo.instant ? ' instant' : '')} aria-busy={!ready}>
+    <div
+      className={'prov-hero' + (ready ? ' loaded' : '') + (photo.instant ? ' instant' : '')}
+      aria-busy={!ready}
+    >
       {photo.state !== 'err' && <span className="hero-skel" aria-hidden="true" />}
       {ready && <img className="hero-img" src={src} alt="" decoding="async" referrerPolicy="no-referrer" />}
       {ready &&

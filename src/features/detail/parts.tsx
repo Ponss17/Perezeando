@@ -93,11 +93,16 @@ export function Facts({ rows }: { rows: [string, ReactNode][] }) {
   );
 }
 
-
 /** Chip de fuente (marrón): nombre + enlace al origen del dato */
 export function SourceChip({ name, url, license }: { name: string; url: string; license?: string }) {
   return (
-    <a className="src-chip" href={url} target="_blank" rel="noopener" title={license ? `${name} · ${license}` : name}>
+    <a
+      className="src-chip"
+      href={url}
+      target="_blank"
+      rel="noopener"
+      title={license ? `${name} · ${license}` : name}
+    >
       <Icon name="book-open" />
       {name}
       <Icon name="arrow-up-right" />
@@ -149,12 +154,14 @@ export function NickSub({ n }: { n?: Nick }) {
 }
 
 /** Valor de la fila Gentilicio: «josefino · apodo popular: Chepe» + enlace a la fuente */
+// eslint-disable-next-line react-refresh/only-export-components -- helper, no componente
 export function nickRow(n: Nick | undefined, t: (k: string) => string): [string, ReactNode] | null {
   if (!n || (!n.demonym && !n.popularNickname && !n.popularDemonym)) return null;
   const parts: string[] = [];
   if (n.demonym) parts.push(n.demonym);
   if (n.popularDemonym) parts.push(`${t('demonym_pop')}: ${n.popularDemonym}`);
-  const pn = n.nickname && n.popularNickname ? n.popularNickname : !n.nickname ? n.popularNickname : undefined;
+  const pn =
+    n.nickname && n.popularNickname ? n.popularNickname : !n.nickname ? n.popularNickname : undefined;
   if (pn) parts.push(`${t('nick_pop')}: ${pn}`);
   return [
     n.demonym ? t('demonym') : t('nick_pop_lbl'),

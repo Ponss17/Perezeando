@@ -25,7 +25,9 @@ export function SlideTrack({
 
   useLayoutEffect(() => {
     if (fill) return;
-    const pane = windowRef.current?.querySelectorAll<HTMLElement>(':scope > .slide-track > .slide-pane')[index];
+    const pane = windowRef.current?.querySelectorAll<HTMLElement>(':scope > .slide-track > .slide-pane')[
+      index
+    ];
     if (!pane) return;
     const measure = () => setH(pane.offsetHeight);
     measure();
@@ -58,7 +60,10 @@ export function SlideTrack({
       onTouchStart={onIndex ? start : undefined}
       onTouchEnd={onIndex ? end : undefined}
     >
-      <div className="slide-track" style={{ width: `${n * 100}%`, transform: `translateX(${(index * -100) / n}%)` }}>
+      <div
+        className="slide-track"
+        style={{ width: `${n * 100}%`, transform: `translateX(${(index * -100) / n}%)` }}
+      >
         {items.map((child, i) => (
           <div
             key={i}

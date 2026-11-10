@@ -9,10 +9,18 @@ import { Panel, PanelOpenButton, MobileTitle } from './components/Panel';
 import { Toolbar } from './components/Toolbar';
 import { AppStatus } from './components/AppStatus';
 import { CreditsDialog, PrintParts, Toast, Notice } from './components/Overlays';
+import { SelectionChip } from './components/SelectionChip';
 import { PoliciesPage } from './components/PoliciesPage';
+import { BootSplash } from './components/BootSplash';
 import { policiesInUrl } from './lib/policies';
+import { onMapReady } from './lib/boot';
+import { withMap } from './lib/mapBus';
 
 const MapView = lazy(() => import('./features/map/MapView'));
+
+const BOOT_MIN_MS = 800;
+const BOOT_MAX_MS = 16000;
+const BOOT_FADE_MS = 520;
 
 export default function App() {
   const { t, lang } = useT();
@@ -21,8 +29,10 @@ export default function App() {
   const panelOpen = useApp((s) => s.panelOpen);
   const night = useApp((s) => s.night);
   const [ready, setReady] = useState(false);
+  const [splash, setSplash] = useState(true);
+  const [leaving, setLeaving] = useState(false);
+  const [reveal, setReveal] = useState(false);
 
-  // 1) datos (JSON perezoso) → 2) estado desde la URL → 3) mapa
   useEffect(() => {
     loadData().then(() => {
       const patch = readHash();
@@ -39,6 +49,33 @@ export default function App() {
   useRouteCompute();
 
   useEffect(() => {
+    if (!ready || !data || error) return;
+    const started = performance.now();
+    let done = false;
+    const finish = () => {
+      if (done) return;
+      done = true;
+      const wait = Math.max(0, BOOT_MIN_MS - (performance.now() - started));
+      window.setTimeout(() => {
+        setLeaving(true);
+        setReveal(true);
+        withMap((m) => {
+          m.resize();
+          m.revealContent();
+        });
+        window.setTimeout(() => setSplash(false), BOOT_FADE_MS);
+        window.setTimeout(() => setReveal(false), BOOT_FADE_MS + 800);
+      }, wait);
+    };
+    const off = onMapReady(finish);
+    const maxT = window.setTimeout(finish, BOOT_MAX_MS);
+    return () => {
+      off();
+      clearTimeout(maxT);
+    };
+  }, [ready, data, error]);
+
+  useEffect(() => {
     document.title = t('title');
     document.documentElement.lang = lang;
   }, [t, lang]);
@@ -50,7 +87,6 @@ export default function App() {
       ?.setAttribute('content', night ? '#0e1f14' : '#386641');
   }, [night]);
 
-  // atajos globales
   useEffect(() => {
     const onKey = (e: KeyboardEvent) => {
       const a = document.activeElement as HTMLElement | null;
@@ -70,23 +106,18 @@ export default function App() {
     return () => window.removeEventListener('popstate', sync);
   }, []);
 
+  const bootClass = splash && !reveal ? ' boot-hold' : reveal ? ' boot-reveal' : '';
+
   return (
-    <div id="app" className={panelOpen ? '' : 'panel-closed'}>
+    <div id="app" className={(panelOpen ? '' : 'panel-closed') + bootClass}>
       {ready && data ? (
-        <Suspense
-          fallback={
-            <div className="map-loading">
-              <span className="spinner" />
-            </div>
-          }
-        >
+        <Suspense fallback={null}>
           <MapView />
         </Suspense>
-      ) : (
-        <div className="map-loading">{error ? error : <span className="spinner" />}</div>
-      )}
+      ) : null}
       <MobileTitle />
       <PanelOpenButton />
+      {ready && data && <SelectionChip />}
       {ready && data && (
         <>
           <Panel />
@@ -99,6 +130,7 @@ export default function App() {
       <Notice />
       <CreditsDialog />
       <PoliciesPage />
+      {splash && <BootSplash leaving={leaving} error={error} />}
     </div>
   );
 }

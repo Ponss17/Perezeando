@@ -3,7 +3,7 @@ import * as maplibregl from 'maplibre-gl';
 import { BASEMAPS } from '../../data/config';
 import type { Place } from '../../data/types';
 import { pick, translate } from '../../i18n';
-import { circlePolygon } from '../../lib/geo';
+import { circlePolygon, haversine } from '../../lib/geo';
 import { isMobile, visiblePlaces } from '../../lib/selectors';
 import { select } from '../../store/actions';
 import type { MapController } from './controller';
@@ -64,8 +64,8 @@ export function syncOverlays(c: MapController) {
   ['prov-fill', 'prov-line', 'prov-line-sel'].forEach((l) =>
     m.setLayoutProperty(l, 'visibility', v(c.s.ov.prov)),
   );
-  // etiquetas/bordes Esri del satélite: solo a escala país (si no, se confunden con el límite activo)
-  const showBaseLabels = c.s.ov.prov && c.s.prov === 'all';
+  // etiquetas Esri: a escala país y sin lugar seleccionado (si no, se pisan con las nuestras)
+  const showBaseLabels = c.s.ov.prov && c.s.prov === 'all' && c.s.sel?.kind !== 'place';
   if (m.getLayer('base-labels')) m.setLayoutProperty('base-labels', 'visibility', v(showBaseLabels));
   ['eez', 'eez-mma', 'eez-hit'].forEach((l) => m.setLayoutProperty(l, 'visibility', v(c.s.ov.eez)));
   syncProvLabels(c);
@@ -104,9 +104,9 @@ export function syncProvStyle(c: MapController) {
     m.setPaintProperty('prov-line-sel', 'line-width', 2.5);
   }
 
-  // sin bordes Esri cuando hay provincia/mar (evita el “todo blanco/celeste”)
+  // sin bordes Esri cuando hay provincia/mar o un lugar seleccionado
   if (m.getLayer('base-labels')) {
-    const showBaseLabels = c.s.ov.prov && sel === 'all';
+    const showBaseLabels = c.s.ov.prov && sel === 'all' && c.s.sel?.kind !== 'place';
     m.setLayoutProperty('base-labels', 'visibility', showBaseLabels ? 'visible' : 'none');
   }
 
@@ -290,4 +290,29 @@ export function syncMeasure(c: MapController) {
     features.push({ type: 'Feature', properties: {}, geometry: { type: 'LineString', coordinates: pts } });
   src.setData({ type: 'FeatureCollection', features });
   if (c.s.measure) c.map.getCanvas().style.cursor = 'crosshair';
+
+  if (pts.length === 2) {
+    const mid: [number, number] = [(pts[0][0] + pts[1][0]) / 2, (pts[0][1] + pts[1][1]) / 2];
+    const km = haversine([pts[0][1], pts[0][0]], [pts[1][1], pts[1][0]]);
+    const text = km < 1 ? Math.round(km * 1000) + ' m' : km.toFixed(km < 10 ? 1 : 0) + ' km';
+    if (!c.measureLabel) {
+      const el = document.createElement('div');
+      el.className = 'measure-label';
+      el.setAttribute('role', 'status');
+      c.measureLabel = new maplibregl.Marker({
+        element: el,
+        offset: [0, -16],
+        pitchAlignment: 'viewport',
+        rotationAlignment: 'viewport',
+      })
+        .setLngLat(mid)
+        .addTo(c.map);
+    } else {
+      c.measureLabel.setLngLat(mid);
+    }
+    c.measureLabel.getElement().textContent = text;
+  } else if (c.measureLabel) {
+    c.measureLabel.remove();
+    c.measureLabel = null;
+  }
 }

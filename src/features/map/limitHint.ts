@@ -21,11 +21,13 @@ export function attachLimitHint(map: MLMap, container: HTMLElement, lang: () => 
     el.style.top = '';
     el.style.bottom = '';
     el.classList.remove('low');
-    const busy = [...document.querySelectorAll<HTMLElement>('#map .maplibregl-popup, .sel-mk:not(.menu-hide) .sel-label')]
-      .map((e) => e.getBoundingClientRect());
+    const busy = [
+      ...document.querySelectorAll<HTMLElement>('#map .maplibregl-popup, .sel-mk:not(.menu-hide) .sel-label'),
+    ].map((e) => e.getBoundingClientRect());
     if (!busy.length) return;
     const r = el.getBoundingClientRect();
-    const hit = (a: DOMRect, y0: number, y1: number) => a.left < r.right && a.right > r.left && a.top < y1 && a.bottom > y0;
+    const hit = (a: DOMRect, y0: number, y1: number) =>
+      a.left < r.right && a.right > r.left && a.top < y1 && a.bottom > y0;
     if (!busy.some((b) => hit(b, r.top - 4, r.bottom + 4))) return;
     const m = map.getContainer().getBoundingClientRect();
     let bottom = m.bottom;
@@ -69,22 +71,53 @@ export function attachLimitHint(map: MLMap, container: HTMLElement, lang: () => 
   };
 
   const cv = map.getCanvasContainer();
-  cv.addEventListener('wheel', (e) => { if (e.deltaY > 0) zoomOutAttempt(); }, { passive: true });
-  container.addEventListener('click', (e) => {
-    if ((e.target as HTMLElement).closest?.('.maplibregl-ctrl-zoom-out')) zoomOutAttempt();
-  }, true);
+  cv.addEventListener(
+    'wheel',
+    (e) => {
+      if (e.deltaY > 0) zoomOutAttempt();
+    },
+    { passive: true },
+  );
+  container.addEventListener(
+    'click',
+    (e) => {
+      if ((e.target as HTMLElement).closest?.('.maplibregl-ctrl-zoom-out')) zoomOutAttempt();
+    },
+    true,
+  );
   let d0 = 0;
   let z0 = 0;
   let fired = false;
   const dist = (t: TouchList) => Math.hypot(t[0].clientX - t[1].clientX, t[0].clientY - t[1].clientY);
-  cv.addEventListener('touchstart', (e) => {
-    if (e.touches.length === 2) { d0 = dist(e.touches); z0 = map.getZoom(); fired = false; }
-  }, { passive: true });
-  cv.addEventListener('touchmove', (e) => {
-    if (e.touches.length !== 2 || fired || !d0) return;
-    if (dist(e.touches) < d0 * 0.8 && Math.abs(map.getZoom() - z0) < 0.01 && atZoomLimit()) { fired = true; showLimit('zoom'); }
-  }, { passive: true });
-  cv.addEventListener('touchend', () => { d0 = 0; }, { passive: true });
+  cv.addEventListener(
+    'touchstart',
+    (e) => {
+      if (e.touches.length === 2) {
+        d0 = dist(e.touches);
+        z0 = map.getZoom();
+        fired = false;
+      }
+    },
+    { passive: true },
+  );
+  cv.addEventListener(
+    'touchmove',
+    (e) => {
+      if (e.touches.length !== 2 || fired || !d0) return;
+      if (dist(e.touches) < d0 * 0.8 && Math.abs(map.getZoom() - z0) < 0.01 && atZoomLimit()) {
+        fired = true;
+        showLimit('zoom');
+      }
+    },
+    { passive: true },
+  );
+  cv.addEventListener(
+    'touchend',
+    () => {
+      d0 = 0;
+    },
+    { passive: true },
+  );
   let p0: { x: number; y: number } | null = null;
   let c0: LngLat | null = null;
   map.on('dragstart', (e) => {

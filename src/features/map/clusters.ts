@@ -38,13 +38,23 @@ export async function expandCluster(host: ClusterHost, f: MapGeoJSONFeature) {
   const canZoom = span >= 0.003 && cur < host.map.getMaxZoom() - 0.5 && target > cur + 0.05;
   const zoomIn = () => host.map.easeTo({ center: center as LngLatLike, zoom: target, duration: 550 });
   if (count <= CHOOSER_MAX || !canZoom) {
-    showClusterList(host, center, leaves.map((l) => String(l.properties?.id)), canZoom ? zoomIn : null);
+    showClusterList(
+      host,
+      center,
+      leaves.map((l) => String(l.properties?.id)),
+      canZoom ? zoomIn : null,
+    );
     return;
   }
   zoomIn();
 }
 
-function showClusterList(host: ClusterHost, at: [number, number], ids: string[], zoomIn: (() => void) | null) {
+function showClusterList(
+  host: ClusterHost,
+  at: [number, number],
+  ids: string[],
+  zoomIn: (() => void) | null,
+) {
   host.tip.remove();
   host.listPop?.remove();
   const L = host.lang;
@@ -128,7 +138,9 @@ function showClusterList(host: ClusterHost, at: [number, number], ids: string[],
       b.className = 'cl-item';
       b.style.setProperty('--c', c.color);
       b.innerHTML = `<i class="cl-ico">${iconSvg(c.icon, { size: 13, color: '#fff', stroke: 2.4 })}</i><span><b><span class="mq"></span></b></span>`;
-      b.querySelector('b .mq')!.textContent = pick(L, p.name);
+      const label = pick(L, p.name);
+      b.querySelector('b .mq')!.textContent = label;
+      b.title = label;
       b.addEventListener('click', () => {
         host.clPicking = host.selMarkerId?.split('|')[0] !== p.id;
         host.listPop?.remove();
@@ -140,6 +152,19 @@ function showClusterList(host: ClusterHost, at: [number, number], ids: string[],
     ul.appendChild(li);
   }
   box.appendChild(ul);
+  if (ul.scrollHeight > ul.clientHeight + 4) {
+    box.classList.add('has-scroll');
+    const hint = document.createElement('div');
+    hint.className = 'cl-scroll-hint';
+    hint.setAttribute('aria-hidden', 'true');
+    box.appendChild(hint);
+    const sync = () => {
+      const more = ul.scrollTop + ul.clientHeight < ul.scrollHeight - 6;
+      hint.classList.toggle('hide', !more);
+    };
+    ul.addEventListener('scroll', sync, { passive: true });
+    sync();
+  }
   const onKey = (e: KeyboardEvent) => {
     if (e.key !== 'Escape' || !host.listPop) return;
     e.stopImmediatePropagation();

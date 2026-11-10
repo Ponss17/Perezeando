@@ -23,7 +23,8 @@ function linesOf(host: HTMLElement) {
   for (const el of [host, ...host.querySelectorAll<HTMLElement>('*')]) {
     if (el instanceof SVGElement || el.clientWidth < 12) continue;
     const cs = getComputedStyle(el);
-    const clips = cs.textOverflow === 'ellipsis' || (cs.whiteSpace === 'nowrap' && cs.overflowX !== 'visible');
+    const clips =
+      cs.textOverflow === 'ellipsis' || (cs.whiteSpace === 'nowrap' && cs.overflowX !== 'visible');
     if (!clips) continue;
     const shift = shiftOf(el);
     if (shift > 1) hits.push({ el, shift });

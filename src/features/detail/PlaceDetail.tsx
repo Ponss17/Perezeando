@@ -1,11 +1,20 @@
-import { useEffect, useLayoutEffect, useMemo, useRef, useState } from 'react';
+import { useEffect, useLayoutEffect, useMemo, useRef, useState, type RefObject } from 'react';
 import { useApp } from '../../store/useApp';
 import { useData } from '../../data/load';
 import { useT } from '../../i18n';
 import { CATEGORIES } from '../../data/config';
 import type { Place } from '../../data/types';
-import { catOne, nearbyOf, provName, share, toggleFav, toggleRoute } from '../../store/actions';
+import {
+  catOne,
+  nearbyOf,
+  openNearbyExplore,
+  provName,
+  share,
+  toggleFav,
+  toggleRoute,
+} from '../../store/actions';
 import { fmt } from '../../lib/format';
+import { haversine, ll } from '../../lib/geo';
 import { fetchWikiSummary, wikiTarget, wikiUrl } from '../../lib/wiki';
 import {
   HERO_W,
@@ -21,10 +30,13 @@ import {
 import { iconSvg } from '../../lib/icons';
 import { directionsUrl } from '../route/routing';
 import { Icon } from '../../components/Icon';
-import { PlaceItem } from '../../components/PlaceItem';
+import { PlaceItem, Thumb } from '../../components/PlaceItem';
 import { Attrib, Facts, HeroTop, NickSub, Qa, SourceBox, nickRow } from './parts';
-import { altName } from '../../lib/names';
+import { altName, genericLabel, isGenericName } from '../../lib/names';
 import { MiniMarker } from '../../components/MiniMarker';
+
+/** San José centro (referencia aproximada para distancias en ficha) */
+const SJO: [number, number] = [9.9281, -84.0907];
 
 /** Ficha de un lugar (cargada bajo demanda) */
 export default function PlaceDetail({ id }: { id: string }) {
@@ -64,7 +76,7 @@ export default function PlaceDetail({ id }: { id: string }) {
     // eslint-disable-next-line react-hooks/exhaustive-deps
   }, [pkey]);
 
-  const near = useMemo(() => nearbyOf(id, 2), [id]);
+  const near = useMemo(() => nearbyOf(id, 6, { diversify: true }), [id]);
   // precarga las portadas de los lugares cercanos (los siguientes clics más probables)
   useEffect(() => {
     const tm = setTimeout(() => near.forEach(([q]) => prefetchPhoto(q, lang)), 1800);
@@ -73,7 +85,6 @@ export default function PlaceDetail({ id }: { id: string }) {
   }, [id, lang]);
   const c = CATEGORIES[p.cat];
   const wk = wiki && wiki.key === wkey ? wiki : null;
-  const name = L(p.name);
   const other = altName(lang, p.name);
   const f = p.facts ?? {};
   const known = knownPhoto(p, lang);
@@ -110,7 +121,14 @@ export default function PlaceDetail({ id }: { id: string }) {
   }
   const nr = nickRow(p.nick, t as (k: string) => string);
   if (nr) rows.push(nr);
-  rows.push([t('coords_lbl'), <span className="mono">{`${p.lat.toFixed(4)}°, ${p.lng.toFixed(4)}°`}</span>]);
+  if (p.visit?.season) rows.unshift([t('visit_season'), L(p.visit.season)]);
+  if (p.visit?.services) rows.push([t('visit_services'), L(p.visit.services)]);
+  const sjoKm = haversine(SJO, ll(p));
+  if (p.visit?.fromSjo) rows.push([t('from_sjo'), L(p.visit.fromSjo)]);
+  else if (sjoKm < 400) rows.push([t('from_sjo'), `${Math.round(sjoKm)} km ${t('approx')}`]);
+  if (p.visit?.nearestCity) rows.push([t('nearest_city'), L(p.visit.nearestCity)]);
+
+  const displayName = genericLabel(p, lang, near[0]?.[0]);
 
   return (
     <section className="tab-pane detail active" data-pane="detail" id="detail" ref={ref}>
@@ -119,10 +137,11 @@ export default function PlaceDetail({ id }: { id: string }) {
       ) : (
         <PhotoHero key={pkey} p={p} ph={ph} w={w} />
       )}
+      <StickyTitle p={p} name={displayName} hostRef={ref} />
       <div className="detail-body">
-        <h2>{name}</h2>
+        <h2 className={isGenericName(p, lang) ? 'is-generic' : undefined}>{displayName}</h2>
         <NickSub n={p.nick} />
-        {other && (
+        {other && !isGenericName(p, lang) && (
           <div className="alt-name" lang={lang === 'es' ? 'en' : 'es'}>
             {other}
           </div>
@@ -186,6 +205,20 @@ export default function PlaceDetail({ id }: { id: string }) {
         {w && !wk?.failed && (
           <WikiBlock key={p.id + (wk?.ex ? ':1' : ':0')} text={wk?.ex} href={wikiUrl(w)} />
         )}
+        {near.length > 0 && (
+          <div className="nearby">
+            <h3 className="section-title">{t('nearby')}</h3>
+            <ul className="list compact">
+              {near.map(([q, d]) => (
+                <PlaceItem key={q.id} p={q} dist={d} />
+              ))}
+            </ul>
+            <button type="button" className="text-btn nearby-more" onClick={() => openNearbyExplore(id)}>
+              {t('nearby_more')}
+              <Icon name="arrow-up-right" />
+            </button>
+          </div>
+        )}
         {p.surf && (
           <p className="surf-note">
             <MiniMarker cat="surf" size={18} />
@@ -204,6 +237,12 @@ export default function PlaceDetail({ id }: { id: string }) {
           </p>
         )}
         <Facts rows={rows} />
+        <details className="coords-fold">
+          <summary>{t('coords_lbl')}</summary>
+          <p className="mono">
+            {p.lat.toFixed(5)}°, {p.lng.toFixed(5)}°
+          </p>
+        </details>
         <PlaceSources p={p} />
         {p.osm && (
           <p className="osm-attr">
@@ -235,14 +274,6 @@ export default function PlaceDetail({ id }: { id: string }) {
         {p.visit && <VisitBlock v={p.visit} />}
         {p.tips && <TipsBlock tips={p.tips} />}
         {!!p.related?.length && <RelatedBlock ids={p.related} title={t('fauna_related')} />}
-        <div className="nearby">
-          <h3 className="section-title">{t('nearby')}</h3>
-          <ul className="list compact">
-            {near.map(([q, d]) => (
-              <PlaceItem key={q.id} p={q} dist={d} />
-            ))}
-          </ul>
-        </div>
       </div>
     </section>
   );
@@ -420,6 +451,36 @@ function PhotoHero({ p, ph, w }: { p: Place; ph: PlacePhoto | undefined; w: Wiki
         ) : (
           <Attrib href={ph.href} label={ph.credit} license={ph.license ?? 'Wikimedia Commons'} />
         ))}
+    </div>
+  );
+}
+
+function StickyTitle({
+  p,
+  name,
+  hostRef,
+}: {
+  p: Place;
+  name: string;
+  hostRef: RefObject<HTMLElement | null>;
+}) {
+  const [on, setOn] = useState(false);
+  useEffect(() => {
+    const root = hostRef.current?.closest('.detail-pane, .panel-body') as HTMLElement | null;
+    const hero = hostRef.current?.querySelector('.hero') as HTMLElement | null;
+    if (!root || !hero) return;
+    const io = new IntersectionObserver(([e]) => setOn(!e.isIntersecting), {
+      root,
+      threshold: 0.15,
+    });
+    io.observe(hero);
+    return () => io.disconnect();
+  }, [hostRef, p.id]);
+  if (!on) return null;
+  return (
+    <div className="detail-sticky" aria-hidden="true">
+      <Thumb p={p} />
+      <b>{name}</b>
     </div>
   );
 }

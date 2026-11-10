@@ -1,4 +1,4 @@
-import { useEffect, useMemo, useRef, useState } from 'react';
+import { useEffect, useMemo, useRef, useState, type ReactNode } from 'react';
 import { useApp } from '../../store/useApp';
 import { useData } from '../../data/load';
 import { useT } from '../../i18n';
@@ -10,6 +10,7 @@ import {
   layersAll,
   locate,
   setCat,
+  setIntention,
   setProv,
   setTab,
   showProvince,
@@ -22,6 +23,7 @@ import { EmptyState, PlaceItem } from '../../components/PlaceItem';
 import { inCat } from '../../lib/selectors';
 import { computeResults, useKb } from './results';
 import { subscribeSearch } from './searchIndex';
+import { DISCOVER_SECTIONS, INTENTION_ORDER } from '../../data/discover';
 
 export default function ExplorePane() {
   const { t, L, lang } = useT();
@@ -31,6 +33,8 @@ export default function ExplorePane() {
   const cat = useApp((s) => s.cat);
   const active = useApp((s) => s.active);
   const near = useApp((s) => s.near);
+  const nearPlace = useApp((s) => s.nearPlace);
+  const intention = useApp((s) => s.intention);
   const me = useApp((s) => s.me);
   const locating = useApp((s) => s.locating);
   const kb = useKb((s) => s.i);
@@ -39,9 +43,10 @@ export default function ExplorePane() {
 
   const r = useMemo(() => {
     void searchTick; // invalida cuando el índice Fuse termina de cargar
-    return computeResults({ query, prov, cat, active, near, me, lang }, data);
-  }, [query, prov, cat, active, near, me, lang, data, searchTick]);
-  const filtered = prov !== 'all' || cat !== 'all' || near;
+    return computeResults({ query, prov, cat, active, near, nearPlace, me, lang, intention }, data);
+  }, [query, prov, cat, active, near, nearPlace, me, lang, intention, data, searchTick]);
+  const filtered = prov !== 'all' || cat !== 'all' || near || !!nearPlace || !!intention;
+  const showDiscover = !filtered && query.trim().length < 2;
   const hidden = CATEGORY_ORDER.length - active.length;
   const allHidden = active.length === 0;
   const counts = useMemo(() => {
@@ -106,33 +111,44 @@ export default function ExplorePane() {
   useEffect(() => {
     const el = sentinel.current;
     if (!el) return;
+    const root = el.closest('.slide-pane, .detail-pane, .panel-body');
     const io = new IntersectionObserver((es) => es.some((e) => e.isIntersecting) && setLim((l) => l + STEP), {
+      root,
       rootMargin: '400px',
     });
     io.observe(el);
     return () => io.disconnect();
   }, [shown, r]);
   const lead = r.grouped && prov !== 'all' && prov !== 'mar' ? <ProvinceLead id={prov} /> : null;
-  const rows: React.ReactNode[] = [];
-  let last: CategoryId | null = null;
+  type Sec = { cat: CategoryId | null; key: string; items: ReactNode[] };
+  const secs: Sec[] = [];
+  let cur: Sec | null = null;
   r.list.slice(0, shown).forEach((p, i) => {
-    if (r.grouped && p.cat !== last) {
-      last = p.cat;
-      rows.push(
-        <li className="list-head" key={'h-' + p.cat}>
-          <i className="cdot" style={{ '--c': CATEGORIES[p.cat].color } as React.CSSProperties} />
-          {catName(p.cat)}
-          <span>{counts.get(p.cat)}</span>
-        </li>,
-      );
+    const cat = r.grouped ? p.cat : null;
+    if (!cur || cur.cat !== cat) {
+      cur = { cat, key: cat ? 's-' + cat : 's-all', items: [] };
+      secs.push(cur);
     }
-    rows.push(<PlaceItem key={p.id} p={p} q={r.q} dist={r.dists?.get(p.id)} kb={i === kb} />);
+    cur.items.push(<PlaceItem key={p.id} p={p} q={r.q} dist={r.dists?.get(p.id)} kb={i === kb} />);
   });
-  if (r.list.length > shown)
-    rows.push(<li key="more" ref={sentinel} className="list-more" aria-hidden="true" />);
+
+  const nearLabel = nearPlace ? data.byId.get(nearPlace)?.name[lang] : near && me ? t('near_me') : '';
 
   return (
     <section className="tab-pane active" data-pane="explore">
+      <div className="intent-row" role="toolbar" aria-label={t('intention_lbl')}>
+        {INTENTION_ORDER.map((tag) => (
+          <button
+            key={tag}
+            type="button"
+            className={'pill sm' + (intention === tag ? ' primary' : '')}
+            aria-pressed={intention === tag}
+            onClick={() => setIntention(intention === tag ? null : tag)}
+          >
+            {t(('intent_' + tag) as 'intent_kids')}
+          </button>
+        ))}
+      </div>
       <div className="filters">
         <div className="field">
           <span className="field-lbl">{t('province_lbl')}</span>
@@ -155,8 +171,14 @@ export default function ExplorePane() {
       </div>
       <div className="meta-row">
         <div className="result-meta">
-          <b>{fmtNum(lang, r.list.length)}</b> {t('places_lbl')}
-          {near && me ? ` · ${t('near_me')}` : ''}
+          {showDiscover ? (
+            <b>{t('discover_must')}</b>
+          ) : (
+            <>
+              <b>{fmtNum(lang, r.list.length)}</b> {t('places_lbl')}
+            </>
+          )}
+          {nearLabel ? ` · ${nearLabel}` : ''}
           {hidden > 0 && (
             <button
               className="text-btn inline hidden-cats"
@@ -186,32 +208,85 @@ export default function ExplorePane() {
         </button>
       </div>
       <ul className="list" id="resultList">
-        {lead}
-        {r.list.length ? (
-          rows
-        ) : allHidden ? (
-          <EmptyState icon="eye-off" mascot title={t('all_hidden_title')} text={t('all_hidden_text')}>
-            <span className="empty-actions">
-              <button className="pill sm primary" onClick={layersAll}>
-                <Icon name="eye" />
-                {t('show_all')}
-              </button>
-              <button className="pill sm" onClick={() => setTab('layers')}>
-                {t('go_filters')}
-              </button>
-            </span>
-          </EmptyState>
+        {showDiscover ? (
+          <DiscoverHome />
         ) : (
-          <EmptyState icon="search" mascot title={t('no_results_title')} text={t('no_results')}>
-            {filtered && (
-              <button className="pill sm" onClick={clearFilters}>
-                {t('clear_filters')}
-              </button>
+          <>
+            {lead}
+            {r.list.length ? (
+              <>
+                {secs.map((s) => (
+                  <li className="list-sec" key={s.key}>
+                    {s.cat && (
+                      <div className="list-head">
+                        <i
+                          className="cdot"
+                          style={{ '--c': CATEGORIES[s.cat].color } as React.CSSProperties}
+                        />
+                        {catName(s.cat)}
+                        <span>{counts.get(s.cat)}</span>
+                      </div>
+                    )}
+                    <ul className="list-sec-items">{s.items}</ul>
+                  </li>
+                ))}
+                {r.list.length > shown && (
+                  <li key="more" ref={sentinel} className="list-more" aria-hidden="true" />
+                )}
+              </>
+            ) : allHidden ? (
+              <EmptyState
+                icon="eye-off"
+                mascot="filters"
+                title={t('all_hidden_title')}
+                text={t('all_hidden_text')}
+              >
+                <span className="empty-actions">
+                  <button className="pill sm primary" onClick={layersAll}>
+                    <Icon name="eye" />
+                    {t('show_all')}
+                  </button>
+                  <button className="pill sm" onClick={() => setTab('layers')}>
+                    {t('go_filters')}
+                  </button>
+                </span>
+              </EmptyState>
+            ) : (
+              <EmptyState icon="search" mascot="filters" title={t('no_results_title')} text={t('no_results')}>
+                {filtered && (
+                  <button className="pill sm" onClick={clearFilters}>
+                    {t('clear_filters')}
+                  </button>
+                )}
+              </EmptyState>
             )}
-          </EmptyState>
+          </>
         )}
       </ul>
     </section>
+  );
+}
+
+function DiscoverHome() {
+  const { t } = useT();
+  const data = useData((s) => s.data)!;
+  return (
+    <>
+      {DISCOVER_SECTIONS.map((sec) => {
+        const places = sec.ids.map((id) => data.byId.get(id)).filter(Boolean);
+        if (!places.length) return null;
+        return (
+          <li className="list-sec discover-sec" key={sec.id}>
+            <div className="list-head discover-head">{t(sec.labelKey as 'discover_must')}</div>
+            <ul className="list-sec-items">
+              {places.map((p) => (
+                <PlaceItem key={p!.id} p={p!} />
+              ))}
+            </ul>
+          </li>
+        );
+      })}
+    </>
   );
 }
 

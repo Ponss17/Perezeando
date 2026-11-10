@@ -15,33 +15,35 @@ export default function FavsPane() {
     <section className="tab-pane active" data-pane="favs">
       <ul className="list" id="favList">
         {list.length ? (
-          <>
-            <li className="list-head">
+          <li className="list-sec">
+            <div className="list-head">
               {t('tab_favs')}
               <span>{list.length}</span>
-            </li>
-            {list.map((p) => (
-              <PlaceItem
-                key={p.id}
-                p={p}
-                right={
-                  <button
-                    className="icon-btn small"
-                    aria-label={t('remove')}
-                    title={t('remove')}
-                    onClick={(e) => {
-                      e.stopPropagation();
-                      toggleFav(p.id);
-                    }}
-                  >
-                    <Icon name="x" />
-                  </button>
-                }
-              />
-            ))}
-          </>
+            </div>
+            <ul className="list-sec-items">
+              {list.map((p) => (
+                <PlaceItem
+                  key={p.id}
+                  p={p}
+                  right={
+                    <button
+                      className="icon-btn small"
+                      aria-label={t('remove')}
+                      title={t('remove')}
+                      onClick={(e) => {
+                        e.stopPropagation();
+                        toggleFav(p.id);
+                      }}
+                    >
+                      <Icon name="x" />
+                    </button>
+                  }
+                />
+              ))}
+            </ul>
+          </li>
         ) : (
-          <EmptyState icon="bookmark" title={t('favs_empty_title')} text={t('favs_empty')} />
+          <EmptyState icon="bookmark" mascot="favs" title={t('favs_empty_title')} text={t('favs_empty')} />
         )}
       </ul>
       {list.length >= 2 && (

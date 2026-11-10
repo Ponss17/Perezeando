@@ -1,10 +1,10 @@
 # Handoff — Perezeando (`cr-mapa-v2`)
 
-**Fecha:** 2026-11-08 (America/Costa_Rica)  
+**Fecha:** 2026-11-09 (America/Costa_Rica)  
 **Proyecto en disco (fuente de verdad):** `D:\zpaginas\cr-mapa-v2`  
 **Máquina:** Windows del usuario (Ponss), clone GitHub `https://github.com/Ponss17/Perezeando.git` (`origin/main`)  
 **Hosting prod:** Cloudflare Worker assets `perezeando` → https://perezeando.lospherris.workers.dev (`wrangler.toml`, SPA `not_found_handling`)  
-**Trabajo reciente:** agente en disco local (no Cloud Agent).
+**Trabajo reciente:** agente en disco local (no Cloud Agent) — CSS modular + mascots empty-state.
 
 Este archivo resume el estado real del repo. **No uses** copias viejas del box (`/workspace/cr-mapa*`, zips v35/v36) para sobrescribir `D:\zpaginas\cr-mapa-v2`.
 
@@ -265,6 +265,39 @@ Archivos: `ExplorePane.tsx`, `LayersPane.tsx`, `mapSync.ts`, `actions.ts`, `sw.t
 | Local vs remoto | Resuelto tras commit/push/`wrangler deploy` de esta oleada |
 
 **Siguiente (no bloquea):** gastro sin foto; dominio custom media; OG middleware; tests filtros/`visiblePlaces`.
+
+### Hecho (2026-11-09) — CSS split + mascots Perezeando
+
+| Tema | Qué |
+|------|-----|
+| CSS modular | `app.css` residual; piezas en `panel.css`, `detail.css`, `route.css`, `toolbar.css`, `theme-overrides.css` (wire en `index.css`) |
+| Panel / lista | Scroll + sticky heads opacos; item activo con **inset ring** (no borde mitad tapado en móvil); filtros/`sx` z-index por encima del sticky |
+| Mascots | Carpeta `public/mascots/` (+ copias `src/mascots/` para `?raw`): `face.svg`, `mono.svg`, `route.svg`, `filters.svg`, `favs.svg`, `face-color.svg`, `full.svg` |
+| Empty states | `MascotArt` (route/filters/favs) pinta SVG inline con `fill=currentColor` → `--accent` |
+| Header | `BrandLogo` ← `face.svg` raw; blanco sobre barra brand |
+| Créditos | `MascotMono` ← `mono.svg` raw; **blanco** en header verde de `#credits` (no `--accent`, se fundía) |
+| Overflow | `.slide-pane` con `overflow-x: hidden` (meta-row Llevame/Cerca de mí empujaba ~5px y salía scrollbar horizontal) |
+| SW | Precache ya incluye `mascots/` vía filtro vite |
+
+Archivos: `MascotArt.tsx`, `MascotMono.tsx`, `BrandLogo.tsx`, `PlaceItem.tsx` (EmptyState), `Overlays.tsx`, `src/mascots/*`, `public/mascots/*`, estilos panel/detail/theme-overrides.
+
+### Hecho (2026-11-09 noche) — vista inicial Costa Rica
+
+- Primera visita (`crmapa.seen` vacío): **no** restaura `crmapa.view`; abre con `fitBounds(CR_BOUNDS)` (país entero, `maxZoom: 7.4`, márgenes). Opciones = defaults de Zustand si no hay `crmapa.v2`.
+- Visitas siguientes: sigue restaurando la última cámara.
+- Archivos: `hooks/hash.ts` (`isFirstVisit` / `markSeen`), `controller.ts`, `MapView.tsx`.
+
+### Hecho (2026-11-09) — boot splash + reveal
+
+- Splash Perezeando hasta `map load` + `idle` (mín. 700 ms, máx. 7 s).
+- Luego fade del splash y reveal escalonado: mapa → panel → toolbar.
+- Archivos: `BootSplash.tsx`, `lib/boot.ts`, `App.tsx`, `MapView.tsx`, `map.css`, i18n `boot_*`.
+
+### Pendiente próximo (pedido explícito)
+
+1. **Onboarding** (opcional): tour corto primera visita — panel, filtros, ruta, medir; skip + “no volver a mostrar”.
+2. Gastro sin foto; dominio custom media; OG middleware; tests filtros/`visiblePlaces`.
+3. Cola restante de lugares sin `img` (Fase B parcial).
 
 ---
 

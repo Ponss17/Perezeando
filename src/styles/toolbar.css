@@ -1,0 +1,460 @@
+.bm {
+  border: 0;
+  padding: 0;
+  background: none;
+  text-align: left;
+  font-size: 12px;
+  font-weight: 500;
+  color: var(--ink-2);
+}
+
+.bm .bm-img {
+  position: relative;
+  height: 56px;
+  border-radius: var(--r-2);
+  background-size: cover;
+  background-position: center;
+  box-shadow: inset 0 0 0 1px rgba(0, 0, 0, 0.08);
+  transition: box-shadow 0.12s;
+}
+
+.bm:hover .bm-img {
+  box-shadow:
+    inset 0 0 0 1px rgba(0, 0, 0, 0.08),
+    0 0 0 2px var(--line-strong);
+}
+
+.bm span {
+  display: block;
+  padding: 6px 2px 0;
+}
+
+.bm.active span {
+  color: var(--ink);
+  font-weight: 600;
+}
+
+.bm.active .bm-img {
+  box-shadow:
+    0 0 0 2px var(--paper),
+    0 0 0 4px var(--brand);
+}
+
+.bm-check {
+  position: absolute;
+  right: 4px;
+  top: 4px;
+  width: 18px;
+  height: 18px;
+  border-radius: 50%;
+  background: var(--brand);
+  color: #fff;
+  display: grid;
+  place-items: center;
+}
+
+.bm-check svg {
+  width: 12px;
+  height: 12px;
+  stroke-width: 2.5;
+}
+
+.toolbar {
+  position: absolute;
+  z-index: 1000;
+  top: 16px;
+  right: 16px;
+  display: flex;
+  flex-direction: column;
+  gap: 8px;
+}
+
+.tool-drawer {
+  display: contents;
+}
+
+.tool-menu {
+  display: none;
+}
+
+.tool-label {
+  display: none;
+}
+
+.tool-group {
+  display: flex;
+  flex-direction: column;
+  background: var(--paper);
+  border-radius: var(--r-2);
+  box-shadow:
+    var(--sh-1),
+    0 0 0 1px rgba(16, 24, 20, 0.08);
+}
+
+.tool-group > .tool,
+.tool-group > .tool-wrap {
+  border-top: 1px solid var(--line);
+}
+
+.tool-group > :first-child {
+  border-top: 0;
+}
+
+.tool {
+  width: 40px;
+  height: 40px;
+  border: 0;
+  background: none;
+  display: grid;
+  place-items: center;
+  padding: 0;
+  position: relative;
+}
+
+.tool-group > :first-child.tool,
+.tool-group > :first-child > .tool {
+  border-radius: var(--r-2) var(--r-2) 0 0;
+}
+
+.tool-group > :last-child.tool,
+.tool-group > :last-child > .tool {
+  border-radius: 0 0 var(--r-2) var(--r-2);
+}
+
+.tool-group > :only-child.tool {
+  border-radius: var(--r-2);
+}
+
+.tool:hover {
+  background: var(--paper-2);
+  color: var(--ink);
+}
+
+.tool svg {
+  width: 18px;
+  height: 18px;
+}
+
+.tool.txt em {
+  font: 600 12px/1 var(--font);
+  font-style: normal;
+  letter-spacing: 0.02em;
+}
+
+.tool.active {
+  color: var(--brand);
+  background: var(--brand-tint);
+}
+
+.tool.active::before {
+  content: '';
+  position: absolute;
+  top: 8px;
+  bottom: 8px;
+  width: 2px;
+  border-radius: 2px;
+}
+
+.tool-wrap {
+  position: relative;
+}
+
+.popover {
+  position: absolute;
+  right: 48px;
+  top: 0;
+  background: var(--paper);
+  border-radius: var(--r-3);
+  box-shadow:
+    var(--sh-2),
+    0 0 0 1px rgba(16, 24, 20, 0.06);
+  padding: 12px;
+  width: 304px;
+  max-height: calc(100vh - 32px);
+  overflow-y: auto;
+  display: none;
+}
+
+.popover.open {
+  display: block;
+  animation: pop 0.14s ease-out;
+}
+
+@keyframes tool-in {
+  0% {
+    height: 0;
+    opacity: 0;
+    border-top-width: 0;
+    transform: translateY(-8px) scale(0.62);
+  }
+  62% {
+    height: 40px;
+    opacity: 1;
+    transform: translateY(0) scale(1.12);
+  }
+  100% {
+    height: 40px;
+    opacity: 1;
+    transform: none;
+  }
+}
+
+@keyframes tool-out {
+  0% {
+    height: 40px;
+    opacity: 1;
+    transform: none;
+  }
+  38% {
+    height: 40px;
+    opacity: 1;
+    transform: scale(1.12);
+  }
+  100% {
+    height: 0;
+    opacity: 0;
+    border-top-width: 0;
+    transform: translateY(-8px) scale(0.62);
+  }
+}
+
+.pop-title {
+  font-size: 11px;
+  font-weight: 600;
+  letter-spacing: 0.08em;
+  text-transform: uppercase;
+  color: var(--muted);
+  margin: 0 0 8px;
+}
+
+.pop-toggles {
+  margin: 12px -4px 0;
+  padding-top: 8px;
+  border-top: 1px solid var(--line);
+}
+
+.pop-sub {
+  margin: 12px 0 2px;
+  padding-top: 10px;
+  border-top: 1px solid var(--line);
+}
+
+.pop-sub + .pop-toggles {
+  margin-top: 0;
+  padding-top: 0;
+  border-top: 0;
+}
+
+.pop-toggles .layer {
+  margin: 0;
+  padding: 0 4px;
+  height: 36px;
+}
+
+.tool {
+  color: var(--ink);
+}
+
+.tool.active::before {
+  background: var(--lime);
+  left: 3px;
+}
+
+.tool:focus-visible,
+#map .maplibregl-ctrl-group button:focus-visible {
+  outline: 2px solid var(--lime);
+  outline-offset: -2px;
+  box-shadow: none;
+}
+
+.tool-group {
+  position: relative;
+}
+
+.measure-label {
+  padding: 5px 10px;
+  border-radius: 8px;
+  background: var(--paper);
+  color: var(--ink);
+  box-shadow:
+    var(--sh-1),
+    0 0 0 1px var(--line);
+  font: 650 12.5px/1.2 var(--font);
+  white-space: nowrap;
+  pointer-events: none;
+}
+
+@media (max-width: 760px) {
+  .toolbar {
+    top: 8px;
+    right: 8px;
+    align-items: flex-end;
+    gap: 8px;
+    width: auto;
+    padding: 0;
+    background: none;
+    border-radius: 0;
+    box-shadow: none;
+  }
+  .tool-menu {
+    display: grid;
+    place-items: center;
+    width: 40px;
+    height: 40px;
+    border: 0;
+    border-radius: 10px;
+    background: var(--paper);
+    color: var(--tool);
+    box-shadow:
+      0 1px 3px rgba(16, 24, 20, 0.18),
+      0 0 0 1px var(--line);
+  }
+  .tool-menu svg {
+    width: 18px;
+    height: 18px;
+  }
+  .tool-menu.active {
+    background: var(--tool-on);
+    color: var(--tool-on-ink);
+  }
+  .tool-drawer {
+    display: none;
+  }
+  .toolbar.menu-on .tool-drawer {
+    display: flex;
+    flex-direction: column;
+    gap: 8px;
+    align-items: flex-end;
+    width: auto;
+  }
+  .toolbar.menu-on:not(.menu-open) .tool-drawer {
+    pointer-events: none;
+  }
+  .toolbar.menu-on .tool-group {
+    gap: 8px;
+    background: transparent !important;
+    box-shadow: none !important;
+  }
+  .toolbar.menu-on .tool-group > .tool,
+  .toolbar.menu-on .tool-group > .tool-wrap > .tool {
+    background: var(--paper);
+    color: var(--tool);
+    border-radius: 10px !important;
+    border-top: 0 !important;
+    box-shadow:
+      0 1px 3px rgba(16, 24, 20, 0.18),
+      0 0 0 1px var(--line);
+  }
+  .toolbar.menu-on .tool-group > .tool.active,
+  .toolbar.menu-on .tool-group > .tool-wrap > .tool.active {
+    background: var(--tool-on);
+    color: var(--tool-on-ink);
+  }
+  .toolbar.menu-on .tool-drawer .tool {
+    overflow: hidden;
+    transform-origin: top center;
+    animation: tool-out 0.22s cubic-bezier(0.2, 0.8, 0.2, 1) both;
+  }
+  .toolbar.menu-on .tool-drawer .tool-wrap {
+    overflow: visible;
+  }
+  .toolbar.menu-open .tool-drawer .tool {
+    animation-name: tool-in;
+  }
+  .toolbar.menu-open .tool-group:nth-child(1) .tool-wrap .tool {
+    animation-delay: 0ms;
+  }
+  .toolbar.menu-open .tool-group:nth-child(1) > .tool {
+    animation-delay: 55ms;
+  }
+  .toolbar.menu-open .tool-group:nth-child(2) > .tool:nth-child(1) {
+    animation-delay: 110ms;
+  }
+  .toolbar.menu-open .tool-group:nth-child(2) > .tool:nth-child(2) {
+    animation-delay: 165ms;
+  }
+  .toolbar.menu-open .tool-group:nth-child(3) > .tool:nth-child(1) {
+    animation-delay: 220ms;
+  }
+  .toolbar.menu-open .tool-group:nth-child(3) > .tool:nth-child(3) {
+    animation-delay: 275ms;
+  }
+  .toolbar.menu-open .tool-group:nth-child(3) > .tool:nth-child(4) {
+    animation-delay: 330ms;
+  }
+  .toolbar.menu-on:not(.menu-open) .tool-group:nth-child(1) .tool-wrap .tool {
+    animation-delay: 330ms;
+  }
+  .toolbar.menu-on:not(.menu-open) .tool-group:nth-child(1) > .tool {
+    animation-delay: 275ms;
+  }
+  .toolbar.menu-on:not(.menu-open) .tool-group:nth-child(2) > .tool:nth-child(1) {
+    animation-delay: 220ms;
+  }
+  .toolbar.menu-on:not(.menu-open) .tool-group:nth-child(2) > .tool:nth-child(2) {
+    animation-delay: 165ms;
+  }
+  .toolbar.menu-on:not(.menu-open) .tool-group:nth-child(3) > .tool:nth-child(1) {
+    animation-delay: 110ms;
+  }
+  .toolbar.menu-on:not(.menu-open) .tool-group:nth-child(3) > .tool:nth-child(3) {
+    animation-delay: 55ms;
+  }
+  .toolbar.menu-on:not(.menu-open) .tool-group:nth-child(3) > .tool:nth-child(4) {
+    animation-delay: 0ms;
+  }
+  @media (prefers-reduced-motion: reduce) {
+    .toolbar.menu-on .tool-drawer .tool {
+      animation: none;
+      height: 40px;
+      opacity: 1;
+      transform: none;
+    }
+  }
+  .hide-m {
+    display: none !important;
+  }
+  .popover {
+    z-index: 30;
+    top: 0;
+    right: calc(100% + 8px);
+    width: min(304px, calc(100vw - 64px));
+    max-height: min(70vh, calc(100vh - 96px));
+  }
+  .toolbar.menu-on .tool-drawer,
+  .toolbar.menu-on .tool-group {
+    overflow: visible;
+  }
+  .tip3d {
+    left: 12px;
+    right: 64px;
+    bottom: auto;
+    top: 72px;
+    transform: none;
+  }
+  .tool-menu,
+  .toolbar.menu-on .tool-drawer .tool,
+  .tool {
+    min-width: 44px;
+    min-height: 44px;
+  }
+}
+
+@media (max-width: 760px) and (max-height: 520px) and (orientation: landscape) {
+  .toolbar {
+    top: 6px;
+    right: 6px;
+  }
+}
+
+@media (pointer: coarse) {
+  .tool-menu,
+  .tool {
+    min-width: 44px;
+    min-height: 44px;
+  }
+  #map .maplibregl-ctrl-group button {
+    width: 44px;
+    height: 44px;
+  }
+}

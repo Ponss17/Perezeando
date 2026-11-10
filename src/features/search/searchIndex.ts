@@ -54,7 +54,11 @@ function ensure(d: AtlasData) {
         d1: norm(p.desc.es),
         d2: norm(p.desc.en),
         c: norm(CATEGORIES[p.cat].name.es + ' ' + CATEGORIES[p.cat].name.en),
-        k: norm([p.nick?.nickname, p.nick?.popularNickname, p.nick?.demonym, p.nick?.popularDemonym].filter(Boolean).join(' ')),
+        k: norm(
+          [p.nick?.nickname, p.nick?.popularNickname, p.nick?.demonym, p.nick?.popularDemonym]
+            .filter(Boolean)
+            .join(' '),
+        ),
         pv: norm(p.prov === 'mar' ? 'mar territorial territorial sea' : (d.provById.get(p.prov)?.name ?? '')),
       })),
       {

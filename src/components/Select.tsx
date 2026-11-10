@@ -26,18 +26,25 @@ export function Select({ value, options, onChange, ariaLabel }: Props) {
   const list = useRef<HTMLUListElement>(null);
   const typed = useRef({ s: '', t: 0 });
   const id = useId();
-  const cur = Math.max(0, options.findIndex((o) => o.value === value));
+  const cur = Math.max(
+    0,
+    options.findIndex((o) => o.value === value),
+  );
   const sel = options[cur];
+
+  const openList = () => {
+    setHi(cur);
+    setOpen(true);
+  };
 
   useEffect(() => {
     if (!open) return;
-    setHi(cur);
     const down = (e: PointerEvent) => {
       if (!root.current?.contains(e.target as Node)) setOpen(false);
     };
     document.addEventListener('pointerdown', down, true);
     return () => document.removeEventListener('pointerdown', down, true);
-  }, [open, cur]);
+  }, [open]);
 
   // Ajusta la altura y abre hacia arriba si no cabe abajo (p. ej. hoja móvil a media altura)
   useLayoutEffect(() => {
@@ -53,7 +60,8 @@ export function Select({ value, options, onChange, ariaLabel }: Props) {
   }, [open]);
 
   useEffect(() => {
-    if (open) list.current?.querySelector<HTMLElement>(`[data-i="${hi}"]`)?.scrollIntoView({ block: 'nearest' });
+    if (open)
+      list.current?.querySelector<HTMLElement>(`[data-i="${hi}"]`)?.scrollIntoView({ block: 'nearest' });
   }, [open, hi]);
 
   const pick = (i: number) => {
@@ -65,7 +73,7 @@ export function Select({ value, options, onChange, ariaLabel }: Props) {
     const n = options.length;
     if (e.key === 'ArrowDown' || e.key === 'ArrowUp') {
       e.preventDefault();
-      if (!open) return setOpen(true);
+      if (!open) return openList();
       setHi((h) => (h + (e.key === 'ArrowDown' ? 1 : n - 1)) % n);
     } else if (e.key === 'Home' && open) {
       e.preventDefault();
@@ -77,7 +85,7 @@ export function Select({ value, options, onChange, ariaLabel }: Props) {
       if (e.key === ' ' && typed.current.s) return;
       e.preventDefault();
       if (open) pick(hi);
-      else setOpen(true);
+      else openList();
     } else if (e.key === 'Escape') {
       if (open) {
         e.preventDefault();
@@ -91,7 +99,11 @@ export function Select({ value, options, onChange, ariaLabel }: Props) {
       const tq = typed.current;
       tq.s = now - tq.t > 700 ? e.key.toLowerCase() : tq.s + e.key.toLowerCase();
       tq.t = now;
-      const norm = (s: string) => s.normalize('NFD').replace(/[\u0300-\u036f]/g, '').toLowerCase();
+      const norm = (s: string) =>
+        s
+          .normalize('NFD')
+          .replace(/[\u0300-\u036f]/g, '')
+          .toLowerCase();
       const q = norm(tq.s);
       const start = open ? hi : cur;
       for (let k = 1; k <= n; k++) {
@@ -154,7 +166,7 @@ export function Select({ value, options, onChange, ariaLabel }: Props) {
         aria-expanded={open}
         aria-controls={id + '-list'}
         aria-activedescendant={open ? `${id}-${hi}` : undefined}
-        onClick={() => setOpen((o) => !o)}
+        onClick={() => (open ? setOpen(false) : openList())}
         onKeyDown={onKey}
       >
         {sel?.color && <span className="sx-dot sm" style={{ '--c': sel.color } as React.CSSProperties} />}

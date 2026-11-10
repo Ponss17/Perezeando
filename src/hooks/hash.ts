@@ -17,8 +17,25 @@ import { deselect, select } from '../store/actions';
  */
 
 const VIEW_KEY = 'crmapa.view';
+const SEEN_KEY = 'crmapa.seen';
 /** parámetros propios de la app en la query (el resto, p. ej. ?e2e, se conserva) */
 const OWN_PARAMS = ['ruta', 'provincia', 'lugar'];
+
+export function isFirstVisit() {
+  try {
+    return localStorage.getItem(SEEN_KEY) !== '1';
+  } catch {
+    return true;
+  }
+}
+
+export function markSeen() {
+  try {
+    localStorage.setItem(SEEN_KEY, '1');
+  } catch {
+    /* ignore */
+  }
+}
 
 const isLegacy = (hash: string) => hash.includes('=');
 
@@ -75,7 +92,7 @@ export function readHash(): Partial<AppState> {
     const p = provFromSlug(d, provincia);
     if (p) out.prov = p;
   }
-  if (!out.initialView && !out.sel) {
+  if (!out.initialView && !out.sel && !isFirstVisit()) {
     const v = loadView();
     if (v) out.initialView = v;
   }
@@ -85,7 +102,9 @@ export function readHash(): Partial<AppState> {
 function loadView(): [number, number, number] | null {
   try {
     const v = JSON.parse(localStorage.getItem(VIEW_KEY) ?? 'null');
-    return Array.isArray(v) && v.length === 3 && v.every(Number.isFinite) ? (v as [number, number, number]) : null;
+    return Array.isArray(v) && v.length === 3 && v.every(Number.isFinite)
+      ? (v as [number, number, number])
+      : null;
   } catch {
     return null;
   }
@@ -151,7 +170,8 @@ export function useHashSync(enabled: boolean) {
       if (s.sel === prev.sel || fromHistory) return;
       const was = prev.sel?.kind === 'place';
       const is = s.sel?.kind === 'place';
-      if (is && !was) write('push'); // abrir un lugar → "atrás" lo cierra
+      if (is && !was)
+        write('push'); // abrir un lugar → "atrás" lo cierra
       else if (!is && was && history.state?.crPlace) {
         // cerrar con la X: volver a la entrada anterior (sin lugar)
         fromHistory = true;
@@ -166,7 +186,11 @@ export function useHashSync(enabled: boolean) {
       clearTimeout(vt);
       vt = setTimeout(() => {
         const v = getMap()?.getView();
-        if (v) localStorage.setItem(VIEW_KEY, JSON.stringify([+v[0].toFixed(4), +v[1].toFixed(4), +v[2].toFixed(2)]));
+        if (v)
+          localStorage.setItem(
+            VIEW_KEY,
+            JSON.stringify([+v[0].toFixed(4), +v[1].toFixed(4), +v[2].toFixed(2)]),
+          );
       }, 400);
     });
 
@@ -187,7 +211,8 @@ export function useHashSync(enabled: boolean) {
         write('replace');
         return;
       }
-      const id = (h.length > 1 && !isLegacy(h) ? placeFromSlug(d, h.slice(1)) : null) || placeFromSlug(d, lugarSlug());
+      const id =
+        (h.length > 1 && !isLegacy(h) ? placeFromSlug(d, h.slice(1)) : null) || placeFromSlug(d, lugarSlug());
       const cur = getApp().sel;
       fromHistory = true;
       if (id && !(cur?.kind === 'place' && cur.id === id)) select(id);

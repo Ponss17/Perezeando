@@ -1,17 +1,7 @@
 import { useEffect, useRef, useState } from 'react';
 import { useApp, setApp } from '../store/useApp';
 import { useT } from '../i18n';
-import {
-  doPrint,
-  exportGeojson,
-  locate,
-  share,
-  toggle3d,
-  toggleMeasure,
-  toggleNight,
-  toggleOv,
-} from '../store/actions';
-import { haversine } from '../lib/geo';
+import { doPrint, locate, share, toggle3d, toggleMeasure, toggleNight, toggleOv } from '../store/actions';
 import { BasemapGrid } from '../features/layers/BasemapGrid';
 import { LayerRow } from '../features/layers/LayerRow';
 import type { Overlays } from '../data/types';
@@ -36,11 +26,6 @@ export function Toolbar() {
   const locating = useApp((s) => s.locating);
   const night = useApp((s) => s.night);
   const measure = useApp((s) => s.measure);
-  const measurePts = useApp((s) => s.measurePts);
-  const km =
-    measurePts.length === 2
-      ? haversine([measurePts[0][1], measurePts[0][0]], [measurePts[1][1], measurePts[1][0]])
-      : null;
   const sel = useApp((s) => s.sel);
   const bar = useRef<HTMLDivElement>(null);
   const wrap = useRef<HTMLDivElement>(null);
@@ -60,7 +45,7 @@ export function Toolbar() {
     setPhase('closing');
     setApp({ basemapPop: false });
     window.clearTimeout(closeTimer.current);
-    const wait = window.matchMedia('(prefers-reduced-motion: reduce)').matches ? 0 : 500;
+    const wait = window.matchMedia('(prefers-reduced-motion: reduce)').matches ? 0 : 580;
     closeTimer.current = window.setTimeout(() => {
       phaseRef.current = 'closed';
       setPhase('closed');
@@ -94,11 +79,6 @@ export function Toolbar() {
       document.removeEventListener('keydown', onKey);
     };
   }, [pop, phase]);
-
-  const done = (fn: () => void) => () => {
-    fn();
-    if (isMobile()) shut();
-  };
 
   return (
     <div
@@ -149,7 +129,7 @@ export function Toolbar() {
             title={is3d ? t('exit3d') : t('view3d')}
             aria-label={is3d ? t('exit3d') : t('view3d')}
             aria-pressed={is3d}
-            onClick={done(() => toggle3d())}
+            onClick={() => toggle3d()}
           >
             <em>3D</em>
             <span className="tool-label">{is3d ? t('exit3d') : t('view3d')}</span>
@@ -160,41 +140,28 @@ export function Toolbar() {
             className={'tool' + (locating ? ' busy' : '')}
             title={t('locate')}
             aria-label={t('locate')}
-            onClick={done(() => locate(false))}
+            onClick={() => locate(false)}
           >
             <Icon name="locate" />
             <span className="tool-label">{t('locate')}</span>
           </button>
           <button
             className={'tool' + (measure ? ' active' : '')}
-            title={
-              km != null
-                ? `${km < 1 ? Math.round(km * 1000) + ' m' : km.toFixed(km < 10 ? 1 : 0) + ' km'}`
-                : t('measure_hint')
-            }
+            title={t('measure_hint')}
             aria-label={t('measure')}
             aria-pressed={measure}
-            onClick={done(() => toggleMeasure())}
+            onClick={() => toggleMeasure()}
           >
             <Icon name="ruler" />
             <span className="tool-label">{t('measure')}</span>
           </button>
-          {measure && (
-            <span className="measure-readout" role="status">
-              {km != null
-                ? km < 1
-                  ? Math.round(km * 1000) + ' m'
-                  : km.toFixed(km < 10 ? 1 : 0) + ' km'
-                : t('measure_hint')}
-            </span>
-          )}
         </div>
         <div className="tool-group secondary">
           <button
             className="tool"
             title={t('share')}
             aria-label={t('share')}
-            onClick={done(() => share(sel?.kind === 'place' ? sel.id : null))}
+            onClick={() => share(sel?.kind === 'place' ? sel.id : null)}
           >
             <Icon name="share-2" />
             <span className="tool-label">{t('share')}</span>
@@ -204,20 +171,11 @@ export function Toolbar() {
             <span className="tool-label">{t('print')}</span>
           </button>
           <button
-            className="tool hide-m"
-            title={t('export_geojson')}
-            aria-label={t('export_geojson')}
-            onClick={exportGeojson}
-          >
-            <Icon name="download" />
-            <span className="tool-label">{t('export_geojson')}</span>
-          </button>
-          <button
             className={'tool' + (night ? ' active' : '')}
             title={t('night')}
             aria-label={t('night')}
             aria-pressed={night}
-            onClick={done(() => toggleNight())}
+            onClick={() => toggleNight()}
           >
             <Icon name={night ? 'sun' : 'moon'} />
             <span className="tool-label">{t('night')}</span>
@@ -226,7 +184,7 @@ export function Toolbar() {
             className="tool txt lang"
             title={t('language')}
             aria-label={t('language')}
-            onClick={done(() => setApp({ lang: lang === 'es' ? 'en' : 'es' }))}
+            onClick={() => setApp({ lang: lang === 'es' ? 'en' : 'es' })}
           >
             <em>{lang === 'es' ? 'EN' : 'ES'}</em>
             <span className="tool-label">{t('language')}</span>

@@ -158,6 +158,8 @@ export function Panel() {
 export function PanelOpenButton() {
   const { t } = useT();
   const open = useApp((s) => s.panelOpen);
+  const hasPlace = useApp((s) => s.sel?.kind === 'place');
+  const cta = hasPlace ? t('view_detail') : t('tab_explore');
   return (
     <button
       className={'panel-open-btn' + (open ? '' : ' show')}
@@ -174,8 +176,8 @@ export function PanelOpenButton() {
         <b>{t('brand_name')}</b>
       </span>
       <span className="pob-cta">
-        <Icon name="panel-left-open" />
-        <span>{t('tab_explore')}</span>
+        <Icon name={hasPlace ? 'panel-left-open' : 'compass'} />
+        <span>{cta}</span>
       </span>
     </button>
   );

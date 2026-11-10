@@ -27,7 +27,7 @@ function writeServiceWorker(out: string, root: string) {
   const rel = (f: string) => path.relative(out, f).split(path.sep).join('/');
   const files = walk(out).filter((f) => !/\.(br|gz)$/.test(f)).map(rel);
   const shell = files
-    .filter((f) => f === 'index.html' || f === 'manifest.webmanifest' || /^(assets|fonts|icons)\//.test(f) || /^(favicon[^/]*|apple-touch-icon\.png|logo[^/]*\.svg|mascot[^/]*\.svg)$/.test(f))
+    .filter((f) => f === 'index.html' || f === 'manifest.webmanifest' || /^(assets|fonts|icons|mascots)\//.test(f) || /^(favicon[^/]*|apple-touch-icon\.png)$/.test(f))
     .sort();
   const dataFiles = ['atlas.json', 'geoms.json', 'provinces-content.json'];
   const data: Record<string, string> = {};

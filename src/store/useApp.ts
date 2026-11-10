@@ -7,6 +7,7 @@ import type {
   Lang,
   LatLng,
   Overlays,
+  IntentionTag,
   ProvinceFilter,
   RouteResult,
   Selection,
@@ -33,8 +34,12 @@ export interface AppState {
   active: CategoryId[];
   prov: ProvinceFilter;
   cat: CategoryId | 'all';
+  /** filtro por intención (playas tranquilas, niños, aventura) */
+  intention: IntentionTag | null;
   query: string;
   near: boolean;
+  /** ordenar Explorar por cercanía a este lugar (no es el pin GPS) */
+  nearPlace: string | null;
   me: LatLng | null;
   meAcc: number;
   is3d: boolean;
@@ -73,8 +78,10 @@ export const useApp = create<AppState>()(
       active: [...DEFAULT_ACTIVE],
       prov: 'all' as ProvinceFilter,
       cat: 'all' as const,
+      intention: null,
       query: '',
       near: false,
+      nearPlace: null,
       me: null,
       meAcc: 0,
       is3d: false,
@@ -95,17 +102,16 @@ export const useApp = create<AppState>()(
     }),
     {
       name: 'crmapa.v2',
-      version: 3,
-      // v2: nuevas categorías (museos, iglesias, arqueología, deportes) visibles para quien ya tenía filtros guardados
+      version: 4,
       migrate: (persisted, version) => {
         const p = (persisted ?? {}) as Partial<AppState>;
         if (version < 2 && Array.isArray(p.active)) {
           const add: CategoryId[] = ['museos', 'iglesias', 'arqueologia', 'deportes'];
           p.active = [...new Set([...p.active, ...add])];
         }
-        // v3: surf y gastronomía (OpenStreetMap)
         if (version < 3 && Array.isArray(p.active))
           p.active = [...new Set([...p.active, 'surf', 'gastronomia'] as CategoryId[])];
+        if (version < 4 && Array.isArray(p.active)) p.active = p.active.filter((c) => c !== 'submarinas');
         return p as AppState;
       },
       storage: createJSONStorage(() => localStorage),

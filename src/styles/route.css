@@ -1,0 +1,139 @@
+.route-summary:empty {
+  display: none;
+}
+
+.route-summary {
+  margin: 12px 0 0;
+}
+
+.route-card {
+  display: grid;
+  grid-template-columns: repeat(3, minmax(0, 1fr));
+  gap: 0;
+  border: 0;
+  border-radius: var(--r-3);
+  background: var(--paper-2);
+  box-shadow: none;
+  overflow: hidden;
+}
+
+.route-card .stat {
+  padding: 10px 8px;
+  text-align: center;
+  min-width: 0;
+}
+
+.route-card .stat + .stat {
+  box-shadow: inset 1px 0 0 var(--line);
+}
+
+.route-card small {
+  display: block;
+  font-size: 10.5px;
+  font-weight: 600;
+  letter-spacing: 0.06em;
+  text-transform: uppercase;
+  color: var(--muted);
+}
+
+.route-card b {
+  display: block;
+  margin-top: 3px;
+  font-family: var(--serif);
+  font-size: 18px;
+  font-weight: 600;
+  color: var(--ink);
+  font-variant-numeric: tabular-nums;
+  white-space: nowrap;
+  overflow: hidden;
+  text-overflow: ellipsis;
+}
+
+.route-card.loading {
+  display: flex;
+  align-items: center;
+  gap: 10px;
+  padding: 12px;
+  color: var(--muted);
+  font-size: 13px;
+}
+
+.stops {
+  list-style: none;
+  margin: 12px 0 0;
+  padding: 0;
+}
+
+.leg {
+  position: relative;
+  display: flex;
+  align-items: center;
+  gap: 8px;
+  min-height: 28px;
+  padding: 2px 0 2px 36px;
+  font-size: 12px;
+  color: var(--muted);
+  font-variant-numeric: tabular-nums;
+}
+
+.leg::before {
+  content: '';
+  position: absolute;
+  left: 11px;
+  top: -8px;
+  bottom: -8px;
+  border-left: 2px dotted var(--line-strong);
+}
+
+.leg svg {
+  width: 14px;
+  height: 14px;
+}
+
+.leg.empty-leg {
+  min-height: 12px;
+}
+
+#routeSuggest:not(:empty) {
+  margin-top: 4px;
+  border: 1px solid var(--line);
+  border-radius: var(--r-2);
+  padding: 4px;
+  margin-left: 0;
+  margin-right: 0;
+}
+
+#routeActions {
+  margin-top: 16px;
+}
+
+.day-head {
+  display: flex;
+  flex-wrap: wrap;
+  align-items: center;
+  gap: 8px 12px;
+  margin: 10px 0 4px;
+  padding: 8px 10px;
+  list-style: none;
+  border-radius: 10px;
+  background: var(--tint-2);
+  color: var(--ink);
+}
+
+.day-head b {
+  font-size: 13px;
+}
+
+.day-head small {
+  color: var(--muted);
+  font-variant-numeric: tabular-nums;
+}
+
+.day-head .text-btn {
+  margin-left: auto;
+}
+
+.leg .text-btn {
+  margin-left: auto;
+  font-size: 12px;
+}

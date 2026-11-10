@@ -1,3 +1,9 @@
 @import './theme.css';
 @import './app.css';
+@import './panel.css';
+@import './detail.css';
+@import './route.css';
+@import './toolbar.css';
 @import './map.css';
+@import './theme-overrides.css';
+@import './print.css';

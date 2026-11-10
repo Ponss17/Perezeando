@@ -141,7 +141,6 @@ const places = [...curated, ...wd, ...osm, ...added, ...faunaAdded].map((p) => {
   const q = { ...p, lat: r(p.lat, 5), lng: r(p.lng, 5) };
   const x = extra[p.id];
   if (x) { q.x = { ...x }; if (x.img) q.x.img = { ...x.img, src: cleanUrl(x.img.src) }; if (!q.img && x.img) q.img = q.x.img; }
-  // photos-hand siempre gana (correcciones curadas, p.ej. P18 de Wikidata mal asignada)
   if (hand[p.id]) q.img = { ...hand[p.id] };
   else if (!q.img && photos[p.id]) q.img = { ...photos[p.id] };
   if (q.img) q.img = { ...q.img, src: cleanUrl(q.img.src) };

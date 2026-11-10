@@ -17,7 +17,9 @@ export function AppStatus() {
       {update && (
         <div className="update-toast" role="status">
           <span>{t('update_avail')}</span>
-          <span className="dot" aria-hidden="true">·</span>
+          <span className="dot" aria-hidden="true">
+            ·
+          </span>
           <button onClick={applyUpdate}>{t('update_btn')}</button>
         </div>
       )}

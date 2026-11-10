@@ -144,9 +144,21 @@ export interface Place {
     activities?: LocalizedText;
     difficulty?: LocalizedText;
     note?: LocalizedText;
+    /** mejor época / temporada */
+    season?: LocalizedText;
+    /** servicios en sitio (cuando hay fuente) */
+    services?: LocalizedText;
+    /** distancia/tiempo desde San José (texto citado) */
+    fromSjo?: LocalizedText;
+    /** ciudad o pueblo de referencia */
+    nearestCity?: LocalizedText;
     src?: SourceRef;
   };
+  /** etiquetas de intención (kids, calm_beach, adventure…) */
+  tags?: IntentionTag[];
 }
+
+export type IntentionTag = 'kids' | 'calm_beach' | 'adventure';
 
 export interface ProvinceProps {
   id: ProvinceId;

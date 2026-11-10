@@ -43,7 +43,7 @@ export const CATEGORIES: Record<CategoryId, Category> = {
     'Fauna terrestre',
     'Land wildlife',
   ),
-  fauna: c('fauna', 'fish', '#3d7690', 'Fauna marina', 'Marine wildlife', 'Fauna marina', 'Marine wildlife'),
+  fauna: c('fauna', 'fish', '#0284c7', 'Fauna marina', 'Marine wildlife', 'Fauna marina', 'Marine wildlife'),
   ciudades: c('ciudades', 'building-2', '#386641', 'Ciudades y pueblos', 'Cities & towns', 'Ciudad', 'City'),
   hitos: c(
     'hitos',
@@ -58,7 +58,7 @@ export const CATEGORIES: Record<CategoryId, Category> = {
   hitosOceanicos: c(
     'hitosOceanicos',
     'shell',
-    '#1f6f9a',
+    '#0e7490',
     'Hitos oceánicos',
     'Ocean highlights',
     'Hito oceánico',
@@ -67,7 +67,7 @@ export const CATEGORIES: Record<CategoryId, Category> = {
   submarinas: c(
     'submarinas',
     'activity',
-    '#5d6a9a',
+    '#6366f1',
     'Relieve submarino',
     'Undersea relief',
     'Relieve submarino',
@@ -76,7 +76,7 @@ export const CATEGORIES: Record<CategoryId, Category> = {
   isras: c(
     'isras',
     'shield',
-    '#6d7f58',
+    '#059669',
     'ISRA (tiburones y rayas)',
     'ISRA (sharks & rays)',
     'Área ISRA',
@@ -85,7 +85,7 @@ export const CATEGORIES: Record<CategoryId, Category> = {
   immas: c(
     'immas',
     'sailboat',
-    '#2c4285',
+    '#1d4ed8',
     'IMMA (mamíferos marinos)',
     'IMMA (marine mammals)',
     'Área IMMA',
@@ -164,7 +164,7 @@ export const CAT_SHAPE = Object.fromEntries(
   GROUPS.flatMap((g) => g.cats.map((c) => [c, SHAPE_BY_GROUP[g.id] ?? 'circle'])),
 ) as Record<CategoryId, MarkerShape>;
 
-export const DEFAULT_OFF: CategoryId[] = ['isras', 'immas'];
+export const DEFAULT_OFF: CategoryId[] = ['isras', 'immas', 'submarinas'];
 export const DEFAULT_ACTIVE: CategoryId[] = CATEGORY_IDS.filter((x) => !DEFAULT_OFF.includes(x));
 export const DEFAULT_OVERLAYS: Overlays = { prov: true, eez: true, hill: false, cluster: true };
 export const DEFAULT_BASE: BasemapId = 'satellite';
@@ -231,10 +231,10 @@ export const ENDPOINTS = {
 
 export { PROVINCE_IDS };
 
-/** Límites aproximados de Costa Rica [[w,s],[e,n]] */
+/** Límites aproximados de Costa Rica [[w,s],[e,n]] — más tierra, menos Pacífico vacío */
 export const CR_BOUNDS: [[number, number], [number, number]] = [
-  [-86.0, 8.0],
-  [-82.5, 11.25],
+  [-85.95, 8.05],
+  [-82.55, 11.15],
 ];
 /** Límite de navegación del mapa: tierra firme + Isla del Coco + ZEE, con margen [[w,s],[e,n]] */
 export const MAX_BOUNDS: [[number, number], [number, number]] = [

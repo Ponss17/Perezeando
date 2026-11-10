@@ -3,6 +3,7 @@ import { getData } from '../data/load';
 import type {
   BasemapId,
   CategoryId,
+  IntentionTag,
   Overlays,
   Place,
   ProvinceFilter,
@@ -16,7 +17,6 @@ import { boundsOf, haversine, ll, positions } from '../lib/geo';
 import { getMap, withMap } from '../lib/mapBus';
 import { inCat, isMobile, visiblePlaces } from '../lib/selectors';
 import { download } from '../lib/download';
-import { wikiTarget, wikiUrl } from '../lib/wiki';
 import { buildGpx, optimizeOrder } from '../features/route/routing';
 import { shareUrl } from '../hooks/hash';
 
@@ -136,8 +136,12 @@ export const layersAll = () => setApp({ active: [...CATEGORY_ORDER] });
 export const layersNone = () => setApp({ active: [], cat: 'all' });
 
 export function clearFilters() {
-  setApp({ near: false, cat: 'all' });
+  setApp({ near: false, nearPlace: null, cat: 'all', intention: null, query: '' });
   setProv('all', true);
+}
+
+export function setIntention(tag: IntentionTag | null) {
+  setApp({ intention: tag, near: false, nearPlace: null, query: '' });
 }
 
 export const setBase = (base: BasemapId) => setApp({ base, basemapPop: false });
@@ -269,33 +273,6 @@ export function exportGpx() {
   download('ruta-costa-rica.gpx', buildGpx(s.lang, stops, data), 'application/gpx+xml');
 }
 
-export function exportGeojson() {
-  const d = getData();
-  const s = getApp();
-  if (!d) return;
-  const fc = {
-    type: 'FeatureCollection',
-    features: visiblePlaces(s, d.places).map((p) => {
-      const w = wikiTarget(s.lang, p.wiki);
-      return {
-        type: 'Feature',
-        geometry: { type: 'Point', coordinates: [p.lng, p.lat] },
-        properties: {
-          id: p.id,
-          name: L(p.name),
-          category: catName(p.cat),
-          province: provName(p.prov),
-          description: L(p.desc),
-          wikipedia: w ? wikiUrl(w) : null,
-          favorite: s.favs.includes(p.id),
-        },
-      };
-    }),
-  };
-  download('costa-rica-lugares.geojson', JSON.stringify(fc, null, 1), 'application/geo+json');
-  toast(`${fc.features.length} ${t('count_places')} → GeoJSON`);
-}
-
 /* ---------------- Geolocalización ---------------- */
 let lastListNear = false;
 export const dismissNotice = () => setApp({ notice: null });
@@ -348,7 +325,14 @@ export async function locate(listNear: boolean) {
   if (inside) withMap((m) => m.flyTo(me[0], me[1], 9));
   if (!inside) geoNotice('outside');
   if (listNear) {
-    setApp({ near: true, query: '', tab: 'explore', detailOpen: false, panelOpen: true });
+    setApp({
+      near: true,
+      nearPlace: null,
+      query: '',
+      tab: 'explore',
+      detailOpen: false,
+      panelOpen: true,
+    });
     if (isMobile()) setSheet('half');
   }
 }
@@ -377,11 +361,23 @@ export async function share(id?: string | null) {
 }
 
 export async function doPrint() {
-  if (getApp().is3d) setApp({ is3d: false });
+  const was3d = getApp().is3d;
+  if (was3d) setApp({ is3d: false });
+  toast(t('print_preparing'));
+  if (was3d) await new Promise((r) => setTimeout(r, 420));
   const img = await getMap()?.snapshot();
   const el = document.getElementById('printImg') as HTMLImageElement | null;
-  if (el && img) el.src = img;
-  setTimeout(() => window.print(), 80);
+  if (el && img) {
+    await new Promise<void>((resolve) => {
+      const done = () => resolve();
+      el.onload = done;
+      el.onerror = done;
+      el.src = img;
+      if (el.complete) done();
+    });
+  }
+  setApp({ toast: null });
+  window.setTimeout(() => window.print(), 60);
 }
 
 export function toggleNight() {
@@ -407,25 +403,58 @@ export function addMeasurePoint(lng: number, lat: number) {
   });
 }
 
-export const nearbyOf = (id: string, n = 5) => {
+/** Vecinos más cercanos; con diversify prioriza distintas categorías */
+export const nearbyOf = (id: string, n = 6, opts: { diversify?: boolean } = {}) => {
   const d = getData();
   const p = d?.byId.get(id);
   if (!d || !p) return [];
   const here = ll(p);
-  const best: { q: Place; km: number }[] = [];
+  const pool: { q: Place; km: number }[] = [];
+  const want = Math.max(n * 8, 40);
   for (const q of d.places) {
     if (q.id === id) continue;
     const km = haversine(here, ll(q));
-    if (best.length < n) {
-      best.push({ q, km });
-      if (best.length === n) best.sort((a, b) => a.km - b.km);
-    } else if (km < best[n - 1].km) {
-      best[n - 1] = { q, km };
-      best.sort((a, b) => a.km - b.km);
+    if (pool.length < want) {
+      pool.push({ q, km });
+      if (pool.length === want) pool.sort((a, b) => a.km - b.km);
+    } else if (km < pool[want - 1].km) {
+      pool[want - 1] = { q, km };
+      pool.sort((a, b) => a.km - b.km);
     }
   }
-  return best.map((b) => [b.q, b.km] as const);
+  pool.sort((a, b) => a.km - b.km);
+  if (!opts.diversify) return pool.slice(0, n).map((b) => [b.q, b.km] as const);
+  const picked: { q: Place; km: number }[] = [];
+  const seen = new Set<string>();
+  for (const c of pool) {
+    if (picked.length >= n) break;
+    if (seen.has(c.q.cat)) continue;
+    picked.push(c);
+    seen.add(c.q.cat);
+  }
+  for (const c of pool) {
+    if (picked.length >= n) break;
+    if (picked.some((x) => x.q.id === c.q.id)) continue;
+    picked.push(c);
+  }
+  return picked.map((b) => [b.q, b.km] as const);
 };
+
+/** Abre Explorar ordenado por cercanía a un lugar (sin mover el pin de “yo”) */
+export function openNearbyExplore(fromId: string) {
+  if (!getData()?.byId.has(fromId)) return;
+  setApp({
+    nearPlace: fromId,
+    near: true,
+    query: '',
+    tab: 'explore',
+    detailOpen: false,
+    panelOpen: true,
+    cat: 'all',
+    prov: 'all',
+  });
+  if (isMobile()) setSheet('half');
+}
 
 // ganchos para pruebas automáticas (?e2e)
 if (typeof location !== 'undefined' && location.search.includes('e2e'))
