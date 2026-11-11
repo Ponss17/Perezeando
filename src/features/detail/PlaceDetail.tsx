@@ -1,4 +1,4 @@
-import { useEffect, useLayoutEffect, useMemo, useRef, useState, type RefObject } from 'react';
+import { useEffect, useLayoutEffect, useMemo, useRef, useState } from 'react';
 import { useApp } from '../../store/useApp';
 import { useData } from '../../data/load';
 import { useT } from '../../i18n';
@@ -13,9 +13,9 @@ import {
   toggleFav,
   toggleRoute,
 } from '../../store/actions';
-import { fmt } from '../../lib/format';
+import { fmt, norm } from '../../lib/format';
 import { haversine, ll } from '../../lib/geo';
-import { fetchWikiSummary, wikiTarget, wikiUrl } from '../../lib/wiki';
+import { wikiTarget, wikiUrl } from '../../lib/wiki';
 import {
   HERO_W,
   isImageReady,
@@ -30,42 +30,25 @@ import {
 import { iconSvg } from '../../lib/icons';
 import { directionsUrl } from '../route/routing';
 import { Icon } from '../../components/Icon';
-import { PlaceItem, Thumb } from '../../components/PlaceItem';
+import { PlaceItem } from '../../components/PlaceItem';
 import { Attrib, Facts, HeroTop, NickSub, Qa, SourceBox, nickRow } from './parts';
 import { altName, genericLabel, isGenericName } from '../../lib/names';
 import { MiniMarker } from '../../components/MiniMarker';
+import { RelatedBlock, StickyTitle, TipsBlock, VisitBlock } from './placeBlocks';
+import { useDetailScroll, useWikiSummary } from './hooks';
 
-/** San José centro (referencia aproximada para distancias en ficha) */
 const SJO: [number, number] = [9.9281, -84.0907];
 
-/** Ficha de un lugar (cargada bajo demanda) */
 export default function PlaceDetail({ id }: { id: string }) {
   const { t, L, lang } = useT();
   const p = useData((s) => s.data!.byId.get(id)) as Place;
   const fav = useApp((s) => s.favs.includes(id));
   const inRoute = useApp((s) => s.route.includes(id));
   const w = wikiTarget(lang, p.wiki);
-  const wkey = w ? w.lang + ':' + w.title : '';
-  const [wiki, setWiki] = useState<{ key: string; ex?: string; failed?: boolean } | null>(null);
+  const { wiki: wk } = useWikiSummary(w);
   const pkey = id + ':' + lang;
   const [photo, setPhoto] = useState<{ key: string; ph: PlacePhoto | null } | null>(null);
-  const ref = useRef<HTMLElement>(null);
-
-  useEffect(() => {
-    ref.current?.closest('.detail-pane, .panel-body')?.scrollTo({ top: 0 });
-  }, [id]);
-
-  useEffect(() => {
-    if (!w) return;
-    let live = true;
-    fetchWikiSummary(w)
-      .then((d) => live && setWiki({ key: wkey, ex: d.extract ?? '' }))
-      .catch(() => live && setWiki({ key: wkey, failed: true }));
-    return () => {
-      live = false;
-    };
-    // eslint-disable-next-line react-hooks/exhaustive-deps
-  }, [wkey]);
+  const ref = useDetailScroll(id);
 
   useEffect(() => {
     let live = true;
@@ -77,22 +60,19 @@ export default function PlaceDetail({ id }: { id: string }) {
   }, [pkey]);
 
   const near = useMemo(() => nearbyOf(id, 6, { diversify: true }), [id]);
-  // precarga las portadas de los lugares cercanos (los siguientes clics más probables)
+
   useEffect(() => {
     const tm = setTimeout(() => near.forEach(([q]) => prefetchPhoto(q, lang)), 1800);
     return () => clearTimeout(tm);
     // eslint-disable-next-line react-hooks/exhaustive-deps
   }, [id, lang]);
   const c = CATEGORIES[p.cat];
-  const wk = wiki && wiki.key === wkey ? wiki : null;
   const other = altName(lang, p.name);
   const f = p.facts ?? {};
   const known = knownPhoto(p, lang);
-  // undefined = todavía buscando; null = no hay foto
   const ph: PlacePhoto | null | undefined =
     known !== undefined ? known : photo && photo.key === pkey ? photo.ph : undefined;
 
-  // datos clave (chips bajo el título)
   const measure = f.alt
     ? { icon: 'mountain', k: t('altitude'), v: fmt(lang, f.alt) }
     : f.area
@@ -114,7 +94,7 @@ export default function PlaceDetail({ id }: { id: string }) {
   if (x.pop) rows.push([t('population'), x.pop.toLocaleString(lang)]);
   if (!f.year && x.inception) rows.push([t('inception'), x.inception]);
   if (x.her) rows.push([t('heritage'), L(x.her)]);
-  // provincia y la medida principal ya van en los chips de arriba: no se repiten en la tabla
+
   if (measure) {
     const i = rows.findIndex(([k]) => k === measure.k);
     if (i >= 0) rows.splice(i, 1);
@@ -137,7 +117,7 @@ export default function PlaceDetail({ id }: { id: string }) {
       ) : (
         <PhotoHero key={pkey} p={p} ph={ph} w={w} />
       )}
-      <StickyTitle p={p} name={displayName} hostRef={ref} />
+      <StickyTitle key={p.id} p={p} name={displayName} hostRef={ref} />
       <div className="detail-body">
         <h2 className={isGenericName(p, lang) ? 'is-generic' : undefined}>{displayName}</h2>
         <NickSub n={p.nick} />
@@ -279,23 +259,18 @@ export default function PlaceDetail({ id }: { id: string }) {
   );
 }
 
-/** el resumen de Wikipedia ya dice lo mismo que la descripción corta (evita texto repetido) */
 const plain = (x: string) =>
-  x
-    .normalize('NFD')
-    .replace(/[\u0300-\u036f]/g, '')
-    .toLowerCase()
+  norm(x)
     .replace(/[^a-z0-9 ]/g, '')
     .replace(/\s+/g, ' ')
     .trim();
 function sameText(a: string, b?: string) {
   if (!b) return false;
-  const x = plain(a),
-    y = plain(b);
+  const x = plain(a);
+  const y = plain(b);
   return x.length > 25 && (y.startsWith(x.slice(0, 60)) || y.includes(x));
 }
 
-/** Panel de fuentes: Wikivoyage, Wikidata, sitio oficial y SINAC */
 function PlaceSources({ p }: { p: Place }) {
   const { t, lang } = useT();
   const x = p.x ?? {};
@@ -320,7 +295,6 @@ function PlaceSources({ p }: { p: Place }) {
   );
 }
 
-/** Resumen de Wikipedia recortado a 3 líneas con "Leer más" */
 function WikiBlock({ text, href }: { text?: string; href: string }) {
   const { t } = useT();
   const [open, setOpen] = useState(false);
@@ -359,11 +333,9 @@ function WikiBlock({ text, href }: { text?: string; href: string }) {
   );
 }
 
-/** Portada sin foto: degradado del color de la categoría con patrón de íconos y,
- *  encima, una vista satelital estática del punto con su marcador */
 function NoPhotoHero({ p, pending }: { p: Place; pending: boolean }) {
   const { lang, t } = useT();
-  // restaurantes y sodas: marcador ilustrado de la categoría, sin satélite ni fotos ajenas
+
   const food = p.cat === 'gastronomia';
   const c = CATEGORIES[p.cat];
   const [sat, setSat] = useState<'loading' | 'ok' | 'err'>('loading');
@@ -413,9 +385,6 @@ function NoPhotoHero({ p, pending }: { p: Place; pending: boolean }) {
 
 type Wiki = ReturnType<typeof wikiTarget>;
 
-/** Portada con foto: espacio fijo + placeholder neutro hasta que la imagen está
- *  decodificada; luego aparece con un fundido. Se monta de nuevo por lugar, así
- *  nunca queda la foto del lugar anterior debajo del nombre nuevo. */
 function PhotoHero({ p, ph, w }: { p: Place; ph: PlacePhoto | undefined; w: Wiki }) {
   const c = CATEGORIES[p.cat];
   const src = ph ? sizedThumb(ph.src, HERO_W) : '';
@@ -451,91 +420,6 @@ function PhotoHero({ p, ph, w }: { p: Place; ph: PlacePhoto | undefined; w: Wiki
         ) : (
           <Attrib href={ph.href} label={ph.credit} license={ph.license ?? 'Wikimedia Commons'} />
         ))}
-    </div>
-  );
-}
-
-function StickyTitle({
-  p,
-  name,
-  hostRef,
-}: {
-  p: Place;
-  name: string;
-  hostRef: RefObject<HTMLElement | null>;
-}) {
-  const [on, setOn] = useState(false);
-  useEffect(() => {
-    const root = hostRef.current?.closest('.detail-pane, .panel-body') as HTMLElement | null;
-    const hero = hostRef.current?.querySelector('.hero') as HTMLElement | null;
-    if (!root || !hero) return;
-    const io = new IntersectionObserver(([e]) => setOn(!e.isIntersecting), {
-      root,
-      threshold: 0.15,
-    });
-    io.observe(hero);
-    return () => io.disconnect();
-  }, [hostRef, p.id]);
-  if (!on) return null;
-  return (
-    <div className="detail-sticky" aria-hidden="true">
-      <Thumb p={p} />
-      <b>{name}</b>
-    </div>
-  );
-}
-
-function VisitBlock({ v }: { v: NonNullable<Place['visit']> }) {
-  const { t, lang } = useT();
-  const L = (x?: { es?: string; en?: string } | string) => {
-    if (!x) return '';
-    if (typeof x === 'string') return x;
-    return (lang === 'es' ? x.es : x.en) || x.es || x.en || '';
-  };
-  const rows: [string, string][] = [];
-  if (v.access) rows.push([t('visit_access'), L(v.access)]);
-  if (v.activities) rows.push([t('visit_activities'), L(v.activities)]);
-  if (v.difficulty) rows.push([t('visit_difficulty'), L(v.difficulty)]);
-  if (v.note) rows.push([t('visit_note'), L(v.note)]);
-  if (!rows.length) return null;
-  return (
-    <div className="visit-block">
-      <Facts rows={rows} />
-      {v.src?.url && (
-        <p className="muted small">
-          <a href={v.src.url} target="_blank" rel="noopener">
-            {v.src.name || t('sources_more')}
-          </a>
-          {v.src.license ? ` · ${v.src.license}` : ''}
-        </p>
-      )}
-    </div>
-  );
-}
-
-function TipsBlock({ tips }: { tips: NonNullable<Place['tips']> }) {
-  const { t, lang } = useT();
-  const L = (x?: { es?: string; en?: string }) =>
-    x ? (lang === 'es' ? x.es : x.en) || x.es || x.en || '' : '';
-  const rows: [string, string][] = [];
-  if (tips.view) rows.push([t('fauna_view_tip'), L(tips.view)]);
-  if (tips.care) rows.push([t('fauna_care_tip'), L(tips.care)]);
-  if (!rows.length) return null;
-  return <Facts rows={rows} />;
-}
-
-function RelatedBlock({ ids, title }: { ids: string[]; title: string }) {
-  const places = useData((s) => s.data?.byId);
-  const list = ids.map((id) => places?.get(id)).filter(Boolean) as Place[];
-  if (!list.length) return null;
-  return (
-    <div className="related-block">
-      <h3 className="section-title">{title}</h3>
-      <ul className="list compact">
-        {list.slice(0, 8).map((q) => (
-          <PlaceItem key={q.id} p={q} />
-        ))}
-      </ul>
     </div>
   );
 }

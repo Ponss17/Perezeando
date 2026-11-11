@@ -1,7 +1,10 @@
 import { StrictMode } from 'react';
 import { createRoot } from 'react-dom/client';
+import { PANEL_W } from './features/map/layout';
 import './styles/index.css';
 import App from './App';
+
+document.documentElement.style.setProperty('--panel-w', `${PANEL_W}px`);
 
 createRoot(document.getElementById('root')!).render(
   <StrictMode>

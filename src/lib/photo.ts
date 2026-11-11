@@ -16,7 +16,7 @@ export interface PlacePhoto {
   license?: string;
 }
 
-export type RowPicture = { kind: 'photo'; src: string } | { kind: 'tile'; src: string; x: number; y: number };
+type RowPicture = { kind: 'photo'; src: string } | { kind: 'tile'; src: string; x: number; y: number };
 
 /** ¿La URL es media local/R2 (`/media/...`)? */
 const isLocalMediaSrc = (src?: string | null) => {

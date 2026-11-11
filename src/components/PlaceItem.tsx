@@ -7,13 +7,12 @@ import { Icon } from './Icon';
 import { useT } from '../i18n';
 import { fmtKm } from '../lib/format';
 import { useApp } from '../store/useApp';
-import { catOne, provName, select } from '../store/actions';
+import { catOne, nearbyOf, provName, select } from '../store/actions';
 import { placePicture, prefetchPhoto } from '../lib/photo';
 import { prefetchDetails } from '../lib/prefetch';
 import { Highlight } from '../features/search/Highlight';
 import { withMap } from '../lib/mapBus';
 import { genericLabel, isGenericName } from '../lib/names';
-import { nearbyOf } from '../store/actions';
 
 export function Thumb({ p }: { p: Place }) {
   const c = CATEGORIES[p.cat];

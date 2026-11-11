@@ -458,3 +458,131 @@
     height: 44px;
   }
 }
+
+body:not(.dark) .tool-group {
+  box-shadow:
+    0 1px 3px rgba(16, 24, 20, 0.25),
+    0 0 0 1px rgba(16, 24, 20, 0.12);
+}
+
+body:not(.dark) .tool-group,
+body:not(.dark) #map .maplibregl-ctrl-group {
+  background: var(--paper) !important;
+  box-shadow:
+    0 1px 3px rgba(43, 80, 50, 0.22),
+    0 0 0 1px var(--line) !important;
+}
+
+body:not(.dark) .tool-group > .tool,
+body:not(.dark) .tool-group > .tool-wrap,
+body:not(.dark) #map .maplibregl-ctrl-group button {
+  border-top-color: var(--line-strong) !important;
+}
+
+body:not(.dark) .tool {
+  color: var(--tool);
+}
+
+body:not(.dark) .tool.txt em {
+  color: var(--tool);
+}
+
+body:not(.dark) .tool:hover {
+  background: var(--brand-tint);
+  color: var(--brand-ink);
+}
+
+body:not(.dark) .tool:hover,
+body:not(.dark) #map .maplibregl-ctrl-group button:not(:disabled):hover {
+  background: var(--paper-3) !important;
+  color: var(--tool);
+}
+
+.tool.active,
+body:not(.dark) .tool.active {
+  background: var(--tool-on);
+  color: var(--tool-on-ink);
+}
+
+body:not(.dark) .tool.active em {
+  color: var(--tool-on-ink);
+}
+
+.tool.active:hover,
+body:not(.dark) .tool.active:hover {
+  background: var(--tool-on-hover) !important;
+  color: var(--tool-on-ink);
+}
+
+body:not(.dark) #map .maplibregl-ctrl-group button .maplibregl-ctrl-icon {
+  filter: brightness(0) saturate(100%) invert(32%) sepia(19%) saturate(1076%) hue-rotate(78deg)
+    brightness(93%) contrast(88%);
+}
+
+body:not(.dark) .popover {
+  box-shadow:
+    var(--sh-2),
+    0 0 0 1px rgba(56, 102, 65, 0.2);
+}
+
+body:not(.dark) .bm:hover .bm-img {
+  box-shadow:
+    inset 0 0 0 1px rgba(0, 0, 0, 0.08),
+    0 0 0 2px var(--green-mid);
+}
+
+body:not(.dark) .bm.active .bm-img {
+  box-shadow:
+    0 0 0 2px var(--paper),
+    0 0 0 4px var(--accent);
+}
+
+body:not(.dark) .bm.active span {
+  color: var(--accent);
+}
+
+body.dark .tool {
+  color: #dce8b4;
+}
+
+body.dark .tool:hover,
+body.dark #map .maplibregl-ctrl-group button:not(:disabled):hover {
+  background: rgba(167, 201, 87, 0.14) !important;
+  color: #fff;
+}
+
+body.dark .tool.active {
+  background: #a7c957;
+  color: #16200f;
+}
+
+body.dark .tool.active em {
+  color: #16200f;
+}
+
+body.dark .tool.active:hover {
+  background: #bcd877 !important;
+  color: #16200f;
+}
+
+body.dark .tool.active::before {
+  background: #386641;
+}
+
+body.dark .tool-group,
+body.dark #map .maplibregl-ctrl-group {
+  box-shadow:
+    var(--sh-1),
+    0 0 0 1px rgba(167, 201, 87, 0.18) !important;
+}
+
+body.dark .bm.active .bm-img {
+  box-shadow:
+    0 0 0 2px var(--paper),
+    0 0 0 4px #a7c957;
+}
+
+body.dark .bm-check {
+  background: #a7c957;
+  color: #16200f;
+}

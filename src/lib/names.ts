@@ -1,5 +1,6 @@
 import type { Lang, LocalizedText, Place } from '../data/types';
 import { pick } from '../i18n';
+import { norm as fold } from './format';
 
 const GENERIC = new Set([
   'cascada',
@@ -9,7 +10,6 @@ const GENERIC = new Set([
   'beach',
   'cerro',
   'rio',
-  'río',
   'river',
   'isla',
   'island',
@@ -17,16 +17,15 @@ const GENERIC = new Set([
   'lagoon',
 ]);
 
-/** Nombres genéricos tipo “Cascada” / “Waterfall” sin nombre propio */
-export function isGenericName(p: Place, lang: Lang): boolean {
-  const raw = pick(lang, p.name).trim();
-  const norm = raw
-    .normalize('NFD')
-    .replace(/[\u0300-\u036f]/g, '')
-    .toLowerCase()
+const foldKey = (s: string) =>
+  fold(s)
     .replace(/[^a-z0-9 ]/g, '')
     .trim();
-  return GENERIC.has(norm) || /^cascada\s*(grande|pequena|pequeña)?$/.test(norm);
+
+/** Nombres genéricos tipo “Cascada” / “Waterfall” sin nombre propio */
+export function isGenericName(p: Place, lang: Lang): boolean {
+  const key = foldKey(pick(lang, p.name));
+  return GENERIC.has(key) || /^cascada\s*(grande|pequena)?$/.test(key);
 }
 
 /** Etiqueta para genéricos: “Cascada sin nombre · cerca de Playa X” */
@@ -46,21 +45,16 @@ export function genericLabel(p: Place, lang: Lang, near?: Place | null): string 
 export function altName(lang: Lang, name: LocalizedText): string {
   const main = (name[lang] || name.es || '').trim();
   const other = (lang === 'es' ? name.en : name.es)?.trim() ?? '';
-  const norm = (x: string) =>
-    x
-      .normalize('NFD')
-      .replace(/[\u0300-\u036f]/g, '')
-      .toLowerCase()
+  const key = (x: string) =>
+    fold(x)
       .replace(/[^a-z0-9]+/g, ' ')
       .trim();
   if (!other) return '';
-  if (norm(other) === norm(main)) return '';
-  // "X (traducción)" → "traducción"
-  if (norm(other).startsWith(norm(main))) {
+  if (key(other) === key(main)) return '';
+  if (key(other).startsWith(key(main))) {
     const m = other.match(/\(([^)]+)\)\s*$/);
-    return m && norm(m[1]) !== norm(main) ? m[1] : '';
+    return m && key(m[1]) !== key(main) ? m[1] : '';
   }
-  // el principal ya incluye al otro entre paréntesis
-  if (norm(main).startsWith(norm(other))) return '';
+  if (key(main).startsWith(key(other))) return '';
   return other;
 }

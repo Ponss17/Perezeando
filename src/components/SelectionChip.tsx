@@ -15,13 +15,19 @@ export function SelectionChip() {
   const open = useApp((s) => s.panelOpen);
   const sel = useApp((s) => s.sel);
   const p = useData((s) => (sel?.kind === 'place' ? s.data?.byId.get(sel.id) : null));
-  if (open || !p) return null;
+  if (!p) return null;
+  const show = !open;
   const near = isGenericName(p, lang) ? nearbyOf(p.id, 1)[0]?.[0] : null;
   const name = genericLabel(p, lang, near);
   const c = CATEGORIES[p.cat];
   return (
-    <div className="sel-chip" role="status">
-      <button type="button" className="sel-chip-main" onClick={() => togglePanel(true)}>
+    <div className={'sel-chip' + (show ? ' show' : '')} role="status" aria-hidden={!show || undefined}>
+      <button
+        type="button"
+        className="sel-chip-main"
+        onClick={() => togglePanel(true)}
+        tabIndex={show ? 0 : -1}
+      >
         <MiniMarker cat={p.cat} size={22} />
         <span className="sel-chip-text">
           <b>{name}</b>
@@ -34,6 +40,7 @@ export function SelectionChip() {
         target="_blank"
         rel="noopener"
         title={t('directions')}
+        tabIndex={show ? 0 : -1}
       >
         <Icon name="navigation" />
         <span>{t('directions')}</span>

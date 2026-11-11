@@ -3,7 +3,6 @@ import { CATEGORIES } from '../../data/config';
 import { pick, translate } from '../../i18n';
 import { ICONS, iconSvg } from '../../lib/icons';
 
-/** Contenido del tooltip al pasar sobre un grupo */
 export function clusterSummary(parts: [CategoryId, number][], lang: Lang) {
   const n = parts.reduce((a, [, v]) => a + v, 0);
   const el = document.createElement('div');
@@ -68,7 +67,6 @@ export function clusterSummary(parts: [CategoryId, number][], lang: Lang) {
   return el;
 }
 
-/** Tooltip de un lugar: solo el nombre, con un punto del color de su categoría */
 export function placeTip(p: Place, lang: Lang) {
   const el = document.createElement('div');
   el.className = 'tip-name';
@@ -78,7 +76,6 @@ export function placeTip(p: Place, lang: Lang) {
   return el;
 }
 
-/** Tooltip simple (geometrías sin lugar conocido, ZEE…) */
 export function plainTip(cat: string, name: string, color?: string) {
   const el = document.createElement('div');
   el.className = 'tip-card';
@@ -92,18 +89,13 @@ export function plainTip(cat: string, name: string, color?: string) {
   return el;
 }
 
-export interface LabelOpts {
+interface LabelOpts {
   fav: boolean;
   animate: boolean;
   onOpen(): void;
 }
 
-/**
- * Lugar seleccionado: chincheta destacada + rótulo mínimo con el nombre.
- * Clic en el rótulo o la chincheta abre la ficha. El controlador lo corre a los
- * lados (o debajo) para que no se salga de la pantalla.
- */
-export function placeLabel(p: Place, lang: Lang, o: LabelOpts) {
+export function buildPlaceLabel(p: Place, lang: Lang, o: LabelOpts) {
   const c = CATEGORIES[p.cat];
   const el = document.createElement('div');
   el.className = 'sel-mk' + (o.animate ? '' : ' no-anim');
@@ -123,7 +115,14 @@ export function placeLabel(p: Place, lang: Lang, o: LabelOpts) {
   const lb = el.querySelector<HTMLElement>('.sel-label')!;
   lb.querySelector('span')!.textContent = name;
   lb.setAttribute('aria-label', `${name} · ${translate(lang, 'details')}`);
-  // el rótulo no debe disparar el clic del mapa (que deselecciona)
+  const probe = el.cloneNode(true) as HTMLElement;
+  probe.style.cssText = 'position:absolute;left:-9999px;top:0;visibility:hidden;pointer-events:none';
+  document.body.appendChild(probe);
+  const lw = probe.querySelector<HTMLElement>('.sel-label')?.offsetWidth ?? 0;
+  probe.remove();
+  el.style.setProperty('--lw', `${lw}px`);
+  el.style.setProperty('--dx', '0px');
+
   const stop = (e: Event) => e.stopPropagation();
   ['click', 'dblclick', 'mousedown', 'touchstart', 'pointerdown'].forEach((t) =>
     el.addEventListener(t, stop, { passive: true }),

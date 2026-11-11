@@ -37,6 +37,7 @@ export default function ExplorePane() {
   const locating = useApp((s) => s.locating);
   const kb = useKb((s) => s.i);
   const [searchTick, setSearchTick] = useState(0);
+  const [browseAll, setBrowseAll] = useState(false);
   useEffect(() => subscribeSearch(() => setSearchTick((n) => n + 1)), []);
 
   const r = useMemo(() => {
@@ -44,7 +45,8 @@ export default function ExplorePane() {
     return computeResults({ query, prov, cat, active, near, nearPlace, me, lang }, data);
   }, [query, prov, cat, active, near, nearPlace, me, lang, data, searchTick]);
   const filtered = prov !== 'all' || cat !== 'all' || near || !!nearPlace;
-  const showDiscover = !filtered && query.trim().length < 2;
+  const homeMode = !filtered && query.trim().length < 2;
+  const showDiscover = homeMode && !browseAll;
   const hidden = CATEGORY_ORDER.length - active.length;
   const allHidden = active.length === 0;
   const counts = useMemo(() => {
@@ -96,13 +98,16 @@ export default function ExplorePane() {
     );
     return [{ value: 'all', label: t('all_categories') }, ...rows];
   }, [t, L, tallies, prov, cat]);
-  // renderizado progresivo: con ~1000 lugares solo se montan los primeros N y se amplía al acercarse al final
+  // En "Todos" arrancamos más alto: volcanes+cerros suman ~60 y si no parece que solo existen esas
   const STEP = 24;
-  const [lim, setLim] = useState(STEP);
-  const [limFor, setLimFor] = useState(r);
-  if (r !== limFor) {
-    setLimFor(r);
-    setLim(STEP);
+  const startLim = homeMode && browseAll ? 120 : STEP;
+  const [lim, setLim] = useState(startLim);
+  const [limKey, setLimKey] = useState(r);
+  const [limStart, setLimStart] = useState(startLim);
+  if (r !== limKey || startLim !== limStart) {
+    setLimKey(r);
+    setLimStart(startLim);
+    setLim(startLim);
   }
   const kbLim = kb >= 0 ? Math.max(STEP, Math.ceil((kb + 6) / STEP) * STEP) : STEP;
   const shown = Math.max(lim, kbLim);
@@ -157,8 +162,26 @@ export default function ExplorePane() {
       </div>
       <div className="meta-row">
         <div className="result-meta">
-          {showDiscover ? (
-            <b>{t('discover_must')}</b>
+          {homeMode ? (
+            <div className="browse-mode" role="group" aria-label={t('discover_must')}>
+              <button
+                type="button"
+                className="browse-mode-btn"
+                aria-pressed={!browseAll}
+                onClick={() => setBrowseAll(false)}
+              >
+                {t('discover_must')}
+              </button>
+              <button
+                type="button"
+                className="browse-mode-btn"
+                aria-pressed={browseAll}
+                onClick={() => setBrowseAll(true)}
+              >
+                {t('discover_all')}
+                <span className="browse-n">{fmtNum(lang, r.list.length)}</span>
+              </button>
+            </div>
           ) : (
             <>
               <b>{fmtNum(lang, r.list.length)}</b> {t('places_lbl')}

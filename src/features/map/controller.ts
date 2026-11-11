@@ -1,7 +1,6 @@
 import * as maplibregl from 'maplibre-gl';
 import {
   type GeoJSONSource,
-  type LngLatLike,
   type Map as MLMap,
   type MapMouseEvent,
   type StyleSpecification,
@@ -13,27 +12,25 @@ import type { Place, ProvinceId } from '../../data/types';
 import { BASEMAPS, CR_BOUNDS, MAX_BOUNDS, ENDPOINTS } from '../../data/config';
 import { translate } from '../../i18n';
 import { isMobile } from '../../lib/selectors';
-import { boundsOf, positions, type Bounds } from '../../lib/geo';
+import type { Bounds } from '../../lib/geo';
 import type { MapApi } from '../../lib/mapBus';
+import {
+  applyPadding as applyCamPadding,
+  fitBounds as fitCamBounds,
+  flyCam,
+  focusPlace as focusCamPlace,
+  panelPadding,
+  panelToggled as onPanelToggled,
+  visiblePadding,
+} from './camera';
 import { addFavPin, addPinImages, drawCluster, pruneClusterImages } from './images';
 import type { ClusterHost } from './clusters';
 import { addContentLayers, CLUSTER } from './layers';
-import { PANEL_W } from './layout';
 import { attachLimitHint } from './limitHint';
 import { onClick, onMove, clearHover } from './mapPointer';
-import {
-  placeLabel,
-  set3d,
-  setBase,
-  syncMeasure,
-  syncMe,
-  syncOverlays,
-  syncPlaces,
-  syncProvStyle,
-  syncRoute,
-  syncSelected,
-} from './mapSync';
-import { areaZoom, easeInOutCubic, targetZoom } from './placeZoom';
+import { set3d, syncMeasure, syncMe, syncRoute } from './syncExtras';
+import { repositionPlaceLabel, syncPlaces, syncSelected } from './syncSelection';
+import { setBase, syncOverlays, syncProvStyle } from './syncStyle';
 
 maplibregl.setWorkerUrl(workerUrl);
 
@@ -56,14 +53,9 @@ export interface ControllerEvents {
   provinceClick(id: ProvinceId, lngLat: [number, number]): void;
   emptyClick(): void;
   moved(): void;
-  /** se abrió una tarjeta del controlador (menú de grupo): cerrar las demás */
   overlayOpened?(): void;
 }
 
-/**
- * Controlador imperativo de MapLibre. Recibe el estado de la app (Zustand) y
- * sincroniza fuentes/capas de forma incremental. Un solo motor para 2D y 3D.
- */
 export class MapController implements MapApi {
   map: MLMap;
   s: AppState;
@@ -116,10 +108,10 @@ export class MapController implements MapApi {
       touchPitch: false,
     });
     this.map.touchZoomRotate.disableRotation();
-    // gancho para pruebas automáticas (solo con ?e2e en la URL)
+
     if (location.search.includes('e2e'))
       (window as unknown as { __crmap: maplibregl.Map }).__crmap = this.map;
-    this.map.setPadding(this.panelPadding());
+    this.map.setPadding(panelPadding(this));
     if (!view)
       this.map.fitBounds(CR_BOUNDS as maplibregl.LngLatBoundsLike, {
         padding: isMobile() ? 22 : { top: 36, bottom: 36, left: 36, right: 80 },
@@ -139,12 +131,11 @@ export class MapController implements MapApi {
       maxWidth: '260px',
     });
 
-    // imágenes de grupos dibujadas al vuelo (antes de que MapLibre las dé por faltantes)
     this.map.setMissingStyleImageResolver((id) => {
       if (id.startsWith('cl:') && !this.map.hasImage(id)) drawCluster(this.map, id);
       else if (id.startsWith('pin-') && id.endsWith('-fav')) addFavPin(this.map, id);
     });
-    // una tesela que falta en el proveedor (p. ej. un hueco del satélite) no es un error de la app
+
     this.map.on('error', (e) => {
       const src = (e as { sourceId?: string }).sourceId;
       if (src || /Failed to fetch|AJAXError/.test(String(e.error?.message ?? ''))) return;
@@ -163,11 +154,11 @@ export class MapController implements MapApi {
       pruneClusterImages(this.map);
       this.ev.moved();
     });
-    this.map.on('move', () => placeLabel(this));
-    this.map.on('resize', () => placeLabel(this));
+    this.map.on('move', () => repositionPlaceLabel(this));
+    this.map.on('resize', () => repositionPlaceLabel(this));
     this.map.on('click', (e) => onClick(this, e));
     attachLimitHint(this.map, container, () => this.s.lang);
-    // hover: como mucho una consulta por cuadro y ninguna mientras se arrastra el mapa
+
     let moveEv: MapMouseEvent | null = null;
     this.map.on('mousemove', (e) => {
       if (e.originalEvent.buttons) return;
@@ -183,7 +174,6 @@ export class MapController implements MapApi {
     this.map.on('mouseout', () => clearHover(this));
   }
 
-  /* ------------------------------------------------------------ estilo */
   private buildStyle(): StyleSpecification {
     const b = BASEMAPS[this.s.base];
     return {
@@ -258,7 +248,6 @@ export class MapController implements MapApi {
     };
   }
 
-  /* --------------------------------------------------- sincronización */
   update(s: AppState) {
     const p = this.s;
     this.s = s;
@@ -287,7 +276,7 @@ export class MapController implements MapApi {
     if (s.lang !== p.lang && this.meMarker)
       this.meMarker.getElement().title = translate(s.lang, 'you_are_here');
     if (s.is3d !== p.is3d) set3d(this, s.is3d, true);
-    if (s.panelOpen !== p.panelOpen) this.panelToggled();
+    if (s.panelOpen !== p.panelOpen) onPanelToggled(this);
     if (!this.contentVisible) this.hideBootContent();
   }
 
@@ -302,7 +291,6 @@ export class MapController implements MapApi {
     syncMe(this);
   }
 
-  /** Vuelve a pintar lugares (p. ej. cuando llegan los trazados diferidos) */
   refreshPlaces() {
     if (!this.ready) return;
     syncPlaces(this);
@@ -350,152 +338,24 @@ export class MapController implements MapApi {
     requestAnimationFrame(tick);
   }
 
-  /* -------------------------------------------------------- relleno */
-  private panelPadding() {
-    if (isMobile()) {
-      const peek = parseFloat(getComputedStyle(document.documentElement).getPropertyValue('--peek')) || 150;
-      return { top: 56, bottom: peek, left: 0, right: 0 };
-    }
-    return { top: 0, bottom: 0, left: this.s.panelOpen ? PANEL_W : 0, right: 0 };
-  }
-  /**
-   * El panel tapa el mapa, no lo empuja. El relleno cambia en el mismo instante
-   * y un punto de la esquina se queda en su píxel. Anclar el centro no sirve:
-   * MapLibre no mueve la cámara si el ancla es el centro del relleno.
-   */
-  private panelToggled() {
-    if (isMobile()) return this.applyPadding(true);
-    const m = this.map;
-    m.stop();
-    const pad = this.panelPadding();
-    const box = m.getContainer();
-    const ax = Math.max(8, box.clientWidth - 24);
-    const ay = 24;
-    const anchor = m.unproject([ax, ay]);
-    const bounds = m.getMaxBounds();
-    m.setMaxBounds(null);
-    m.setPadding(pad);
-    m.jumpTo(
-      m.calculateAnchoredCameraOptions({
-        anchorLocation: anchor,
-        anchorScreenPoint: [ax, ay],
-      }),
-    );
-    if (bounds) m.setMaxBounds(bounds);
-  }
   applyPadding(animate: boolean) {
-    this.map.easeTo({ padding: this.panelPadding(), duration: animate ? 340 : 0 });
+    applyCamPadding(this, animate);
   }
 
-  /* ------------------------------------------------------- MapApi */
-  /**
-   * Vuelo a un lugar: zum objetivo según el tipo (un estadio o una iglesia se ven de cerca, una playa
-   * un poco más lejos, un parque o un río por su contorno). El relleno descuenta el panel lateral o la
-   * hoja inferior visible, así el lugar queda en el centro de lo que realmente se ve.
-   * Si ya se está más cerca que el objetivo, solo se desplaza. Arrastrar el mapa interrumpe el vuelo.
-   */
   focusPlace(p: Place, opts: { fromMap?: boolean } = {}) {
-    const m = this.map;
-    m.stop();
-    const pad = this.visiblePadding();
-    const reduce = matchMedia('(prefers-reduced-motion: reduce)').matches;
-    const cur = m.getZoom();
-    const maxZ = m.getMaxZoom();
-    if (p.geometry) {
-      const b = boundsOf(positions(p.geometry));
-      if (b) {
-        const cam = m.cameraForBounds(b as maplibregl.LngLatBoundsLike, { padding: pad, maxZoom: 15.5 });
-        if (cam?.center) return this.flyCam(cam.center as LngLatLike, cam.zoom ?? cur, pad, reduce, false);
-      }
-    }
-    let z = areaZoom(p) ?? targetZoom(p);
-    if (opts.fromMap) z = Math.min(z, Math.max(cur + 4, 14)); // desde el mapa: un salto más corto
-    z = Math.min(z, maxZ - 0.5);
-    this.flyCam([p.lng, p.lat], z, pad, reduce, true);
+    focusCamPlace(this, p, opts);
   }
-  /**
-   * Transición proporcional a la distancia:
-   *  - cerca (el destino cabe en ~1,5 pantallas al zum actual): easeTo directo, sin alejarse (0,7–1,1 s);
-   *  - lejos: vuelo en arco; se aleja solo lo necesario para ver origen y destino (minZoom) y vuelve a
-   *    acercarse; la duración crece con la distancia (1,4–3,5 s). En medio, el arco es apenas una leve bajada.
-   */
-  private flyCam(
-    center: LngLatLike,
-    zoom: number,
-    padding: maplibregl.PaddingOptions,
-    reduce: boolean,
-    keepCloser: boolean,
-  ) {
-    const m = this.map;
-    m.stop();
-    const cur = m.getZoom();
-    const c = m.getContainer();
-    const W = Math.max(1, c.clientWidth - (padding.left ?? 0) - (padding.right ?? 0));
-    const to = m.project(center);
-    const from = m.project(m.getCenter());
-    const px = Math.hypot(to.x - from.x, to.y - from.y);
-    const screens = px / W;
-    // ya está más cerca y el lugar está a la vista: no alejar, solo desplazar
-    if (keepCloser && cur >= zoom && screens < 0.6) zoom = cur;
-    if (reduce) return void m.easeTo({ center, zoom, padding, duration: 250 });
-    const dz = Math.abs(zoom - cur);
-    if (screens < 1.5 && dz <= 3) {
-      const duration = Math.round(Math.min(1100, 700 + screens * 180 + Math.abs(zoom - cur) * 40));
-      return void m.easeTo({ center, zoom, padding, duration, easing: easeInOutCubic });
-    }
-    // zum que encuadra los dos puntos con el relleno, menos medio nivel de aire
-    const a = m.getCenter();
-    const b = maplibregl.LngLat.convert(center);
-    const both = m.cameraForBounds(
-      [
-        [Math.min(a.lng, b.lng), Math.min(a.lat, b.lat)],
-        [Math.max(a.lng, b.lng), Math.max(a.lat, b.lat)],
-      ],
-      { padding },
-    );
-    let minZoom = Math.min(cur, zoom, (both?.zoom ?? cur) - 0.5);
-    // distancias medias (1,5–4 pantallas): bajada suave, interpolada
-    const k = Math.min(1, (screens - 1.5) / 2.5);
-    minZoom = Math.min(cur, zoom) - (Math.min(cur, zoom) - minZoom) * k;
-    const km = a.distanceTo(b) / 1000;
-    const duration = Math.round(
-      Math.min(3500, Math.max(1400, 1100 + Math.log2(1 + km) * 330, 900 + dz * 160)),
-    );
-    m.flyTo({
-      center,
-      zoom,
-      padding,
-      minZoom,
-      curve: 1.42,
-      duration,
-      easing: easeInOutCubic,
-      essential: false,
-    });
-  }
-  /** relleno = zona tapada por el panel (escritorio) o por la hoja inferior visible (móvil) */
-  private visiblePadding(): maplibregl.PaddingOptions {
-    const c = this.map.getContainer();
-    const h = c.clientHeight;
-    if (isMobile()) {
-      const sheet = document.querySelector('.panel') as HTMLElement | null;
-      const top = sheet?.getBoundingClientRect().top ?? h * 0.5;
-      const bottom = Math.min(h * 0.62, Math.max(0, c.getBoundingClientRect().bottom - top)) + 24;
-      return { top: 70, bottom, left: 24, right: 24 };
-    }
-    return { top: 60, bottom: 50, left: (this.s.panelOpen ? PANEL_W : 0) + 50, right: 80 };
-  }
+
   fitBounds(b: Bounds, opts: { maxZoom?: number } = {}) {
-    const mob = isMobile();
-    const pad = mob
-      ? { top: 20, left: 20, right: 20, bottom: Math.round(window.innerHeight * 0.45) - 100 }
-      : { top: 30, left: 30, right: 70, bottom: 30 };
-    this.map.fitBounds(b, { padding: pad, duration: 700, maxZoom: opts.maxZoom ?? 11 });
+    fitCamBounds(this, b, opts);
   }
+
   flyTo(lat: number, lng: number, zoom: number) {
-    this.flyCam(
+    flyCam(
+      this,
       [lng, lat],
       zoom,
-      this.visiblePadding(),
+      visiblePadding(this),
       matchMedia('(prefers-reduced-motion: reduce)').matches,
       false,
     );
@@ -530,13 +390,13 @@ export class MapController implements MapApi {
       ['==', ['get', 'id'], hid],
     ] as never);
   }
-  /** Hay una tarjeta externa abierta (popup de provincia): sin tooltips y sin rótulo del seleccionado encima */
+
   setOverlay(on: boolean) {
     this.extOverlay = on;
     if (on) this.tip.remove();
     if (!this.listPop) this.selMarker?.getElement().classList.toggle('menu-hide', on);
   }
-  /** Cierra los popups flotantes del mapa (lista de un grupo, tooltip) */
+
   closePopups() {
     this.listPop?.remove();
     this.listPop = null;

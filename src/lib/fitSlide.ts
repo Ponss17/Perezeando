@@ -1,4 +1,4 @@
-const HOST = '.item, .stop, .cl-item, .ic, .sx-trigger, .layer, .sel-label, .qa';
+const HOST = '.item, .stop, .cl-item, .ic, .sx-trigger, .layer, .qa';
 
 function shiftOf(el: HTMLElement) {
   const box = el.clientWidth;

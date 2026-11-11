@@ -1,4 +1,4 @@
-import { useEffect, useMemo, useRef, useState, type CSSProperties } from 'react';
+import { useEffect, useMemo, useState, type CSSProperties } from 'react';
 import { loadContent, useContent, useData } from '../../data/load';
 import { HERO_W, placePicture, sizedThumb, useImageState } from '../../lib/photo';
 import { useT } from '../../i18n';
@@ -17,18 +17,15 @@ import { wikiTarget, wikiUrl } from '../../lib/wiki';
 import { Icon } from '../../components/Icon';
 import { SlideTrack } from '../../components/SlideTrack';
 import { Attrib, HeroTop, NickSub, Qa, SourceBox, SourceChip, nickRow } from './parts';
+import { useDetailScroll } from './hooks';
 
 const BRAND = '#386641';
 
-/** Ficha de una provincia */
 export default function ProvinceDetail({ id }: { id: ProvinceId }) {
   const { t, lang } = useT();
   const data = useData((s) => s.data)!;
   const pp = data.provById.get(id)!;
-  const ref = useRef<HTMLElement>(null);
-  useEffect(() => {
-    ref.current?.closest('.detail-pane, .panel-body')?.scrollTo({ top: 0 });
-  }, [id]);
+  const ref = useDetailScroll(id);
   const { n, counts } = useMemo(() => {
     const m = new Map<CategoryId, number>();
     let n = 0;
@@ -104,7 +101,6 @@ export default function ProvinceDetail({ id }: { id: ProvinceId }) {
   );
 }
 
-/* ------------------------------------------------------------------ pestañas */
 type PTab = 'food' | 'culture' | 'sports' | 'data' | 'activities';
 const PTABS: {
   id: PTab;
@@ -496,7 +492,6 @@ function Items({
   );
 }
 
-/* ---------------------------------------------------------------- escudos */
 const MONO_COLORS = ['#386641', '#6A994E', '#BC4749', '#1f8a9e', '#b5602f', '#5b5f97', '#8a6d3b'];
 const MONO_SKIP =
   /^(club|sport|fútbol|futbol|football|fc|ad|as|cs|asociación|asociacion|deportiva|deportivo|de|del|la|el|los|las|y)$/i;

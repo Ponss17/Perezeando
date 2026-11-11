@@ -16,7 +16,8 @@
   box-shadow: var(--sh-2);
   transition:
     opacity 0.2s,
-    transform 0.2s;
+    transform 0.2s,
+    left var(--panel-move) var(--panel-ease);
   max-width: min(90vw, 420px);
   text-align: center;
 }
@@ -418,4 +419,129 @@ dialog {
     bottom: auto;
     top: 72px;
   }
+}
+
+body.night #credits {
+  background: linear-gradient(#1a3326 76px, #13281c 76px);
+  color: #fff;
+  color-scheme: dark;
+  box-shadow: 0 18px 50px rgba(0, 0, 0, 0.45);
+}
+
+body.night #credits .credits-body {
+  background: #13281c;
+}
+
+body.night #credits::backdrop {
+  background: rgba(4, 12, 8, 0.68);
+}
+
+body.night #credits .credits-head {
+  background: #1a3326;
+  box-shadow: inset 0 -3px 0 #d4ec8a;
+}
+
+body.night #credits .credits-lede,
+body.night #credits .credits-list span {
+  color: #f3f7f2;
+}
+
+body.night #credits .credits-list {
+  background: #1a3326;
+  border-color: #2e5640;
+}
+
+body.night #credits .credits-list li {
+  border-top-color: #2e5640;
+  border-right-color: #2e5640;
+}
+
+body.night #credits .credits-list b,
+body.night #credits a,
+body.night #credits .policies-jump {
+  color: #d4ec8a;
+}
+
+body.night #credits a:hover {
+  color: #e4f4b0;
+}
+
+body.night #credits .credits-note {
+  background: #2e2513;
+  color: #e9c98a;
+  border-color: #4a3a1a;
+}
+
+body.night #credits .policies-jump {
+  background: #1a3326;
+  border-color: #2e5640;
+}
+
+body.night #credits .policies-jump:hover {
+  background: #234232;
+  border-color: #d4ec8a;
+}
+
+@media (max-width: 560px) {
+  #credits .credits-list {
+    grid-template-columns: 1fr;
+  }
+  #credits .credits-list li,
+  #credits .credits-list li:nth-child(2n) {
+    border-right: 0;
+  }
+  #credits .credits-list li:nth-child(2) {
+    border-top: 1px solid #e0e6d4;
+  }
+  body.night #credits .credits-list li:nth-child(2) {
+    border-top-color: #2e5640;
+  }
+}
+
+body.night .policies-jump {
+  color: var(--lime);
+}
+
+body:not(.dark) .notice-ico {
+  background: var(--brand-tint);
+}
+
+body.dark #credits .credits-mascot {
+  color: #fff;
+}
+
+body.night #policies {
+  background: linear-gradient(#1a3326 64px, #13281c 64px);
+  color: #fff;
+  color-scheme: dark;
+  box-shadow:
+    0 0 0 1px #2e5640,
+    0 18px 50px rgba(0, 0, 0, 0.45);
+}
+
+body.night #policies::backdrop {
+  background: rgba(4, 12, 8, 0.68);
+}
+
+body.night #policies .policies-head {
+  background: #1a3326;
+  box-shadow: inset 0 -3px 0 #d4ec8a;
+}
+
+body.night #policies .policies-sheet {
+  background: #13281c;
+}
+
+body.night #policies .policies-lede,
+body.night #policies p,
+body.night #policies li {
+  color: #f3f7f2;
+}
+
+body.night #policies section {
+  border-top-color: #2e5640;
+}
+
+body.night #policies h3 {
+  color: #d4ec8a;
 }

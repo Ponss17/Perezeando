@@ -194,6 +194,7 @@ export const es = {
   legend_shapes_sea: 'Mar',
   view_detail: 'Ver detalle',
   discover_must: 'Imperdibles',
+  discover_all: 'Todos',
   discover_hidden: 'Poco conocidos',
   discover_weekend: 'Para este fin de semana',
   read_more: 'Leer más',

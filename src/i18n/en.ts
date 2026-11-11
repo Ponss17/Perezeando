@@ -193,6 +193,7 @@ export const en: Dict = {
   legend_shapes_sea: 'Sea',
   view_detail: 'View details',
   discover_must: 'Must-sees',
+  discover_all: 'All',
   discover_hidden: 'Lesser known',
   discover_weekend: 'For this weekend',
   read_more: 'Read more',

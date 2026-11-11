@@ -137,3 +137,24 @@
   margin-left: auto;
   font-size: 12px;
 }
+
+body:not(.dark) .route-card {
+  background: var(--paper-2);
+}
+
+body:not(.dark) .route-card b {
+  color: var(--brand-ink);
+}
+
+body.dark .route-card {
+  background: var(--paper-2);
+}
+
+body.dark .route-card b {
+  color: var(--lime);
+}
+
+body.dark .stop .num {
+  background: #eceeec;
+  color: #161a18;
+}
