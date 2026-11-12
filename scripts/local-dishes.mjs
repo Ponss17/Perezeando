@@ -1,8 +1,5 @@
-/**
- * Comidas de soda, feria y cantón que no tienen artículo propio en Wikipedia.
- * fetch-content.mjs las pone delante de lo que sí sale de las categorías.
- * La nota es texto propio; el enlace, cuando hay, apunta a una página que habla de ese plato o de esa cocina.
- */
+import { dishKey } from './shared.mjs';
+
 const gastro = {
   name: 'Wikipedia',
   url: 'https://es.wikipedia.org/wiki/Gastronom%C3%ADa_de_Costa_Rica',
@@ -112,19 +109,9 @@ export const LOCAL_DISHES = {
   ],
 };
 
-/** Coincidencias automáticas de Wikipedia que no son un plato de la provincia. */
 const DROP = new Set(['crema agria', 'salsa lizano', 'leche de coco']);
 
-export function dishKey(name) {
-  const s = typeof name === 'string' ? name : name?.es || '';
-  return s
-    .normalize('NFD')
-    .replace(/[\u0300-\u036f]/g, '')
-    .toLowerCase()
-    .replace(/\s*\([^)]*\)/g, ' ')
-    .replace(/\s+/g, ' ')
-    .trim();
-}
+export { dishKey };
 
 function takeMedia(hit, w) {
   if (!hit.img && w.img) hit.img = w.img;
@@ -132,7 +119,6 @@ function takeMedia(hit, w) {
   if (!hit.src && w.src) hit.src = w.src;
 }
 
-/** Lista curada primero. Si Wikipedia ya traía el mismo plato, se queda la foto y el enlace. */
 export function mergeDishes(wikiItems, localItems, mediaPool = []) {
   const locals = localItems.map((d) => ({ scope: 'regional', ...d }));
   const by = new Map(locals.map((d) => [dishKey(d.name), d]));

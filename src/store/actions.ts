@@ -1,9 +1,5 @@
-import { getApp } from './useApp';
-import type { Tab } from '../data/types';
-import { isMobile } from '../lib/selectors';
-import { setSheet, setTab, select, showProvince, deselect, setCat, setProv } from './selection';
-import { fitRoute } from './trip';
-import { setBase } from './tools';
+import { select, showProvince, deselect, setCat, setProv } from './selection';
+import { setBase, locate } from './tools';
 
 export { catName, catOne, provName } from './labels';
 
@@ -23,7 +19,6 @@ export {
   clearFilters,
   surprise,
   nearbyOf,
-  openNearbyExplore,
 } from './selection';
 
 export {
@@ -54,11 +49,7 @@ export {
   addMeasurePoint,
 } from './tools';
 
-export function openTab(tab: Tab) {
-  setTab(tab);
-  if (tab === 'route') fitRoute();
-  if (isMobile() && getApp().sheet === 'peek') setSheet('half');
-}
+export { openTab } from './openTab';
 
 if (typeof location !== 'undefined' && location.search.includes('e2e'))
   (window as unknown as { __cract: unknown }).__cract = {
@@ -68,4 +59,5 @@ if (typeof location !== 'undefined' && location.search.includes('e2e'))
     setProv,
     deselect,
     setBase,
+    locate,
   };

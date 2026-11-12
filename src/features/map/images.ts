@@ -35,7 +35,6 @@ function addImg(map: MLMap, name: string, img: HTMLImageElement) {
     map.addImage(name, { width: cv.width, height: cv.height, data: data.data }, { pixelRatio: PR });
 }
 
-/** Rasteriza las chinchetas normales (una por categoría); las de favorito se hacen al pedirlas */
 export async function addPinImages(map: MLMap) {
   await Promise.all(
     CATEGORY_ORDER.map((id) => loadSvg(svgPin(id, false)).then((img) => addImg(map, `pin-${id}`, img))),
@@ -43,7 +42,6 @@ export async function addPinImages(map: MLMap) {
 }
 
 const pending = new Set<string>();
-/** Chincheta de favorito bajo demanda (desde el resolver de imágenes faltantes) */
 export function addFavPin(map: MLMap, name: string) {
   const id = name.slice(4, -4) as CategoryId;
   if (pending.has(name) || !CATEGORIES[id]) return;
@@ -54,12 +52,10 @@ export function addFavPin(map: MLMap, name: string) {
     .finally(() => pending.delete(name));
 }
 
-/** Propiedades de conteo por categoría para los clusters */
 export const clusterProperties = Object.fromEntries(
   CATEGORY_ORDER.map((c) => [c, ['+', ['case', ['==', ['get', 'cat'], c], 1, 0]]]),
 );
 
-/** Pasos del anillo (10 = 10 %). El número va aparte, así el mismo anillo sirve para muchos totales. */
 const SHARE = 10;
 const SIZE_AT = [10, 30, 100];
 
@@ -74,7 +70,6 @@ function shareSteps(props: Record<string, unknown>, total: number) {
   });
 }
 
-/** Misma cuenta que `clusterImageExpr`: cubo de tamaño + partes redondeadas. */
 function clusterIconId(props: Record<string, unknown>): string {
   const total = Math.max(1, Number(props.point_count) || 0);
   return `cl:${sizeBucket(total)}:${shareSteps(props, total).join(',')}`;
@@ -105,7 +100,6 @@ export const clusterImageExpr = [
   ...CATEGORY_ORDER.flatMap((c, i) => (i ? [',', shareExpr(c)] : [shareExpr(c)])),
 ];
 
-/** Conteos por categoría de un cluster, ordenados de mayor a menor */
 export function clusterBreakdown(props: Record<string, unknown>): [CategoryId, number][] {
   return CATEGORY_ORDER.map((c) => [c, Number(props[c] ?? 0)] as [CategoryId, number])
     .filter(([, n]) => n > 0)
@@ -122,10 +116,6 @@ function touchCluster(id: string) {
   clusterLru.push(id);
 }
 
-/**
- * Anillo del grupo, sin el número (ese lo pinta la capa). La textura se comparte
- * entre totales parecidos y se suelta cuando deja de verse.
- */
 export function drawCluster(map: MLMap, id: string) {
   const body = id.slice(3);
   const colon = body.indexOf(':');
@@ -177,7 +167,6 @@ export function drawCluster(map: MLMap, id: string) {
   touchCluster(id);
 }
 
-/** Quita anillos que ya no están en pantalla cuando hay demasiados en la GPU. */
 export function pruneClusterImages(map: MLMap) {
   if (!map.getLayer('clusters') || clusterLru.length <= CLUSTER_CAP) return;
   const live = new Set<string>();

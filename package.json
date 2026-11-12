@@ -18,11 +18,12 @@
     "fetch-osm": "node scripts/fetch-content.mjs --osm-only",
     "fetch-crests": "node scripts/fetch-content.mjs --crests",
     "fetch-photos": "node scripts/fetch-photos.mjs",
+    "fetch-food-photos": "node scripts/fetch-food-photos.mjs",
     "prepare": "husky",
     "enrich-es": "node scripts/enrich-es-content.mjs",
     "audit-lang": "node scripts/audit-lang.mjs",
     "fetch-fauna": "node scripts/fetch-fauna-media.mjs",
-    "patch-fauna-content": "node scripts/patch-content-fauna.mjs",
+    "patch-fauna-content": "node scripts/archive/patch-content-fauna.mjs",
     "audit-quality": "node scripts/audit-quality.mjs",
     "audit-remote": "node scripts/audit-remote.mjs",
     "sync-media": "node scripts/sync-media-r2.mjs",
@@ -30,7 +31,9 @@
     "mirror-media": "node scripts/mirror-remote-media.mjs",
     "mirror-media:dry": "node scripts/mirror-remote-media.mjs --dry-run",
     "fetch-missing-media": "node scripts/fetch-missing-media.mjs",
-    "snap-fauna-prov": "node scripts/snap-fauna-prov.mjs"
+    "snap-fauna-prov": "node scripts/snap-fauna-prov.mjs",
+    "e2e": "node scripts/e2e.mjs",
+    "enrich-thin-desc": "node scripts/enrich-thin-desc.mjs"
   },
   "engines": {
     "node": ">=22.13"

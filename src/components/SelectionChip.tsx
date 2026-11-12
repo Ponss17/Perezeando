@@ -3,13 +3,14 @@ import { useApp } from '../store/useApp';
 import { useData } from '../data/load';
 import { useT } from '../i18n';
 import { CATEGORIES } from '../data/config';
-import { catOne, nearbyOf, togglePanel } from '../store/actions';
+import { catOne } from '../store/labels';
+import { nearbyOf } from '../store/selection';
+import { togglePanel } from '../store/tools';
 import { directionsUrl } from '../features/route/routing';
 import { Icon } from './Icon';
 import { MiniMarker } from './MiniMarker';
 import { genericLabel, isGenericName } from '../lib/names';
 
-/** Mini tarjeta flotante cuando el panel está cerrado y hay un lugar seleccionado */
 export function SelectionChip() {
   const { t, lang } = useT();
   const open = useApp((s) => s.panelOpen);

@@ -6,7 +6,7 @@ import { getApp, useApp } from '../../store/useApp';
 import { getData, loadGeoms, useGeoms } from '../../data/load';
 import { emitMapMove, registerMap } from '../../lib/mapBus';
 import { isMobile } from '../../lib/selectors';
-import { select, setSheet } from '../../store/actions';
+import { select, setSheet } from '../../store/selection';
 import { isFirstVisit, markSeen } from '../../hooks/hash';
 import { signalMapReady } from '../../lib/boot';
 import type { ProvinceId } from '../../data/types';
@@ -14,10 +14,6 @@ import { MapController } from './controller';
 import { ProvincePopup } from './ProvincePopup';
 import { useT } from '../../i18n';
 
-/**
- * Desplaza el mapa lo justo para que un popup no quede tapado por la barra de
- * herramientas (derecha), el panel (izquierda) o el borde superior.
- */
 function keepClear(map: maplibregl.Map, popup: maplibregl.Popup) {
   const el = popup.getElement();
   if (!el) return;
@@ -37,7 +33,6 @@ function keepClear(map: maplibregl.Map, popup: maplibregl.Popup) {
   if (dx || dy) map.panBy([dx, dy], { duration: 300 });
 }
 
-/** Mapa MapLibre (2D + 3D). Se carga como chunk aparte. */
 export default function MapView() {
   const ref = useRef<HTMLDivElement>(null);
   const [pop, setPop] = useState<{ id: ProvinceId; el: HTMLElement } | null>(null);
@@ -71,7 +66,6 @@ export default function MapView() {
           .setLngLat(lngLat)
           .setDOMContent(el)
           .addTo(ctrl.map);
-        // una sola tarjeta a la vez: el rótulo del seleccionado se oculta mientras está abierta
         ctrl.setOverlay(true);
         const mine = popup;
         popup.on('close', () => {
@@ -80,7 +74,6 @@ export default function MapView() {
         });
         setPop({ id, el });
         const opened = popup;
-        // tras renderizar el contenido, correr el mapa si la tarjeta queda bajo la barra de herramientas
         requestAnimationFrame(() =>
           requestAnimationFrame(() => popup === opened && keepClear(ctrl.map, opened)),
         );
@@ -94,7 +87,6 @@ export default function MapView() {
     });
     ctrlRef = ctrl;
     registerMap(ctrl);
-    // los trazados (rutas, áreas) llegan después del primer pintado del mapa
     const unGeoms = useGeoms.subscribe((g) => g.ready && ctrl.refreshPlaces());
     let booted = false;
     const boot = () => {
@@ -122,7 +114,6 @@ export default function MapView() {
         tipT = setTimeout(() => setTip3d(false), 5000);
       } else if (!s.is3d && prev.is3d) setTip3d(false);
       if (s.sheet !== prev.sheet && isMobile()) ctrl.applyPadding(true);
-      // abrir el popover de estilo cierra las tarjetas del mapa para que no queden debajo
       if (s.basemapPop && !prev.basemapPop) {
         closePopup();
         ctrl.closePopups();

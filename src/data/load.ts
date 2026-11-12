@@ -22,7 +22,6 @@ interface DataState {
   error: string | null;
 }
 
-/** Datos estáticos (JSON en /public/data) cargados de forma diferida */
 export const useData = create<DataState>(() => ({ data: null, error: null }));
 
 const url = (f: string) => import.meta.env.BASE_URL + 'data/' + f;
@@ -37,7 +36,6 @@ let loading: Promise<AtlasData> | null = null;
 
 export function loadData(): Promise<AtlasData> {
   if (!loading) {
-    // un solo archivo compacto (scripts/build-data.mjs): lugares + enriquecimiento + provincias + ZEE
     loading = getJson<{ places: Place[]; provinces: ProvincesFC; eez: EezFC }>('atlas.json').then(
       ({ places, provinces, eez }) => {
         const data: AtlasData = {
@@ -56,10 +54,8 @@ export function loadData(): Promise<AtlasData> {
   return loading;
 }
 
-/* ------------------------------ trazados de rutas y áreas (diferidos) */
 export const useGeoms = create<{ ready: boolean }>(() => ({ ready: false }));
 let geomsP: Promise<void> | null = null;
-/** Pide geoms.json y lo cuelga de cada lugar; se llama cuando el mapa ya se pintó */
 export function loadGeoms() {
   if (!geomsP) {
     geomsP = Promise.all([loadData(), getJson<Record<string, Place['geometry']>>('geoms.json')]).then(
@@ -76,10 +72,8 @@ export function loadGeoms() {
   return geomsP;
 }
 
-/** Acceso síncrono (solo después de cargar) */
 export const getData = () => useData.getState().data;
 
-/* --------------------------------------- contenido por provincia (diferido) */
 let contentP: Promise<Record<ProvinceId, ProvinceContent>> | null = null;
 export const useContent = create<{
   content: Record<ProvinceId, ProvinceContent> | null;

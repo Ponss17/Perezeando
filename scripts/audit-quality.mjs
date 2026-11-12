@@ -1,13 +1,6 @@
-/**
- * Auditoría barata de calidad (cada build / CI local).
- * - IDs duplicados, coords inválidas, cercanos mismos nombre
- * - desc.es vacío / sospechoso inglés en lugares curados
- * - /media local faltante
- * - anchos responsivos S25U (412 / 360 / 768) solo como checklist estático de CSS tokens
- * Remoto: NO. Usar audit-remote.mjs explícito.
- */
 import fs from 'node:fs';
 import path from 'node:path';
+import { km } from './shared.mjs';
 const BASE = process.cwd();
 const atlas = JSON.parse(fs.readFileSync(path.join(BASE, 'public', 'data', 'atlas.json'), 'utf8'));
 const places = atlas.places;
@@ -23,7 +16,6 @@ for (const p of places) {
   if (!es.trim()) issues.push({ t: 'no-desc-es', id: p.id });
   if (p.img?.src?.startsWith('/media/')) {
     const rel = p.img.src.replace(/^\//, '');
-    // check 800 variant exists; also 320
     const abs = path.join(BASE, 'public', rel);
     if (!fs.existsSync(abs)) issues.push({ t: 'missing-media', id: p.id, src: p.img.src });
     else {
@@ -34,12 +26,6 @@ for (const p of places) {
     }
   }
 }
-// near-duplicate same cat within 25m
-const km = (a, b) => {
-  const dLat = ((b.lat - a.lat) * Math.PI) / 180, dLng = ((b.lng - a.lng) * Math.PI) / 180;
-  const h = Math.sin(dLat / 2) ** 2 + Math.cos((a.lat * Math.PI) / 180) * Math.cos((b.lat * Math.PI) / 180) * Math.sin(dLng / 2) ** 2;
-  return 12742 * Math.asin(Math.sqrt(h));
-};
 for (let i = 0; i < places.length; i++) {
   for (let j = i + 1; j < places.length; j++) {
     const a = places[i], b = places[j];

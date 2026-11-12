@@ -5,20 +5,10 @@ import { BASEMAPS, CATEGORIES } from '../data/config';
 import type { BasemapId, CategoryId, ProvinceFilter } from '../data/types';
 import { getMap, onMapMove } from '../lib/mapBus';
 import { placeFromSlug, placeSlug, provFromSlug, provSlug } from '../lib/slugs';
-import { deselect, select } from '../store/actions';
-
-/*
- * URL limpia:
- *   /#volcan-arenal                       → lugar abierto (lo único que va en la URL al usar la app)
- *   /?ruta=volcan-arenal,monteverde       → enlace compartido con una ruta
- *   /?provincia=cartago#volcan-irazu      → enlace compartido con filtro de provincia
- * Capas, mapa base, vista, idioma, etc. se guardan en localStorage, no en la URL.
- * Los hashes viejos (#p=…&l=…&v=…) se siguen leyendo y se reescriben a la forma limpia.
- */
+import { deselect, select } from '../store/selection';
 
 const VIEW_KEY = 'crmapa.view';
 const SEEN_KEY = 'crmapa.seen';
-/** parámetros propios de la app en la query (el resto, p. ej. ?e2e, se conserva) */
 const OWN_PARAMS = ['ruta', 'provincia', 'lugar'];
 
 export function isFirstVisit() {
@@ -43,7 +33,6 @@ function legacy(hash: string, d: AtlasData | null): Partial<AppState> {
   const h = new URLSearchParams(hash.slice(1));
   const out: Partial<AppState> = {};
   const l = h.get('l');
-  // "l=none" (todo oculto) se ignora: dejaba el mapa vacío para siempre
   if (l && l !== 'none') {
     const act = l.split(',').filter((c) => c in CATEGORIES) as CategoryId[];
     if (act.length) out.active = act;
@@ -67,7 +56,6 @@ function legacy(hash: string, d: AtlasData | null): Partial<AppState> {
   return out;
 }
 
-/** URL actual (hash + query propia, o formato viejo) → cambios del estado */
 export function readHash(): Partial<AppState> {
   const d = getData();
   const hash = location.hash;
@@ -110,7 +98,6 @@ function loadView(): [number, number, number] | null {
   }
 }
 
-/** query sin los parámetros propios (conserva ?e2e y similares) */
 function keptSearch() {
   const q = new URLSearchParams(location.search);
   OWN_PARAMS.forEach((k) => q.delete(k));
@@ -149,7 +136,6 @@ function write(mode: 'push' | 'replace') {
   }
 }
 
-/** Enlace para compartir: ?lugar=slug, en la misma página, para que lleve título y foto */
 export function shareUrl(placeId?: string | null): string {
   const d = getData();
   const sel = getApp().sel;
@@ -158,11 +144,9 @@ export function shareUrl(placeId?: string | null): string {
   return location.origin + pageUrl(slug, true);
 }
 
-/** Mantiene la URL limpia en sincronía con el lugar abierto */
 export function useHashSync(enabled: boolean) {
   useEffect(() => {
     if (!enabled) return;
-    // reescribir enlaces viejos / compartidos a la forma limpia (sin entrada nueva en el historial)
     write('replace');
 
     let fromHistory = false;
@@ -173,14 +157,12 @@ export function useHashSync(enabled: boolean) {
       if (is && !was)
         write('push'); // abrir un lugar → "atrás" lo cierra
       else if (!is && was && history.state?.crPlace) {
-        // cerrar con la X: volver a la entrada anterior (sin lugar)
         fromHistory = true;
         history.back();
         setTimeout(() => (fromHistory = false), 0);
       } else write('replace');
     });
 
-    // vista del mapa: solo en localStorage
     let vt: ReturnType<typeof setTimeout> | undefined;
     const off = onMapMove(() => {
       clearTimeout(vt);
@@ -194,7 +176,6 @@ export function useHashSync(enabled: boolean) {
       }, 400);
     });
 
-    // atrás/adelante o hash editado a mano
     const onNav = () => {
       const d = getData();
       if (!d) return;

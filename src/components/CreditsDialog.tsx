@@ -1,21 +1,14 @@
-import { useEffect, useRef } from 'react';
 import { MascotMono } from './MascotMono';
 import { setApp, useApp } from '../store/useApp';
 import { useT } from '../i18n';
 import { openPolicies } from '../lib/policies';
 import { Icon } from './Icon';
+import { useModalDialog } from '../hooks/useModalDialog';
 
 export function CreditsDialog() {
   const { t, lang } = useT();
   const open = useApp((s) => s.creditsOpen);
-  const ref = useRef<HTMLDialogElement>(null);
-  useEffect(() => {
-    const d = ref.current;
-    if (!d) return;
-    d.setAttribute('closedby', 'none');
-    if (open && !d.open) d.showModal();
-    if (!open && d.open) d.close();
-  }, [open]);
+  const ref = useModalDialog(open);
   const es = lang === 'es';
   return (
     <dialog

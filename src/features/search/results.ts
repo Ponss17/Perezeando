@@ -6,19 +6,19 @@ import { CATEGORY_ORDER } from '../../data/config';
 import { inCat, visiblePlaces } from '../../lib/selectors';
 import { haversine, ll } from '../../lib/geo';
 import { pick } from '../../i18n';
+import { limitNearby } from '../../lib/nearby';
 import { searchPlaces } from './searchIndex';
 
-export interface Results {
+interface Results {
   list: Place[];
   dists: Map<string, number> | null;
   grouped: boolean;
   q: string;
 }
 
-type S = Pick<AppState, 'query' | 'prov' | 'cat' | 'active' | 'near' | 'nearPlace' | 'me' | 'lang'>;
+type S = Pick<AppState, 'query' | 'prov' | 'cat' | 'active' | 'near' | 'me' | 'lang'>;
 
 const ORDER = new Map<string, number>(CATEGORY_ORDER.map((c, i) => [c, i]));
-// un Intl.Collator reutilizado es mucho más barato que localeCompare(…, lang) en cada comparación
 const collators = new Map<string, Intl.Collator>();
 const collator = (lang: string) => {
   let c = collators.get(lang);
@@ -26,7 +26,6 @@ const collator = (lang: string) => {
   return c;
 };
 
-/** Lista de resultados de la pestaña Explorar (búsqueda, cercanía o agrupada por categoría) */
 export function computeResults(s: S, d: AtlasData): Results {
   const q = s.query.trim();
   let list =
@@ -36,15 +35,11 @@ export function computeResults(s: S, d: AtlasData): Results {
         )
       : visiblePlaces(s, d.places);
   let dists: Map<string, number> | null = null;
-  const nearOrigin = s.nearPlace ? d.byId.get(s.nearPlace) : null;
-  const origin = nearOrigin ? ll(nearOrigin) : s.near && s.me ? s.me : null;
+  const origin = s.near && s.me ? s.me : null;
   const grouped = !origin && q.length < 2;
   if (origin) {
-    const from = origin;
-    list = nearOrigin ? list.filter((p) => p.id !== nearOrigin.id) : list;
-    dists = new Map(list.map((p) => [p.id, haversine(from, ll(p))]));
-    const dd = dists;
-    list = list.slice().sort((a, b) => dd.get(a.id)! - dd.get(b.id)!);
+    dists = new Map(list.map((p) => [p.id, haversine(origin, ll(p))]));
+    list = limitNearby(list, dists);
   } else if (grouped) {
     const col = collator(s.lang);
     const pinCities = s.prov !== 'all' && s.prov !== 'mar';
@@ -61,5 +56,4 @@ export function computeResults(s: S, d: AtlasData): Results {
   return { list, dists, grouped, q };
 }
 
-/** Índice de navegación por teclado en la lista de resultados */
 export const useKb = create<{ i: number }>(() => ({ i: -1 }));

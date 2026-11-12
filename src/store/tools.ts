@@ -90,7 +90,6 @@ export async function locate(listNear: boolean) {
   if (listNear) {
     setApp({
       near: true,
-      nearPlace: null,
       query: '',
       tab: 'explore',
       detailOpen: false,

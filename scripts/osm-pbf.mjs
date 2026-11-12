@@ -1,8 +1,3 @@
-/**
- * Lector mínimo de archivos .osm.pbf (formato de Geofabrik/planet), sin dependencias:
- * solo node:zlib. Recorre bloques y entrega nodos, vías y relaciones con sus etiquetas.
- * Pensado para extractos chicos (Costa Rica ≈ 40 MB): unos segundos por pasada.
- */
 import fs from 'node:fs';
 import zlib from 'node:zlib';
 
@@ -53,11 +48,6 @@ function* blocks(file) {
   } finally { fs.closeSync(fd); }
 }
 
-/**
- * Recorre el archivo. `want` = { nodes, ways, relations } (booleans) para saltar lo que no interesa.
- * Callbacks: node(id, lat, lng, tags|null), way(id, tags|null, refs()), relation(id, tags|null, members()).
- * Los tags se decodifican solo si hay etiquetas; refs/members son funciones (perezosas).
- */
 export function scan(file, cb) {
   for (const buf of blocks(file)) {
     const r = new R(buf);
@@ -110,12 +100,8 @@ export function scan(file, cb) {
   }
 }
 
-/**
- * Busca elementos con `match(tags)` y les calcula el centro (como `out center` de Overpass).
- * Devuelve [{type,id,tags,lat,lon}] en 2–3 pasadas sobre el archivo.
- */
 export function extract(file, match) {
-  const hits = [], wayRefs = new Map(), relWays = new Map(), needNodes = new Set();
+  const hits = [], relWays = new Map(), needNodes = new Set();
   scan(file, {
     node(id, lat, lon, tags) { if (tags && match(tags)) hits.push({ type: 'node', id, tags, lat, lon }); },
     way(id, tags, refs) { if (tags && match(tags)) { const r = refs(); hits.push({ type: 'way', id, tags, refs: r }); r.forEach((n) => needNodes.add(n)); } },
@@ -139,7 +125,6 @@ export function extract(file, match) {
   return out;
 }
 
-/** Vías que cumplen `match(tags)` con sus coordenadas en orden: [{id, tags, coords: [[lat, lon], …]}] */
 export function waysWithCoords(file, match) {
   const ws = [], need = new Set();
   scan(file, { way(id, tags, refs) { if (tags && match(tags)) { const r = refs(); ws.push({ id, tags, refs: r }); r.forEach((n) => need.add(n)); } } });

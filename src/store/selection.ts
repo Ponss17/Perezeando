@@ -2,10 +2,11 @@ import { getApp, setApp } from './useApp';
 import { getData } from '../data/load';
 import type { CategoryId, ProvinceFilter, ProvinceId, SheetState, Tab } from '../data/types';
 import { CATEGORY_ORDER, CR_BOUNDS, GROUPS } from '../data/config';
-import { boundsOf, haversine, ll, positions } from '../lib/geo';
+import { boundsOf, ll, positions } from '../lib/geo';
 import { withMap } from '../lib/mapBus';
 import { inCat, isMobile, visiblePlaces } from '../lib/selectors';
 import type { Place } from '../data/types';
+import { nearbyTop } from '../lib/nearby';
 
 export const setSheet = (sheet: SheetState) => setApp({ sheet });
 
@@ -97,7 +98,7 @@ export const layersAll = () => setApp({ active: [...CATEGORY_ORDER] });
 export const layersNone = () => setApp({ active: [], cat: 'all' });
 
 export function clearFilters() {
-  setApp({ near: false, nearPlace: null, cat: 'all', query: '' });
+  setApp({ near: false, cat: 'all', query: '' });
   setProv('all', true);
 }
 
@@ -109,53 +110,22 @@ export function surprise() {
   select(list[Math.floor(Math.random() * list.length)].id);
 }
 
-export const nearbyOf = (id: string, n = 6, opts: { diversify?: boolean } = {}) => {
+type Near = readonly (readonly [Place, number])[];
+const nearCache = new Map<string, Near>();
+let nearData: unknown = null;
+
+export const nearbyOf = (id: string, n = 6, opts: { diversify?: boolean } = {}): Near => {
   const d = getData();
   const p = d?.byId.get(id);
   if (!d || !p) return [];
-  const here = ll(p);
-  const pool: { q: Place; km: number }[] = [];
-  const want = Math.max(n * 8, 40);
-  for (const q of d.places) {
-    if (q.id === id) continue;
-    const km = haversine(here, ll(q));
-    if (pool.length < want) {
-      pool.push({ q, km });
-      if (pool.length === want) pool.sort((a, b) => a.km - b.km);
-    } else if (km < pool[want - 1].km) {
-      pool[want - 1] = { q, km };
-      pool.sort((a, b) => a.km - b.km);
-    }
+  if (nearData !== d) {
+    nearCache.clear();
+    nearData = d;
   }
-  pool.sort((a, b) => a.km - b.km);
-  if (!opts.diversify) return pool.slice(0, n).map((b) => [b.q, b.km] as const);
-  const picked: { q: Place; km: number }[] = [];
-  const seen = new Set<string>();
-  for (const c of pool) {
-    if (picked.length >= n) break;
-    if (seen.has(c.q.cat)) continue;
-    picked.push(c);
-    seen.add(c.q.cat);
-  }
-  for (const c of pool) {
-    if (picked.length >= n) break;
-    if (picked.some((x) => x.q.id === c.q.id)) continue;
-    picked.push(c);
-  }
-  return picked.map((b) => [b.q, b.km] as const);
+  const key = `${id}|${n}|${opts.diversify ? 1 : 0}`;
+  const hit = nearCache.get(key);
+  if (hit) return hit;
+  const out = nearbyTop(ll(p), d.places, n, opts, id);
+  nearCache.set(key, out);
+  return out;
 };
-
-export function openNearbyExplore(fromId: string) {
-  if (!getData()?.byId.has(fromId)) return;
-  setApp({
-    nearPlace: fromId,
-    near: true,
-    query: '',
-    tab: 'explore',
-    detailOpen: false,
-    panelOpen: true,
-    cat: 'all',
-    prov: 'all',
-  });
-  if (isMobile()) setSheet('half');
-}

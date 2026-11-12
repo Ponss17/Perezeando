@@ -425,13 +425,6 @@
   .toolbar.menu-on .tool-group {
     overflow: visible;
   }
-  .tip3d {
-    left: 12px;
-    right: 64px;
-    bottom: auto;
-    top: 72px;
-    transform: none;
-  }
   .tool-menu,
   .toolbar.menu-on .tool-drawer .tool,
   .tool {

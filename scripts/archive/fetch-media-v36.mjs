@@ -1,22 +1,11 @@
 #!/usr/bin/env node
-/**
- * v36: fotos prioritarias de lugares + platos, alojadas en public/media (WebP/JPEG comprimido vía thumbs Wikimedia).
- * No inventa URLs: solo Commons/Wikipedia con licencia libre y coincidencia de nombre.
- */
 import fs from 'node:fs';
 import path from 'node:path';
-import { fileURLToPath } from 'node:url';
 import { createHash } from 'node:crypto';
-import { createRequire } from 'node:module';
-const require = createRequire(import.meta.url);
-let sharp;
-try {
-  sharp = require(path.join(process.env.TEMP || '/tmp', 'pz-imgopt/node_modules/sharp'));
-} catch {
-  try { sharp = require('sharp'); } catch { sharp = null; }
-}
+import { dishKey, FREE, loadSharp, norm, ROOT, sleep, writeWebpVariants } from '../shared.mjs';
 
-/** Guarda WebP 120/320/800 y devuelve la ruta canónica -800 (evita PNG/JPEG pesados). */
+const sharp = loadSharp();
+
 async function optimizeLocalImage(buf, destDir, baseId) {
   fs.mkdirSync(destDir, { recursive: true });
   if (!sharp) {
@@ -24,28 +13,13 @@ async function optimizeLocalImage(buf, destDir, baseId) {
     fs.writeFileSync(dest, buf);
     return { local: '/media/' + path.relative(MEDIA, dest).split(path.sep).join('/'), bytes: buf.length };
   }
-  const meta = await sharp(buf).rotate().metadata();
-  const sizes = [
-    { tag: 120, w: 120, q: 72 },
-    { tag: 320, w: 320, q: 74 },
-    { tag: 800, w: 800, q: 78 },
-  ];
-  let bytes800 = 0;
-  for (const { tag, w, q } of sizes) {
-    let pipe = sharp(buf).rotate();
-    if ((meta.width || 0) > w) pipe = pipe.resize({ width: w, withoutEnlargement: true });
-    const out = path.join(destDir, `${baseId}-${tag}.webp`);
-    const info = await pipe.webp({ quality: q, effort: 6 }).toFile(out);
-    if (tag === 800) bytes800 = info.size;
-  }
+  const bytes800 = await writeWebpVariants(sharp, buf, destDir, baseId, 6);
   const dest = path.join(destDir, `${baseId}-800.webp`);
   return { local: '/media/' + path.relative(MEDIA, dest).split(path.sep).join('/'), bytes: bytes800 };
 }
 
 
-const ROOT = path.resolve(path.dirname(fileURLToPath(import.meta.url)), '..');
 const UA = 'PerezeandoContentBot/1.0 (https://perezeando.com; mapa de Costa Rica; build-time fetch)';
-const sleep = (ms) => new Promise((r) => setTimeout(r, ms));
 let last = 0;
 async function api(host, params, tries = 5) {
   for (let i = 0; i < tries; i++) {
@@ -65,11 +39,8 @@ async function api(host, params, tries = 5) {
     }
   }
 }
-const norm = (s) => (s || '').normalize('NFD').replace(/[\u0300-\u036f]/g, '').toLowerCase();
 const strip = (s) => (s || '').replace(/<[^>]+>/g, ' ').replace(/\s+/g, ' ').trim();
-const FREE = (l) => /^(cc0|cc[- ]by(-sa)?( \d(\.\d)?)?|public domain|pd\b|dominio p)/i.test(l || '') && !/nc|nd/i.test(l || '');
 const BAD = /\b(map|mapa|location|locator|logo|escudo|coat|flag|bandera|diagram|diagrama|plano|icon|svg|selfie|portrait|retrato)\b/i;
-const dishKey = (s) => norm(s).replace(/[^a-z0-9 ]+/g, ' ').replace(/\s+/g, ' ').trim();
 
 const MEDIA = path.join(ROOT, 'public', 'media');
 const PLACES_DIR = path.join(MEDIA, 'places');
@@ -156,14 +127,12 @@ function nameMatchesTitle(placeName, title) {
   return hits.length >= Math.min(2, a.length) || (a[0] && b.includes(a[0]) && a.length <= 2);
 }
 
-// ---------- clean bad wiki.es ----------
 const wdPath = path.join(ROOT, 'data', 'places-wd.json');
 const wd = JSON.parse(fs.readFileSync(wdPath, 'utf8'));
 let wikiClean = 0;
 for (const p of wd) {
   if (!p.wiki?.es || !p.name?.es) continue;
   if (!nameMatchesTitle(p.name.es, p.wiki.es) && !norm(p.wiki.es).includes(norm(p.name.es).slice(0, 8))) {
-    // keep if it's a known alias pattern parque nacional X
     const pn = norm(p.name.es);
     const wt = norm(p.wiki.es);
     if (wt.includes(pn) || pn.includes(wt.replace(/parque nacional |refugio |reserva /g, '').slice(0, 12))) continue;
@@ -174,7 +143,6 @@ for (const p of wd) {
 fs.writeFileSync(wdPath, JSON.stringify(wd) + '\n');
 console.log('wiki.es cleaned', wikiClean);
 
-// ---------- places priority ----------
 const atlas = JSON.parse(fs.readFileSync(path.join(ROOT, 'public/data/atlas.json'), 'utf8'));
 const photosPath = path.join(ROOT, 'data', 'photos.json');
 const photos = JSON.parse(fs.readFileSync(photosPath, 'utf8'));
@@ -251,7 +219,6 @@ for (const p of todo) {
 fs.writeFileSync(photosPath, JSON.stringify(photos));
 console.log({ placeOk, placeFail, foundTotal: Object.keys(photos.found).length });
 
-// ---------- food ----------
 const foodPhotosPath = path.join(ROOT, 'scripts/data/food-photos.json');
 const foodPhotos = JSON.parse(fs.readFileSync(foodPhotosPath, 'utf8'));
 const content = JSON.parse(fs.readFileSync(path.join(ROOT, 'public/data/provinces-content.json'), 'utf8'));
@@ -307,7 +274,6 @@ async function findDishPhoto(name) {
       const lic = strip(ii?.extmetadata?.LicenseShortName?.value);
       if (!ii || !FREE(lic) || BAD.test(file)) continue;
       if (words.length && !words.every((w) => f.includes(w) || f.includes(w.replace(/s$/, '')))) continue;
-      // prefer CR context when possible but don't require if exact dish words match
       return {
         src: ii.thumburl || ii.url,
         page: ii.descriptionurl,
@@ -330,7 +296,6 @@ const consider = (item) => {
 };
 for (const p of Object.values(content.provinces || {})) for (const i of p.food?.items || []) consider(i);
 for (const i of content.national?.food || []) consider(i);
-// also re-host existing remote food photos that are shown
 const rehost = [];
 for (const p of Object.values(content.provinces || {})) {
   for (const i of p.food?.items || []) {
@@ -360,7 +325,6 @@ for (const [k, name] of missingFood) {
     console.log('food err', name, e.message);
   }
 }
-// rehost up to 40 existing remote food imgs for comida tabs
 for (const row of rehost.slice(0, 40)) {
   if (foodPhotos[row.key]?.src?.startsWith('/media/')) continue;
   try {
@@ -374,7 +338,6 @@ for (const row of rehost.slice(0, 40)) {
 }
 fs.writeFileSync(foodPhotosPath, JSON.stringify(foodPhotos, null, 2) + '\n');
 
-// stamp provinces-content
 const stamp = (item) => {
   const name = typeof item.name === 'string' ? item.name : item.name?.es;
   if (!name) return;

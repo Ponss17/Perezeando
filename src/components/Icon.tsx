@@ -1,7 +1,6 @@
 import { memo } from 'react';
 import { ICONS } from '../lib/icons';
 
-/** Icono Lucide en línea (SVG) */
 export const Icon = memo(function Icon({ name, className = '' }: { name: string; className?: string }) {
   return (
     <svg

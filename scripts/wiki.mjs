@@ -1,5 +1,6 @@
+import { norm, sleep } from './shared.mjs';
 const UA = 'PerezeandoContentBot/1.0 (https://perezeando.com; mapa de Costa Rica; build-time fetch)';
-const sleep = (ms) => new Promise((r) => setTimeout(r, ms));
+export { norm };
 export const log = (...a) => console.log('·', ...a);
 
 export async function get(url, opt = {}, tries = 4) {
@@ -36,7 +37,6 @@ export const mw = async (host, params) => {
 
 export const chunks = (a, n) => Array.from({ length: Math.ceil(a.length / n) }, (_, i) => a.slice(i * n, i * n + n));
 export const qid = (u) => u?.split('/').pop();
-export const norm = (s) => (s || '').normalize('NFD').replace(/[\u0300-\u036f]/g, '').toLowerCase();
 const ENT = { amp: '&', lt: '<', gt: '>', quot: '"', apos: "'", nbsp: ' ' };
 const decode = (s) => s.replace(/&#(\d+);/g, (_, n) => String.fromCodePoint(+n)).replace(/&#x([\da-f]+);/gi, (_, n) => String.fromCodePoint(parseInt(n, 16))).replace(/&(\w+);/g, (m, n) => ENT[n] ?? m);
 export const stripHtml = (s) => (s ? decode(s.replace(/<[^>]*>/g, '')).replace(/[\u200b-\u200d\ufeff]/g, '').replace(/\s+/g, ' ').trim() : undefined);

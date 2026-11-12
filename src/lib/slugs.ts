@@ -1,12 +1,6 @@
 import type { AtlasData } from '../data/load';
 import type { ProvinceFilter, ProvinceId } from '../data/types';
 
-/**
- * Slugs cortos y legibles para la URL.
- * Los ids internos llevan un prefijo de categoría ("vol-volcan-arenal");
- * en la URL se quita ("volcan-arenal") siempre que siga siendo único.
- * Si dos lugares chocan (p. ej. "isla-del-coco"), ambos conservan su id completo.
- */
 let cache: { d: AtlasData; toSlug: Map<string, string>; toId: Map<string, string> } | null = null;
 
 const strip = (id: string) => {
@@ -33,7 +27,6 @@ function tables(d: AtlasData) {
 
 export const placeSlug = (d: AtlasData, id: string) => tables(d).toSlug.get(id) ?? id;
 
-/** slug corto o id completo (enlaces viejos) → id interno */
 export function placeFromSlug(d: AtlasData, slug: string): string | null {
   const s = decodeURIComponent(slug).trim().toLowerCase();
   if (!s) return null;
@@ -41,7 +34,6 @@ export function placeFromSlug(d: AtlasData, slug: string): string | null {
   return tables(d).toId.get(s) ?? null;
 }
 
-/* provincias: "san-jose" en la URL, "sanjose" internamente */
 const PROV_SLUG: Partial<Record<ProvinceId, string>> = { sanjose: 'san-jose' };
 
 export const provSlug = (id: ProvinceFilter) => PROV_SLUG[id as ProvinceId] ?? id;

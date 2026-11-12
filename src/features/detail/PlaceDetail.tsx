@@ -3,35 +3,27 @@ import { useApp } from '../../store/useApp';
 import { useData } from '../../data/load';
 import { useT } from '../../i18n';
 import { CATEGORIES } from '../../data/config';
-import type { Place } from '../../data/types';
-import {
-  catOne,
-  nearbyOf,
-  openNearbyExplore,
-  provName,
-  share,
-  toggleFav,
-  toggleRoute,
-} from '../../store/actions';
+import type { Place, PlaceImage } from '../../data/types';
+import { catOne, provName } from '../../store/labels';
+import { toggleFav, toggleRoute } from '../../store/trip';
+import { share } from '../../store/tools';
+import { NEAR_PREVIEW, diversifyNearby, nearbyAround } from '../../lib/nearby';
 import { fmt, norm } from '../../lib/format';
 import { haversine, ll } from '../../lib/geo';
 import { wikiTarget, wikiUrl } from '../../lib/wiki';
 import {
   HERO_W,
-  isImageReady,
-  knownPhoto,
+  placePhoto,
   prefetchPhoto,
-  preloadImage,
-  resolvePhoto,
   satelliteSnapshot,
   sizedThumb,
-  type PlacePhoto,
+  useImageState,
 } from '../../lib/photo';
 import { iconSvg } from '../../lib/icons';
 import { directionsUrl } from '../route/routing';
 import { Icon } from '../../components/Icon';
 import { PlaceItem } from '../../components/PlaceItem';
-import { Attrib, Facts, HeroTop, NickSub, Qa, SourceBox, nickRow } from './parts';
+import { Attrib, Facts, HeroTop, NickSub, Qa, SourceBox, SourceChip, nickRow } from './parts';
 import { altName, genericLabel, isGenericName } from '../../lib/names';
 import { MiniMarker } from '../../components/MiniMarker';
 import { RelatedBlock, StickyTitle, TipsBlock, VisitBlock } from './placeBlocks';
@@ -42,36 +34,26 @@ const SJO: [number, number] = [9.9281, -84.0907];
 export default function PlaceDetail({ id }: { id: string }) {
   const { t, L, lang } = useT();
   const p = useData((s) => s.data!.byId.get(id)) as Place;
+  const places = useData((s) => s.data!.places);
   const fav = useApp((s) => s.favs.includes(id));
   const inRoute = useApp((s) => s.route.includes(id));
   const w = wikiTarget(lang, p.wiki);
   const { wiki: wk } = useWikiSummary(w);
-  const pkey = id + ':' + lang;
-  const [photo, setPhoto] = useState<{ key: string; ph: PlacePhoto | null } | null>(null);
   const ref = useDetailScroll(id);
 
-  useEffect(() => {
-    let live = true;
-    resolvePhoto(p, lang).then((ph) => live && setPhoto({ key: pkey, ph }));
-    return () => {
-      live = false;
-    };
-    // eslint-disable-next-line react-hooks/exhaustive-deps
-  }, [pkey]);
-
-  const near = useMemo(() => nearbyOf(id, 6, { diversify: true }), [id]);
+  const { list: nearAll, dists: nearDists } = useMemo(() => nearbyAround(ll(p), places, id), [id, p, places]);
+  const nearPreview = useMemo(() => diversifyNearby(nearAll, NEAR_PREVIEW), [nearAll]);
+  const [nearOpen, setNearOpen] = useState(false);
+  const nearShow = nearOpen ? nearAll : nearPreview;
 
   useEffect(() => {
-    const tm = setTimeout(() => near.forEach(([q]) => prefetchPhoto(q, lang)), 1800);
+    const tm = setTimeout(() => nearAll.forEach((q) => prefetchPhoto(q)), 1800);
     return () => clearTimeout(tm);
-    // eslint-disable-next-line react-hooks/exhaustive-deps
-  }, [id, lang]);
+  }, [id, lang, nearAll]);
   const c = CATEGORIES[p.cat];
   const other = altName(lang, p.name);
   const f = p.facts ?? {};
-  const known = knownPhoto(p, lang);
-  const ph: PlacePhoto | null | undefined =
-    known !== undefined ? known : photo && photo.key === pkey ? photo.ph : undefined;
+  const img = placePhoto(p);
 
   const measure = f.alt
     ? { icon: 'mountain', k: t('altitude'), v: fmt(lang, f.alt) }
@@ -108,16 +90,12 @@ export default function PlaceDetail({ id }: { id: string }) {
   else if (sjoKm < 400) rows.push([t('from_sjo'), `${Math.round(sjoKm)} km ${t('approx')}`]);
   if (p.visit?.nearestCity) rows.push([t('nearest_city'), L(p.visit.nearestCity)]);
 
-  const displayName = genericLabel(p, lang, near[0]?.[0]);
+  const displayName = genericLabel(p, lang, nearShow[0]);
 
   return (
     <section className="tab-pane detail active" data-pane="detail" id="detail" ref={ref}>
-      {ph === null ? (
-        <NoPhotoHero key={p.id} p={p} pending={false} />
-      ) : (
-        <PhotoHero key={pkey} p={p} ph={ph} w={w} />
-      )}
-      <StickyTitle key={p.id} p={p} name={displayName} hostRef={ref} />
+      {img ? <PhotoHero p={p} img={img} /> : <NoPhotoHero p={p} />}
+      <StickyTitle p={p} name={displayName} hostRef={ref} />
       <div className="detail-body">
         <h2 className={isGenericName(p, lang) ? 'is-generic' : undefined}>{displayName}</h2>
         <NickSub n={p.nick} />
@@ -181,22 +159,38 @@ export default function PlaceDetail({ id }: { id: string }) {
           />
           <Qa icon="share-2" label={t('share')} onClick={() => share(id)} />
         </div>
-        {p.desc && L(p.desc) && !sameText(L(p.desc), wk?.ex) && <p className="lead">{L(p.desc)}</p>}
+        {p.desc && L(p.desc) && !sameText(L(p.desc), wk?.ex) && (
+          <>
+            <p className="lead">{L(p.desc)}</p>
+            {p.descSrc?.url && (
+              <p className="desc-src">
+                <SourceChip name={p.descSrc.name} url={p.descSrc.url} license={p.descSrc.license} />
+              </p>
+            )}
+          </>
+        )}
         {w && !wk?.failed && (
           <WikiBlock key={p.id + (wk?.ex ? ':1' : ':0')} text={wk?.ex} href={wikiUrl(w)} />
         )}
-        {near.length > 0 && (
+        {nearShow.length > 0 && (
           <div className="nearby">
             <h3 className="section-title">{t('nearby')}</h3>
             <ul className="list compact">
-              {near.map(([q, d]) => (
-                <PlaceItem key={q.id} p={q} dist={d} />
+              {nearShow.map((q) => (
+                <PlaceItem key={q.id} p={q} dist={nearDists.get(q.id)} />
               ))}
             </ul>
-            <button type="button" className="text-btn nearby-more" onClick={() => openNearbyExplore(id)}>
-              {t('nearby_more')}
-              <Icon name="arrow-up-right" />
-            </button>
+            {nearAll.length > nearPreview.length && (
+              <button
+                type="button"
+                className="text-btn nearby-more"
+                aria-expanded={nearOpen}
+                onClick={() => setNearOpen((o) => !o)}
+              >
+                {t(nearOpen ? 'nearby_less' : 'nearby_more')}
+                <Icon name={nearOpen ? 'chevron-up' : 'chevron-down'} />
+              </button>
+            )}
           </div>
         )}
         {p.surf && (
@@ -277,6 +271,8 @@ function PlaceSources({ p }: { p: Place }) {
   const qid = x.qid ?? p.q;
   const voy = x.voy?.[lang] ?? x.voy?.[lang === 'es' ? 'en' : 'es'];
   const src: { name: string; url: string; license?: string }[] = [];
+  if (p.descSrc?.url && !src.some((s) => s.url === p.descSrc!.url))
+    src.push({ name: p.descSrc.name, url: p.descSrc.url, license: p.descSrc.license });
   if (voy) src.push({ name: 'Wikivoyage', url: voy, license: 'CC BY-SA 4.0' });
   if (qid) src.push({ name: 'Wikidata', url: `https://www.wikidata.org/wiki/${qid}`, license: 'CC0' });
   if (p.osm)
@@ -287,9 +283,11 @@ function PlaceSources({ p }: { p: Place }) {
     });
   if (x.sinac) src.push({ name: 'SINAC', url: x.sinac });
   else if (x.web) src.push({ name: t('official_site'), url: x.web });
-  if (!src.length) return null;
+  const seen = new Set<string>();
+  const uniq = src.filter((s) => s.url && (seen.has(s.url) ? false : (seen.add(s.url), true)));
+  if (!uniq.length) return null;
   return (
-    <SourceBox label={t('sources_more')} icon="book-open" sources={src} className="place-src">
+    <SourceBox label={t('sources_more')} icon="book-open" sources={uniq} className="place-src">
       {voy && <p className="muted small">{t('voy_hint')}</p>}
     </SourceBox>
   );
@@ -333,7 +331,7 @@ function WikiBlock({ text, href }: { text?: string; href: string }) {
   );
 }
 
-function NoPhotoHero({ p, pending }: { p: Place; pending: boolean }) {
+function NoPhotoHero({ p }: { p: Place }) {
   const { lang, t } = useT();
 
   const food = p.cat === 'gastronomia';
@@ -355,7 +353,7 @@ function NoPhotoHero({ p, pending }: { p: Place; pending: boolean }) {
         <Icon name={c.icon} />
       </span>
       {food && <span className="hero-note">{t('photo_none_food')}</span>}
-      {!pending && !food && sat !== 'err' && (
+      {!food && sat !== 'err' && (
         <img
           className="hero-sat"
           src={src}
@@ -383,23 +381,11 @@ function NoPhotoHero({ p, pending }: { p: Place; pending: boolean }) {
   );
 }
 
-type Wiki = ReturnType<typeof wikiTarget>;
-
-function PhotoHero({ p, ph, w }: { p: Place; ph: PlacePhoto | undefined; w: Wiki }) {
+function PhotoHero({ p, img }: { p: Place; img: PlaceImage }) {
   const c = CATEGORIES[p.cat];
-  const src = ph ? sizedThumb(ph.src, HERO_W) : '';
-  const [state, setState] = useState<'wait' | 'ok' | 'err'>(() => (src && isImageReady(src) ? 'ok' : 'wait'));
-  const [instant] = useState(() => !!src && isImageReady(src));
-  useEffect(() => {
-    if (!src || state === 'ok') return;
-    let live = true;
-    preloadImage(src).then((ok) => live && setState(ok ? 'ok' : 'err'));
-    return () => {
-      live = false;
-    };
-    // eslint-disable-next-line react-hooks/exhaustive-deps
-  }, [src]);
-  if (state === 'err') return <NoPhotoHero p={p} pending={false} />;
+  const src = sizedThumb(img.src, HERO_W);
+  const { state, instant } = useImageState(src);
+  if (state === 'err') return <NoPhotoHero p={p} />;
   return (
     <div
       className={'hero ph' + (state === 'ok' ? ' loaded' : ' loading') + (instant ? ' instant' : '')}
@@ -411,15 +397,7 @@ function PhotoHero({ p, ph, w }: { p: Place; ph: PlacePhoto | undefined; w: Wiki
         <img className="hero-img" src={src} alt="" decoding="async" referrerPolicy="no-referrer" />
       )}
       <HeroTop />
-      {state === 'ok' &&
-        ph &&
-        (ph.kind === 'img' && p.img ? (
-          <Attrib img={p.img} />
-        ) : ph.kind === 'wiki' && w ? (
-          <Attrib href={wikiUrl(w)} label="Wikipedia" />
-        ) : (
-          <Attrib href={ph.href} label={ph.credit} license={ph.license ?? 'Wikimedia Commons'} />
-        ))}
+      {state === 'ok' && <Attrib img={img} />}
     </div>
   );
 }

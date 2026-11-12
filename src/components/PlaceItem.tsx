@@ -7,33 +7,38 @@ import { Icon } from './Icon';
 import { useT } from '../i18n';
 import { fmtKm } from '../lib/format';
 import { useApp } from '../store/useApp';
-import { catOne, nearbyOf, provName, select } from '../store/actions';
-import { placePicture, prefetchPhoto } from '../lib/photo';
+import { catOne, provName } from '../store/labels';
+import { nearbyOf, select } from '../store/selection';
+import { placeThumb, prefetchPhoto } from '../lib/photo';
 import { prefetchDetails } from '../lib/prefetch';
 import { Highlight } from '../features/search/Highlight';
 import { withMap } from '../lib/mapBus';
 import { genericLabel, isGenericName } from '../lib/names';
 
-export function Thumb({ p }: { p: Place }) {
-  const c = CATEGORIES[p.cat];
+export function ThumbBox({
+  src,
+  color,
+  icon,
+}: {
+  src: string | null | undefined;
+  color: string;
+  icon: string;
+}) {
   const [err, setErr] = useState(false);
   const [ok, setOk] = useState(false);
-  const pic = !err ? placePicture(p) : null;
+  const pic = err ? null : src;
   return (
-    <div
-      className={'thumb' + (pic && ok ? ' has-img' : '')}
-      style={{ '--c': c.color } as React.CSSProperties}
-    >
-      <Icon name={c.icon} />
+    <div className={'thumb' + (pic && ok ? ' has-img' : '')} style={{ '--c': color } as React.CSSProperties}>
+      <Icon name={icon} />
       {pic && (
         <img
-          src={pic.src}
+          src={pic}
           alt=""
           loading="lazy"
           decoding="async"
           fetchPriority="low"
           referrerPolicy="no-referrer"
-          className={ok ? 'ok' : ''}
+          className={ok ? 'ok' : undefined}
           onLoad={(e) => {
             const im = e.currentTarget;
             (im.decode ? im.decode() : Promise.resolve()).catch(() => {}).finally(() => setOk(true));
@@ -45,6 +50,11 @@ export function Thumb({ p }: { p: Place }) {
   );
 }
 
+export function Thumb({ p }: { p: Place }) {
+  const c = CATEGORIES[p.cat];
+  return <ThumbBox src={placeThumb(p)} color={c.color} icon={c.icon} />;
+}
+
 interface Props {
   p: Place;
   q?: string;
@@ -54,7 +64,6 @@ interface Props {
   onClick?: () => void;
 }
 
-/** Fila de lista para un lugar */
 export const PlaceItem = memo(function PlaceItem({ p, q, dist, right, kb, onClick }: Props) {
   const { t, L, lang } = useT();
   const on = useApp((s) => s.sel?.kind === 'place' && s.sel.id === p.id);
@@ -69,7 +78,7 @@ export const PlaceItem = memo(function PlaceItem({ p, q, dist, right, kb, onClic
       tabIndex={0}
       onClick={open}
       onPointerEnter={(e) => {
-        prefetchPhoto(p, lang);
+        prefetchPhoto(p);
         prefetchDetails();
         if (e.pointerType === 'mouse') withMap((m) => m.highlightPlace(p.id));
       }}
@@ -77,7 +86,7 @@ export const PlaceItem = memo(function PlaceItem({ p, q, dist, right, kb, onClic
         if (e.pointerType === 'mouse') withMap((m) => m.highlightPlace(null));
       }}
       onFocus={() => {
-        prefetchPhoto(p, lang);
+        prefetchPhoto(p);
         prefetchDetails();
       }}
       onKeyDown={(e) => {

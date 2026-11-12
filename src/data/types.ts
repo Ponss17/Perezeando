@@ -42,7 +42,6 @@ export const PROVINCE_IDS = [
   'limon',
 ] as const;
 export type ProvinceId = (typeof PROVINCE_IDS)[number];
-/** 'mar' = mar territorial (pseudo-provincia) */
 type PlaceProvince = ProvinceId | 'mar';
 export type ProvinceFilter = PlaceProvince | 'all';
 
@@ -65,7 +64,6 @@ export interface PlaceImage {
   page?: string;
   artist?: string;
   license?: string;
-  /** true = remoto verificado a propósito hasta migrar a /media (p. ej. 2 especies sin WebP local) */
   allowRemote?: boolean;
 }
 
@@ -78,14 +76,12 @@ interface PlaceFacts {
   capital?: boolean;
 }
 
-/** Fuente citada (chip con enlace) */
 interface SourceRef {
   name: string;
   url: string;
   license?: string;
 }
 
-/** Datos extra por lugar generados por scripts/fetch-content.mjs */
 interface PlaceExtra {
   qid?: string;
   elev?: number;
@@ -99,7 +95,6 @@ interface PlaceExtra {
   img?: PlaceImage;
 }
 
-/** apodo y gentilicio, solo con fuente verificable */
 export interface Nick {
   nickname?: string;
   popularNickname?: string;
@@ -111,46 +106,35 @@ export interface Nick {
 export interface Place {
   id: string;
   cat: CategoryId;
-  /** otras categorías en las que también aparece (p. ej. una playa que es spot de surf) */
   also?: CategoryId[];
-  /** datos de surf cuando la playa es rompiente conocida */
   surf?: { name?: string; osm?: string };
   prov: PlaceProvince;
   lat: number;
   lng: number;
   name: LocalizedText;
   desc: LocalizedText;
+  descSrc?: SourceRef;
   wiki?: Partial<LocalizedText>;
   facts?: PlaceFacts;
   img?: PlaceImage;
   link?: string;
   geometry?: LineString | Polygon;
-  /** origen del registro: curado a mano o importado de Wikidata */
   src?: 'wikidata' | 'osm';
-  /** elemento de OpenStreetMap ("node/123") */
   osm?: string;
   q?: string;
   x?: PlaceExtra;
   nick?: Nick;
-  /** lugares relacionados (p. ej. parques donde se observa una especie) */
   related?: string[];
-  /** tips de avistamiento / cuidado (fauna) */
   tips?: { view?: LocalizedText; care?: LocalizedText };
-  /** grupo taxonómico amplio para filtros de fauna */
   group?: 'mammal' | 'bird' | 'reptile' | 'amphibian' | 'insect' | 'marine';
-  /** info de visita citada (sin precios/teléfonos inventados) */
   visit?: {
     access?: LocalizedText;
     activities?: LocalizedText;
     difficulty?: LocalizedText;
     note?: LocalizedText;
-    /** mejor época / temporada */
     season?: LocalizedText;
-    /** servicios en sitio (cuando hay fuente) */
     services?: LocalizedText;
-    /** distancia/tiempo desde San José (texto citado) */
     fromSjo?: LocalizedText;
-    /** ciudad o pueblo de referencia */
     nearestCity?: LocalizedText;
     src?: SourceRef;
   };
@@ -210,12 +194,10 @@ export interface RouteResult {
   distance: number;
   duration: number;
   legs: RouteLeg[];
-  /** [lng, lat] */
   line: [number, number][];
   offroad: boolean[];
 }
 
-/* ----------------------------------------- contenido por provincia (build) */
 export interface ContentText {
   section?: string;
   text: string;
@@ -230,11 +212,8 @@ export interface ContentItem {
   venue?: string;
   leagues?: string[];
   scope?: 'regional' | 'national';
-  /** una línea que explica el plato (comidas curadas por provincia) */
   note?: LocalizedText;
-  /** escudo/logo: miniatura enlazada (no alojada aquí) */
   crest?: { src: string; page: string; from: 'commons' | 'wikipedia'; artist?: string; license?: string };
-  /** 1 = Primera División */
   tier?: number;
   src?: SourceRef;
 }

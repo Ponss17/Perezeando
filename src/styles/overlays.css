@@ -1,4 +1,3 @@
-/* Toast, avisos y créditos */
 .toast {
   position: absolute;
   z-index: 3000;
@@ -145,6 +144,15 @@
     bottom: auto;
     top: 72px;
   }
+  .notice-act {
+    min-height: 44px;
+    height: 44px;
+    padding: 0 16px;
+  }
+  .notice-x {
+    width: 44px;
+    height: 44px;
+  }
 }
 
 @media (prefers-reduced-motion: reduce) {
@@ -227,7 +235,8 @@ dialog {
   line-height: 1.15;
 }
 
-#credits .close {
+#credits .close,
+#policies .close {
   position: static;
   flex: none;
   margin-left: auto;
@@ -236,7 +245,8 @@ dialog {
   background: rgba(255, 255, 255, 0.12);
 }
 
-#credits .close:hover {
+#credits .close:hover,
+#policies .close:hover {
   color: #fff;
   background: rgba(255, 255, 255, 0.22);
 }
@@ -508,6 +518,109 @@ body:not(.dark) .notice-ico {
 
 body.dark #credits .credits-mascot {
   color: #fff;
+}
+
+#policies[open] {
+  display: flex;
+  flex-direction: column;
+}
+
+#policies {
+  max-width: 520px;
+  max-height: min(640px, calc(100vh - 32px));
+  overflow: clip;
+  border: 0;
+  border-radius: 16px;
+  background: linear-gradient(#386641 64px, #fff 64px);
+  color: #1b1d17;
+  color-scheme: light;
+  box-shadow: 0 18px 50px rgba(16, 24, 20, 0.22);
+}
+
+#policies::backdrop {
+  background: rgba(16, 24, 20, 0.46);
+}
+
+#policies .policies-head {
+  display: flex;
+  align-items: center;
+  gap: 12px;
+  flex: none;
+  min-height: 64px;
+  padding: 10px 12px 10px 18px;
+  background: #386641;
+  color: #fff;
+}
+
+#policies .policies-title {
+  min-width: 0;
+  flex: 1;
+}
+
+#policies .policies-head .brand-kicker {
+  margin: 0 0 2px;
+  color: #d4ec8a;
+}
+
+#policies .policies-head h2 {
+  margin: 0;
+  color: #fff;
+  font-family: var(--serif);
+  font-size: 18px;
+  font-weight: 600;
+  line-height: 1.2;
+}
+
+#policies .policies-sheet {
+  overflow: auto;
+  padding: 14px 16px 16px;
+  background: #fff;
+  scrollbar-width: none;
+}
+
+#policies .policies-sheet::-webkit-scrollbar {
+  width: 0;
+  height: 0;
+}
+
+#policies .policies-lede {
+  margin: 0 0 12px;
+  color: #35382e;
+}
+
+#policies section {
+  margin: 0;
+  padding: 10px 0;
+  border-top: 1px solid #e0e6d4;
+}
+
+#policies h3 {
+  margin: 0 0 6px;
+  font-size: 11px;
+  font-weight: 700;
+  letter-spacing: 0.06em;
+  text-transform: uppercase;
+  color: #2b5032;
+}
+
+#policies p,
+#policies li {
+  margin: 0;
+  color: #35382e;
+}
+
+#policies p + p,
+#policies ul {
+  margin-top: 6px;
+}
+
+#policies ul {
+  margin-bottom: 0;
+  padding-left: 16px;
+}
+
+#policies li + li {
+  margin-top: 4px;
 }
 
 body.night #policies {

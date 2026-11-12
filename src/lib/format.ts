@@ -2,7 +2,6 @@ import { mediaPath, mediaUrl } from './mediaUrl';
 import type { Lang } from '../data/types';
 import { translate, locale } from '../i18n';
 
-/** Adapta separadores numéricos y eras (a.C./d.C.) al idioma */
 export function fmt(lang: Lang, input: string | number): string {
   let s = String(input);
   if (lang === 'en') {
@@ -38,14 +37,12 @@ export function fmtDur(lang: Lang, s: number) {
   );
 }
 
-/** Normaliza para búsqueda: minúsculas y sin tildes */
 export const norm = (s: string | undefined | null) =>
   String(s || '')
     .normalize('NFD')
     .replace(/[\u0300-\u036f]/g, '')
     .toLowerCase();
 
-/** Miniatura pequeña: Wikimedia 120px o variante local -120.webp */
 export const thumbUrl = (src: string) => {
   if (!src) return src;
   const local = mediaPath(src);

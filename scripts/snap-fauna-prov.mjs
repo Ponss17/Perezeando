@@ -1,17 +1,7 @@
-/**
- * Realinea lat/lng de fauna TERRESTRE cuyo pin cae fuera del polígono de su `prov`.
- * Ancla al lugar natural más cercano YA en el atlas (misma provincia) — no inventa puntos.
- *
- * Fauna marina (`cat === 'fauna'`): NO se mueve. Sus pines suelen estar en el mar
- * (p. ej. Isla del Coco); anclarlos a islas/playas los deja encima de tierra.
- *
- * Uso: node scripts/snap-fauna-prov.mjs [--dry-run]
- */
 import fs from 'node:fs';
 import path from 'node:path';
-import { fileURLToPath } from 'node:url';
+import { km, ROOT } from './shared.mjs';
 
-const ROOT = path.join(path.dirname(fileURLToPath(import.meta.url)), '..');
 const dry = process.argv.includes('--dry-run');
 const rd = (f) => JSON.parse(fs.readFileSync(path.join(ROOT, 'data', f), 'utf8'));
 
@@ -38,21 +28,12 @@ function inPoly(lng, lat, geom) {
   }
   return false;
 }
-const km = (a, b) => {
-  const dLat = ((b.lat - a.lat) * Math.PI) / 180,
-    dLng = ((b.lng - a.lng) * Math.PI) / 180;
-  const h =
-    Math.sin(dLat / 2) ** 2 +
-    Math.cos((a.lat * Math.PI) / 180) * Math.cos((b.lat * Math.PI) / 180) * Math.sin(dLng / 2) ** 2;
-  return 12742 * Math.asin(Math.sqrt(h));
-};
 
 const atlas = JSON.parse(fs.readFileSync(path.join(ROOT, 'public/data/atlas.json'), 'utf8'));
 const byProv = Object.fromEntries(atlas.provinces.features.map((f) => [f.properties.id, f]));
 
 const PREF_LAND = new Set(['parques', 'bosques', 'volcanes', 'cerros']);
 
-/** Entre anclas preferidas de la misma provincia, la más cercana al pin original. */
 function anchorFor(fauna, pool) {
   const ok = pool.filter((x) => x.id !== fauna.id && Number.isFinite(x.lat) && Number.isFinite(x.lng));
   const pref = ok.filter((x) => PREF_LAND.has(x.cat));
@@ -70,7 +51,6 @@ const report = [];
 for (const src of sources) {
   let n = 0;
   for (const p of src.list) {
-    // marina: dejar en agua (no anclar a islas/playas en tierra)
     if (p.cat === 'fauna') continue;
     if (p.cat !== 'faunaTerrestre') continue;
     if (!p.prov || p.prov === 'mar' || p.prov === 'all') continue;

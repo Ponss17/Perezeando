@@ -2,7 +2,6 @@ import { CATEGORIES } from '../../data/config';
 import type { Lang, Place } from '../../data/types';
 import { pick } from '../../i18n';
 
-/** Puntos visibles del mapa, con el nombre en el idioma activo */
 export function placeCollection(places: Place[], lang: Lang, favs: Set<string>): GeoJSON.FeatureCollection {
   return {
     type: 'FeatureCollection',
@@ -22,7 +21,6 @@ export function placeCollection(places: Place[], lang: Lang, favs: Set<string>):
   };
 }
 
-/** Trazados (ríos, áreas, costa) de esos mismos lugares */
 export function geomCollection(places: Place[], lang: Lang): GeoJSON.FeatureCollection {
   return {
     type: 'FeatureCollection',

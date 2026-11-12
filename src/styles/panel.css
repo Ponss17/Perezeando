@@ -1189,7 +1189,9 @@ body:not(.dark) .mt-text b {
   max-width: min(420px, calc(100vw - 32px));
   border-radius: 12px;
   background: var(--paper);
-  box-shadow: var(--sh-2), 0 0 0 1px rgba(16, 24, 20, 0.08);
+  box-shadow:
+    var(--sh-2),
+    0 0 0 1px rgba(16, 24, 20, 0.08);
   overflow: hidden;
   opacity: 0;
   transform: scale(0.86);

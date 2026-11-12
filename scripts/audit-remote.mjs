@@ -1,16 +1,11 @@
-/**
- * Auditoría REMOTA explícita (no corre en build).
- * HEAD/GET throttled ≤1 req/1.2s, cache 7d en scripts/data/remote-audit-cache.json
- * Uso: node scripts/audit-remote.mjs [--limit=40]
- */
 import fs from 'node:fs';
 import path from 'node:path';
+import { sleep } from './shared.mjs';
 const BASE = process.cwd();
 const limit = Number((process.argv.find((a) => a.startsWith('--limit=')) || '--limit=40').split('=')[1]);
 const atlas = JSON.parse(fs.readFileSync(path.join(BASE, 'public', 'data', 'atlas.json'), 'utf8'));
 const cachePath = path.join(BASE, 'scripts', 'data', 'remote-audit-cache.json');
 const cache = fs.existsSync(cachePath) ? JSON.parse(fs.readFileSync(cachePath, 'utf8')) : {};
-const sleep = (ms) => new Promise((r) => setTimeout(r, ms));
 const WEEK = 7 * 24 * 3600 * 1000;
 const urls = [];
 for (const p of atlas.places) {

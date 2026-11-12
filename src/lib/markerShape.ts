@@ -2,11 +2,9 @@ import { CAT_SHAPE, CATEGORIES, type MarkerShape } from '../data/config';
 import type { CategoryId } from '../data/types';
 import { ICONS } from './icons';
 
-/** Diámetro visible de la chincheta del mapa (px) y margen para sombra/favorito */
 export const PIN = 30;
 export const PIN_PAD = 7;
 
-/** Contorno de la forma de cada familia de categorías, centrado en (c,c) */
 export function shapePath(shape: MarkerShape, c: number, r: number) {
   if (shape === 'square') {
     const k = r * 0.9;

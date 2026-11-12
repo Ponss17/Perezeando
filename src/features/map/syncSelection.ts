@@ -1,7 +1,7 @@
 import type { GeoJSONSource } from 'maplibre-gl';
 import * as maplibregl from 'maplibre-gl';
 import { isMobile, visiblePlaces } from '../../lib/selectors';
-import { select } from '../../store/actions';
+import { select } from '../../store/selection';
 import type { MapController } from './controller';
 import { PANEL_W } from './layout';
 import { buildPlaceLabel } from './markers';
@@ -43,6 +43,7 @@ export function syncSelected(c: MapController) {
     .addTo(c.map);
   c.selMarkerId = key;
   if (c.extOverlay || c.listPop) el.classList.add('menu-hide');
+  repositionPlaceLabel(c);
   requestAnimationFrame(() => repositionPlaceLabel(c));
 }
 

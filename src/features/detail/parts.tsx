@@ -1,7 +1,7 @@
 import type { ReactNode } from 'react';
 import { Icon } from '../../components/Icon';
 import { useT } from '../../i18n';
-import { closeDetail } from '../../store/actions';
+import { closeDetail } from '../../store/selection';
 import type { Nick, PlaceImage } from '../../data/types';
 
 export function HeroTop() {
@@ -55,7 +55,6 @@ interface QaProps {
   pressed?: boolean;
 }
 
-/** Acción rápida de la ficha */
 export function Qa({ icon, label, href, onClick, cls = '', pressed }: QaProps) {
   const inner = (
     <>
@@ -93,7 +92,6 @@ export function Facts({ rows }: { rows: [string, ReactNode][] }) {
   );
 }
 
-/** Chip de fuente (marrón): nombre + enlace al origen del dato */
 export function SourceChip({ name, url, license }: { name: string; url: string; license?: string }) {
   return (
     <a
@@ -110,7 +108,6 @@ export function SourceChip({ name, url, license }: { name: string; url: string; 
   );
 }
 
-/** Caja de contenido citado: encabezado "Según <fuente>" + cuerpo + chips de fuente */
 export function SourceBox({
   label,
   icon = 'globe',
@@ -142,7 +139,6 @@ export function SourceBox({
   );
 }
 
-/** Apodo bajo el título (cursiva), solo si hay fuente */
 export function NickSub({ n }: { n?: Nick }) {
   const a = n?.nickname ?? n?.popularNickname;
   if (!a) return null;
@@ -153,7 +149,6 @@ export function NickSub({ n }: { n?: Nick }) {
   );
 }
 
-/** Valor de la fila Gentilicio: «josefino · apodo popular: Chepe» + enlace a la fuente */
 // eslint-disable-next-line react-refresh/only-export-components -- helper, no componente
 export function nickRow(n: Nick | undefined, t: (k: string) => string): [string, ReactNode] | null {
   if (!n || (!n.demonym && !n.popularNickname && !n.popularDemonym)) return null;

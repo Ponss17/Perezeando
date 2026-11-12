@@ -6,7 +6,7 @@ interface PolicySection {
   items?: string[];
 }
 
-export interface PolicyCopy {
+interface PolicyCopy {
   title: string;
   lede: string;
   sections: PolicySection[];

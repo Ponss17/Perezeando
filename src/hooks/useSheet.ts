@@ -3,7 +3,6 @@ import { getApp, setApp, useApp } from '../store/useApp';
 import { isMobile } from '../lib/selectors';
 import type { SheetState } from '../data/types';
 
-/** Mide la altura "peek" (asa + encabezado) y la publica en --peek */
 function measurePeek(panel: HTMLElement | null) {
   if (!panel || !isMobile()) return;
   const h = panel.querySelector<HTMLElement>('.sheet-handle');
@@ -13,7 +12,6 @@ function measurePeek(panel: HTMLElement | null) {
   document.documentElement.style.setProperty('--sheet-h', panel.offsetHeight + 'px');
 }
 
-/** Arrastre de la hoja inferior en móvil (peek / half / full) con inercia */
 export function useSheet(ref: RefObject<HTMLElement | null>) {
   const lang = useApp((s) => s.lang);
   useLayoutEffect(() => {

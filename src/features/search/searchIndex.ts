@@ -15,6 +15,8 @@ interface Doc {
   k: string;
 }
 
+const DESC_CHARS = 120;
+
 let fuse: Fuse<Doc> | null = null;
 let src: AtlasData | null = null;
 let loading: Promise<void> | null = null;
@@ -51,8 +53,8 @@ function ensure(d: AtlasData) {
         id: p.id,
         n1: norm(p.name.es),
         n2: norm(p.name.en),
-        d1: norm(p.desc.es),
-        d2: norm(p.desc.en),
+        d1: norm(p.desc.es?.slice(0, DESC_CHARS)),
+        d2: norm(p.desc.en?.slice(0, DESC_CHARS)),
         c: norm(CATEGORIES[p.cat].name.es + ' ' + CATEGORIES[p.cat].name.en),
         k: norm(
           [p.nick?.nickname, p.nick?.popularNickname, p.nick?.demonym, p.nick?.popularDemonym]
@@ -93,7 +95,6 @@ export function searchPlaces(d: AtlasData, q: string): Place[] {
   return plain(d, q);
 }
 
-/** Empieza a bajar Fuse cuando el usuario va a buscar, no en el primer pintado. */
 export function warmSearch(d: AtlasData) {
   ensure(d);
 }

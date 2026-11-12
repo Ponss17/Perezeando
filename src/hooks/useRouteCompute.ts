@@ -4,7 +4,6 @@ import { useData } from '../data/load';
 import { computeRoute, routeKey } from '../features/route/routing';
 import type { Place } from '../data/types';
 
-/** Recalcula la ruta (OSRM o línea recta) cada vez que cambian las paradas */
 export function useRouteCompute() {
   const route = useApp((s) => s.route);
   const data = useData((s) => s.data);

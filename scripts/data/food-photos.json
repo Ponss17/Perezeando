@@ -160,7 +160,7 @@
     "license": "CC BY-SA 3.0",
     "remote": "https://upload.wikimedia.org/wikipedia/commons/6/6a/Salsa_lizano.jpg?utm_source=commons.wikimedia.org&utm_campaign=imageinfo&utm_content=thumbnail_unscaled"
   },
-  "fresco bebida": {
+  "fresco": {
     "src": "/media/food/bb6717f104-800.webp",
     "page": "https://commons.wikimedia.org/wiki/File:Frescos_de_Costa_Rica.jpg",
     "artist": "Aleat88",
@@ -244,20 +244,6 @@
     "license": "CC BY 2.0",
     "remote": "https://thumb.wikimedia.org/wikipedia/commons/thumb/5/5a/DulceDeLeche.jpg/960px-DulceDeLeche.jpg?utm_source=commons.wikimedia.org&utm_campaign=imageinfo&utm_content=thumbnail"
   },
-  "gallo gastronomia": {
-    "src": "/media/food/0fc41a3b31-800.webp",
-    "page": "https://commons.wikimedia.org/wiki/File:Gallos_de_Chorizo_y_Salchich%C3%B3n_en_Costa_Rica.jpg",
-    "artist": "José Manuel López Pinto",
-    "license": "CC BY-SA 3.0",
-    "remote": "https://thumb.wikimedia.org/wikipedia/commons/thumb/0/0c/Gallos_de_Chorizo_y_Salchich%C3%B3n_en_Costa_Rica.jpg/960px-Gallos_de_Chorizo_y_Salchich%C3%B3n_en_Costa_Rica.jpg?utm_source=commons.wikimedia.org&utm_campaign=imageinfo&utm_content=thumbnail"
-  },
-  "casado plato": {
-    "src": "/media/food/0b5c81b224-800.webp",
-    "page": "https://commons.wikimedia.org/wiki/File:Casado_costarricense.png",
-    "artist": "Aleat88",
-    "license": "CC BY-SA 4.0",
-    "remote": "https://thumb.wikimedia.org/wikipedia/commons/thumb/0/08/Casado_costarricense.png/960px-Casado_costarricense.png?utm_source=commons.wikimedia.org&utm_campaign=imageinfo&utm_content=thumbnail"
-  },
   "picadillo": {
     "src": "/media/food/f13d06e98a-800.webp",
     "page": "https://commons.wikimedia.org/wiki/File:Mexican_picadillo.jpg",
@@ -293,14 +279,14 @@
     "license": "CC BY-SA 3.0",
     "remote": "https://thumb.wikimedia.org/wikipedia/commons/thumb/3/38/Sno_cone.jpg/960px-Sno_cone.jpg?utm_source=commons.wikimedia.org&utm_campaign=imageinfo&utm_content=thumbnail"
   },
-  "carne mechada estofado": {
+  "carne mechada": {
     "src": "/media/food/474da2a1cf-800.webp",
     "page": "https://commons.wikimedia.org/wiki/File:Carne_Mechada_(11351611734).jpg",
     "artist": "Brian Child",
     "license": "CC BY-SA 2.0",
     "remote": "https://thumb.wikimedia.org/wikipedia/commons/thumb/f/f5/Carne_Mechada_%2811351611734%29.jpg/960px-Carne_Mechada_%2811351611734%29.jpg?utm_source=commons.wikimedia.org&utm_campaign=imageinfo&utm_content=thumbnail"
   },
-  "cuca galleta": {
+  "cuca": {
     "src": "/media/food/15e9f0e566-800.webp",
     "page": "https://commons.wikimedia.org/wiki/File:Primer_plano_de_galletas_cucas.jpg",
     "artist": "Colombiaball",
@@ -328,7 +314,7 @@
     "license": "CC BY-SA 3.0",
     "remote": "https://thumb.wikimedia.org/wikipedia/commons/thumb/e/eb/Cononut_milk.JPG/960px-Cononut_milk.JPG?utm_source=commons.wikimedia.org&utm_campaign=imageinfo&utm_content=thumbnail"
   },
-  "patacon gastronomia": {
+  "patacon": {
     "src": "/media/food/4a37bd8833-800.webp",
     "page": "https://commons.wikimedia.org/wiki/File:Patacones.JPG",
     "artist": "Jdvillalobos",
@@ -370,7 +356,7 @@
     "license": "CC BY-SA 3.0",
     "remote": "https://thumb.wikimedia.org/wikipedia/commons/thumb/1/18/Tortillas_de_maiz_blanco_%28M%C3%A9xico%29_01.jpg/960px-Tortillas_de_maiz_blanco_%28M%C3%A9xico%29_01.jpg?utm_source=commons.wikimedia.org&utm_campaign=imageinfo&utm_content=thumbnail"
   },
-  "alfajor hispanoamerica": {
+  "alfajor": {
     "src": "/media/food/360e70a958-800.webp",
     "page": "https://commons.wikimedia.org/wiki/File:Alfajorartes.JPG",
     "artist": "קרלוס הגדול",
@@ -384,7 +370,7 @@
     "license": "CC BY-SA 3.0",
     "remote": "https://thumb.wikimedia.org/wikipedia/commons/thumb/0/0c/Calaveritas_de_dulce.jpg/960px-Calaveritas_de_dulce.jpg?utm_source=commons.wikimedia.org&utm_campaign=imageinfo&utm_content=thumbnail"
   },
-  "bocadillo dulce": {
+  "bocadillo": {
     "src": "/media/food/6d005e431c-800.webp",
     "page": "https://commons.wikimedia.org/wiki/File:Bocadillo.jpg",
     "artist": "Trotskij",
@@ -419,7 +405,7 @@
     "license": "CC BY 3.0",
     "remote": "https://thumb.wikimedia.org/wikipedia/commons/thumb/b/b4/Bandeja_de_churros.jpg/960px-Bandeja_de_churros.jpg?utm_source=commons.wikimedia.org&utm_campaign=imageinfo&utm_content=thumbnail"
   },
-  "cocada dulce": {
+  "cocada": {
     "src": "/media/food/5b834c760c-800.webp",
     "page": "https://commons.wikimedia.org/wiki/File:Cocadas-L%C3%A1grimas_de_San_Isidro.jpg",
     "artist": "Tamorlan",
@@ -454,14 +440,14 @@
     "license": "CC BY-SA 3.0",
     "remote": "https://thumb.wikimedia.org/wikipedia/commons/thumb/0/03/Belwederki.JPG/960px-Belwederki.JPG?utm_source=commons.wikimedia.org&utm_campaign=imageinfo&utm_content=thumbnail"
   },
-  "cacique guaro": {
+  "cacique": {
     "src": "/media/food/5e7f7eddbd-800.webp",
     "page": "https://commons.wikimedia.org/wiki/File:Guaro_sour_CR.jpg",
     "artist": "Aleat88",
     "license": "CC BY-SA 4.0",
     "remote": "https://thumb.wikimedia.org/wikipedia/commons/thumb/2/26/Guaro_sour_CR.jpg/960px-Guaro_sour_CR.jpg?utm_source=commons.wikimedia.org&utm_campaign=imageinfo&utm_content=thumbnail"
   },
-  "cerveza imperial costa rica": {
+  "cerveza imperial": {
     "src": "/media/food/7f1790222d-800.webp",
     "page": "https://commons.wikimedia.org/wiki/File:Imperial_Michelada_CR.jpg",
     "artist": "JinsengTea",
@@ -495,13 +481,6 @@
     "artist": "Brendiz Otero",
     "license": "CC BY-SA 4.0",
     "remote": "https://thumb.wikimedia.org/wikipedia/commons/thumb/a/af/%C3%91ame_con_bacalao_en_El_Mofongo_Sabroso_%28Arecibo%2C_Puerto_Rico%29.jpg/960px-%C3%91ame_con_bacalao_en_El_Mofongo_Sabroso_%28Arecibo%2C_Puerto_Rico%29.jpg?utm_source=commons.wikimedia.org&utm_campaign=imageinfo&utm_content=thumbnail"
-  },
-  "rondon plato": {
-    "src": "/media/food/2160f28933-800.webp",
-    "page": "https://commons.wikimedia.org/wiki/File:Run_down_(stew).jpg",
-    "artist": "Brian Johnson & Dane Kantner",
-    "license": "CC BY-SA 2.0",
-    "remote": "https://thumb.wikimedia.org/wikipedia/commons/thumb/e/e1/Run_down_%28stew%29.jpg/960px-Run_down_%28stew%29.jpg?utm_source=commons.wikimedia.org&utm_campaign=imageinfo&utm_content=thumbnail"
   },
   "rondon": {
     "src": "/media/food/2160f28933-800.webp",

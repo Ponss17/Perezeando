@@ -4,14 +4,13 @@ export interface WikiTarget {
   lang: Lang;
   title: string;
 }
-export interface WikiSummary {
+interface WikiSummary {
   extract?: string;
   thumbnail?: { source: string };
 }
 
 export function wikiTarget(lang: Lang, wiki?: Place['wiki'] | ProvinceProps['wiki']): WikiTarget | null {
   if (!wiki) return null;
-  // En español nunca caemos a en.wikipedia: evita extractos en inglés en la ficha.
   if (lang === 'es') return wiki.es ? { lang: 'es', title: wiki.es } : null;
   if (lang === 'en' && wiki.en) return { lang: 'en', title: wiki.en };
   if (wiki.es) return { lang: 'es', title: wiki.es };
@@ -45,7 +44,6 @@ function persistWiki() {
   }
 }
 
-/** Resumen de Wikipedia (REST), con caché y timeout de 8 s */
 export function fetchWikiSummary(w: WikiTarget): Promise<WikiSummary> {
   const key = w.lang + ':' + w.title;
   const hit = wikiMem.get(key);

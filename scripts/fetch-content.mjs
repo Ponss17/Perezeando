@@ -1,24 +1,4 @@
 #!/usr/bin/env node
-/**
- * Perezeando · descarga de contenido en tiempo de build (no en el navegador).
- *
- *   node scripts/fetch-content.mjs            # todo
- *   node scripts/fetch-content.mjs --skip-osm # sin Overpass
- *
- *   node scripts/fetch-content.mjs --content-only --skip-osm  # solo provinces-content.json
- *   (npm run fetch-content)
- *
- *   node scripts/fetch-content.mjs --crests    # solo escudos de clubes y federaciones (npm run fetch-crests)
- *   node scripts/fetch-content.mjs --osm-only  # solo OpenStreetMap → places-osm.json (npm run fetch-osm)
- *                                              baja el extracto .osm.pbf de Geofabrik a .cache/osm/ (--refresh para renovarlo)
- *
- * Escribe en data/ (no se publica): places-wd.json, enrich.json, places-osm.json
- * Escribe en public/data/: provinces-content.json
- *
- * Fuentes: Wikidata (CC0), Wikipedia ES/EN y Wikivoyage (CC BY-SA 4.0),
- * Wikimedia Commons (licencia de cada archivo), OpenStreetMap (ODbL; extracto de Geofabrik).
- * Se envía User-Agent propio y se espacian las peticiones (MediaWiki / WDQS / Overpass).
- */
 import fs from 'node:fs';
 import path from 'node:path';
 import { fileURLToPath } from 'node:url';
@@ -28,6 +8,7 @@ import {
   chunks, clip, commonsMeta, fileFromP18, fileMeta, get, log, mw, norm, pageImages, pageUrl,
   qid, sectionContent, sectionsOf, slug, sparql, stripHtml, wikiTitle,
 } from './wiki.mjs';
+import { km } from './shared.mjs';
 
 const ROOT = path.resolve(path.dirname(fileURLToPath(import.meta.url)), '..'); // también en Windows
 const SRC = path.join(ROOT, 'data');
@@ -37,8 +18,6 @@ const SKIP_OSM = process.argv.includes('--skip-osm');
 const CONTENT_ONLY = process.argv.includes('--content-only'); // reusa places-wd.json / enrich.json ya generados
 const OVERPASS = process.env.OVERPASS_URL || 'https://overpass-api.de/api/interpreter';
 const OSM_ONLY = process.argv.includes('--osm-only');
-const OVERPASS_ALL = [...new Set([OVERPASS, 'https://overpass-api.de/api/interpreter', 'https://overpass.kumi.systems/api/interpreter', 'https://overpass.private.coffee/api/interpreter'])];
-/* ---------------------------------------------------------- geometría */
 const provinces = JSON.parse(fs.readFileSync(path.join(SRC, 'provinces.geojson'), 'utf8'));
 const MAXB = [[-91.5, 2.8], [-80.5, 12.6]];
 function inRing(x, y, r) {
@@ -57,7 +36,6 @@ function provOf(lng, lat) {
   }
   return null;
 }
-/** provincia más cercana (para islas pegadas a la costa) a menos de ~25 km */
 function nearestProv(lng, lat) {
   let best = null, bd = 0.23;
   for (const f of provinces.features) {
@@ -71,13 +49,7 @@ function nearestProv(lng, lat) {
   return best;
 }
 const inBounds = (lng, lat) => lng > MAXB[0][0] && lng < MAXB[1][0] && lat > MAXB[0][1] && lat < MAXB[1][1];
-const km = (a, b) => {
-  const R = 6371, dLat = ((b.lat - a.lat) * Math.PI) / 180, dLng = ((b.lng - a.lng) * Math.PI) / 180;
-  const s = Math.sin(dLat / 2) ** 2 + Math.cos((a.lat * Math.PI) / 180) * Math.cos((b.lat * Math.PI) / 180) * Math.sin(dLng / 2) ** 2;
-  return 2 * R * Math.asin(Math.sqrt(s));
-};
 
-/* ===================================================== 1. lugares nuevos */
 const existing = JSON.parse(fs.readFileSync(path.join(SRC, 'places.json'), 'utf8'));
 const CLASSES = [
   ['volcanes', 'Q8072'], ['cerros', 'Q8502'], ['parques', 'Q46169'], ['bosques', 'Q473972'],
@@ -132,7 +104,6 @@ async function buildPlaces() {
   return [...byQ.values()];
 }
 
-/* ===================================================== 2. hechos Wikidata */
 async function wdFacts(qids) {
   const out = new Map();
   for (const c of chunks(qids, 50)) {
@@ -162,9 +133,7 @@ async function labels(qids) {
   return out;
 }
 
-/* ============================================ 3. contenido por provincia */
 const PROV_WIKI = { sanjose: 'Provincia de San José', alajuela: 'Provincia de Alajuela', cartago: 'Provincia de Cartago', heredia: 'Provincia de Heredia', guanacaste: 'Provincia de Guanacaste', puntarenas: 'Provincia de Puntarenas', limon: 'Provincia de Limón' };
-/** extracto de secciones de Wikivoyage (ES y EN) por provincia */
 async function voyage(host, page, want) {
   try {
     const secs = await sectionsOf(host, page);
@@ -217,16 +186,12 @@ async function cultureSection(page) {
   } catch { return null; }
 }
 
-/* ===================================================== OpenStreetMap (--osm-only) */
 // Fuente: extracto de Costa Rica de Geofabrik (.osm.pbf, ~40 MB, se actualiza a diario). Se descarga una vez
 // a .cache/osm/ (se reusa 7 días; --refresh fuerza) y se lee aquí mismo en Node, sin Overpass ni osmium.
-// Un único pedido a un servidor de descargas estático: no carga ningún servicio público de consultas.
 const PBF_URL = process.env.OSM_PBF_URL || 'https://download.geofabrik.de/central-america/costa-rica-latest.osm.pbf';
 const PBF_FILE = process.env.OSM_PBF || path.join(ROOT, '.cache', 'osm', 'costa-rica-latest.osm.pbf');
 const isFood = (t) => /^(restaurant|cafe|fast_food)$/.test(t.amenity || '');
 const isSoda = (t) => /^soda(\s|$)/i.test(t.name);
-// Rompientes conocidas: se buscan como playas con nombre en OSM (solo se toma la ubicación de OSM).
-// [nombre de la playa en OSM, provincia, nombre del spot si difiere]
 const SURF_BREAKS = [
   ['Playa Tamarindo', 'guanacaste'], ['Playa Grande', 'guanacaste'], ['Playa Avellanas', 'guanacaste'], ['Playa Negra', 'guanacaste'],
   ['Playa Langosta', 'guanacaste'], ['Playa Junquillal', 'guanacaste'], ['Playa Guiones', 'guanacaste'], ['Playa Ostional', 'guanacaste'],
@@ -237,22 +202,18 @@ const SURF_BREAKS = [
   ['Playa Boca Barranca', 'puntarenas', 'Boca Barranca'], ['Playa Coyote', 'guanacaste'], ['Playa Manzanillo', 'guanacaste'],
   ['Salsa Brava', 'limon'], ['Playa Cocles', 'limon'], ['Playa Bonita', 'limon'], ['Isla Uvita', 'limon'], ['Playa Negra', 'limon'],
 ];
-// Ubicación aproximada de la rompiente cuando OSM da una homónima lejana o el centro de un área
-// (se usa solo si el punto de OSM queda a más de 3 km; luego se ajusta a la costa igual que el resto)
 const SURF_HINT = { 'playagrande|guanacaste': [10.333, -85.856], 'playajunquillal|guanacaste': [10.153, -85.788], 'playatamarindo|guanacaste': [10.2993, -85.842] };
 const breakKey = (s) => norm(s).replace(/[^a-z0-9]/g, '');
 const BREAK_NAMES = new Set(SURF_BREAKS.map((b) => breakKey(b[0])));
 const OSM_CATS = [
   {
     key: 'surf', cat: 'surf', cap: 70, perProv: 30,
-    // sin tiendas, escuelas ni hoteles con sport=surfing: solo rompientes y playas
     match: (t) => (t.natural === 'beach' || !(t.shop || t.amenity || t.craft || t.office || t.tourism || t.club || t.building || /school|escuela|shop|store|tienda|rental|alquiler|camp|lessons|clases|hostel|hotel/i.test(t.name))) && (t.sport === 'surfing' || t.leisure === 'surf_spot' || t.leisure === 'surf' || (t.natural === 'beach' && (t.surfing || BREAK_NAMES.has(breakKey(t.name)))) || (t.natural === 'reef' && t.surfing)),
     keep: () => true,
     score: (t) => (t.sport === 'surfing' || t.leisure ? 3 : 0) + (t.wikidata ? 2 : 0) + (t.surfing ? 1 : 0) + (t.website ? 1 : 0),
   },
   {
     key: 'gastronomia', cat: 'gastronomia', cap: 140, perProv: 28,
-    // notables: con Wikidata o web, cocina costarricense/regional, sodas, mercados y ferias
     match: (t) => t.amenity === 'marketplace' || (isFood(t) && (isSoda(t) || t.wikidata || /costa_rican|regional/i.test(t.cuisine || '') || ((t.website || t['contact:website']) && /local|latin_american|seafood/i.test(t.cuisine || '')))),
     keep: (t) => !/^(soda|restaurante|restaurant|cafe|café|mercado|feria)$/i.test(t.name.trim()) && !t.brand && !t['brand:wikidata'] && t.amenity !== 'fast_food' || isSoda(t),
     score: (t) => (t.wikidata ? 4 : 0) + (t.amenity === 'marketplace' ? 3 : 0) + (/costa_rican|regional/i.test(t.cuisine || '') ? 2 : 0) + (isSoda(t) ? 1 : 0) + (t.website || t['contact:website'] ? 1 : 0) + (t.opening_hours ? 0.5 : 0) + (t.wikimedia_commons || t.image ? 0.5 : 0),
@@ -272,7 +233,6 @@ const OSM_CATS = [
   {
     key: 'miradores', cat: 'cerros', cap: 30, perProv: 8,
     match: (t) => t.tourism === 'viewpoint',
-    // con ficha en Wikidata/Wikipedia o nombre de mirador real (hay muchos nombres improvisados)
     keep: (t) => (t.wikidata || t.wikipedia || /^(mirador|cerro|alto)\b/i.test(t.name.trim())) && !/^(mirador|viewpoint|vista)$/i.test(t.name.trim()) && !/catarata|waterfall|hotel|lodge|restaurante/i.test(t.name),
     score: (t) => (t.wikidata ? 3 : 0) + (t.wikipedia ? 2 : 0) + (t.ele ? 1 : 0) + (t.wikimedia_commons || t.image ? 1 : 0) + (t.website ? 0.5 : 0),
   },
@@ -332,7 +292,6 @@ function osmPlace(c, e) {
   if (web && /^https?:\/\//.test(web)) p.link = web;
   if (ele) p.facts = { alt: ele };
   if (t.wikipedia) { const [l, ...rest] = t.wikipedia.split(':'); if ((l === 'es' || l === 'en') && rest.length) p.wiki = { [l]: rest.join(':') }; }
-  // foto: wikimedia_commons=File:… o image=https://commons…/File:… (Wikidata P18 se busca después)
   const f = (t.wikimedia_commons || '').match(/^File:(.+)/i)?.[1] || (t.image || '').match(/commons\.wikimedia\.org\/wiki\/File:([^?#]+)/i)?.[1];
   if (f) p._file = decodeURIComponent(f).replace(/_/g, ' ');
   p._score = c.score(t) + (brk ? 2 : 0);
@@ -350,11 +309,6 @@ async function osmPhotos(all) {
   return n;
 }
 
-/**
- * Coloca cada spot de surf en la orilla: punto más cercano de la línea de costa de OSM
- * (natural=coastline, a menos de 1,5 km) y lo corre ~70 m mar adentro, donde rompe la ola.
- * La línea de costa de OSM deja la tierra a la izquierda: el mar queda a la derecha del trazo.
- */
 let OSM_PBF;
 function snapSurf(list) {
   if (!list.length) return;
@@ -371,7 +325,6 @@ function snapSurf(list) {
     let best = null;
     for (const w of coast) for (let i = 1; i < w.coords.length; i++) {
       const [a, b] = [w.coords[i - 1], w.coords[i]];
-      // en metros, relativo al spot
       const ax = (a[1] - p.lng) * M * k, ay = (a[0] - p.lat) * M, bx = (b[1] - p.lng) * M * k, by = (b[0] - p.lat) * M;
       const dx = bx - ax, dy = by - ay, L2 = dx * dx + dy * dy;
       if (!L2) continue;
@@ -430,7 +383,6 @@ async function osmOnly() {
   console.log('Siguiente paso: npm run build-data   (fusiona y descarta duplicados)');
 }
 
-/* ================================================================ main */
 const nameKey = (s) => norm(s).replace(/\b(volcan|parque nacional|playa|isla|rio|catarata|cerro|refugio|reserva|de|del|la|el|los|las)\b/g, '').replace(/[^a-z0-9]/g, '');
 
 async function main() {
@@ -445,11 +397,9 @@ async function main() {
   }
   log('1/4 lugares desde Wikidata');
   const items = await buildPlaces();
-  // calidad: nombre + señal de notabilidad
   let cand = items.filter((it) => (it.es || it.en) && !/^Q\d+$/.test(it.es || it.en) && (it.eswiki || it.enwiki || it.esvoy || it.envoy || it.img || it.her));
   log('candidatos con notabilidad', cand.length, 'de', items.length);
 
-  // qid de los lugares existentes (por título de Wikipedia) para deduplicar y enriquecer
   const exEs = existing.filter((p) => p.wiki?.es).map((p) => p.wiki.es);
   const exEn = existing.filter((p) => !p.wiki?.es && p.wiki?.en).map((p) => p.wiki.en);
   const piEs = await pageImages('es', exEs);
@@ -467,10 +417,8 @@ async function main() {
   });
   log('tras deduplicar', cand.length);
 
-  // cantones: la provincia sale de P131 (más fiable que el punto)
   const PROVQ = { Q502181: 'cartago', Q642644: 'limon', Q502170: 'puntarenas', Q502188: 'alajuela', Q502192: 'heredia', Q690026: 'guanacaste', Q647808: 'sanjose' };
   const cantonProv = new Map((await sparql('SELECT ?c ?p WHERE { ?c wdt:P31 wd:Q953822; wdt:P131 ?p. }')).map((r) => [qid(r.c), PROVQ[qid(r.p)]]));
-  // provincia
   const places = [];
   const ids = new Set(existing.map((p) => p.id));
   for (const it of cand) {
@@ -487,7 +435,6 @@ async function main() {
   log('2/4 fotos y hechos');
   const allQ = [...places.map((p) => p.q), ...[...exQ.values()].map((v) => v.qid)];
   const facts = await wdFacts([...new Set(allQ)]);
-  // foto: P18 → pageimage de Wikipedia
   const needPi = places.filter((p) => !p._img && p.wiki?.es).map((p) => p.wiki.es);
   const piNew = await pageImages('es', needPi);
   const needPiEn = places.filter((p) => !p._img && !p.wiki?.es && p.wiki?.en).map((p) => p.wiki.en);

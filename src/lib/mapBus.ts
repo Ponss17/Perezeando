@@ -1,7 +1,6 @@
 import type { Place } from '../data/types';
 import type { Bounds } from './geo';
 
-/** API imperativa que expone el mapa (MapLibre) al resto de la app. */
 export interface MapApi {
   focusPlace(p: Place, opts?: { fromMap?: boolean }): void;
   fitBounds(b: Bounds, opts?: { maxZoom?: number }): void;
@@ -10,7 +9,6 @@ export interface MapApi {
   snapshot(): Promise<string | null>;
   resize(): void;
   revealContent(): void;
-  /** resalta un pin desde la lista (hover); null limpia */
   highlightPlace(id: string | null): void;
 }
 
@@ -27,7 +25,6 @@ export function registerMap(a: MapApi | null) {
   }
 }
 
-/** Ejecuta ahora o cuando el mapa esté listo */
 export function withMap(fn: (a: MapApi) => void) {
   if (api) fn(api);
   else pending.push(fn);

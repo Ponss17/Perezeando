@@ -1,7 +1,6 @@
 import { useEffect, useRef, useState } from 'react';
 import { fetchWikiSummary, wikiTarget } from '../../lib/wiki';
 
-/** Resetea el scroll del panel al cambiar de ficha */
 export function useDetailScroll(id: string) {
   const ref = useRef<HTMLElement>(null);
   useEffect(() => {
@@ -12,7 +11,6 @@ export function useDetailScroll(id: string) {
 
 type WikiTarget = ReturnType<typeof wikiTarget>;
 
-/** Carga el extracto de Wikipedia para la ficha de lugar */
 export function useWikiSummary(w: WikiTarget) {
   const wkey = w ? w.lang + ':' + w.title : '';
   const [wiki, setWiki] = useState<{ key: string; ex?: string; failed?: boolean } | null>(null);

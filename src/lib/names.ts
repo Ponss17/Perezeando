@@ -22,13 +22,11 @@ const foldKey = (s: string) =>
     .replace(/[^a-z0-9 ]/g, '')
     .trim();
 
-/** Nombres genéricos tipo “Cascada” / “Waterfall” sin nombre propio */
 export function isGenericName(p: Place, lang: Lang): boolean {
   const key = foldKey(pick(lang, p.name));
   return GENERIC.has(key) || /^cascada\s*(grande|pequena)?$/.test(key);
 }
 
-/** Etiqueta para genéricos: “Cascada sin nombre · cerca de Playa X” */
 export function genericLabel(p: Place, lang: Lang, near?: Place | null): string {
   const name = pick(lang, p.name).trim();
   if (!isGenericName(p, lang)) return name;
@@ -38,10 +36,6 @@ export function genericLabel(p: Place, lang: Lang, near?: Place | null): string 
   return lang === 'es' ? `${base} · cerca de ${n}` : `${base} · near ${n}`;
 }
 
-/**
- * Nombre en el otro idioma, sin repetir el principal:
- * "Cerro de la Muerte (Mountain of Death)" bajo "Cerro de la Muerte" → "Mountain of Death".
- */
 export function altName(lang: Lang, name: LocalizedText): string {
   const main = (name[lang] || name.es || '').trim();
   const other = (lang === 'es' ? name.en : name.es)?.trim() ?? '';

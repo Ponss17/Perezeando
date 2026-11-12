@@ -6,7 +6,6 @@ import { pick } from '../../i18n';
 
 export const routeKey = (ids: string[]) => ids.join(',');
 
-/** Calcula la ruta en carro con OSRM; si falla, estima en línea recta (×1,3 a 50 km/h). */
 export async function computeRoute(stops: Place[], signal?: AbortSignal): Promise<RouteResult> {
   const key = routeKey(stops.map((p) => p.id));
   try {
@@ -63,7 +62,6 @@ export async function computeRoute(stops: Place[], signal?: AbortSignal): Promis
   }
 }
 
-/** Vecino más cercano + mejora 2-opt, manteniendo fija la primera parada */
 export function optimizeOrder(pts: Place[]): Place[] {
   if (pts.length < 3) return pts;
   const rest = pts.slice(1);

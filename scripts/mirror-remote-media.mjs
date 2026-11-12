@@ -1,37 +1,11 @@
 #!/usr/bin/env node
-/**
- * Fase A: espejo de imágenes remotas YA curadas → public/media (WebP 120/320/800).
- * No busca fotos nuevas. No toca ni borra WebP ya locales (/media) ni re-sube a R2.
- * Solo encola src https://…; si el -800.webp del hash ya existe, reusa archivo.
- *
- *   node scripts/mirror-remote-media.mjs
- *   node scripts/mirror-remote-media.mjs --dry-run
- *   node scripts/mirror-remote-media.mjs --limit=20
- *   node scripts/mirror-remote-media.mjs --only=places|food|content
- */
 import fs from 'node:fs';
 import path from 'node:path';
 import { createHash } from 'node:crypto';
-import { createRequire } from 'node:module';
-import { fileURLToPath } from 'node:url';
+import { dishKey, requireSharp, ROOT, sleep, writeWebpVariants } from './shared.mjs';
 
-const ROOT = path.resolve(path.dirname(fileURLToPath(import.meta.url)), '..');
-const require = createRequire(import.meta.url);
-let sharp;
-try {
-  sharp = require(path.join(process.env.TEMP || '/tmp', 'pz-imgopt/node_modules/sharp'));
-} catch {
-  try {
-    sharp = require('sharp');
-  } catch {
-    sharp = null;
-  }
-}
-if (!sharp) {
-  console.error('sharp no disponible (TEMP/pz-imgopt o sharp). Abort.');
-  process.exit(1);
-}
 
+const sharp = requireSharp();
 const args = process.argv.slice(2);
 const DRY = args.includes('--dry-run');
 const LIMIT = Number((args.find((a) => a.startsWith('--limit=')) || '').split('=')[1] || 0) || Infinity;
@@ -39,31 +13,12 @@ const ONLY = (args.find((a) => a.startsWith('--only=')) || '').split('=')[1] || 
 
 const UA = 'PerezeandoContentBot/1.0 (https://perezeando.com; mapa de Costa Rica; build-time mirror)';
 const MEDIA = path.join(ROOT, 'public', 'media');
-const SIZES = [
-  { tag: 120, w: 120, q: 72 },
-  { tag: 320, w: 320, q: 74 },
-  { tag: 800, w: 800, q: 78 },
-];
 const CONCURRENCY = 3;
-const sleep = (ms) => new Promise((r) => setTimeout(r, ms));
-
-const dishKey = (s) =>
-  String(s || '')
-    .normalize('NFD')
-    .replace(/[\u0300-\u036f]/g, '')
-    .toLowerCase()
-    .replace(/[^a-z0-9 ]+/g, ' ')
-    .replace(/\s+/g, ' ')
-    .trim();
 
 function isRemote(src) {
   return typeof src === 'string' && /^https?:\/\//i.test(src);
 }
-function isLocal(src) {
-  return typeof src === 'string' && (src.startsWith('/media/') || src.includes('/media/'));
-}
 
-/** Preferir thumb más grande / original Wikimedia. */
 function enlargeUrl(src) {
   const clean = String(src).replace(/\?utm_[^#]*$/, '').split('#')[0];
   const out = [clean];
@@ -71,7 +26,6 @@ function enlargeUrl(src) {
     out.push(clean.replace(/\/(\d+)px-/, '/1280px-'));
     out.push(clean.replace(/\/(\d+)px-/, '/960px-'));
     out.push(clean.replace(/\/(\d+)px-/, '/800px-'));
-    // original: …/thumb/a/ab/File.jpg/960px-File.jpg → …/a/ab/File.jpg
     const orig = clean.replace(/\/thumb\/([^/]+\/[^/]+\/)([^/]+)\/\d+px-\2$/i, '/$1$2');
     if (orig !== clean) out.push(orig);
   }
@@ -80,15 +34,7 @@ function enlargeUrl(src) {
 
 async function optimizeLocalImage(buf, destDir, baseId) {
   fs.mkdirSync(destDir, { recursive: true });
-  const meta = await sharp(buf).rotate().metadata();
-  let bytes800 = 0;
-  for (const { tag, w, q } of SIZES) {
-    let pipe = sharp(buf).rotate();
-    if ((meta.width || 0) > w) pipe = pipe.resize({ width: w, withoutEnlargement: true });
-    const out = path.join(destDir, `${baseId}-${tag}.webp`);
-    const info = await pipe.webp({ quality: q, effort: 4 }).toFile(out);
-    if (tag === 800) bytes800 = info.size;
-  }
+  const bytes800 = await writeWebpVariants(sharp, buf, destDir, baseId);
   return {
     local: `/media/${path.relative(MEDIA, path.join(destDir, `${baseId}-800.webp`)).split(path.sep).join('/')}`,
     bytes: bytes800,
@@ -130,7 +76,6 @@ async function downloadToMedia(src, destDir, baseId) {
   throw lastErr || new Error('dl fail');
 }
 
-/** Pool simple */
 async function mapPool(items, n, fn) {
   const out = new Array(items.length);
   let i = 0;
@@ -144,10 +89,7 @@ async function mapPool(items, n, fn) {
   return out;
 }
 
-// ---------- collect jobs ----------
-/** @type {{ kind: string, key: string, src: string, destSub: string, baseId: string, apply: (local: string) => void }[]} */
 const jobs = [];
-const seenUrl = new Map(); // url -> baseId preference (first wins for apply list)
 
 function enqueue({ kind, key, src, destSub, apply }) {
   if (!isRemote(src)) return;
@@ -156,7 +98,6 @@ function enqueue({ kind, key, src, destSub, apply }) {
   jobs.push({ kind, key, src, destSub, baseId, apply });
 }
 
-// places sources (inline img wins over photos.json in build-data)
 const placeFiles = [
   'data/places.json',
   'data/places-wd.json',
@@ -186,7 +127,6 @@ for (const rel of placeFiles) {
   for (const p of Array.isArray(raw) ? raw : []) enqueuePlaceImg(p, rel);
 }
 
-// OSM: { places: [...] }
 {
   const rel = 'data/places-osm.json';
   const abs = path.join(ROOT, rel);
@@ -197,7 +137,6 @@ for (const rel of placeFiles) {
   }
 }
 
-// enrich.json: { [id]: { img?: { src } } } — build-data lo usa si el lugar no trae foto
 {
   const rel = 'data/enrich.json';
   const abs = path.join(ROOT, rel);
@@ -220,7 +159,6 @@ for (const rel of placeFiles) {
   }
 }
 
-// photos-hand.json: overrides manuales
 {
   const rel = 'data/photos-hand.json';
   const abs = path.join(ROOT, rel);
@@ -276,7 +214,6 @@ for (const [k, img] of Object.entries(foodPhotos)) {
 
 const pcPath = path.join(ROOT, 'public/data/provinces-content.json');
 const pc = JSON.parse(fs.readFileSync(pcPath, 'utf8'));
-/** culture/sports/food vienen anidados (museums, heritage, items, arrays…); solo tocamos img remotas. */
 const stampTree = (node, section) => {
   if (!node || typeof node !== 'object') return;
   if (Array.isArray(node)) {
@@ -316,7 +253,6 @@ for (const p of Object.values(pc.provinces || {})) {
   stampTree(p.activities, 'activities');
 }
 
-// dedupe identical URL+dest within same apply batch still runs all applies after one download
 const byDownload = new Map(); // `${destSub}|${url}` -> { job meta, applies[] }
 for (const j of jobs) {
   const dk = `${j.destSub}|${j.src}`;
@@ -377,7 +313,6 @@ await mapPool(queue, CONCURRENCY, async (job) => {
   await sleep(200);
 });
 
-// persist (compacto salvo food-photos / photos-hand si ya venían con formato)
 for (const [rel, { abs, raw }] of placeDocs) {
   if (rel.endsWith('photos-hand.json')) fs.writeFileSync(abs, JSON.stringify(raw, null, 2) + '\n');
   else fs.writeFileSync(abs, JSON.stringify(raw));

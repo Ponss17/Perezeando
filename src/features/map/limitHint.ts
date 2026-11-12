@@ -4,7 +4,6 @@ import type { Lang } from '../../data/types';
 import { translate } from '../../i18n';
 import { isMobile } from '../../lib/selectors';
 
-/** Aviso cuando el zoom o el arrastre ya no pueden seguir. El estado vive aquí, no en el controlador. */
 export function attachLimitHint(map: MLMap, container: HTMLElement, lang: () => Lang) {
   const el = document.createElement('div');
   el.className = 'limit-hint';

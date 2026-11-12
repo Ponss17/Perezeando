@@ -3,7 +3,7 @@ import { useData } from '../../data/load';
 import { CATEGORIES } from '../../data/config';
 import type { CategoryId, PlaceImage, ProvinceId } from '../../data/types';
 import { pick, useT } from '../../i18n';
-import { setProv, setTab, showProvince } from '../../store/actions';
+import { setProv, setTab, showProvince } from '../../store/selection';
 import { fmt, fmtNum } from '../../lib/format';
 import { sizedThumb, useImageState } from '../../lib/photo';
 import { Icon } from '../../components/Icon';

@@ -6,7 +6,6 @@ export interface SelectOption {
   label: string;
   group?: string;
   count?: number;
-  /** color de la categoría (punto) */
   color?: string;
   icon?: string;
 }
@@ -18,7 +17,6 @@ interface Props {
   ariaLabel: string;
 }
 
-/** Lista desplegable accesible (patrón combobox + listbox de ARIA) */
 export function Select({ value, options, onChange, ariaLabel }: Props) {
   const [open, setOpen] = useState(false);
   const [hi, setHi] = useState(0);
@@ -46,7 +44,6 @@ export function Select({ value, options, onChange, ariaLabel }: Props) {
     return () => document.removeEventListener('pointerdown', down, true);
   }, [open]);
 
-  // Ajusta la altura y abre hacia arriba si no cabe abajo (p. ej. hoja móvil a media altura)
   useLayoutEffect(() => {
     const ul = list.current;
     const r = root.current?.getBoundingClientRect();

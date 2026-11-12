@@ -120,8 +120,13 @@
     }
   },
   "wd-museum-of-italian-contemporary-art-in-america": {
-    "es": "Museo de arte contemporáneo italiano en San José.",
-    "en": "Museum of Italian contemporary art in San José."
+    "es": "Museum of Italian Contemporary Art in America es un museo en San José, la provincia de San José.",
+    "en": "Museum of Italian Contemporary Art in America is a museum in San José, la provincia de San José.",
+    "src": {
+      "name": "Wikidata",
+      "url": "https://www.wikidata.org/wiki/Q3867855",
+      "license": "CC0"
+    }
   },
   "wd-selvatura-park": {
     "es": "Parque de Monteverde, en Santa Elena de Guanacaste, con puentes colgantes y senderos de bosque nuboso.",
@@ -160,8 +165,13 @@
     "en": "Parish church of Our Lady of the Forsaken, in the center of that San José canton."
   },
   "wd-iglesia-de-curridabat": {
-    "es": "Iglesia parroquial de Curridabat, en San José.",
-    "en": "Parish church of Curridabat, San José."
+    "es": "Iglesia de Curridabat es una iglesia parroquial en el cantón de Curridabat, la provincia de San José.",
+    "en": "Parroquia San Antonio de Padua is a parish church in Curridabat Canton, la provincia de San José.",
+    "src": {
+      "name": "Wikidata",
+      "url": "https://www.wikidata.org/wiki/Q7139829",
+      "license": "CC0"
+    }
   },
   "wd-iglesia-de-san-diego-la-union": {
     "es": "Iglesia de San Diego, en el cantón de La Unión, Cartago.",
@@ -1706,11 +1716,12 @@
     }
   },
   "wd-playa-hermosa": {
-    "es": "Playa Hermosa es un balneario del departamento de Maldonado, Uruguay. Está localizado sobre la costa del Río de la Plata y su principal vía de acceso es la ruta 10. Se ubica a 4,5 km de Piriápolis y limita con Playa Verde al noroeste y Playa Grande en el sudeste.",
+    "es": "Playa Hermosa es una playa en la provincia de Puntarenas.",
+    "en": "Playa Hermosa is a beach in Puntarenas Province, la provincia de Puntarenas. Its elevation is 1 m.",
     "src": {
-      "name": "Wikipedia ES",
-      "url": "https://es.wikipedia.org/wiki/Playa_Hermosa",
-      "license": "CC BY-SA 4.0"
+      "name": "Wikidata",
+      "url": "https://www.wikidata.org/wiki/Q23741932",
+      "license": "CC0"
     }
   },
   "isl-isla-negritos": {
@@ -1730,51 +1741,21 @@
     }
   },
   "osm-playa-langosta-r6905153": {
-    "es": "Playa La Angosta, también conocida como Langosta, está ubicada en el puerto de Acapulco, Guerrero, en el sur de México. Consiste en una pequeña penetración del mar hacia tierra siendo limitada hacia el sur por el cerro del Patal y hacia el norte por el Cerro de la Pinzona también conocido como los Dragos, dichos…",
+    "es": "Playa Langosta es una playa en la provincia de Guanacaste.",
+    "en": "Playa Langosta is a beach in Guanacaste Province, la provincia de Guanacaste.",
     "src": {
-      "name": "Wikipedia ES",
-      "url": "https://es.wikipedia.org/wiki/Playa_Langosta",
-      "license": "CC BY-SA 4.0"
+      "name": "Wikidata",
+      "url": "https://www.wikidata.org/wiki/Q105966625",
+      "license": "CC0"
     }
   },
   "osm-playa-negra-r6997819": {
-    "es": "Playa Negra, es una playa ubicada en la comuna de Penco (Chile) perteneciente a la Playa de Penco pero obtiene este nombre por el color de la arena que es muy oscuro, además que es una playa donde existen sitios para realizar pícnic y camping con buena vegetación, además de juegos infantiles y cabañas a los…",
+    "es": "Playa Negra es una playa en la provincia de Guanacaste.",
+    "en": "Playa Negra is a beach in Guanacaste Province, la provincia de Guanacaste.",
     "src": {
-      "name": "Wikipedia ES",
-      "url": "https://es.wikipedia.org/wiki/Playa_Negra",
-      "license": "CC BY-SA 4.0"
-    }
-  },
-  "osm-playa-bonita-w132685404": {
-    "es": "La Playa Bajada de los Palitos, también conocida como Playa Belvedere o Refugio de Lobos, se encuentra en la Ciudad de Comodoro Rivadavia provincia de Chubut, Argentina. Se localiza a 20 kilómetros aproximadamente del centro de la ciudad en dirección sur y se puede llegar a través de la Ruta Nacional 3. Posee una…",
-    "src": {
-      "name": "Wikipedia ES",
-      "url": "https://es.wikipedia.org/wiki/Playa_Bajada_de_los_Palitos",
-      "license": "CC BY-SA 4.0"
-    }
-  },
-  "osm-playa-negra-n9201485320": {
-    "es": "Playa Negra, es una playa ubicada en la comuna de Penco (Chile) perteneciente a la Playa de Penco pero obtiene este nombre por el color de la arena que es muy oscuro, además que es una playa donde existen sitios para realizar pícnic y camping con buena vegetación, además de juegos infantiles y cabañas a los…",
-    "src": {
-      "name": "Wikipedia ES",
-      "url": "https://es.wikipedia.org/wiki/Playa_Negra",
-      "license": "CC BY-SA 4.0"
-    }
-  },
-  "osm-playa-hermosa-n390096365": {
-    "es": "Playa Hermosa es un balneario del departamento de Maldonado, Uruguay. Está localizado sobre la costa del Río de la Plata y su principal vía de acceso es la ruta 10. Se ubica a 4,5 km de Piriápolis y limita con Playa Verde al noroeste y Playa Grande en el sudeste.",
-    "src": {
-      "name": "Wikipedia ES",
-      "url": "https://es.wikipedia.org/wiki/Playa_Hermosa",
-      "license": "CC BY-SA 4.0"
-    }
-  },
-  "osm-playa-manzanillo-r6997829": {
-    "es": "La Playa Manzanillo es una playa ubicada en Acapulco, Guerrero, en el sur de México. Se localiza en el fraccionamiento Las Playas, junto a la avenida Costera Miguel Alemán de dicha ciudad, formando parte de la zona turística del Acapulco tradicional o náutico, junto al Paseo del Pescador.",
-    "src": {
-      "name": "Wikipedia ES",
-      "url": "https://es.wikipedia.org/wiki/Playa_Manzanillo",
-      "license": "CC BY-SA 4.0"
+      "name": "Wikidata",
+      "url": "https://www.wikidata.org/wiki/Q17085640",
+      "license": "CC0"
     }
   },
   "osm-playa-tamarindo-r6905151": {
@@ -1810,11 +1791,12 @@
     }
   },
   "wd-cueva-murcielago-wildlife-refuge": {
-    "es": "El parque nacional Tingo María (PNT) es una reserva ecológica ubicada en el departamento de Huánuco, Perú. Se encuentra en el valle del Huallaga y protege una bella zona de montañas en la cadena conocida como la Bella Durmiente, visibles desde la ciudad de Tingo María, que cuenta con una frondosa vegetación selvática y…",
+    "es": "Cueva Murciélago Refugio de Vida Silvestre se encuentra en la provincia de Puntarenas.",
+    "en": "Cueva Murciélago Wildlife Refuge is a protected area in la provincia de Puntarenas.",
     "src": {
-      "name": "Wikipedia ES",
-      "url": "https://es.wikipedia.org/wiki/Parque_nacional_Tingo_Mar%C3%ADa",
-      "license": "CC BY-SA 4.0"
+      "name": "Wikidata",
+      "url": "https://www.wikidata.org/wiki/Q5192631",
+      "license": "CC0"
     }
   },
   "wd-refugio-de-vida-silvestre-maquenque": {
@@ -1834,11 +1816,12 @@
     }
   },
   "wd-la-ceiba-wildlife-refuge": {
-    "es": "La Ceiba es un municipio y ciudad de la República de Honduras, capital del departamento de Atlántida, además es la cuarta ciudad más poblada del país, con 222 055 habitantes (2020). Se dice que es ciudad hermana de Tela, en Atlántida.",
+    "es": "La Ceiba Refugio de Vida Silvestre es un refugio de fauna en la provincia de Puntarenas.",
+    "en": "La Ceiba Wildlife Refuge is a wildlife refuge in la provincia de Puntarenas.",
     "src": {
-      "name": "Wikipedia ES",
-      "url": "https://es.wikipedia.org/wiki/La_Ceiba",
-      "license": "CC BY-SA 4.0"
+      "name": "Wikidata",
+      "url": "https://www.wikidata.org/wiki/Q16974747",
+      "license": "CC0"
     }
   },
   "wd-las-nubes-forest-reserve": {
@@ -1890,11 +1873,12 @@
     }
   },
   "wd-macho-river-forest-reserve": {
-    "es": "El Yali es una Reserva Nacional ubicada en Chile, en la comuna de Santo Domingo. Corresponde a un humedal, es decir, una zona húmeda o inundada; temporal o permantemente. Se compone de 13 cuerpos y cursos de agua.",
+    "es": "Macho River Reserva Forestal es una reserva forestal en la provincia de Cartago.",
+    "en": "Macho River Forest Reserve is a forest reserve in la provincia de Cartago.",
     "src": {
-      "name": "Wikipedia ES",
-      "url": "https://es.wikipedia.org/wiki/Reserva_nacional_El_Yali",
-      "license": "CC BY-SA 4.0"
+      "name": "Wikidata",
+      "url": "https://www.wikidata.org/wiki/Q96391344",
+      "license": "CC0"
     }
   },
   "wd-osa-mixed-wildlife-refuge": {
@@ -1906,11 +1890,12 @@
     }
   },
   "wd-portalon-mixed-wildlife-refuge": {
-    "es": "El parque natural de Urkiola es un espacio protegido situado en el extremo sur oriental de Vizcaya y norte de Álava en el País Vasco, España. Es una área protegida de 5768 ha que se hallan en el conjunto montañoso que forman las sierras de Aramotz-Eskubaratz, los Montes del Duranguesado y la sierra de Arangio.",
+    "es": "Portalón Refugio de Vida Silvestre Mixto es un refugio de fauna en la provincia de Puntarenas.",
+    "en": "Portalón Mixed Wildlife Refuge is a wildlife refuge in la provincia de Puntarenas.",
     "src": {
-      "name": "Wikipedia ES",
-      "url": "https://es.wikipedia.org/wiki/Parque_natural_de_Urkiola",
-      "license": "CC BY-SA 4.0"
+      "name": "Wikidata",
+      "url": "https://www.wikidata.org/wiki/Q96399814",
+      "license": "CC0"
     }
   },
   "wd-banano-river": {
@@ -1930,11 +1915,12 @@
     }
   },
   "wd-museo-de-formas-espacios-y-sonidos": {
-    "es": "El Parque-Museo La Venta es un museo al aire libre en Villahermosa, Tabasco, México. Exhibe y protege las colecciones más grandes del mundo de piezas de la cultura olmeca, que representadas en un entorno natural similar a su hábitat original, fueron rescatadas de la ciudad prehispánica La Venta. Fue inaugurada por…",
+    "es": "Museo de Formas Espacios y Sonidos es un museo en la provincia de San José.",
+    "en": "Museum of Forms, Space and Sound is a museum in la provincia de San José.",
     "src": {
-      "name": "Wikipedia ES",
-      "url": "https://es.wikipedia.org/wiki/Parque-Museo_La_Venta",
-      "license": "CC BY-SA 4.0"
+      "name": "Wikidata",
+      "url": "https://www.wikidata.org/wiki/Q6940539",
+      "license": "CC0"
     }
   },
   "osm-sitio-arqueologico-finca-6-w1571115150": {
@@ -1943,6 +1929,474 @@
       "name": "Wikipedia ES",
       "url": "https://es.wikipedia.org/wiki/Sitio_arqueol%C3%B3gico_Finca_6",
       "license": "CC BY-SA 4.0"
+    }
+  },
+  "wd-acuiferos-guacimo-y-pococi-protected-zone": {
+    "es": "Acuíferos Guácimo y Pococí Zona Protectora se encuentra en la provincia de Limón.",
+    "en": "Acuíferos Guácimo y Pococí Protected Zone is a protected area in la provincia de Limón.",
+    "src": {
+      "name": "Wikidata",
+      "url": "https://www.wikidata.org/wiki/Q4677967",
+      "license": "CC0"
+    }
+  },
+  "wd-reserva-forestal-zona-de-emergencia-volcan-arena": {
+    "es": "Reserva Forestal Zona de Emergencia Volcán Arenal es una reserva forestal en el cantón de San Carlos, la provincia de Alajuela.",
+    "en": "Arenal Volcano Emergency Forest Reserve is a forest reserve in San Carlos Canton, la provincia de Alajuela.",
+    "src": {
+      "name": "Wikidata",
+      "url": "https://www.wikidata.org/wiki/Q4788940",
+      "license": "CC0"
+    }
+  },
+  "wd-refugio-nacional-de-vida-silvestre-camaronal": {
+    "es": "Refugio Nacional de Vida Silvestre Camaronal es un refugio nacional de vida silvestre en la provincia de Guanacaste.",
+    "en": "Camaronal Wildlife Refuge is a wildlife refuge in Guanacaste Province, la provincia de Guanacaste.",
+    "src": {
+      "name": "Wikidata",
+      "url": "https://www.wikidata.org/wiki/Q5024967",
+      "license": "CC0"
+    }
+  },
+  "wd-refugio-de-vida-silvestre-cipanci": {
+    "es": "Refugio de Vida Silvestre Cipancí es un refugio nacional de vida silvestre en la provincia de Guanacaste.",
+    "en": "Cipancí Wildlife Refuge is a wildlife refuge in Guanacaste Province, la provincia de Guanacaste.",
+    "src": {
+      "name": "Wikidata",
+      "url": "https://www.wikidata.org/wiki/Q5121250",
+      "license": "CC0"
+    }
+  },
+  "wd-refugio-nacional-de-vida-silvestre-curi-cancha": {
+    "es": "Refugio Nacional de Vida Silvestre Curi Cancha es un refugio nacional de vida silvestre en Monteverde, la provincia de Puntarenas.",
+    "en": "Curi Cancha Wildlife Refuge is a wildlife refuge in Monteverde, la provincia de Puntarenas.",
+    "src": {
+      "name": "Wikidata",
+      "url": "https://www.wikidata.org/wiki/Q5194725",
+      "license": "CC0"
+    }
+  },
+  "wd-refugio-nacional-de-vida-silvestre-curu": {
+    "es": "Refugio nacional de vida silvestre Curú es un refugio nacional de vida silvestre en Paquera, la provincia de Puntarenas. Su altitud es de 43 m. Cubre unos 173 km².",
+    "en": "Curú Wildlife Refuge is a wildlife refuge in Paquera, la provincia de Puntarenas. Its elevation is 43 m.",
+    "src": {
+      "name": "Wikidata",
+      "url": "https://www.wikidata.org/wiki/Q5196146",
+      "license": "CC0"
+    }
+  },
+  "wd-desarrollo-forestal-montreal": {
+    "es": "Desarrollo Forestal Montreal se encuentra en la provincia de Heredia.",
+    "en": "Desarrollo Forestal Montreal is a protected area in la provincia de Heredia.",
+    "src": {
+      "name": "Wikidata",
+      "url": "https://www.wikidata.org/wiki/Q5263634",
+      "license": "CC0"
+    }
+  },
+  "wd-refugio-de-vida-silvestre-archie-carr": {
+    "es": "Refugio de Vida Silvestre Archie Carr es un refugio nacional de vida silvestre en Colorado.",
+    "en": "Dr. Archie Carr Wildlife Refuge is a wildlife refuge in Colorado.",
+    "src": {
+      "name": "Wikidata",
+      "url": "https://www.wikidata.org/wiki/Q5303967",
+      "license": "CC0"
+    }
+  },
+  "wd-refugio-nacional-de-vida-silvestre-iguanita": {
+    "es": "Refugio Nacional de Vida Silvestre Iguanita es un refugio nacional de vida silvestre en la provincia de Guanacaste.",
+    "en": "Iguanita Wildlife Refuge is a wildlife refuge in Guanacaste Province, la provincia de Guanacaste.",
+    "src": {
+      "name": "Wikidata",
+      "url": "https://www.wikidata.org/wiki/Q5994403",
+      "license": "CC0"
+    }
+  },
+  "wd-refugio-nacional-de-vida-silvestre-laguna-las-ca": {
+    "es": "Refugio Nacional de Vida Silvestre Laguna Las Camelias es un refugio nacional de vida silvestre en el cantón de Upala, la provincia de Alajuela.",
+    "en": "Laguna Las Camelias Wildlife Refuge is a wildlife refuge in Upala Canton, la provincia de Alajuela.",
+    "src": {
+      "name": "Wikidata",
+      "url": "https://www.wikidata.org/wiki/Q6472891",
+      "license": "CC0"
+    }
+  },
+  "wd-reserva-biologica-lomas-de-barbudal": {
+    "es": "Reserva Biológica Lomas de Barbudal es un refugio nacional de vida silvestre en Bagaces, la provincia de Guanacaste.",
+    "en": "Lomas de Barbudal Biological Reserve is a wildlife refuge in Bagaces, la provincia de Guanacaste.",
+    "src": {
+      "name": "Wikidata",
+      "url": "https://www.wikidata.org/wiki/Q6669155",
+      "license": "CC0"
+    }
+  },
+  "wd-refugio-nacional-de-vida-silvestre-mata-redonda": {
+    "es": "Refugio nacional de vida silvestre Mata Redonda es un refugio nacional de vida silvestre en San Antonio, la provincia de Guanacaste.",
+    "en": "Mata Redonda Wildlife Refuge is a wildlife refuge in San Antonio, la provincia de Guanacaste.",
+    "src": {
+      "name": "Wikidata",
+      "url": "https://www.wikidata.org/wiki/Q6785896",
+      "license": "CC0"
+    }
+  },
+  "wd-reserva-biologica-islas-negritos": {
+    "es": "Reserva Biológica Islas Negritos se encuentra en la provincia de Puntarenas. Cubre unos 1.4 km². Forma parte de Islas Negritos.",
+    "en": "Negritos Islands Biological Reserve is a protected area in Puntarenas Province. It is part of Islas Negritos.",
+    "src": {
+      "name": "Wikidata",
+      "url": "https://www.wikidata.org/wiki/Q15261529",
+      "license": "CC0"
+    }
+  },
+  "wd-bonilla-bonillita-lacustrine-wetland": {
+    "es": "Bonilla-Bonillita Humedal Lacustre es un humedal en la provincia de Limón.",
+    "en": "Bonilla-Bonillita Lacustrine Wetland is a wetland in la provincia de Limón.",
+    "src": {
+      "name": "Wikidata",
+      "url": "https://www.wikidata.org/wiki/Q96373780",
+      "license": "CC0"
+    }
+  },
+  "wd-refugio-de-vida-silvestre-bosque-alegre": {
+    "es": "Refugio de Vida Silvestre Bosque Alegre se encuentra en el cantón de Río Cuarto, la provincia de Alajuela.",
+    "en": "Bosque Alegre Wildlife Refuge is a protected area in Río Cuarto Canton, la provincia de Alajuela.",
+    "src": {
+      "name": "Wikidata",
+      "url": "https://www.wikidata.org/wiki/Q96373832",
+      "license": "CC0"
+    }
+  },
+  "wd-caletas-ario-mixed-wildlife-refuge": {
+    "es": "Caletas-Ario Refugio de Vida Silvestre Mixto es un refugio de fauna de Costa Rica.",
+    "en": "Caletas-Ario Mixed Wildlife Refuge is a wildlife refuge in Costa Rica.",
+    "src": {
+      "name": "Wikidata",
+      "url": "https://www.wikidata.org/wiki/Q96374274",
+      "license": "CC0"
+    }
+  },
+  "wd-carate-mixed-wildlife-refuge": {
+    "es": "Carate Refugio de Vida Silvestre Mixto es un refugio de fauna en la provincia de Puntarenas.",
+    "en": "Carate Mixed Wildlife Refuge is a wildlife refuge in la provincia de Puntarenas.",
+    "src": {
+      "name": "Wikidata",
+      "url": "https://www.wikidata.org/wiki/Q96374419",
+      "license": "CC0"
+    }
+  },
+  "wd-central-volcanic-mountain-range-forest-reserve": {
+    "es": "Central Volcanic Mountain Range Reserva Forestal es una reserva forestal en la provincia de Limón.",
+    "en": "Central Volcanic Mountain Range Forest Reserve is a forest reserve in la provincia de Limón.",
+    "src": {
+      "name": "Wikidata",
+      "url": "https://www.wikidata.org/wiki/Q96374670",
+      "license": "CC0"
+    }
+  },
+  "wd-chora-island-wildlife-refuge": {
+    "es": "Chora Island Refugio de Vida Silvestre es una reserva biológica en la provincia de Guanacaste.",
+    "en": "Chora Island Refugio de Vida Silvestre es una reserva biológica en la provincia de Guanacaste.",
+    "src": {
+      "name": "Wikidata",
+      "url": "https://www.wikidata.org/wiki/Q96374962",
+      "license": "CC0"
+    }
+  },
+  "wd-corral-de-piedra-palustrine-wetland": {
+    "es": "Corral de Piedra Palustrine Wetland es un humedal en la provincia de Guanacaste.",
+    "en": "Corral de Piedra Palustrine Wetland is a wetland in la provincia de Guanacaste.",
+    "src": {
+      "name": "Wikidata",
+      "url": "https://www.wikidata.org/wiki/Q96375560",
+      "license": "CC0"
+    }
+  },
+  "wd-fernando-castro-cervantes-mixed-wildlife-refuge": {
+    "es": "Fernando Castro Cervantes Refugio de Vida Silvestre Mixto es un refugio de fauna en la provincia de San José.",
+    "en": "Fernando Castro Cervantes Mixed Wildlife Refuge is a wildlife refuge in la provincia de San José.",
+    "src": {
+      "name": "Wikidata",
+      "url": "https://www.wikidata.org/wiki/Q96377876",
+      "license": "CC0"
+    }
+  },
+  "wd-finca-baru-del-pacifico-mixed-wildlife-refuge": {
+    "es": "Finca Barú del Pacífico Refugio de Vida Silvestre Mixto es un refugio de fauna en la provincia de Puntarenas.",
+    "en": "Finca Barú del Pacífico Mixed Wildlife Refuge is a wildlife refuge in la provincia de Puntarenas.",
+    "src": {
+      "name": "Wikidata",
+      "url": "https://www.wikidata.org/wiki/Q96377925",
+      "license": "CC0"
+    }
+  },
+  "wd-reserva-natural-absoluta-nicolas-wessberg": {
+    "es": "Reserva natural absoluta Nicolás Wessberg es una reserva natural en el cantón de Puntarenas, la provincia de Puntarenas.",
+    "en": "Nicolas Wessberg Absolute Natural Reserve is a nature reserve in Puntarenas Canton, Puntarenas Province, la provincia de Puntarenas.",
+    "src": {
+      "name": "Wikidata",
+      "url": "https://www.wikidata.org/wiki/Q96395591",
+      "license": "CC0"
+    }
+  },
+  "wd-pajaros-island-biological-reserve": {
+    "es": "Pájaros Island Reserva Biológica es una reserva biológica de Costa Rica.",
+    "en": "Pájaros Island Reserva Biológica es una reserva biológica de Costa Rica.",
+    "src": {
+      "name": "Wikidata",
+      "url": "https://www.wikidata.org/wiki/Q96400539",
+      "license": "CC0"
+    }
+  },
+  "wd-rosario-creek-protected-zone": {
+    "es": "Rosario Creek Zona Protectora se encuentra en la provincia de San José.",
+    "en": "Rosario Creek Protected Zone is a protected area in la provincia de San José.",
+    "src": {
+      "name": "Wikidata",
+      "url": "https://www.wikidata.org/wiki/Q96402718",
+      "license": "CC0"
+    }
+  },
+  "wd-tapiria-wildlife-refuge": {
+    "es": "Tapiria Refugio de Vida Silvestre es un refugio de fauna en la provincia de Heredia.",
+    "en": "Tapiria Wildlife Refuge is a wildlife refuge in la provincia de Heredia.",
+    "src": {
+      "name": "Wikidata",
+      "url": "https://www.wikidata.org/wiki/Q96407826",
+      "license": "CC0"
+    }
+  },
+  "wd-transilvania-private-wildlife-refuge": {
+    "es": "Transilvania Private Refugio de Vida Silvestre es un refugio de fauna en la provincia de Puntarenas.",
+    "en": "Transilvania Private Wildlife Refuge is a wildlife refuge in la provincia de Puntarenas.",
+    "src": {
+      "name": "Wikidata",
+      "url": "https://www.wikidata.org/wiki/Q96410652",
+      "license": "CC0"
+    }
+  },
+  "wd-vueltas-hill-biological-reserve": {
+    "es": "Vueltas Hill Reserva Biológica es una reserva biológica en la provincia de San José.",
+    "en": "Vueltas Hill Reserva Biológica es una reserva biológica en la provincia de San José.",
+    "src": {
+      "name": "Wikidata",
+      "url": "https://www.wikidata.org/wiki/Q96414107",
+      "license": "CC0"
+    }
+  },
+  "wd-werner-sauter-wildlife-refuge": {
+    "es": "Werner Sauter Refugio de Vida Silvestre es un refugio de fauna en la provincia de Guanacaste.",
+    "en": "Werner Sauter Wildlife Refuge is a wildlife refuge in la provincia de Guanacaste.",
+    "src": {
+      "name": "Wikidata",
+      "url": "https://www.wikidata.org/wiki/Q96414445",
+      "license": "CC0"
+    }
+  },
+  "wd-volio-waterfall": {
+    "es": "Volio Waterfall es una cascada en Bribri, la provincia de Limón.",
+    "en": "Volio Waterfall is a waterfall in Bribri, la provincia de Limón.",
+    "src": {
+      "name": "Wikidata",
+      "url": "https://www.wikidata.org/wiki/Q38114",
+      "license": "CC0"
+    }
+  },
+  "wd-rio-coto-brus": {
+    "es": "Río Coto Brus es un río en la provincia de Puntarenas.",
+    "en": "Coto Brus River is a river in la provincia de Puntarenas.",
+    "src": {
+      "name": "Wikidata",
+      "url": "https://www.wikidata.org/wiki/Q5175406",
+      "license": "CC0"
+    }
+  },
+  "wd-pirris-river": {
+    "es": "Pirris River es un río en la provincia de Puntarenas.",
+    "en": "Pirris River is a river in la provincia de Puntarenas.",
+    "src": {
+      "name": "Wikidata",
+      "url": "https://www.wikidata.org/wiki/Q7198094",
+      "license": "CC0"
+    }
+  },
+  "wd-estero-portalon": {
+    "es": "Estero Portalón es un río en la provincia de Puntarenas.",
+    "en": "Estero Portalón is a river in Puntarenas Province, la provincia de Puntarenas. Its elevation is 7 m.",
+    "src": {
+      "name": "Wikidata",
+      "url": "https://www.wikidata.org/wiki/Q23738681",
+      "license": "CC0"
+    }
+  },
+  "wd-isla-tolinga": {
+    "es": "Isla Tolinga es una isla en la provincia de Puntarenas. Su altitud es de 114 m.",
+    "en": "Isla Tolinga is a island in Puntarenas Province, la provincia de Puntarenas. Its elevation is 114 m.",
+    "src": {
+      "name": "Wikidata",
+      "url": "https://www.wikidata.org/wiki/Q23735162",
+      "license": "CC0"
+    }
+  },
+  "wd-isla-de-cabo-blanco": {
+    "es": "Isla de Cabo Blanco es una isla en la provincia de Puntarenas. Su altitud es de 22 m.",
+    "en": "Isla Cabo Blanco is a island in Puntarenas Province, la provincia de Puntarenas. Its elevation is 22 m.",
+    "src": {
+      "name": "Wikidata",
+      "url": "https://www.wikidata.org/wiki/Q23745266",
+      "license": "CC0"
+    }
+  },
+  "wd-isla-mesa": {
+    "es": "Isla Mesa es una isla en la provincia de Puntarenas. Su altitud es de 19 m.",
+    "en": "Isla Mesa is a island in Puntarenas Province, la provincia de Puntarenas. Its elevation is 19 m.",
+    "src": {
+      "name": "Wikidata",
+      "url": "https://www.wikidata.org/wiki/Q23746458",
+      "license": "CC0"
+    }
+  },
+  "wd-isla-alcatraz": {
+    "es": "Isla Alcatraz es una isla en la provincia de Puntarenas. Su altitud es de 144 m.",
+    "en": "Isla Alcatraz is a island in Puntarenas Province, la provincia de Puntarenas. Its elevation is 144 m.",
+    "src": {
+      "name": "Wikidata",
+      "url": "https://www.wikidata.org/wiki/Q23746550",
+      "license": "CC0"
+    }
+  },
+  "wd-playa-gemelas": {
+    "es": "Playa Gemelas es una playa en la provincia de Puntarenas. Su altitud es de 25 m.",
+    "en": "Playa Gemelas is a beach in Puntarenas Province, la provincia de Puntarenas. Its elevation is 25 m.",
+    "src": {
+      "name": "Wikidata",
+      "url": "https://www.wikidata.org/wiki/Q23746445",
+      "license": "CC0"
+    }
+  },
+  "wd-playa-arenilla": {
+    "es": "Playa Arenilla es una playa en la provincia de Guanacaste. Su altitud es de 11 m.",
+    "en": "Playa Arenilla is a beach in la provincia de Guanacaste. Its elevation is 11 m.",
+    "src": {
+      "name": "Wikidata",
+      "url": "https://www.wikidata.org/wiki/Q23747057",
+      "license": "CC0"
+    }
+  },
+  "wd-playa-colonia": {
+    "es": "Playa Colonia es una playa en Bahía Ballena, la provincia de Puntarenas.",
+    "en": "Colonia Beach is a beach in Bahía Ballena, la provincia de Puntarenas.",
+    "src": {
+      "name": "Wikidata",
+      "url": "https://www.wikidata.org/wiki/Q125952999",
+      "license": "CC0"
+    }
+  },
+  "wd-museo-de-los-ninos": {
+    "es": "Museo de los Niños es un museo en la provincia de San José.",
+    "en": "Museo de los Niños is a museum in la provincia de San José.",
+    "src": {
+      "name": "Wikidata",
+      "url": "https://www.wikidata.org/wiki/Q6940556",
+      "license": "CC0"
+    }
+  },
+  "wd-tren-turistico-arenal": {
+    "es": "Tren Turístico Arenal es una línea férrea en Arenal, la provincia de Guanacaste. Tiene una longitud de unos 3.5 km.",
+    "en": "Tren Turistico Arenal is a railway line in Arenal, la provincia de Guanacaste.",
+    "src": {
+      "name": "Wikidata",
+      "url": "https://www.wikidata.org/wiki/Q12356053",
+      "license": "CC0"
+    }
+  },
+  "wd-cathedral-of-st-anthony-of-padua": {
+    "es": "Cathedral of St. Anthony of Padua es una catedral católica en el cantón de Tilarán, la provincia de Guanacaste.",
+    "en": "Cathedral of St. Anthony of Padua is a Catholic cathedral in Tilarán Canton, la provincia de Guanacaste.",
+    "src": {
+      "name": "Wikidata",
+      "url": "https://www.wikidata.org/wiki/Q123048730",
+      "license": "CC0"
+    }
+  },
+  "wd-cathedral-of-the-immaculate-conception": {
+    "es": "Cathedral of the Immaculate Conception es una catedral católica en Liberia, la provincia de Guanacaste.",
+    "en": "Cathedral of the Immaculate Conception is a Catholic cathedral in Liberia, la provincia de Guanacaste.",
+    "src": {
+      "name": "Wikidata",
+      "url": "https://www.wikidata.org/wiki/Q139569450",
+      "license": "CC0"
+    }
+  },
+  "wd-las-mercedes": {
+    "es": "Las Mercedes es un yacimiento arqueológico en la provincia de Limón.",
+    "en": "Las Mercedes is a archaeological site in la provincia de Limón.",
+    "src": {
+      "name": "Wikidata",
+      "url": "https://www.wikidata.org/wiki/Q6492330",
+      "license": "CC0"
+    }
+  },
+  "wd-el-silencio": {
+    "es": "El Silencio se encuentra en el cantón de Tilarán, la provincia de Guanacaste. Cubre unas 6.16 ha.",
+    "en": "El Silencio is a human settlement in Tilarán Canton, la provincia de Guanacaste. It is part of Precolumbian Chiefdom Settlements with Stone Spheres of the Diquís.",
+    "src": {
+      "name": "Wikidata",
+      "url": "https://www.wikidata.org/wiki/Q5352180",
+      "license": "CC0"
+    }
+  },
+  "osm-playa-camaronal-w469277427": {
+    "es": "Playa Camaronal es una playa en la provincia de Guanacaste.",
+    "en": "Playa Camaronal is a beach in Guanacaste Province, la provincia de Guanacaste. Its elevation is 7 m.",
+    "src": {
+      "name": "Wikidata",
+      "url": "https://www.wikidata.org/wiki/Q23745303",
+      "license": "CC0"
+    }
+  },
+  "osm-playa-cocles-w413725558": {
+    "es": "Playa Cocles es una playa en la provincia de Limón.",
+    "en": "Playa Cocles is a beach in la provincia de Limón. Its elevation is 2 m.",
+    "src": {
+      "name": "Wikidata",
+      "url": "https://www.wikidata.org/wiki/Q23746447",
+      "license": "CC0"
+    }
+  },
+  "osm-playa-coyote-w469266719": {
+    "es": "Playa Coyote es una playa en la provincia de Guanacaste.",
+    "en": "Playa Coyote is a beach in Guanacaste Province, la provincia de Guanacaste. Its elevation is 8 m.",
+    "src": {
+      "name": "Wikidata",
+      "url": "https://www.wikidata.org/wiki/Q23743536",
+      "license": "CC0"
+    }
+  },
+  "osm-playa-san-miguel-w469268533": {
+    "es": "Playa San Miguel es una playa en la provincia de Guanacaste. Su altitud es de 12 m.",
+    "en": "Playa San Miguel is a beach in Guanacaste Province, la provincia de Guanacaste. Its elevation is 12 m.",
+    "src": {
+      "name": "Wikidata",
+      "url": "https://www.wikidata.org/wiki/Q23736981",
+      "license": "CC0"
+    }
+  },
+  "osm-mercado-central-de-san-jose-w264040874": {
+    "es": "Mercado Central de San José es un mercado en San José, la provincia de San José.",
+    "en": "Mercado Central de San José is a market in San José, la provincia de San José.",
+    "src": {
+      "name": "Wikidata",
+      "url": "https://www.wikidata.org/wiki/Q7414518",
+      "license": "CC0"
+    }
+  },
+  "osm-isla-verde-w381272433": {
+    "es": "Isla Verde es un hotel en la provincia de San José.",
+    "en": "Isla Verde is a hotel in la provincia de San José.",
+    "src": {
+      "name": "Wikidata",
+      "url": "https://www.wikidata.org/wiki/Q111151270",
+      "license": "CC0"
     }
   }
 }

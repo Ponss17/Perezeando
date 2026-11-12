@@ -4,19 +4,18 @@ import { useData } from '../../data/load';
 import { useT } from '../../i18n';
 import type { Place } from '../../data/types';
 import { CATEGORIES } from '../../data/config';
+import { catOne, provName } from '../../store/labels';
+import { select } from '../../store/selection';
 import {
-  catOne,
   exportGpx,
   fitRoute,
   moveStop,
   optimizeRoute,
-  provName,
-  select,
   setRoute,
   sleepInTown,
   toggleDayStart,
   toggleRoute,
-} from '../../store/actions';
+} from '../../store/trip';
 import { fmtDur, fmtKm } from '../../lib/format';
 import { haversine, ll } from '../../lib/geo';
 import { Icon } from '../../components/Icon';
@@ -24,7 +23,6 @@ import { EmptyState, PlaceItem } from '../../components/PlaceItem';
 import { searchPlaces, subscribeSearch } from '../search/searchIndex';
 import { gmapsRouteUrl, routeKey } from './routing';
 
-/** Planificador de ruta (cargado bajo demanda) */
 export default function RoutePane() {
   const { t, L, lang } = useT();
   const data = useData((s) => s.data)!;

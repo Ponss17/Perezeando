@@ -1,7 +1,7 @@
 import type { MapGeoJSONFeature, MapMouseEvent } from 'maplibre-gl';
 import type { ProvinceId } from '../../data/types';
 import { prefetchDetails } from '../../lib/prefetch';
-import { addMeasurePoint } from '../../store/actions';
+import { addMeasurePoint } from '../../store/tools';
 import { expandCluster as openCluster } from './clusters';
 import { clusterBreakdown } from './images';
 import type { MapController } from './controller';

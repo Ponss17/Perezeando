@@ -1,4 +1,3 @@
-/* Hoja de atlas: oculta en pantalla, solo en impresión */
 .print-sheet {
   display: none;
 }
@@ -35,7 +34,6 @@
     background: #fff !important;
   }
 
-  /* Solo la hoja; evita páginas en blanco del layout de la app */
   #app > *:not(.print-sheet) {
     display: none !important;
   }
@@ -143,7 +141,6 @@
     print-color-adjust: exact;
   }
 
-  /* Tope duro: el PNG del canvas es enorme y si no se limita genera 2–3 páginas */
   .print-img {
     display: block !important;
     width: 100% !important;

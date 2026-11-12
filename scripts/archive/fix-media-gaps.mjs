@@ -1,26 +1,12 @@
 #!/usr/bin/env node
-/** Baja fotos libres para huecos puntuales (fauna 404 + estadio Lito Monge). */
 import fs from 'node:fs';
 import path from 'node:path';
 import { createHash } from 'node:crypto';
-import { createRequire } from 'node:module';
-import { fileURLToPath } from 'node:url';
+import { requireSharp, ROOT, writeWebpVariants } from '../shared.mjs';
 
-const ROOT = path.resolve(path.dirname(fileURLToPath(import.meta.url)), '..');
-const require = createRequire(import.meta.url);
-let sharp;
-try {
-  sharp = require(path.join(process.env.TEMP || '/tmp', 'pz-imgopt/node_modules/sharp'));
-} catch {
-  sharp = require('sharp');
-}
+const sharp = requireSharp();
 const UA = 'PerezeandoContentBot/1.0 (https://perezeando.com; mapa de Costa Rica; build-time)';
 const MEDIA = path.join(ROOT, 'public', 'media', 'places');
-const SIZES = [
-  { tag: 120, w: 120, q: 72 },
-  { tag: 320, w: 320, q: 74 },
-  { tag: 800, w: 800, q: 78 },
-];
 fs.mkdirSync(MEDIA, { recursive: true });
 
 async function api(host, params) {
@@ -56,12 +42,7 @@ async function save(id, meta) {
   const r = await fetch(meta.src, { headers: { 'User-Agent': UA, Accept: 'image/*,*/*' }, signal: AbortSignal.timeout(90000) });
   if (!r.ok) throw new Error('dl ' + r.status);
   const buf = Buffer.from(await r.arrayBuffer());
-  const m = await sharp(buf).rotate().metadata();
-  for (const { tag, w, q } of SIZES) {
-    let pipe = sharp(buf).rotate();
-    if ((m.width || 0) > w) pipe = pipe.resize({ width: w, withoutEnlargement: true });
-    await pipe.webp({ quality: q, effort: 4 }).toFile(path.join(MEDIA, `${baseId}-${tag}.webp`));
-  }
+  await writeWebpVariants(sharp, buf, MEDIA, baseId);
   return {
     src: `/media/places/${baseId}-800.webp`,
     page: meta.page,

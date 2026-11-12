@@ -19,3 +19,8 @@ perf/*
 
 # Estado local de Wrangler
 .wrangler/
+
+
+# sacamos el handoff
+HANDOFF.md
+HANDOFF.md

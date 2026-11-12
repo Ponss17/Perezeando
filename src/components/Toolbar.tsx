@@ -1,14 +1,13 @@
 import { useEffect, useRef, useState } from 'react';
 import { useApp, setApp } from '../store/useApp';
 import { useT } from '../i18n';
-import { doPrint, locate, share, toggle3d, toggleMeasure, toggleNight, toggleOv } from '../store/actions';
+import { doPrint, locate, share, toggle3d, toggleMeasure, toggleNight, toggleOv } from '../store/tools';
 import { BasemapGrid } from '../features/layers/BasemapGrid';
 import { LayerRow } from '../features/layers/LayerRow';
 import type { Overlays } from '../data/types';
 import { Icon } from './Icon';
 import { isMobile } from '../lib/selectors';
 
-/** Capas de referencia: todas viven en el popover de estilo del mapa */
 const OVERLAY_ITEMS: [keyof Overlays, string, 'ov_provinces' | 'ov_eez' | 'ov_hillshade' | 'ov_cluster'][] = [
   ['prov', 'map', 'ov_provinces'],
   ['eez', 'compass', 'ov_eez'],
@@ -16,7 +15,6 @@ const OVERLAY_ITEMS: [keyof Overlays, string, 'ov_provinces' | 'ov_eez' | 'ov_hi
   ['cluster', 'layers', 'ov_cluster'],
 ];
 
-/** Herramientas flotantes del mapa (derecha) */
 export function Toolbar() {
   const { t } = useT();
   const pop = useApp((s) => s.basemapPop);

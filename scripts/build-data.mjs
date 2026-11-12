@@ -1,8 +1,9 @@
-// Genera public/data/atlas.json: un solo archivo compacto con lugares (curados + Wikidata + enriquecimiento),
-// provincias y ZEE, más public/data/geoms.json con los trazados (diferido). Coordenadas a 5 decimales (~1 m) y geometrías simplificadas (Douglas-Peucker).
-// Lee data/ (no se publica) y se ejecuta antes de `pnpm run dev` y `pnpm run build` (predev / prebuild).
 import fs from 'node:fs';
+import crypto from 'node:crypto';
+import path from 'node:path';
+import { fileURLToPath } from 'node:url';
 import { fillDesc } from './fill-desc.mjs';
+import { km, norm } from './shared.mjs';
 const SRC = new URL('../data/', import.meta.url);
 const OUT = new URL('../public/data/', import.meta.url);
 const rd = (f, opt) => { try { return JSON.parse(fs.readFileSync(new URL(f, SRC), 'utf8')); } catch (e) { if (opt) return opt; throw e; } };
@@ -41,25 +42,60 @@ function geom(g, tol, d) {
 }
 const cleanUrl = (u) => (typeof u === 'string' ? u.replace(/\?utm_[^#]*$/, '') : u);
 
+const ROOT = fileURLToPath(new URL('..', import.meta.url));
+const STAMP = new URL('./.data-stamp', import.meta.url);
+const INPUTS = [
+  'scripts/build-data.mjs',
+  'scripts/fill-desc.mjs',
+  'scripts/shared.mjs',
+  'scripts/data/briefs.json',
+  'scripts/data/nicknames.json',
+  'data/places.json',
+  'data/places-wd.json',
+  'data/enrich.json',
+  'data/places-extra.json',
+  'data/fauna-extra.json',
+  'data/fauna-meta.json',
+  'data/visitor-info.json',
+  'data/places-osm.json',
+  'data/photos.json',
+  'data/photos-hand.json',
+  'data/provinces.geojson',
+  'data/eez.geojson',
+];
+function inputStamp() {
+  const h = crypto.createHash('sha256');
+  for (const f of INPUTS) {
+    h.update(f);
+    h.update('\0');
+    try { h.update(fs.readFileSync(path.join(ROOT, f))); }
+    catch { h.update('missing'); }
+  }
+  return h.digest('hex');
+}
+const stamp = inputStamp();
+if (process.env.FORCE_BUILD_DATA !== '1') {
+  try {
+    const prev = fs.readFileSync(STAMP, 'utf8').trim();
+    const outs = ['atlas.json', 'geoms.json', 'share.json'].every((f) => fs.existsSync(new URL(f, OUT)));
+    if (prev === stamp && outs) {
+      console.log(`atlas al día (${stamp.slice(0, 12)}), se omite build-data`);
+      process.exit(0);
+    }
+  } catch {}
+}
+
 const curated = rd('places.json'), wd = rd('places-wd.json', []), extra = rd('enrich.json', {});
 const addedRaw = rd('places-extra.json', []);
 const faunaRaw = rd('fauna-extra.json', []);
 const faunaMeta = rd('fauna-meta.json', {});
 const visitorInfo = rd('visitor-info.json', {});
 const geoms = {};
-// OpenStreetMap (opcional: `npm run fetch-osm`). Sin el archivo, todo sigue igual.
 const osmRaw = rd('places-osm.json', { places: [] });
-// fotos libres encontradas por `npm run fetch-photos` (solo para lugares sin foto)
 const NICK = JSON.parse(fs.readFileSync(new URL('./data/nicknames.json', import.meta.url), 'utf8'));
 const photos = rd('photos.json', { found: {} }).found || {};
 const hand = rd('photos-hand.json', {});
-const norm = (x) => (x || '').normalize('NFD').replace(/[\u0300-\u036f]/g, '').toLowerCase();
 const nameKey = (x) => norm(x).replace(/\b(soda|restaurante|restaurant|mercado|municipal|catarata|cataratas|salto|waterfall|playa|beach|mirador|sitio|arqueologico|monumento|nacional|de|del|la|el|los|las|y)\b/g, '').replace(/[^a-z0-9]/g, '');
-const km = (a, b) => {
-  const dLat = ((b.lat - a.lat) * Math.PI) / 180, dLng = ((b.lng - a.lng) * Math.PI) / 180;
-  const h = Math.sin(dLat / 2) ** 2 + Math.cos((a.lat * Math.PI) / 180) * Math.cos((b.lat * Math.PI) / 180) * Math.sin(dLng / 2) ** 2;
-  return 12742 * Math.asin(Math.sqrt(h));
-};
 const CAPS = { surf: 70, gastronomia: 140, cataratas: 90, arqueologia: 40, cerros: 30 }; // tope por categoría (OSM)
 function mergeOsm(base, list) {
   const out = [], n = {}, skipped = { dup: 0, cap: 0, bad: 0 };
@@ -69,8 +105,6 @@ function mergeOsm(base, list) {
   for (const p of list) {
     if (!p?.name?.es || !Number.isFinite(p.lat) || !Number.isFinite(p.lng) || !CAPS[p.cat]) { skipped.bad++; continue; }
     const k = nameKey(p.name.es);
-    // spot de surf sobre una playa del mapa (mismo nombre a < 1,5 km, o cualquier playa a < 300 m):
-    // un solo marcador, la playa, que además sale en el filtro Surf
     if (p.cat === 'surf') {
       const bk = nameKey(p.beach || p.name.es);
       const beach = pool.filter((o) => o.cat === 'playas' && o.ref).map((o) => ({ o, d: km(o, p) }))
@@ -83,7 +117,6 @@ function mergeOsm(base, list) {
         continue;
       }
     }
-    // un spot de surf convive con la playa homónima (otra categoría y otro filtro): solo se compara con otros spots
     const dup = (p.q && qids.has(p.q) && p.cat !== 'surf') || pool.some((o) => {
       if (p.cat === 'surf' && o.cat !== 'surf') return false;
       const d = km(o, p);
@@ -104,7 +137,6 @@ function mergeOsm(base, list) {
 }
 const osm = mergeOsm([...curated, ...wd], Array.isArray(osmRaw) ? osmRaw : osmRaw.places || []);
 
-/** Lugares curados extra (data/places-extra.json): se suman si no duplican id/qid/nombre cercano */
 function mergeAdded(base, list) {
   const out = [];
   const ids = new Set(base.map((p) => p.id));
@@ -118,7 +150,6 @@ function mergeAdded(base, list) {
     const faunaish = (c) => c === 'fauna' || c === 'faunaTerrestre';
     const dup = pool.some((o) => {
       const d = km(o, p);
-      // fauna puede compartir pin con un parque ancla; no tratarlo como dup de edificio
       if (d < 0.025 && !faunaish(p.cat) && !faunaish(o.cat)) return true;
       if (!k || !o.k) return false;
       const same = o.k === k || (k.length > 4 && o.k.length > 4 && (o.k.includes(k) || k.includes(o.k)));
@@ -153,7 +184,11 @@ const places = [...curated, ...wd, ...osm, ...added, ...faunaAdded].map((p) => {
   }
   if (visitorInfo[p.id]) q.visit = visitorInfo[p.id];
   const filled = fillDesc(q);
-  if (filled) q.desc = filled;
+  if (filled) {
+    const { src, ...desc } = filled;
+    q.desc = desc;
+    if (src?.url) q.descSrc = src;
+  }
   if (q.geometry) { geoms[q.id] = geom(q.geometry, 0.0003, 5); delete q.geometry; } // ~30 m, va aparte
   return q;
 });
@@ -163,7 +198,6 @@ provFc.features.forEach((ft) => { const n = NICK.provinces[ft.properties.id]; if
 const atlas = { v: 1, places, provinces: provFc, eez: fc('eez.geojson', 0.001) };
 const out = JSON.stringify(atlas);
 fs.writeFileSync(new URL('atlas.json', OUT), out);
-// trazados de rutas y áreas: archivo aparte que se pide cuando el mapa ya está listo
 const g = JSON.stringify(geoms);
 fs.writeFileSync(new URL('geoms.json', OUT), g);
 console.log(`geoms.json: ${Object.keys(geoms).length} trazados, ${(g.length / 1024).toFixed(0)} KB`);
@@ -180,3 +214,4 @@ for (const p of places) {
 }
 fs.writeFileSync(new URL('share.json', OUT), JSON.stringify(share));
 console.log(`share.json: ${Object.keys(share).length} fichas`);
+fs.writeFileSync(STAMP, stamp + '\n');

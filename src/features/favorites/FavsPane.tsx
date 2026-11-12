@@ -2,7 +2,7 @@ import { useApp } from '../../store/useApp';
 import { useData } from '../../data/load';
 import { useT } from '../../i18n';
 import type { Place } from '../../data/types';
-import { routeWithFavs, toggleFav } from '../../store/actions';
+import { routeWithFavs, toggleFav } from '../../store/trip';
 import { Icon } from '../../components/Icon';
 import { EmptyState, PlaceItem } from '../../components/PlaceItem';
 

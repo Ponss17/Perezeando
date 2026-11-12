@@ -3,7 +3,8 @@ import { lazy, Suspense, useEffect, useRef, useState, type CSSProperties } from 
 import { useApp } from '../store/useApp';
 import { useT } from '../i18n';
 import type { Tab } from '../data/types';
-import { openTab, togglePanel } from '../store/actions';
+import { openTab } from '../store/openTab';
+import { togglePanel } from '../store/tools';
 import { useSheet } from '../hooks/useSheet';
 import { SearchBox } from '../features/search/SearchBox';
 import ExplorePane from '../features/search/ExplorePane';
@@ -30,7 +31,6 @@ const PaneFallback = () => (
   </div>
 );
 
-/** Panel lateral (escritorio) / hoja inferior (móvil) */
 export function Panel() {
   const { t } = useT();
   const ref = useRef<HTMLElement>(null);
@@ -115,7 +115,11 @@ export function Panel() {
         {showDetail ? (
           <div className="detail-pane">
             <Suspense fallback={<PaneFallback />}>
-              {sel.kind === 'place' ? <PlaceDetail id={sel.id} /> : <ProvinceDetail id={sel.id} />}
+              {sel.kind === 'place' ? (
+                <PlaceDetail key={sel.id} id={sel.id} />
+              ) : (
+                <ProvinceDetail key={sel.id} id={sel.id} />
+              )}
             </Suspense>
           </div>
         ) : (
@@ -154,7 +158,6 @@ export function Panel() {
   );
 }
 
-/** Botón flotante para volver a abrir el panel (solo escritorio, cuando está oculto) */
 export function PanelOpenButton() {
   const { t } = useT();
   const open = useApp((s) => s.panelOpen);

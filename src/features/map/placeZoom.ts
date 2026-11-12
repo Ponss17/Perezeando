@@ -2,7 +2,6 @@ import type { Place } from '../../data/types';
 
 export const easeInOutCubic = (t: number) => (t < 0.5 ? 4 * t * t * t : 1 - Math.pow(-2 * t + 2, 3) / 2);
 
-/** zum de llegada por categoría (lugares puntuales) */
 export function targetZoom(p: Place): number {
   switch (p.cat) {
     case 'playas':
@@ -33,7 +32,6 @@ export function targetZoom(p: Place): number {
   }
 }
 
-/** parques sin contorno: zum a partir de la superficie («1.983 ha», «245 km²») */
 export function areaZoom(p: Place): number | null {
   const a = (p.facts as { area?: string | number } | undefined)?.area;
   if (a == null) return null;

@@ -1,10 +1,11 @@
 # Handoff — Perezeando (`cr-mapa-v2`)
 
-**Fecha:** 2026-11-09 (America/Costa_Rica)  
+**Fecha:** 2026-11-12 (America/Costa_Rica)  
 **Proyecto en disco (fuente de verdad):** `D:\zpaginas\cr-mapa-v2`  
 **Máquina:** Windows del usuario (Ponss), clone GitHub `https://github.com/Ponss17/Perezeando.git` (`origin/main`)  
 **Hosting prod:** Cloudflare Worker assets `perezeando` → https://perezeando.lospherris.workers.dev (`wrangler.toml`, SPA `not_found_handling`)  
-**Trabajo reciente:** agente en disco local (no Cloud Agent) — CSS modular + mascots empty-state.
+**HEAD reciente:** `abccc80` — Imperdibles/Todos + modularización store/mapa/CSS.  
+**Trabajo reciente:** agente en disco local (no Cloud Agent).
 
 Este archivo resume el estado real del repo. **No uses** copias viejas del box (`/workspace/cr-mapa*`, zips v35/v36) para sobrescribir `D:\zpaginas\cr-mapa-v2`.
 
@@ -171,7 +172,8 @@ R2 **no** es base de datos: solo archivos de imagen. El mapa sigue leyendo JSON 
 ## 8. Git / working tree
 
 - Rama: `main` tracking `origin/main`.
-- **Oleada 2026-11-08 publicada** (filtros/lima/fauna/assetsignore/estadios/Alajuela). `public/media/` sigue gitignored; vive en disco + R2.
+- Último push relevante: `abccc80` (Imperdibles/Todos + modularización). Antes: `8fb1977` (capas vacías), `05ce5af` (discovery UX).
+- `public/media/` sigue gitignored; vive en disco + R2.
 - **No resetear, no force-checkout, no pisar con backups viejos del box.**
 
 Backups recientes (Windows Temp), tras inspeccionar nombres:
@@ -244,7 +246,7 @@ Objetivo: traer a `/media` las imágenes **ya curadas** (sin discovery runtime).
 | Límites mapa | Con provincia: solo borde activo **lima** `#d4ec8a` + casco oscuro; resto oscurecido; **sin** overlay Esri `base-labels` (compite). `all` = líneas discontinuas + Esri si `ov.prov` |
 | Consola beacon | Errores `cloudflareinsights.com/beacon` = Web Analytics de CF / adblock; **no** es bug del atlas. Desactivar Analytics en el dashboard del Worker si molestan |
 
-Archivos: `ExplorePane.tsx`, `LayersPane.tsx`, `mapSync.ts`, `actions.ts`, `sw.ts`, `sw-template.js`, `.env.production`, `wrangler.toml`.
+Archivos (históricos de esa oleada; mapa sync hoy vive en `syncStyle` / `syncSelection` / `syncExtras`): `ExplorePane.tsx`, `LayersPane.tsx`, `sw.ts`, `sw-template.js`, `.env.production`, `wrangler.toml`.
 
 ### Hecho (2026-11-06 noche) — fauna dentro del polígono
 
@@ -264,22 +266,22 @@ Archivos: `ExplorePane.tsx`, `LayersPane.tsx`, `mapSync.ts`, `actions.ts`, `sw.t
 | R2 | Subidos 3 WebP plaza Alajuela (`ea40e50b85-*`) |
 | Local vs remoto | Resuelto tras commit/push/`wrangler deploy` de esta oleada |
 
-**Siguiente (no bloquea):** gastro sin foto; dominio custom media; OG middleware; tests filtros/`visiblePlaces`.
+**Siguiente (no bloquea):** gastro sin foto; dominio custom media; ~~OG middleware~~ (hecho 2026-11-11 con Worker); tests filtros/`visiblePlaces`.
 
 ### Hecho (2026-11-09) — CSS split + mascots Perezeando
 
 | Tema | Qué |
 |------|-----|
-| CSS modular | `app.css` residual; piezas en `panel.css`, `detail.css`, `route.css`, `toolbar.css`, `theme-overrides.css` (wire en `index.css`) |
+| CSS modular | `app.css` residual; piezas en `panel.css`, `detail.css`, `route.css`, `toolbar.css`, `overlays.css`, `map.css` (wire en `index.css`). **`theme-overrides.css` eliminado** — overrides absorbidos en los dueños |
 | Panel / lista | Scroll + sticky heads opacos; item activo con **inset ring** (no borde mitad tapado en móvil); filtros/`sx` z-index por encima del sticky |
-| Mascots | Carpeta `public/mascots/` (+ copias `src/mascots/` para `?raw`): `face.svg`, `mono.svg`, `route.svg`, `filters.svg`, `favs.svg`, `face-color.svg`, `full.svg` |
+| Mascots | `src/mascots/` (importados con `?raw`, van dentro del bundle JS): `face.svg`, `mono.svg`, `route.svg`, `filters.svg`, `favs.svg`. *(Actualizado 2026-11-11: ya no existe `public/mascots/`; `face-color.svg`/`full.svg` no están en el repo.)* |
 | Empty states | `MascotArt` (route/filters/favs) pinta SVG inline con `fill=currentColor` → `--accent` |
 | Header | `BrandLogo` ← `face.svg` raw; blanco sobre barra brand |
 | Créditos | `MascotMono` ← `mono.svg` raw; **blanco** en header verde de `#credits` (no `--accent`, se fundía) |
 | Overflow | `.slide-pane` con `overflow-x: hidden` (meta-row Llevame/Cerca de mí empujaba ~5px y salía scrollbar horizontal) |
-| SW | Precache ya incluye `mascots/` vía filtro vite |
+| SW | Los mascots viajan en el bundle (`?raw`), así que el precache del SW los cubre con los JS |
 
-Archivos: `MascotArt.tsx`, `MascotMono.tsx`, `BrandLogo.tsx`, `PlaceItem.tsx` (EmptyState), `Overlays.tsx`, `src/mascots/*`, `public/mascots/*`, estilos panel/detail/theme-overrides.
+Archivos: `MascotArt.tsx`, `MascotMono.tsx`, `BrandLogo.tsx`, `PlaceItem.tsx` (EmptyState), `src/mascots/*`, estilos panel/detail/overlays.
 
 ### Hecho (2026-11-09 noche) — vista inicial Costa Rica
 
@@ -289,14 +291,119 @@ Archivos: `MascotArt.tsx`, `MascotMono.tsx`, `BrandLogo.tsx`, `PlaceItem.tsx` (E
 
 ### Hecho (2026-11-09) — boot splash + reveal
 
-- Splash Perezeando hasta `map load` + `idle` (mín. 700 ms, máx. 7 s).
+- Splash Perezeando hasta `map load` + `idle` (`BOOT_MIN_MS` 800 ms, `BOOT_MAX_MS` 16 s; `MapView` corta a 14 s).
 - Luego fade del splash y reveal escalonado: mapa → panel → toolbar.
 - Archivos: `BootSplash.tsx`, `lib/boot.ts`, `App.tsx`, `MapView.tsx`, `map.css`, i18n `boot_*`.
+
+### Hecho (2026-11-10) — discovery UX + print + polish
+
+- Home Explorar: secciones curadas (`data/discover.ts` — Imperdibles / poco conocidos / fin de semana) en lugar de tirar ~835 filas de golpe.
+- Print atlas sheet, boot splash/reveal ya documentados arriba; más polish de mapa/panel.
+
+### Hecho (2026-11-10/11) — Imperdibles \| Todos + limpieza modular
+
+| Tema | Qué |
+|------|-----|
+| Browse toggle | En Explorar sin filtros/búsqueda: **Imperdibles \| Todos** (`ExplorePane`). Default = curado. **Todos** lista completa (scroll progresivo; arranca en ~120 ítems para no parecer “solo volcanes/cerros”). Contador `835` va en el botón Todos. |
+| i18n | `discover_must`, `discover_all`, `discover_hidden`, `discover_weekend` |
+| Store partido | `store/actions.ts` = barrel. Módulos: `labels.ts`, `selection.ts`, `trip.ts`, `tools.ts`. Imports de app siguen `from …/store/actions`. |
+| Mapa partido | `mapSync.ts` **eliminado**. Sync en `syncStyle.ts`, `syncSelection.ts`, `syncExtras.ts`; cámara en `camera.ts`. `controller.ts` importa directo. |
+| Detail | `hooks.ts` (`useDetailScroll`, `useWikiSummary`); bloques en `placeBlocks.tsx`. |
+| CSS | `theme-overrides.css` borrado; overrides dark/night en dueños (`app`/`panel`/`detail`/`overlays`/`map`). |
+| Capas vacías | Si todas las capas están off: empty state claro en lista (ojo tachado → mostrar todas / ir a Filtros). |
+
+Archivos clave: `ExplorePane.tsx`, `data/discover.ts`, `store/{actions,labels,selection,trip,tools}.ts`, `features/map/{controller,camera,syncStyle,syncSelection,syncExtras}.ts`, `features/detail/{hooks,placeBlocks}.tsx`, estilos listados arriba.
+
+### Hecho (2026-11-11) — revisión de código / limpieza
+
+- Sin cambios de UX/datos; diff ~+280/−638 (39 archivos). Reporte completo: box `/workspace/pz-out/review/REVISION-CODIGO.md`. Backup previo: `%TEMP%\cr-mapa-v2-review-bak-20261111-105823.zip`.
+- `main.tsx`: import estático de `lib/sw` (se fue el warning `INEFFECTIVE_DYNAMIC_IMPORT`).
+- `lib/photo.ts`: borrado el resto del discovery runtime (cache `pz.photos`, `resolvePhoto`, tipos wiki/commons). API = `placePhoto()` / `placeThumb()`.
+- Dedupe: `ThumbBox` (PlaceItem/ExplorePane), `clusterHeader`+`ZOOM_SVG` (markers/clusters), hook `hooks/useModalDialog.ts` (Créditos/Políticas), `showBaseLabels()` en `syncStyle`. `discover.ts` → `labelKey: DictKey`.
+- Bug: `fadeInPlaces` daba opacidad negativa (4 errores MapLibre en consola por carga) → clamp. Consola limpia.
+- CSS muerto fuera (`.sat-tile`, `.map-loading`, `.tip3d` dup, `#policies .close` dup).
+- Scripts: utilidades comunes en `scripts/shared.mjs` (ROOT, sleep, norm, km, FREE, detector EN, sharp + variantes WebP); `build-data` da salida idéntica.
+- Perf igual dentro del ruido (S25U CPU×4 Fast3G y desktop); smoke Puppeteer 0 errores.
+- Nota: los tiempos de boot reales son `BOOT_MIN_MS 800` / `BOOT_MAX_MS 16000` (MapView 14000) — ya corregido arriba.
+
+### Hecho (2026-11-11 tarde) — recomendaciones de la revisión
+
+Backup previo: `%TEMP%\cr-mapa-v2-review2-bak-20261111-115701.zip` (dist anterior: `%TEMP%\cr-mapa-v2-dist-before-review2-20261111-124835`). Reporte: box `/workspace/pz-out/review/REVISION-CODIGO.md`.
+
+| Tema | Qué |
+|------|-----|
+| OG por lugar | `functions/_middleware.js` **nunca corría** (deploy = Worker con assets, no Pages). Ahora `worker/index.js` + `wrangler.toml` (`main`, binding `ASSETS`, `run_worker_first = ["/"]`). Personas: pasa directo a `ASSETS` (+ headers de seguridad). Solo bots con `?lugar=slug` reciben `<title>`/`og:*`/`twitter:*` del lugar (lee `data/share.json`, imagen absoluta en R2). Validado con `wrangler dev`. Ojo: cada `GET /` cuenta como request de Worker. |
+| Headers | `public/_headers`: seguridad en todo + `/assets/*` `immutable`. |
+| Búsqueda | Fuse indexa solo los primeros 120 caracteres de la descripción (`DESC_CHARS` en `searchIndex.ts`); nombres, apodos, gentilicios y categorías igual. 30 consultas clave: mismos resultados arriba. |
+| Datos | `vite.config.ts` → `finalizeData`: quita `img.remote` de `dist/data/{atlas,provinces-content}.json` (no lo lee el frontend; `public/data` intacto). atlas gzip 155→147 KB. `share.json` sale con URLs de imagen absolutas. |
+| Fotos platos | Una sola clave: `dishKey()` en `scripts/shared.mjs` (antes `mediaDishKey` + `dishKey`). `food-photos.json` migrado (73→70 claves, 3 duplicadas idénticas). Platos con foto: 110/110. |
+| Scripts | One-offs a `scripts/archive/` (`fetch-media-v36`, `fix-media-gaps`, `patch-content-fauna`) con README. `sharp` documentado en README (no es dependencia). |
+| E2E | `pnpm e2e` (`scripts/e2e.mjs`): build + Chrome local + `puppeteer-core` aparte (`npm install --prefix "$env:TEMP\pz-e2e" puppeteer-core`). Desktop + móvil, falla si hay errores de consola. |
+| Mapa | `nearbyOf` con caché + inserción ordenada (~2,8× más rápido, mismo resultado); etiqueta de lugar sin clon de medición; textos de clusters/menús en i18n (`cl_*`). |
+| CSS | `map.css` con un solo bloque `@media (max-width: 760px)`; estilos de `#policies` en `overlays.css`; Prettier limpio en `src/**`. |
+| Perf | Igual o mejor dentro del ruido (S25U CPU×4 + Fast 3G / desktop). Medianas TBT móvil 3806→3524 ms, desktop 2993→2664 ms; datos propios 136→130 KB. |
+
+- **No hecho (a propósito):** el jank al escribir en móvil viene del composite del canvas del mapa (trace: ~80 % "Commit", no la lista); los cambios CSS probados no mejoraron → no se tocó.
+- **SW `MEDIA_HOST`:** resuelto el 2026-11-12 (CORS en R2 + `loadEnv` en `vite.config.ts`). Ver «Hecho (2026-11-12)».
+
+
+
+### Hecho (2026-11-12) — items 10, 3 y 9 (aprobados)
+
+Backup previo: `%TEMP%\cr-mapa-v2-review4-bak-20261112-080712.zip`. Capturas y e2e: box `/workspace/pz-out/review4/`.
+
+| Tema | Qué |
+|------|-----|
+| CORS R2 | Bucket `perezeando` (cuenta `b78c5cb20bace55958349c9e86f12bfa`): no había política (GET 404, código 10059). Aplicada `perezeando-media`: métodos GET,HEAD; `maxAgeSeconds` 86400; orígenes `https://perezeando.com`, `https://www.perezeando.com`, `https://perezeando.lospherris.workers.dev`, `http://localhost:{5173,4173,8787}` y los mismos en `http://127.0.0.1`. Cloudflare no acepta wildcard de puerto (`localhost:*`); se listaron Vite, preview y wrangler. curl: Origin permitido devuelve `Access-Control-Allow-Origin` + `Vary: Origin`; origen ajeno o sin Origin, no. Solo config del bucket, sin tocar objetos. |
+| SW `MEDIA_HOST` | `vite.config.ts` inyecta el host de `VITE_MEDIA_BASE_URL` con `loadEnv` + `hostOf`. Build de prod: `MEDIA_HOST = 'pub-409cfb54b50741928198b4469fad8d4e.r2.dev'`. A/B (Fast 3G, CPU×4, móvil): 0 descargas dobles en ambos lados. mapLoad con SW 5322 / 1605 ms (1.ª visita, dos corridas) vs sin SW 4936 / 2889 ms; 2.ª visita ~4,0 s vs ~3,8 s. No reapareció la regresión de ~6 s de cuando faltaba CORS. Con `MEDIA_HOST`, las 23 imágenes de R2 salen `fromServiceWorker`. |
+| Redibujos al tipear | No se tocó código. `controller.update` ya llama `syncPlaces`/`setData` solo si cambian `active`/`prov`/`cat`/`lang`/`favs`, no el query. `SearchBox` ya debuncia 140 ms. El costo al escribir sigue siendo el composite del canvas (nota del 11). Sin mejora medida de TBT, se deja igual. |
+| Cerca de mí | La función ya existía (geolocalización solo al toque, nunca al cargar; `nearbyOf`/haversine; distancias en la lista; i18n ES/EN; `Notice` si deniegan o hay error). Ajuste: pin y halo `#386641`, targets táctiles 44 px, `locate` expuesto en `__cract` para e2e. e2e: `locate_near` (24 distancias, 0,2 km, pin «Estás aquí»), `locate_denied` (aviso, sin pin), `m_locate`. Suite completa OK. |
+| Descripciones | Via `scripts/enrich-thin-desc.mjs` y `scripts/data/briefs.json` (no se edita el atlas a mano). **62** textos mejorados con Wikidata (52 nuevos + 10 reemplazos). 8 de esos reemplazos quitaban copias de Wikipedia de otro país (Uruguay, México, Chile, Perú, Honduras, España). **4** briefs de playas sin fuente fiable de CR se eliminaron (queda la plantilla). **244** lugares siguen con plantilla genérica (121 gastronomía OSM, 75 cataratas, 25 cerros, etc.): sin fuente fiable, no se inventó. briefs 272→320, 114002→128981 bytes (+15 KB). atlas en `dist`: raw 667507→693862 (+26 KB), gzip 147089→148986 (+1,9 KB). `descSrc` en 254 lugares (crédito bajo la descripción). audit-lang: 0 descripciones ES en inglés; 0 thin <50 (fillDesc rellena). |
+
+
+### Hecho (2026-11-12, media mañana) — lista «cerca de»
+
+Backup: `%TEMP%\cr-mapa-v2-review5-bak-20261112-084134.zip`. Capturas: box `/workspace/pz-out/review5/`.
+
+La lista cercana ya no muestra los 834 lugares. Radio **25 km**; si hay menos de **8** resultados se abre a **50 km**; tope **30** (los más cercanos). Igual para «Cerca de mí» y para «Ver más cercanos» de un lugar. Encabezado en una línea, con elipsis: «15 lugares cerca de Volcán Tortuguero» / «30 lugares cerca de mí» (ES/EN). Botones Limpiar / Llévame / Cerca de mí en una fila aparte, sin el envoltorio de tres líneas. Valores en `NEAR_*` de `src/features/search/results.ts`. e2e: tope y radio comprobados (Tortuguero: 15 ≤ 25 km; San José: 30 ≤ 25 km, más lejano 2,3 km).
+
+### Hecho (2026-11-12, ~09:00 America/Costa_Rica) — cercanos en la ficha + un solo héroe
+
+Backup: `%TEMP%\cr-mapa-v2-review6-bak-20261112-085406.zip`. Capturas: box `/workspace/pz-out/review6/`. Servidor del usuario en localhost:5173 no se tocó.
+
+1. **«Ver más cercanos» en la ficha.** Ya no abre la lista Explorar («15 lugares cerca de Volcán Tortuguero»). El botón expande la sección *Cerca de aquí* en el mismo detalle (misma regla 25 km / ampliar a 50 si hay menos de 8 / tope 30). Vista previa: 6 lugares diversificados (`NEAR_PREVIEW`). El detalle permanece abierto; el botón pasa a «Ver menos». Se eliminó el modo `openNearbyExplore` / `nearPlace` (nadie más lo usaba). **«Cerca de mí»** sigue siendo la lista Explorar ordenada por distancia.
+
+2. **Bug de héroes apilados.** Causa: en `PlaceDetail`, `PhotoHero`/`NoPhotoHero` y `StickyTitle` eran hermanos con el mismo `key={p.id}`. Claves duplicadas entre hermanos; al cambiar de lugar React no desmontaba el `.hero` anterior y se acumulaban (repro en `dist` de producción: 13 héroes / 13 `.hero-top` / 1 h2 tras un ráfaga). Arreglo: se quitaron esas keys internas y se puso `key={sel.id}` en `PlaceDetail`/`ProvinceDetail` desde `Panel.tsx`, de modo que la ficha se remonta entera (también reinicia el expandido de cercanos, sin `setState` en un efecto). Tras el arreglo: exactamente 1 `.hero`, 1 `.hero-top`, 1 `section.detail` al seleccionar rápido por lista, mapa (`__cract.select`), cercanos y atrás/adelante (escritorio y móvil). e2e: `nearby_inline`, `detail_no_stack`, `m_nearby_inline`, `m_detail_no_stack`. Perf: mapLoad ~3,4–3,7 s (4173, dist nuevo).
+
+### Hecho (2026-11-12, ~09:40 America/Costa_Rica) — revisión exhaustiva 2 (código muerto y arquitectura)
+
+Backup: `%TEMP%\cr-mapa-v2-review7-bak-20261112-092400.zip`. Informe: box `/workspace/pz-out/review7/REVISION-2.md`. Servidor del usuario en localhost:5173 no se tocó.
+
+Se aplicaron solo cambios seguros, sin cambiar comportamiento: claves i18n muertas `near_of` / `near_of_one` (leftover de «Ver más cercanos»); exportaciones internas sin uso externo; CSS huérfano `#routeActions`; `_strip-comments.mjs` a `scripts/archive/`. Las funciones de cercanos pasaron a `src/lib/nearby.ts` (PlaceDetail ya no importa el módulo de búsqueda/Fuse). Se cortó el ciclo `hash.ts` → `actions.ts` → `tools.ts` → `hash.ts` (hash importa `select`/`deselect` de `selection.ts`). knip `--cycles`: 0. e2e OK. Bundle: los chunks `photo` y `prefetch` se reintegraron en `index.js`; suma inicial 104,06→103,52 kB raw / 42,15→41,77 kB gzip; SW 29→27 archivos. El precache del SW sigue en ~2,4 MB por MapLibre (recomendación, no aplicada). Perf Fast 3G: diferencias dentro del ruido; no se atribuyen a estos cambios.
+
+### Hecho (2026-11-12, ~10:10 America/Costa_Rica) — recomendaciones 1–6 de la revisión 2
+
+Backup: `%TEMP%\cr-mapa-v2-review7b-bak-20261112-094400.zip` (1.105.015 bytes, 09:43 America/Costa_Rica). Informe: box `/workspace/pz-out/review7/REVISION-2.md` §9. Servidor del usuario en localhost:5173 no se tocó. Artefactos: `/workspace/pz-out/review7b/`.
+
+1. **MapLibre fuera del precache del SW (se mantiene).** SHELL 27→24 archivos (~1,67 MB raw de MapLibre salen del `addAll`). Caché runtime `pz-runtime-v1` (cache-first, 30 días) para esos assets. Medición Fast 3G + CPU×4, caché HTTP off, perfil fresco, 3 corridas: 1.ª visita escritorio mapLoad 6672→4558 ms (−31 %), swReady 9708→7612; móvil 5982→5987 (igual). 2.ª visita 1812→1860 / 1210→1304 (rangos que se solapan; no se toma como regresión). Offline tras la 2.ª: lista 31, `mlCached` 3, sin error. e2e `offline_repeat` OK. El cambio se queda porque la 1.ª mejora y las repetidas no empeoran de forma clara.
+
+2. **`nearbyOf` / `nearbyAround`: núcleo común, no fusión de criterio.** En 835 lugares, 0 diferencias de título (8 genéricos). Unificar con el radio 25/50 vaciaría 7 sitios marinos (vecino más cercano 51,7–139 km) y cambiaría 25 listas n=6 y 62 con diversify. Se compartió `nearbyByDistance`; `nearbyOf` sigue sin radio (pozo 40, top-n); `nearbyAround` conserva 25/50/8/30. Tras el refactor: 0 diferencias en of1, of6, of6+diversify y around.
+
+3. **Imports directos** desde `selection` / `tools` / `trip` / `labels`. `openTab` en `store/openTab.ts`. `actions.ts` queda como barrel delgado. `__cract` se asigna en `App.tsx` (si no, el e2e no veía el hook).
+
+4. **`predev`/`prebuild` omiten `build-data`** si el SHA-256 de 17 entradas coincide (`scripts/.data-stamp`). Mensaje: `atlas al día (…), se omite build-data`. Atlas/geoms/share con los mismos hashes. `FORCE_BUILD_DATA=1` fuerza.
+
+5. **`fetch-food-photos`** documentado como herramienta manual (README + `pnpm fetch-food-photos`). No se archivó: todavía escribe `food-photos.json`.
+
+6. **`NEAR_*` en una sola fuente:** `src/lib/near-const.json` (25/50/8/30/6); `scripts/near-const.mjs` lo reexporta; e2e y `nearby.ts` lo usan.
+
+Checks: typecheck 0, lint 0, prettier 0 (sin `--write` de los 4 archivos que ya venían sucios), audit-lang 0, audit-quality 0 (495 missing-media en el box), build 0 (SW 24 archivos), e2e OK (offline + cercanos). Perf general escritorio mapLoad 4501 / móvil 3859, en el ruido de review7.
 
 ### Pendiente próximo (pedido explícito)
 
 1. **Onboarding** (opcional): tour corto primera visita — panel, filtros, ruta, medir; skip + “no volver a mostrar”.
-2. Gastro sin foto; dominio custom media; OG middleware; tests filtros/`visiblePlaces`.
+2. Gastro sin foto; dominio custom media; tests filtros/`visiblePlaces` (hay smoke `pnpm e2e`).
+4. ~~CORS en R2 y `MEDIA_HOST` del SW~~ — hecho el 2026-11-12 (falta solo el deploy, no pedido).
 3. Cola restante de lugares sin `img` (Fase B parcial).
 
 ---

@@ -4,21 +4,21 @@ import { useData } from '../../data/load';
 import { useT } from '../../i18n';
 import { CATEGORIES, CATEGORY_ORDER, GROUPS, PROVINCE_IDS } from '../../data/config';
 import type { CategoryId, ProvinceFilter, ProvinceId } from '../../data/types';
+import { catName } from '../../store/labels';
 import {
-  catName,
   clearFilters,
   layersAll,
-  locate,
   setCat,
   setProv,
   setTab,
   showProvince,
   surprise,
-} from '../../store/actions';
+} from '../../store/selection';
+import { locate } from '../../store/tools';
 import { fmtNum, thumbUrl } from '../../lib/format';
 import { Icon } from '../../components/Icon';
 import { Select, type SelectOption } from '../../components/Select';
-import { EmptyState, PlaceItem } from '../../components/PlaceItem';
+import { EmptyState, PlaceItem, ThumbBox } from '../../components/PlaceItem';
 import { inCat } from '../../lib/selectors';
 import { computeResults, useKb } from './results';
 import { subscribeSearch } from './searchIndex';
@@ -32,7 +32,6 @@ export default function ExplorePane() {
   const cat = useApp((s) => s.cat);
   const active = useApp((s) => s.active);
   const near = useApp((s) => s.near);
-  const nearPlace = useApp((s) => s.nearPlace);
   const me = useApp((s) => s.me);
   const locating = useApp((s) => s.locating);
   const kb = useKb((s) => s.i);
@@ -42,9 +41,9 @@ export default function ExplorePane() {
 
   const r = useMemo(() => {
     void searchTick; // invalida cuando el índice Fuse termina de cargar
-    return computeResults({ query, prov, cat, active, near, nearPlace, me, lang }, data);
-  }, [query, prov, cat, active, near, nearPlace, me, lang, data, searchTick]);
-  const filtered = prov !== 'all' || cat !== 'all' || near || !!nearPlace;
+    return computeResults({ query, prov, cat, active, near, me, lang }, data);
+  }, [query, prov, cat, active, near, me, lang, data, searchTick]);
+  const filtered = prov !== 'all' || cat !== 'all' || near;
   const homeMode = !filtered && query.trim().length < 2;
   const showDiscover = homeMode && !browseAll;
   const hidden = CATEGORY_ORDER.length - active.length;
@@ -59,11 +58,9 @@ export default function ExplorePane() {
     const byProv = new Map<string, number>();
     const byCat = new Map<string, number>();
     for (const p of data.places) {
-      // provincias: respetan la categoría elegida
       if (cat === 'all' || inCat(p, cat)) {
         byProv.set(p.prov, (byProv.get(p.prov) ?? 0) + 1);
       }
-      // categorías: respetan la provincia elegida
       if (prov !== 'all' && p.prov !== prov) continue;
       byCat.set(p.cat, (byCat.get(p.cat) ?? 0) + 1);
       for (const c of p.also ?? []) if (c !== p.cat) byCat.set(c, (byCat.get(c) ?? 0) + 1);
@@ -93,14 +90,12 @@ export default function ExplorePane() {
           icon: CATEGORIES[c].icon,
           count: tallies.cat.get(c) ?? 0,
         }))
-        // con provincia: ocultar categorías vacías (salvo la ya seleccionada)
         .filter((o) => prov === 'all' || o.count > 0 || o.value === cat),
     );
     return [{ value: 'all', label: t('all_categories') }, ...rows];
   }, [t, L, tallies, prov, cat]);
-  // En "Todos" arrancamos más alto: volcanes+cerros suman ~60 y si no parece que solo existen esas
   const STEP = 24;
-  const startLim = homeMode && browseAll ? 120 : STEP;
+  const startLim = r.dists ? r.list.length || STEP : homeMode && browseAll ? 120 : STEP;
   const [lim, setLim] = useState(startLim);
   const [limKey, setLimKey] = useState(r);
   const [limStart, setLimStart] = useState(startLim);
@@ -136,7 +131,10 @@ export default function ExplorePane() {
     cur.items.push(<PlaceItem key={p.id} p={p} q={r.q} dist={r.dists?.get(p.id)} kb={i === kb} />);
   });
 
-  const nearLabel = nearPlace ? data.byId.get(nearPlace)?.name[lang] : near && me ? t('near_me') : '';
+  const nearMe = near && !!me;
+  const nearPhrase = nearMe ? t(r.list.length === 1 ? 'near_of_me_one' : 'near_of_me') : '';
+  const nearTitle = nearPhrase ? `${fmtNum(lang, r.list.length)} ${nearPhrase}` : '';
+  const hiddenLbl = `${hidden} ${t(hidden === 1 ? 'hidden_one' : 'hidden_many')}`;
 
   return (
     <section className="tab-pane active" data-pane="explore">
@@ -182,39 +180,51 @@ export default function ExplorePane() {
                 <span className="browse-n">{fmtNum(lang, r.list.length)}</span>
               </button>
             </div>
+          ) : nearTitle ? (
+            <span className="result-count" title={nearTitle}>
+              <b>{fmtNum(lang, r.list.length)}</b> {nearPhrase}
+            </span>
           ) : (
             <>
               <b>{fmtNum(lang, r.list.length)}</b> {t('places_lbl')}
             </>
           )}
-          {nearLabel ? ` · ${nearLabel}` : ''}
           {hidden > 0 && (
             <button
               className="text-btn inline hidden-cats"
-              title={allHidden ? t('show_all') : t('hidden_tip')}
-              aria-label={allHidden ? t('show_all') : t('hidden_tip')}
+              title={allHidden ? t('show_all') : `${hiddenLbl} · ${t('hidden_tip')}`}
+              aria-label={allHidden ? t('show_all') : `${hiddenLbl} · ${t('hidden_tip')}`}
               onClick={() => (allHidden ? layersAll() : setTab('layers'))}
             >
               <Icon name="eye-off" />
-              {allHidden
-                ? t('all_hidden_meta')
-                : `${hidden} ${t(hidden === 1 ? 'hidden_one' : 'hidden_many')}`}
+              {allHidden ? t('all_hidden_meta') : <span className="hidden-n">{hidden}</span>}
             </button>
           )}
+        </div>
+        <div className="meta-actions">
           {filtered && (
             <button className="text-btn inline" onClick={clearFilters}>
               {t('clear')}
             </button>
           )}
+          <button
+            className="text-btn icon-only"
+            title={t('surprise')}
+            aria-label={t('surprise')}
+            onClick={surprise}
+          >
+            <Icon name="sparkles" />
+          </button>
+          <button
+            className={'text-btn icon-only' + (locating ? ' busy' : '')}
+            title={t('near_me')}
+            aria-label={t('near_me')}
+            aria-busy={locating || undefined}
+            onClick={() => locate(true)}
+          >
+            <Icon name="locate-fixed" />
+          </button>
         </div>
-        <button className="text-btn" onClick={surprise}>
-          <Icon name="sparkles" />
-          <span>{t('surprise')}</span>
-        </button>
-        <button className={'text-btn' + (locating ? ' busy' : '')} onClick={() => locate(true)}>
-          <Icon name="locate-fixed" />
-          <span>{t('near_me')}</span>
-        </button>
       </div>
       <ul className="list" id="resultList">
         {allHidden ? (
@@ -286,7 +296,7 @@ function DiscoverHome() {
         if (!places.length) return null;
         return (
           <li className="list-sec discover-sec" key={sec.id}>
-            <div className="list-head discover-head">{t(sec.labelKey as 'discover_must')}</div>
+            <div className="list-head discover-head">{t(sec.labelKey)}</div>
             <ul className="list-sec-items">
               {places.map((p) => (
                 <PlaceItem key={p!.id} p={p!} />
@@ -302,9 +312,6 @@ function DiscoverHome() {
 function ProvinceLead({ id }: { id: ProvinceId }) {
   const { t } = useT();
   const pp = useData((s) => s.data)!.provById.get(id)!;
-  const [ok, setOk] = useState(false);
-  const [err, setErr] = useState(false);
-  const img = pp.img && !err;
   const open = () => showProvince(id);
   return (
     <li
@@ -318,26 +325,7 @@ function ProvinceLead({ id }: { id: ProvinceId }) {
         }
       }}
     >
-      <div
-        className={'thumb' + (img && ok ? ' has-img' : '')}
-        style={{ '--c': pp.color || '#386641' } as React.CSSProperties}
-      >
-        <Icon name="map" />
-        {img && (
-          <img
-            src={thumbUrl(pp.img!.src)}
-            alt=""
-            loading="lazy"
-            decoding="async"
-            className={ok ? 'ok' : undefined}
-            onLoad={(e) => {
-              const im = e.currentTarget;
-              (im.decode ? im.decode() : Promise.resolve()).catch(() => {}).finally(() => setOk(true));
-            }}
-            onError={() => setErr(true)}
-          />
-        )}
-      </div>
+      <ThumbBox src={pp.img && thumbUrl(pp.img.src)} color={pp.color || '#386641'} icon="map" />
       <div className="item-text">
         <div className="item-title">
           {t('province_of')} {pp.name}

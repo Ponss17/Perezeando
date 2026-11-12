@@ -1,7 +1,6 @@
 import { useNet, applyUpdate } from '../lib/sw';
 import { useT } from '../i18n';
 
-/** Píldora «Sin conexión» + aviso discreto de versión nueva (nunca recarga sola) */
 export function AppStatus() {
   const { t } = useT();
   const online = useNet((s) => s.online);

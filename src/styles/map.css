@@ -22,22 +22,6 @@
   font-size: 13px;
 }
 
-.map-loading {
-  position: absolute;
-  inset: 0;
-  display: grid;
-  place-items: center;
-  color: rgba(255, 255, 255, 0.7);
-  font-size: 13px;
-  background: #0e1a22;
-  z-index: 0;
-}
-
-.map-loading .spinner {
-  width: 22px;
-  height: 22px;
-}
-
 .boot-splash {
   position: absolute;
   inset: 0;
@@ -50,7 +34,9 @@
     radial-gradient(120% 90% at 20% 0%, rgba(167, 201, 87, 0.28), transparent 55%),
     linear-gradient(160deg, #2f5536 0%, #386641 42%, #1e3d2c 100%);
   color: #fff;
-  transition: opacity 0.48s ease, visibility 0.48s ease;
+  transition:
+    opacity 0.48s ease,
+    visibility 0.48s ease;
 }
 
 .boot-splash.is-leaving {
@@ -1268,13 +1254,13 @@ body.dark .cl-zoom:hover {
 }
 
 .me-pin {
-  width: 16px;
-  height: 16px;
+  width: 18px;
+  height: 18px;
   border-radius: 50%;
-  background: #2a6fdb;
+  background: #386641;
   border: 3px solid #fff;
   box-shadow:
-    0 0 0 6px rgba(42, 111, 219, 0.22),
+    0 0 0 7px rgba(56, 102, 65, 0.28),
     0 1px 3px rgba(0, 0, 0, 0.3);
 }
 
@@ -1310,63 +1296,6 @@ body.dark .cl-zoom:hover {
   box-shadow: var(--sh-2);
   font-weight: 500;
   transition: left var(--panel-move) var(--panel-ease);
-}
-
-@media (max-width: 760px) {
-  #map .maplibregl-ctrl-bottom-left {
-    left: 0;
-  }
-  #map .maplibregl-ctrl-bottom-right,
-  #map .maplibregl-ctrl-bottom-left {
-    bottom: var(--peek, 150px);
-  }
-  #map .maplibregl-ctrl-bottom-right .maplibregl-ctrl-group {
-    display: none;
-  }
-  #map .maplibregl-ctrl-bottom-right .maplibregl-ctrl-attrib {
-    margin: 0 8px 8px 0;
-    max-width: none;
-    width: auto;
-    padding: 0 !important;
-    border-radius: 999px;
-    font-size: 10px;
-  }
-
-  #map .maplibregl-ctrl-attrib.maplibregl-compact {
-    min-width: 28px;
-    min-height: 28px;
-    width: 28px;
-    height: 28px;
-  }
-
-  #map .maplibregl-ctrl-group button {
-    width: 44px;
-    height: 44px;
-  }
-  #map .maplibregl-ctrl-attrib.maplibregl-compact-show {
-    width: auto;
-    max-width: min(78vw, 280px);
-    height: auto;
-    min-height: 0;
-    padding: 5px 8px !important;
-    border-radius: 10px;
-    font-size: 10px;
-    line-height: 1.25;
-  }
-
-  #map .maplibregl-ctrl-attrib.maplibregl-compact-show .maplibregl-ctrl-attrib-inner {
-    white-space: normal;
-  }
-  #map .maplibregl-ctrl-scale {
-    display: none;
-  }
-  .tip3d {
-    left: 12px;
-    right: 64px;
-    bottom: auto;
-    top: 72px;
-    transform: none;
-  }
 }
 
 body:not(.dark) .cl-item:hover,
@@ -1447,20 +1376,6 @@ body.dark .update-toast button {
   }
 }
 
-@media (max-width: 760px) {
-  .net-pill {
-    top: 64px;
-    left: 50%;
-  }
-  .update-toast {
-    left: 12px;
-    right: 12px;
-    bottom: auto;
-    top: 64px;
-    justify-content: space-between;
-  }
-}
-
 .sel-mk {
   transition:
     opacity 0.15s ease,
@@ -1534,13 +1449,6 @@ body.dark .update-toast button {
   color: #dce8b4;
 }
 
-@media (max-width: 760px) {
-  .limit-hint {
-    top: 72px;
-    left: 50%;
-  }
-}
-
 @media (prefers-reduced-motion: reduce) {
   .limit-hint,
   .limit-hint.show {
@@ -1602,4 +1510,78 @@ body.dark .update-toast button {
 
 .cl-scroll-hint.hide {
   opacity: 0;
+}
+
+@media (max-width: 760px) {
+  #map .maplibregl-ctrl-bottom-left {
+    left: 0;
+  }
+  #map .maplibregl-ctrl-bottom-right,
+  #map .maplibregl-ctrl-bottom-left {
+    bottom: var(--peek, 150px);
+  }
+  #map .maplibregl-ctrl-bottom-right .maplibregl-ctrl-group {
+    display: none;
+  }
+  #map .maplibregl-ctrl-bottom-right .maplibregl-ctrl-attrib {
+    margin: 0 8px 8px 0;
+    max-width: none;
+    width: auto;
+    padding: 0 !important;
+    border-radius: 999px;
+    font-size: 10px;
+  }
+
+  #map .maplibregl-ctrl-attrib.maplibregl-compact {
+    min-width: 28px;
+    min-height: 28px;
+    width: 28px;
+    height: 28px;
+  }
+
+  #map .maplibregl-ctrl-group button {
+    width: 44px;
+    height: 44px;
+  }
+  #map .maplibregl-ctrl-attrib.maplibregl-compact-show {
+    width: auto;
+    max-width: min(78vw, 280px);
+    height: auto;
+    min-height: 0;
+    padding: 5px 8px !important;
+    border-radius: 10px;
+    font-size: 10px;
+    line-height: 1.25;
+  }
+
+  #map .maplibregl-ctrl-attrib.maplibregl-compact-show .maplibregl-ctrl-attrib-inner {
+    white-space: normal;
+  }
+  #map .maplibregl-ctrl-scale {
+    display: none;
+  }
+  .tip3d {
+    left: 12px;
+    right: 64px;
+    bottom: auto;
+    top: 72px;
+    transform: none;
+  }
+
+  .net-pill {
+    top: 64px;
+    left: 50%;
+  }
+  .update-toast {
+    left: 12px;
+    right: 12px;
+    bottom: auto;
+    top: 64px;
+    justify-content: space-between;
+  }
+
+  .limit-hint {
+    top: 72px;
+    left: 50%;
+  }
 }

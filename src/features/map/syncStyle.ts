@@ -23,13 +23,12 @@ export function setBase(c: MapController, initial = false) {
   if (m.getSource('base-labels')) m.removeSource('base-labels');
   if (b.labels) {
     m.addSource('base-labels', { type: 'raster', tiles: [b.labels], tileSize: 256, maxzoom: b.max });
-    const showLabels = c.s.ov.prov && c.s.prov === 'all';
     m.addLayer(
       {
         id: 'base-labels',
         type: 'raster',
         source: 'base-labels',
-        layout: { visibility: showLabels ? 'visible' : 'none' },
+        layout: { visibility: showBaseLabels(c) ? 'visible' : 'none' },
       },
       'geom-fill',
     );
@@ -39,6 +38,8 @@ export function setBase(c: MapController, initial = false) {
   document.body.dataset.map = c.s.base;
   syncProvLabels(c);
 }
+
+const showBaseLabels = (c: MapController) => c.s.ov.prov && c.s.prov === 'all' && c.s.sel?.kind !== 'place';
 
 function syncProvLabels(c: MapController) {
   const show = c.s.ov.prov && c.s.base === 'dark';
@@ -51,8 +52,7 @@ export function syncOverlays(c: MapController) {
   ['prov-fill', 'prov-line', 'prov-line-sel'].forEach((l) =>
     m.setLayoutProperty(l, 'visibility', v(c.s.ov.prov)),
   );
-  const showBaseLabels = c.s.ov.prov && c.s.prov === 'all' && c.s.sel?.kind !== 'place';
-  if (m.getLayer('base-labels')) m.setLayoutProperty('base-labels', 'visibility', v(showBaseLabels));
+  if (m.getLayer('base-labels')) m.setLayoutProperty('base-labels', 'visibility', v(showBaseLabels(c)));
   ['eez', 'eez-mma', 'eez-hit'].forEach((l) => m.setLayoutProperty(l, 'visibility', v(c.s.ov.eez)));
   syncProvLabels(c);
 }
@@ -87,11 +87,6 @@ export function syncProvStyle(c: MapController) {
     m.setPaintProperty('prov-line-sel', 'line-color', dark ? '#ffffff' : '#386641');
     m.setPaintProperty('prov-line-sel', 'line-opacity', 1);
     m.setPaintProperty('prov-line-sel', 'line-width', 2.5);
-  }
-
-  if (m.getLayer('base-labels')) {
-    const showBaseLabels = c.s.ov.prov && sel === 'all' && c.s.sel?.kind !== 'place';
-    m.setLayoutProperty('base-labels', 'visibility', showBaseLabels ? 'visible' : 'none');
   }
 
   m.setPaintProperty('prov-fill', 'fill-color', dark ? '#000' : '#1b1f1d');

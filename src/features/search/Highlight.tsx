@@ -1,6 +1,5 @@
 import { norm } from '../../lib/format';
 
-/** Resalta (<mark>) los términos buscados, ignorando tildes */
 export function Highlight({ text, q }: { text: string; q?: string }) {
   if (!q) return <>{text}</>;
   const nt = norm(text);

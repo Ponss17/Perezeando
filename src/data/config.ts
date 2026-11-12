@@ -149,7 +149,6 @@ export const GROUPS: CategoryGroup[] = [
   { id: 'transporte', label: { es: 'Transporte', en: 'Transport' }, cats: ['aeropuertos', 'puertos'] },
 ];
 
-/** Lenguaje de formas: naturaleza y fauna = círculo, cultura y transporte = cuadrado, mar = rombo */
 export type MarkerShape = 'circle' | 'square' | 'diamond';
 const SHAPE_BY_GROUP: Record<string, MarkerShape> = {
   naturaleza: 'circle',
@@ -225,23 +224,19 @@ export const BASEMAP_IDS = Object.keys(BASEMAPS) as BasemapId[];
 export const ENDPOINTS = {
   terrain: 'https://s3.amazonaws.com/elevation-tiles-prod/terrarium/{z}/{x}/{y}.png',
   osrm: 'https://router.project-osrm.org/route/v1/driving/',
-  /** Tipografías SDF para etiquetas del mapa (OpenFreeMap, sin clave) */
   glyphs: 'https://tiles.openfreemap.org/fonts/{fontstack}/{range}.pbf',
 };
 
 export { PROVINCE_IDS };
 
-/** Límites aproximados de Costa Rica [[w,s],[e,n]] — más tierra, menos Pacífico vacío */
 export const CR_BOUNDS: [[number, number], [number, number]] = [
   [-85.95, 8.05],
   [-82.55, 11.15],
 ];
-/** Límite de navegación del mapa: tierra firme + Isla del Coco + ZEE, con margen [[w,s],[e,n]] */
 export const MAX_BOUNDS: [[number, number], [number, number]] = [
   [-91.5, 2.8],
   [-80.5, 12.6],
 ];
-/** Posición de las etiquetas de provincia (solo se muestran en el mapa oscuro) */
 export const PROVINCE_LABELS: Record<string, [number, number]> = {
   sanjose: [9.47, -83.88],
   alajuela: [10.6, -84.55],

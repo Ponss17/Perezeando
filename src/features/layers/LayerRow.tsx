@@ -8,11 +8,9 @@ interface Props {
   count?: number;
   onToggle: () => void;
   focusable?: boolean;
-  /** ícono propio (p. ej. la chincheta exacta de la categoría) en lugar del círculo */
   marker?: React.ReactNode;
 }
 
-/** Interruptor de capa (categoría o superposición) */
 export function LayerRow({ icon, name, on, color, count, onToggle, focusable = true, marker }: Props) {
   return (
     <div

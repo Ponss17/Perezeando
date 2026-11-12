@@ -160,7 +160,7 @@ export function addContentLayers(map: MLMap, d: AtlasData, cluster: boolean): ma
     id: 'me-acc',
     type: 'fill',
     source: 'me',
-    paint: { 'fill-color': '#2563eb', 'fill-opacity': 0.1, 'fill-outline-color': '#2563eb' },
+    paint: { 'fill-color': '#386641', 'fill-opacity': 0.12, 'fill-outline-color': '#386641' },
   });
   map.addLayer({
     id: 'clusters',

@@ -133,13 +133,54 @@ svg.ico {
   align-items: center;
   justify-content: space-between;
   gap: 8px;
-  min-height: 28px;
+  min-height: 32px;
+  flex-wrap: nowrap;
 }
 
 .result-meta {
   display: flex;
   align-items: center;
   gap: 6px;
+  flex: 1 1 auto;
+  min-width: 0;
+  white-space: nowrap;
+}
+
+.result-count {
+  min-width: 0;
+  overflow: hidden;
+  text-overflow: ellipsis;
+  white-space: nowrap;
+  font-variant-numeric: tabular-nums;
+}
+
+.meta-actions {
+  display: flex;
+  align-items: center;
+  gap: 4px;
+  flex-shrink: 0;
+  margin-left: auto;
+  white-space: nowrap;
+}
+
+.meta-row .text-btn.icon-only {
+  width: 32px;
+  height: 32px;
+  min-height: 0;
+  padding: 0;
+  margin: 0;
+  justify-content: center;
+  border: 1px solid var(--line);
+  border-radius: 999px;
+}
+
+.meta-row .text-btn.icon-only svg {
+  width: 16px;
+  height: 16px;
+}
+
+.meta-row .text-btn.busy {
+  opacity: 0.6;
 }
 
 .result-meta b {
@@ -151,32 +192,40 @@ svg.ico {
 .browse-mode {
   display: inline-flex;
   align-items: center;
+  flex-shrink: 0;
   gap: 2px;
+  padding: 2px;
+  border: 1px solid var(--line);
+  border-radius: 999px;
+  background: var(--paper);
 }
 
 .browse-mode-btn {
   border: 0;
   background: none;
-  padding: 2px 6px;
+  padding: 0 10px;
   margin: 0;
-  border-radius: var(--r-1);
+  min-height: 26px;
+  border-radius: 999px;
   color: var(--ink-2);
   font: inherit;
   font-size: 13px;
   font-weight: 500;
+  line-height: 1;
   cursor: pointer;
   display: inline-flex;
-  align-items: baseline;
+  align-items: center;
   gap: 5px;
 }
 
-.browse-mode-btn:hover {
+.browse-mode-btn:hover:not([aria-pressed='true']) {
   color: var(--ink);
-  background: var(--brand-tint);
+  background: var(--paper-2);
 }
 
 .browse-mode-btn[aria-pressed='true'] {
-  color: var(--ink);
+  color: var(--accent);
+  background: var(--brand-tint);
   font-weight: 600;
 }
 
@@ -348,11 +397,16 @@ mark {
 .result-meta .hidden-cats {
   display: inline-flex;
   align-items: center;
+  flex-shrink: 0;
   gap: 4px;
   margin-left: 2px;
   white-space: nowrap;
   color: var(--muted);
   font-size: 12px;
+}
+
+.hidden-n {
+  font-variant-numeric: tabular-nums;
 }
 
 .result-meta .hidden-cats svg {
@@ -694,7 +748,7 @@ mark {
 @media (max-width: 760px) {
   .sx-trigger {
     height: 42px;
-  font-size: 14px;
+    font-size: 14px;
   }
   .sx-opt {
     min-height: 42px;
@@ -751,8 +805,8 @@ body,
     height: 44px;
   }
   .text-btn {
-    min-height: 40px;
-    padding: 8px 10px;
+    min-height: 44px;
+    padding: 8px 12px;
   }
 }
 

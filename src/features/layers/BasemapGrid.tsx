@@ -1,10 +1,9 @@
 import { BASEMAPS, BASEMAP_IDS } from '../../data/config';
 import { useApp } from '../../store/useApp';
 import { useT } from '../../i18n';
-import { setBase } from '../../store/actions';
+import { setBase } from '../../store/tools';
 import { Icon } from '../../components/Icon';
 
-/** Selector de mapa base (vista previa con una tesela de Costa Rica) */
 export function BasemapGrid() {
   const { L } = useT();
   const base = useApp((s) => s.base);

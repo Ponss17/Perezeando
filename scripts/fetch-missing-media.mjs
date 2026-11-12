@@ -1,36 +1,11 @@
 #!/usr/bin/env node
-/**
- * Fase B: busca fotos libres para lugares SIN img y las guarda en /media + photos.json.
- * Criterios estrictos (nombre / wiki del lugar); no inventa portadas.
- *
- *   node scripts/fetch-missing-media.mjs
- *   node scripts/fetch-missing-media.mjs --skip-cat=gastronomia
- *   node scripts/fetch-missing-media.mjs --limit=50
- *   node scripts/fetch-missing-media.mjs --include-gastro
- */
 import fs from 'node:fs';
 import path from 'node:path';
 import { createHash } from 'node:crypto';
-import { createRequire } from 'node:module';
-import { fileURLToPath } from 'node:url';
+import { FREE, norm, requireSharp, ROOT, sleep, writeWebpVariants } from './shared.mjs';
 
-const ROOT = path.resolve(path.dirname(fileURLToPath(import.meta.url)), '..');
-const require = createRequire(import.meta.url);
-let sharp;
-try {
-  sharp = require(path.join(process.env.TEMP || '/tmp', 'pz-imgopt/node_modules/sharp'));
-} catch {
-  try {
-    sharp = require('sharp');
-  } catch {
-    sharp = null;
-  }
-}
-if (!sharp) {
-  console.error('sharp no disponible. Abort.');
-  process.exit(1);
-}
 
+const sharp = requireSharp();
 const args = process.argv.slice(2);
 const LIMIT = Number((args.find((a) => a.startsWith('--limit=')) || '').split('=')[1] || 0) || Infinity;
 const INCLUDE_GASTRO = args.includes('--include-gastro');
@@ -46,20 +21,12 @@ const SKIP = new Set(
 const UA = 'PerezeandoContentBot/1.0 (https://perezeando.com; mapa de Costa Rica; build-time fetch)';
 const MEDIA = path.join(ROOT, 'public', 'media', 'places');
 const PHOTOS = path.join(ROOT, 'data', 'photos.json');
-const SIZES = [
-  { tag: 120, w: 120, q: 72 },
-  { tag: 320, w: 320, q: 74 },
-  { tag: 800, w: 800, q: 78 },
-];
-const FREE = (l) => /^(cc0|cc[- ]by(-sa)?( \d(\.\d)?)?|public domain|pd\b|dominio p)/i.test(l || '') && !/nc|nd/i.test(l || '');
 const BAD = /\b(map|mapa|location|locator|logo|escudo|coat|flag|bandera|diagram|diagrama|plano|icon|svg|selfie|portrait|retrato|chart)\b/i;
 const CAT_PRIO = {
   volcanes: 0, parques: 1, museos: 2, iglesias: 3, playas: 4, cataratas: 5, cerros: 6, rios: 7,
   islas: 8, bosques: 9, arqueologia: 10, hitos: 11, deportes: 12, ciudades: 13, surf: 14,
   gastronomia: 90,
 };
-const sleep = (ms) => new Promise((r) => setTimeout(r, ms));
-const norm = (s) => (s || '').normalize('NFD').replace(/[\u0300-\u036f]/g, '').toLowerCase();
 const strip = (s) => (s || '').replace(/<[^>]+>/g, ' ').replace(/\s+/g, ' ').trim();
 
 fs.mkdirSync(MEDIA, { recursive: true });
@@ -170,15 +137,7 @@ async function commonsSearch(name) {
 }
 
 async function optimize(buf, baseId) {
-  const meta = await sharp(buf).rotate().metadata();
-  let bytes800 = 0;
-  for (const { tag, w, q } of SIZES) {
-    let pipe = sharp(buf).rotate();
-    if ((meta.width || 0) > w) pipe = pipe.resize({ width: w, withoutEnlargement: true });
-    const out = path.join(MEDIA, `${baseId}-${tag}.webp`);
-    const info = await pipe.webp({ quality: q, effort: 4 }).toFile(out);
-    if (tag === 800) bytes800 = info.size;
-  }
+  const bytes800 = await writeWebpVariants(sharp, buf, MEDIA, baseId);
   return { local: `/media/places/${baseId}-800.webp`, bytes: bytes800 };
 }
 

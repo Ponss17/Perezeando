@@ -1,4 +1,3 @@
-/** Diccionario base (español de Costa Rica). Las claves definen el tipo de traducción. */
 export const es = {
   layers_title: 'Qué mostrar en el mapa',
   brand_name: 'Perezeando',
@@ -25,6 +24,7 @@ export const es = {
   activities_section: 'Actividades y fiestas',
   nearby: 'Cerca de aquí',
   nearby_more: 'Ver más cercanos',
+  nearby_less: 'Ver menos',
   category_lbl: 'Categoría',
   demonym: 'Gentilicio',
   demonym_pop: 'popular',
@@ -49,6 +49,8 @@ export const es = {
   marine: 'Mar territorial',
   no_results: 'Probá con otro nombre o quitá los filtros de provincia y categoría.',
   near_me: 'Cerca de mí',
+  near_of_me: 'lugares cerca de mí',
+  near_of_me_one: 'lugar cerca de mí',
   clear: 'Limpiar',
   all_hidden_title: 'Todas las categorías están ocultas',
   all_hidden_text: 'Las apagaste en Filtros, por eso no hay lugares en la lista ni en el mapa.',
@@ -212,6 +214,14 @@ export const es = {
   surprise: 'Llevame',
   measure: 'Medir',
   measure_hint: 'Tocá dos puntos del mapa',
+  cl_place_one: 'lugar',
+  cl_place_many: 'lugares',
+  cl_grouped_one: 'lugar agrupado',
+  cl_grouped_many: 'lugares agrupados',
+  cl_zoom: 'Acercar',
+  cl_click_zoom: 'Clic para acercar',
+  cl_more_cat_one: 'categoría más',
+  cl_more_cat_many: 'categorías más',
 };
 
 export type Dict = { [K in keyof typeof es]: string };

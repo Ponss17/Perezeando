@@ -1,19 +1,3 @@
-/**
- * Sincroniza public/media → Cloudflare R2 (API S3).
- * Por defecto es --dry-run (no sube). Para subir: --upload
- * No borra objetos remotos.
- *
- * Env (solo en máquina local / CI; nunca en el frontend):
- *   R2_ACCOUNT_ID
- *   R2_ACCESS_KEY_ID
- *   R2_SECRET_ACCESS_KEY
- *   R2_BUCKET=perezeando
- *
- * Uso:
- *   node scripts/sync-media-r2.mjs
- *   node scripts/sync-media-r2.mjs --upload
- *   node scripts/sync-media-r2.mjs --upload --prefix=media/places
- */
 import fs from 'node:fs';
 import path from 'node:path';
 import { createRequire } from 'node:module';
@@ -76,9 +60,9 @@ if (!ACCOUNT || !KEY || !SECRET) {
   process.exit(1);
 }
 
-let AwsClient, AwsV4Signer;
+let AwsClient;
 try {
-  ({ AwsClient, AwsV4Signer } = require('aws4fetch'));
+  ({ AwsClient } = require('aws4fetch'));
 } catch {
   console.error('Instalá aws4fetch: pnpm add -D aws4fetch');
   process.exit(1);
@@ -98,7 +82,6 @@ let ok = 0,
 for (const f of files) {
   const url = `${endpoint}/${BUCKET}/${f.key}`;
   try {
-    // HEAD first — skip if same size (cheap)
     const head = await client.fetch(url, { method: 'HEAD' });
     if (head.ok) {
       const cl = Number(head.headers.get('content-length') || 0);

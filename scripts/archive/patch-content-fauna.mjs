@@ -1,4 +1,3 @@
-/** Fusiona actividades cantonales en provinces-content.json; quita fauna de provincia (va en filtros). */
 import fs from 'node:fs';
 import path from 'node:path';
 const BASE = process.cwd();

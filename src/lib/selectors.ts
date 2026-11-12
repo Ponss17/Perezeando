@@ -4,7 +4,6 @@ import { MOBILE_QUERY } from '../data/config';
 
 type F = Pick<AppState, 'active' | 'prov' | 'cat'>;
 
-/** ¿el lugar pertenece a la categoría (principal o adicional)? */
 export const inCat = (p: Place, c: string) => p.cat === c || !!p.also?.includes(c as never);
 
 export const visiblePlaces = (s: F, places: Place[]) => {

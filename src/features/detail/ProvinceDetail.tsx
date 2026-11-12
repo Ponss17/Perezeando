@@ -1,6 +1,6 @@
-import { useEffect, useMemo, useState, type CSSProperties } from 'react';
+import { useEffect, useMemo, useState } from 'react';
 import { loadContent, useContent, useData } from '../../data/load';
-import { HERO_W, placePicture, sizedThumb, useImageState } from '../../lib/photo';
+import { HERO_W, placeThumb, sizedThumb, useImageState } from '../../lib/photo';
 import { useT } from '../../i18n';
 import { CATEGORIES } from '../../data/config';
 import type {
@@ -12,7 +12,9 @@ import type {
   ProvinceContent as ProvinceContentT,
   ProvinceId,
 } from '../../data/types';
-import { catName, select, setProv, setTab, share } from '../../store/actions';
+import { catName } from '../../store/labels';
+import { select, setProv, setTab } from '../../store/selection';
+import { share } from '../../store/tools';
 import { wikiTarget, wikiUrl } from '../../lib/wiki';
 import { Icon } from '../../components/Icon';
 import { SlideTrack } from '../../components/SlideTrack';
@@ -113,7 +115,6 @@ const PTABS: {
   { id: 'sports', icon: 'trophy', label: 'ptab_sports' },
   { id: 'activities', icon: 'compass', label: 'ptab_activities' },
 ];
-/** quita repetidos (mismo Q-id o mismo nombre) entre listas de una pestaña */
 function dedupe(lists: ContentItem[][], lang: Lang) {
   const seen = new Set<string>();
   return lists.map((l) =>
@@ -132,7 +133,6 @@ const nameOf = (n: ContentItem['name'], lang: Lang) =>
 const pick = <T,>(m: Partial<Record<Lang, T>> | undefined, lang: Lang) =>
   m?.[lang] ?? m?.[lang === 'es' ? 'en' : 'es'];
 
-/** Comida / Cultura / Deportes / Datos con contenido citado (provinces-content.json, carga diferida) */
 type TabsProps = {
   id: ProvinceId;
   n: number;
@@ -372,19 +372,16 @@ function VoyBox({ x, title }: { x?: ContentText; title: string }) {
   );
 }
 
-function CardPic({ pic }: { pic: string | ReturnType<typeof placePicture> }) {
+function CardPic({ pic }: { pic: string | null }) {
   const [bad, setBad] = useState(false);
   if (!pic || bad) return <Icon name="image-off" />;
-  const tile = typeof pic === 'string' ? null : pic.kind === 'tile' ? pic : null;
   return (
     <img
-      src={typeof pic === 'string' ? pic : pic.src}
+      src={pic}
       alt=""
       loading="lazy"
       decoding="async"
       referrerPolicy="no-referrer"
-      className={tile ? 'sat-tile' : undefined}
-      style={tile ? ({ '--px': tile.x + 'px', '--py': tile.y + 'px' } as CSSProperties) : undefined}
       onError={() => setBad(true)}
     />
   );
@@ -427,7 +424,7 @@ function Items({
           const pid = i.id && places?.has(i.id) ? i.id : undefined;
           const s = sub?.(i);
           const linked = pid ? places?.get(pid) : undefined;
-          const pic = i.img ? sizedThumb(i.img.src, 250) : linked ? placePicture(linked) : null;
+          const pic = i.img ? sizedThumb(i.img.src, 250) : linked ? placeThumb(linked) : null;
           const body = (
             <>
               {crest ? (

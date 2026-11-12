@@ -1,24 +1,15 @@
-import { useEffect, useRef } from 'react';
 import { POLICIES } from '../content/policies';
 import { useT } from '../i18n';
 import { closePolicies } from '../lib/policies';
 import { useApp } from '../store/useApp';
 import { Icon } from './Icon';
+import { useModalDialog } from '../hooks/useModalDialog';
 
-/** Cuadro de políticas: mismo lenguaje visual que el atlas, no una página aparte. */
 export function PoliciesPage() {
   const open = useApp((s) => s.policiesOpen);
   const { t, lang } = useT();
-  const ref = useRef<HTMLDialogElement>(null);
+  const ref = useModalDialog(open);
   const copy = POLICIES[lang];
-
-  useEffect(() => {
-    const d = ref.current;
-    if (!d) return;
-    d.setAttribute('closedby', 'none');
-    if (open && !d.open) d.showModal();
-    if (!open && d.open) d.close();
-  }, [open]);
 
   return (
     <dialog

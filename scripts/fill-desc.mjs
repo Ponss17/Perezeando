@@ -1,4 +1,5 @@
 import fs from 'node:fs';
+import { fold, isEnglishLooking } from './shared.mjs';
 
 const BRIEFS = JSON.parse(fs.readFileSync(new URL('./data/briefs.json', import.meta.url), 'utf8'));
 
@@ -60,23 +61,6 @@ const ONE = {
 };
 
 
-const EN_DESC_RE = /\b(the|and|with|from|which|located|situated|known as|is a|was a|are a|national park|protected area|wildlife refuge|nature reserve|founded in|population of|square kilometres|pacific ocean|caribbean)\b/i;
-const ES_MARK_RE = /[áéíóúñ¿¡]|\b(el|la|los|las|un|una|del|al|es|son|está|fue|para|con|desde|que|ubicad|conocid|parque|playa|río|volcán|provincia|municipio|refugio|reserva|área|silvestre|también|durante|entre|cerca|norte|sur|costarricense|nacional|proteg|cantón|distrito)\b/i;
-function isEnglishLooking(text) {
-  const t = String(text || '').trim();
-  if (!t || t.length < 12) return false;
-  if (ES_MARK_RE.test(t)) return false;
-  const hits = t.match(EN_DESC_RE) || [];
-  return hits.length >= 2 || (hits.length >= 1 && t.length > 50);
-}
-
-const fold = (x) =>
-  String(x || '')
-    .normalize('NFD')
-    .replace(/[\u0300-\u036f]/g, '')
-    .toLowerCase()
-    .replace(/\s+/g, ' ')
-    .trim();
 
 function where(prov) {
   if (prov === 'mar' || !PROV[prov]) {
@@ -149,7 +133,6 @@ function fromName(p) {
   return null;
 }
 
-/** Sustituye una ficha vacía o genérica. Devuelve null si el texto actual se queda. */
 export function fillDesc(p) {
   const cur = String(p.desc?.es || '').trim();
   const brief = BRIEFS[p.id];
@@ -160,14 +143,16 @@ export function fillDesc(p) {
     isEnglishLooking(cur) ||
     (!!brief && (cur.length <= 55 || isEnglishLooking(cur)));
   if (!thin) return null;
-  // Preferir brief de Wikipedia/Voyage si supera el umbral; si no, plantilla por categoría.
-  if (brief?.es && String(brief.es).trim().length >= 50) return { es: brief.es, en: brief.en || brief.es };
+  if (brief?.es && String(brief.es).trim().length >= 50) {
+    const out = { es: brief.es, en: brief.en || brief.es };
+    if (brief.src?.url && brief.src?.name) out.src = brief.src;
+    return out;
+  }
   const named = fromName(p);
   if (named) return named;
   const pair = ONE[p.cat];
   if (!pair) return null;
   const w = where(p.prov);
-  // Plantilla corta pero >50 caracteres, solo con ubicación; no inventa datos.
   return {
     es: `${pair[0]} ${w.es}.`,
     en: `${pair[1]} ${w.en}.`,

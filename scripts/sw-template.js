@@ -7,17 +7,18 @@ const DATA_CACHE = 'pz-data-v1';
 const TILE_CACHE = 'pz-tiles-v1';
 const IMG_CACHE = 'pz-img-v1';
 const ROUTE_CACHE = 'pz-route-v1';
-const KEEP = [SHELL_CACHE, DATA_CACHE, TILE_CACHE, IMG_CACHE, ROUTE_CACHE];
+const RUNTIME_CACHE = 'pz-runtime-v1';
+const KEEP = [SHELL_CACHE, DATA_CACHE, TILE_CACHE, IMG_CACHE, ROUTE_CACHE, RUNTIME_CACHE];
 const DAY = 864e5;
 const LIMITS = {
   [TILE_CACHE]: { max: 2000, age: 30 * DAY },
   [IMG_CACHE]: { max: 400, age: 30 * DAY },
   [ROUTE_CACHE]: { max: 30, age: DAY / 24 },
+  [RUNTIME_CACHE]: { max: 30, age: 30 * DAY },
 };
 const TILE_HOSTS =
   /(^|\.)(arcgisonline\.com|tile\.openstreetmap\.org|tile\.opentopomap\.org|tiles\.openfreemap\.org|elevation-tiles-prod\.s3\.amazonaws\.com)$|^s3\.amazonaws\.com$/;
 const IMG_HOSTS = /^(upload|thumb)\.wikimedia\.org$/;
-/* hostname de VITE_MEDIA_BASE_URL (inyectado en build); vacío = sin remoto */
 const MEDIA_HOST = '__MEDIA_HOST__';
 const OSRM_HOST = /^router\.project-osrm\.org$/;
 
@@ -37,7 +38,6 @@ self.addEventListener('install', (e) => {
   e.waitUntil(
     (async () => {
       const c = await caches.open(SHELL_CACHE);
-      // no-cache: en móvil un 404 viejo en el HTTP cache no debe entrar al precache
       await c.addAll(SHELL.map((p) => new Request(new URL(p, scope), { cache: 'no-cache' })));
       const dc = await caches.open(DATA_CACHE);
       await Promise.all(
@@ -137,7 +137,6 @@ async function shell(req, path, { networkFirst = false } = {}) {
         await c.put(url, res.clone());
       } catch {}
     } else if (good && res.status === 404) {
-      // respuesta mala del borde: mejor la copia buena en caché que un 404
       return good;
     }
     return res;
@@ -154,14 +153,12 @@ async function shell(req, path, { networkFirst = false } = {}) {
     }
   }
   if (good) {
-    // revalidar en segundo plano para no quedarse con un JS/CSS viejo tras un deploy
     eWait(fromNet().catch(() => {}));
     return good;
   }
   return fromNet();
 }
 
-/** waitUntil solo existe dentro del fetch handler; guardamos el evento actual */
 let currentEvent = null;
 function eWait(p) {
   try {
@@ -226,13 +223,14 @@ self.addEventListener('fetch', (e) => {
   if (path !== null) {
     if (path === 'sw.js') return;
     if (path.startsWith('data/')) return e.respondWith(data(e, req, path));
-    // assets hasheados: aunque no estén en SHELL de esta versión, interceptar 404 → recuperar
     if (path.startsWith('assets/') || SHELL.includes(path)) {
       return e.respondWith(
         (async () => {
           let res;
           try {
-            res = SHELL.includes(path) ? await shell(req, path) : await fetch(req);
+            res = SHELL.includes(path)
+              ? await shell(req, path)
+              : await cacheFirstCapped(e, RUNTIME_CACHE, req);
           } catch {
             res = await fetch(req);
           }
@@ -240,6 +238,10 @@ self.addEventListener('fetch', (e) => {
             if (SHELL.includes(path)) {
               try {
                 await caches.open(SHELL_CACHE).then((c) => c.delete(new URL(path, scope).href));
+              } catch {}
+            } else {
+              try {
+                await caches.open(RUNTIME_CACHE).then((c) => c.delete(req));
               } catch {}
             }
             e.waitUntil(notifyMissing());

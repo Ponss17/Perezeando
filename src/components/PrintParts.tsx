@@ -4,10 +4,9 @@ import { useApp } from '../store/useApp';
 import { useData } from '../data/load';
 import { locale, useT } from '../i18n';
 import { CATEGORIES, CATEGORY_ORDER } from '../data/config';
-import { catName, provName } from '../store/actions';
+import { catName, provName } from '../store/labels';
 import { visiblePlaces } from '../lib/selectors';
 
-/** Hoja de atlas: solo visible al imprimir */
 export function PrintParts() {
   const { t, lang } = useT();
   const s = useApp(

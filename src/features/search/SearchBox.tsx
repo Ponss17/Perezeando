@@ -3,12 +3,11 @@ import { Icon } from '../../components/Icon';
 import { useT } from '../../i18n';
 import { getApp, setApp, useApp } from '../../store/useApp';
 import { getData } from '../../data/load';
-import { select, setSheet, setTab } from '../../store/actions';
+import { select, setSheet, setTab } from '../../store/selection';
 import { isMobile } from '../../lib/selectors';
 import { computeResults, useKb } from './results';
 import { warmSearch } from './searchIndex';
 
-/** Buscador principal (encabezado del panel). Atajo: "/" */
 export function SearchBox() {
   const { t } = useT();
   const query = useApp((s) => s.query);
@@ -16,7 +15,6 @@ export function SearchBox() {
   const ref = useRef<HTMLInputElement>(null);
   const timer = useRef<ReturnType<typeof setTimeout>>(undefined);
 
-  // sincroniza si la consulta cambia desde fuera (p. ej. "Cerca de mí")
   useEffect(() => {
     if (query === '' && document.activeElement !== ref.current) setVal('');
   }, [query]);

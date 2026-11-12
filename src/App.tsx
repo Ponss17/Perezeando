@@ -4,7 +4,19 @@ import { loadData, useData } from './data/load';
 import { useT } from './i18n';
 import { readHash, useHashSync } from './hooks/hash';
 import { useRouteCompute } from './hooks/useRouteCompute';
-import { deselect, select } from './store/actions';
+import { deselect, select, setCat, setProv, showProvince } from './store/selection';
+import { locate, setBase } from './store/tools';
+
+if (typeof location !== 'undefined' && location.search.includes('e2e'))
+  (window as unknown as { __cract: unknown }).__cract = {
+    showProvince,
+    select,
+    setCat,
+    setProv,
+    deselect,
+    setBase,
+    locate,
+  };
 import { Panel, PanelOpenButton, MobileTitle } from './components/Panel';
 import { Toolbar } from './components/Toolbar';
 import { AppStatus } from './components/AppStatus';

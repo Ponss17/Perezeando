@@ -1,7 +1,7 @@
 import { useEffect } from 'react';
 import { useApp } from '../store/useApp';
 import { useT } from '../i18n';
-import { dismissNotice, retryLocate } from '../store/actions';
+import { dismissNotice, retryLocate } from '../store/tools';
 import { Icon } from './Icon';
 
 const NOTICE_KEYS = {
@@ -13,7 +13,6 @@ const NOTICE_KEYS = {
   outside: ['geo_outside_t', 'geo_outside_d', 'info'],
 } as const;
 
-/** Aviso con acciones (ubicación): discreto, se cierra con ✕ o Esc */
 export function Notice() {
   const { t } = useT();
   const n = useApp((s) => s.notice);

@@ -1,6 +1,5 @@
 import { create } from 'zustand';
 
-/** Estado de red y de actualización (service worker) */
 export const useNet = create<{ online: boolean; update: boolean }>(() => ({
   online: typeof navigator === 'undefined' ? true : navigator.onLine,
   update: false,
@@ -16,7 +15,6 @@ function reloadOnce() {
   location.reload();
 }
 
-/** El usuario tocó «Actualizar»: activa la versión en espera y recarga una sola vez. */
 export function applyUpdate() {
   if (!waiting) return reloadOnce();
   waiting.postMessage('skipWaiting');
@@ -44,7 +42,6 @@ export function initNet() {
   addEventListener('offline', set);
 }
 
-/** Solo en producción (main.tsx). `?nosw` desinstala el SW y borra sus cachés. */
 export async function initSW() {
   if (!('serviceWorker' in navigator)) return;
   if (new URLSearchParams(location.search).has('nosw')) {
@@ -54,7 +51,6 @@ export async function initSW() {
     return;
   }
 
-  // si ya había un SW controlando y entra uno nuevo → recargar para alinear HTML y assets
   let hadController = !!navigator.serviceWorker.controller;
   navigator.serviceWorker.addEventListener('controllerchange', () => {
     if (!hadController) {
@@ -71,7 +67,6 @@ export async function initSW() {
     if (!w || !navigator.serviceWorker.controller) return;
     waiting = w;
     useNet.setState({ update: true });
-    // en móvil no siempre tocan «Actualizar»: activar solo
     w.postMessage('skipWaiting');
   };
   if (reg.waiting) offer(reg.waiting);
@@ -95,7 +90,6 @@ export async function initSW() {
     else void hardRecover();
   });
   check();
-  // solo liberar el candado tras una carga estable (si no, un 404 al arrancar entra en bucle)
   setTimeout(() => {
     try {
       sessionStorage.removeItem(RECOVERY_KEY);

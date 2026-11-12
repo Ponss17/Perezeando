@@ -3,41 +3,45 @@ import { CATEGORIES } from '../../data/config';
 import { pick, translate } from '../../i18n';
 import { ICONS, iconSvg } from '../../lib/icons';
 
-export function clusterSummary(parts: [CategoryId, number][], lang: Lang) {
-  const n = parts.reduce((a, [, v]) => a + v, 0);
-  const el = document.createElement('div');
-  el.className = 'tip-card cluster-tip';
+export const ZOOM_SVG =
+  '<svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.4" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true"><circle cx="11" cy="11" r="7"/><path d="m20 20-3.5-3.5"/><path d="M11 8v6"/><path d="M8 11h6"/></svg>';
 
+export function clusterHeader(segs: { color: string; n: number }[], n: number, title: string) {
   const bar = document.createElement('div');
   bar.className = 'ct-bar';
-  parts.forEach(([c, v]) => {
+  segs.forEach((seg) => {
     const s = document.createElement('i');
-    s.style.width = (v / n) * 100 + '%';
-    s.style.background = CATEGORIES[c].color;
+    s.style.width = (seg.n / n) * 100 + '%';
+    s.style.background = seg.color;
     bar.appendChild(s);
   });
-
   const head = document.createElement('div');
   head.className = 'ct-head';
   const badge = document.createElement('b');
   badge.className = 'ct-n';
   badge.textContent = String(n);
   const text = document.createElement('span');
-  const title = document.createElement('b');
-  title.textContent =
-    lang === 'es'
-      ? n === 1
-        ? 'lugar agrupado'
-        : 'lugares agrupados'
-      : n === 1
-        ? 'grouped place'
-        : 'grouped places';
-  const hint = document.createElement('small');
-  hint.innerHTML =
-    '<svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.4" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true"><circle cx="11" cy="11" r="7"/><path d="m20 20-3.5-3.5"/><path d="M11 8v6"/><path d="M8 11h6"/></svg>';
-  hint.append(lang === 'es' ? 'Clic para acercar' : 'Click to zoom in');
-  text.append(title, hint);
+  const b = document.createElement('b');
+  b.textContent = title;
+  text.appendChild(b);
   head.append(badge, text);
+  return { bar, head, text };
+}
+
+export function clusterSummary(parts: [CategoryId, number][], lang: Lang) {
+  const n = parts.reduce((a, [, v]) => a + v, 0);
+  const el = document.createElement('div');
+  el.className = 'tip-card cluster-tip';
+  const title = translate(lang, n === 1 ? 'cl_grouped_one' : 'cl_grouped_many');
+  const { bar, head, text } = clusterHeader(
+    parts.map(([c, v]) => ({ color: CATEGORIES[c].color, n: v })),
+    n,
+    title,
+  );
+  const hint = document.createElement('small');
+  hint.innerHTML = ZOOM_SVG;
+  hint.append(translate(lang, 'cl_click_zoom'));
+  text.append(hint);
 
   const ul = document.createElement('ul');
   parts.slice(0, 5).forEach(([c, v]) => {
@@ -57,10 +61,7 @@ export function clusterSummary(parts: [CategoryId, number][], lang: Lang) {
     const li = document.createElement('li');
     li.className = 'more';
     const extra = parts.length - 5;
-    li.textContent =
-      lang === 'es'
-        ? `+ ${extra} ${extra === 1 ? 'categoría más' : 'categorías más'}`
-        : `+ ${extra} more ${extra === 1 ? 'category' : 'categories'}`;
+    li.textContent = `+ ${extra} ${translate(lang, extra === 1 ? 'cl_more_cat_one' : 'cl_more_cat_many')}`;
     ul.appendChild(li);
   }
   el.append(bar, head, ul);
@@ -115,12 +116,6 @@ export function buildPlaceLabel(p: Place, lang: Lang, o: LabelOpts) {
   const lb = el.querySelector<HTMLElement>('.sel-label')!;
   lb.querySelector('span')!.textContent = name;
   lb.setAttribute('aria-label', `${name} · ${translate(lang, 'details')}`);
-  const probe = el.cloneNode(true) as HTMLElement;
-  probe.style.cssText = 'position:absolute;left:-9999px;top:0;visibility:hidden;pointer-events:none';
-  document.body.appendChild(probe);
-  const lw = probe.querySelector<HTMLElement>('.sel-label')?.offsetWidth ?? 0;
-  probe.remove();
-  el.style.setProperty('--lw', `${lw}px`);
   el.style.setProperty('--dx', '0px');
 
   const stop = (e: Event) => e.stopPropagation();

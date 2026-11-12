@@ -4,7 +4,8 @@ import { useData } from '../../data/load';
 import { useT } from '../../i18n';
 import { CATEGORIES, GROUPS } from '../../data/config';
 import type { CategoryId } from '../../data/types';
-import { catName, layersAll, layersNone, toggleCat, toggleGroup } from '../../store/actions';
+import { catName } from '../../store/labels';
+import { layersAll, layersNone, toggleCat, toggleGroup } from '../../store/selection';
 import { LayerRow } from './LayerRow';
 import { CatPin, ShapeSwatch } from '../../components/MiniMarker';
 import { Icon } from '../../components/Icon';
@@ -62,7 +63,6 @@ export default function LayersPane() {
   );
 }
 
-/** Clave de símbolos del mapa (antes la leyenda flotante): formas y grupos */
 function MarkerKey() {
   const { t } = useT();
   return (

@@ -1,5 +1,6 @@
-/** Secciones curadas del home de Explorar (ids reales del atlas) */
-export const DISCOVER_SECTIONS: { id: string; labelKey: string; ids: string[] }[] = [
+import type { DictKey } from '../i18n/es';
+
+export const DISCOVER_SECTIONS: { id: string; labelKey: DictKey; ids: string[] }[] = [
   {
     id: 'imperdibles',
     labelKey: 'discover_must',

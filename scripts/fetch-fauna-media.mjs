@@ -1,32 +1,14 @@
-/**
- * Descarga fotos Commons (vía Wikipedia pageimage) para fauna sin /media local.
- * Escribe WebP 120/320/800 y actualiza data/photos.json + fauna-extra img.
- * Uso: node scripts/fetch-fauna-media.mjs
- * Red: 1 req/s, cache en scripts/data/fauna-fetch-cache.json
- */
 import fs from 'node:fs';
 import path from 'node:path';
 import crypto from 'node:crypto';
-import { createRequire } from 'node:module';
-const require = createRequire(import.meta.url);
-const BASE = process.cwd();
+import { requireSharp, ROOT, sleep, writeWebpVariants } from './shared.mjs';
 
-let sharp;
-try {
-  sharp = require(path.join(process.env.TEMP || '/tmp', 'pz-imgopt/node_modules/sharp'));
-} catch {
-  try { sharp = require('sharp'); } catch { sharp = null; }
-}
-if (!sharp) {
-  console.error('sharp no disponible (TEMP/pz-imgopt). Abort.');
-  process.exit(1);
-}
 
-const MEDIA = path.join(BASE, 'public', 'media', 'places');
+const sharp = requireSharp();
+const MEDIA = path.join(ROOT, 'public', 'media', 'places');
 fs.mkdirSync(MEDIA, { recursive: true });
-const CACHE_PATH = path.join(BASE, 'scripts', 'data', 'fauna-fetch-cache.json');
+const CACHE_PATH = path.join(ROOT, 'scripts', 'data', 'fauna-fetch-cache.json');
 const cache = fs.existsSync(CACHE_PATH) ? JSON.parse(fs.readFileSync(CACHE_PATH, 'utf8')) : {};
-const sleep = (ms) => new Promise((r) => setTimeout(r, ms));
 
 async function wikiPageImage(title, lang = 'es') {
   const key = lang + ':' + title;
@@ -82,27 +64,13 @@ async function commonsInfo(file) {
 }
 
 async function saveWebp(buf, baseId) {
-  const meta = await sharp(buf).rotate().metadata();
-  const variants = [
-    { tag: 120, w: 120, q: 72 },
-    { tag: 320, w: 320, q: 74 },
-    { tag: 800, w: 800, q: 78 },
-  ];
-  let bytes800 = 0;
-  for (const { tag, w, q } of variants) {
-    let pipe = sharp(buf).rotate();
-    if ((meta.width || 0) > w) pipe = pipe.resize({ width: w, withoutEnlargement: true });
-    const out = path.join(MEDIA, `${baseId}-${tag}.webp`);
-    const info = await pipe.webp({ quality: q, effort: 6 }).toFile(out);
-    if (tag === 800) bytes800 = info.size;
-  }
+  const bytes800 = await writeWebpVariants(sharp, buf, MEDIA, baseId, 6);
   return { local: `/media/places/${baseId}-800.webp`, bytes: bytes800 };
 }
 
-const faunaExtra = JSON.parse(fs.readFileSync(path.join(BASE, 'data', 'fauna-extra.json'), 'utf8'));
-const places = JSON.parse(fs.readFileSync(path.join(BASE, 'data', 'places.json'), 'utf8'));
-const meta = JSON.parse(fs.readFileSync(path.join(BASE, 'data', 'fauna-meta.json'), 'utf8'));
-const photosPath = path.join(BASE, 'data', 'photos.json');
+const faunaExtra = JSON.parse(fs.readFileSync(path.join(ROOT, 'data', 'fauna-extra.json'), 'utf8'));
+const places = JSON.parse(fs.readFileSync(path.join(ROOT, 'data', 'places.json'), 'utf8'));
+const photosPath = path.join(ROOT, 'data', 'photos.json');
 const photos = fs.existsSync(photosPath) ? JSON.parse(fs.readFileSync(photosPath, 'utf8')) : { found: {} };
 photos.found = photos.found || {};
 
@@ -118,10 +86,6 @@ for (const p of allFauna) {
     skip++;
     continue;
   }
-  // already have local variants?
-  const hashGuess = crypto.createHash('sha1').update(p.id).digest('hex').slice(0, 10);
-  const local800 = path.join(MEDIA, `${hashGuess}-800.webp`);
-  // use stable id-based name from id slug
   const baseId = crypto.createHash('sha1').update('fauna:' + p.id).digest('hex').slice(0, 10);
   if (fs.existsSync(path.join(MEDIA, `${baseId}-800.webp`))) {
     const local = `/media/places/${baseId}-800.webp`;
@@ -134,7 +98,6 @@ for (const p of allFauna) {
     };
     photos.found[p.id] = img;
     if (!p.img || !String(p.img.src || '').startsWith('/media/')) {
-      // stamp into fauna-extra if present
       const fe = faunaExtra.find((x) => x.id === p.id);
       if (fe) fe.img = img;
     }
@@ -142,7 +105,6 @@ for (const p of allFauna) {
     continue;
   }
 
-  // Prefer already-curated remote thumb (avoids wiki search 429)
   const remote = (typeof existing === 'string' && existing.startsWith('http')) ? existing
     : (p.img?.src?.startsWith('http') ? p.img.src : null);
   if (remote && !/\.svg(\?|$)/i.test(remote)) {
@@ -215,7 +177,6 @@ for (const p of allFauna) {
         photos.found[p.id] = img;
         const fe = faunaExtra.find((x) => x.id === p.id);
         if (fe) fe.img = { src: img.src, page: img.page, artist: img.artist, license: img.license };
-        // also stamp curated places.json fauna
         const pl = places.find((x) => x.id === p.id);
         if (pl) pl.img = { src: img.src, page: img.page, artist: img.artist, license: img.license };
         console.log('OK', p.id, saved.bytes, file);
@@ -250,6 +211,6 @@ for (const p of allFauna) {
 }
 
 fs.writeFileSync(photosPath, JSON.stringify(photos, null, 2));
-fs.writeFileSync(path.join(BASE, 'data', 'fauna-extra.json'), JSON.stringify(faunaExtra, null, 2));
-fs.writeFileSync(path.join(BASE, 'data', 'places.json'), JSON.stringify(places, null, 2));
+fs.writeFileSync(path.join(ROOT, 'data', 'fauna-extra.json'), JSON.stringify(faunaExtra, null, 2));
+fs.writeFileSync(path.join(ROOT, 'data', 'places.json'), JSON.stringify(places, null, 2));
 console.log({ ok, skip, fail, mediaDir: MEDIA });

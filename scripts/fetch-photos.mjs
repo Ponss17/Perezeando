@@ -1,23 +1,8 @@
 #!/usr/bin/env node
-/**
- * Fotos libres para lugares sin foto → data/photos.json  (npm run fetch-photos)
- *
- * Orden, solo con resultados reales consultados:
- *  1. Wikidata P18 del lugar (qid propio, o etiqueta OSM wikidata=…)
- *  2. Wikidata por nombre + distancia (P625): < 500 m puntos, < 2 km cataratas/miradores/naturales
- *  3. Wikimedia Commons por coordenadas (list=geosearch, ns 6) cuyo título o descripción
- *     nombra el lugar (o, en cataratas, dice catarata/waterfall a < 300 m)
- * Siempre licencia libre (CC0, CC BY, CC BY-SA, dominio público) con autor y licencia.
- * Restaurantes y sodas: solo foto si es del propio lugar; si no, la app muestra un
- * marcador ilustrado de categoría (nunca una foto ajena como si fuera del lugar).
- *
- * Reejecutable: guarda lo encontrado y lo ya revisado; --refresh vuelve a buscar todo.
- */
 import fs from 'node:fs';
 import path from 'node:path';
-import { fileURLToPath } from 'node:url';
+import { FREE, km, norm, ROOT, sleep } from './shared.mjs';
 
-const ROOT = path.resolve(path.dirname(fileURLToPath(import.meta.url)), '..');
 const PUB = path.join(ROOT, 'public/data');
 const SRC = path.join(ROOT, 'data');
 const OUT = path.join(SRC, 'photos.json');
@@ -33,14 +18,12 @@ const SKIP_CATS = new Set(
     .map((s) => s.trim())
     .filter(Boolean) || [],
 );
-/** Prioridad Fase B: primero hitos con foto libre probable; gastronomía al final. */
 const CAT_PRIO = {
   volcanes: 0, parques: 1, museos: 2, iglesias: 3, playas: 4, cataratas: 5, cerros: 6, rios: 7,
   islas: 8, bosques: 9, arqueologia: 10, hitos: 11, deportes: 12, ciudades: 13, surf: 14,
   submarinas: 15, hitosOceanicos: 16, isras: 17, immas: 18, aeropuertos: 19, puertos: 20,
   datos: 21, gastronomia: 90,
 };
-const sleep = (ms) => new Promise((r) => setTimeout(r, ms));
 const log = (...a) => console.log('[fotos]', ...a);
 
 let last = 0;
@@ -69,16 +52,8 @@ async function api(host, params, tries = 6) {
   }
 }
 const chunks = (a, n) => Array.from({ length: Math.ceil(a.length / n) }, (_, i) => a.slice(i * n, i * n + n));
-const norm = (s) => (s || '').normalize('NFD').replace(/[\u0300-\u036f]/g, '').toLowerCase();
 const strip = (s) => (s || '').replace(/<[^>]+>/g, ' ').replace(/&nbsp;/g, ' ').replace(/&amp;/g, '&').replace(/\s+/g, ' ').trim();
-const km = (a, b) => {
-  const dLat = ((b.lat - a.lat) * Math.PI) / 180, dLng = ((b.lng - a.lng) * Math.PI) / 180;
-  const h = Math.sin(dLat / 2) ** 2 + Math.cos((a.lat * Math.PI) / 180) * Math.cos((b.lat * Math.PI) / 180) * Math.sin(dLng / 2) ** 2;
-  return 12742 * Math.asin(Math.sqrt(h));
-};
-const FREE = (l) => /^(cc0|cc[- ]by(-sa)?( \d(\.\d)?)?|public domain|pd\b|dominio p)/i.test(l || '') && !/nc|nd/i.test(l || '');
 const BAD = /\b(map|mapa|location|locator|logo|escudo|coat|flag|bandera|diagram|diagrama|plano|chart|grafico|portrait|retrato|selfie|signature|firma|icon|svg|sello|stamp|poster|afiche|document|screenshot)\b/i;
-// radio de la búsqueda por coordenadas y distancia máxima de Wikidata (km) por tipo
 const NATURAL = new Set(['cataratas', 'cerros', 'volcanes', 'bosques', 'rios', 'islas', 'playas', 'parques', 'surf', 'submarinas', 'hitosOceanicos', 'isras', 'immas', 'arqueologia']);
 const RADIUS = (c) => (c === 'gastronomia' ? 100 : c === 'cataratas' || c === 'cerros' ? 400 : NATURAL.has(c) ? 500 : 250);
 const WD_KM = (c) => (NATURAL.has(c) ? 2 : 0.5);
@@ -86,7 +61,6 @@ const CAT_WORDS = { cataratas: /catarata|waterfall|salto|cascada/, cerros: /mira
 const GENERIC = new Set(['soda', 'restaurante', 'restaurant', 'mercado', 'municipal', 'catarata', 'cataratas', 'salto', 'waterfall', 'playa', 'beach', 'mirador', 'cerro', 'sitio', 'arqueologico', 'monumento', 'nacional', 'costa', 'rica', 'parque', 'refugio', 'vida', 'silvestre', 'reserva', 'biologica', 'forestal', 'zona', 'protectora', 'humedal', 'canton', 'distrito', 'provincia', 'centro', 'iglesia', 'surf', 'point', 'del', 'los', 'las', 'san', 'santa', 'santo', 'rio', 'isla']);
 const tokens = (s) => norm(s).replace(/[^a-z0-9 ]/g, ' ').split(/\s+/).filter((w) => w.length > 2 && !GENERIC.has(w));
 
-// ------------------------------------------------------------------ datos de partida
 const rd = (dir, f, d) => { try { return JSON.parse(fs.readFileSync(path.join(dir, f), 'utf8')); } catch { return d; } };
 const atlas = rd(PUB, 'atlas.json');
 if (!atlas) { console.error('Falta public/data/atlas.json: corre primero npm run build-data'); process.exit(1); }
@@ -100,7 +74,6 @@ const save = () => fs.writeFileSync(OUT, JSON.stringify({ v: 1, found, checked }
 const total = atlas.places.length, before = atlas.places.filter((p) => p.img?.src).length;
 log(`${total} lugares; con foto ${before}; en photos.json ${Object.keys(found).length}; por revisar ${todo.length}${SKIP_CATS.size ? ` (skip ${[...SKIP_CATS]})` : ''}`);
 
-// ---------------------------------------------------------------- metadatos de Commons
 const meta = new Map();
 async function commonsMeta(files) {
   for (const c of chunks([...new Set(files)].filter((f) => !meta.has(f)), 40)) {
@@ -129,7 +102,6 @@ async function p18(qids) {
 }
 const set = (p, file, how) => { const m = meta.get(file); if (!m) return false; const { _desc, ...img } = m; found[p.id] = { ...img, how }; return true; };
 
-// --------------------------------------------------------------- 1. P18 del propio qid
 const st = { p18: 0, wdname: 0, geo: 0, none: 0 };
 let i = 0;
 if (!GEO_ONLY) {
@@ -144,7 +116,6 @@ if (!GEO_ONLY) {
   }
   log(`1) P18 por qid: ${st.p18}`);
 
-  // ------------------------------------------- 2. Wikidata por nombre + distancia
   if (!P18_ONLY) {
     for (const p of todo.filter((p) => !found[p.id] && (checked[p.id] || 0) < 2)) {
       if (++i % 25 === 0) { log(`2) ${i}…`); save(); }
@@ -175,7 +146,6 @@ if (!GEO_ONLY) {
   log('modo --geo-only: se omiten P18 y búsqueda Wikidata por nombre');
 }
 
-// ------------------------------------------- 3. Commons por coordenadas
 i = 0;
 if (P18_ONLY) {
   log('modo --p18-only: se omite Commons geosearch');
@@ -194,7 +164,6 @@ if (P18_ONLY) {
     if (!m) continue;
     const txt = norm(f + ' ' + m._desc);
     if (BAD.test(txt.replace(/[_.-]/g, ' '))) continue;
-    // el nombre del lugar tiene que estar en el TÍTULO del archivo (la descripción da falsos positivos)
     const tt = norm(f).replace(/[_.-]/g, ' ');
     const nameHits = tk.filter((w) => new RegExp('\\b' + w + '\\b').test(tt)).length;
     const catHit = cw ? cw.test(tt) : false;

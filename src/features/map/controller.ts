@@ -330,7 +330,7 @@ export class MapController implements MapApi {
     const t0 = performance.now();
     const dur = 650;
     const tick = (now: number) => {
-      const t = Math.min(1, (now - t0) / dur);
+      const t = Math.min(1, Math.max(0, (now - t0) / dur));
       const e = 1 - (1 - t) * (1 - t);
       setOp(e);
       if (t < 1) requestAnimationFrame(tick);

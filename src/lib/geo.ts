@@ -1,6 +1,5 @@
 import type { LatLng } from '../data/types';
 
-/** Distancia en km entre dos puntos [lat, lng] */
 export function haversine(a: LatLng, b: LatLng): number {
   const R = 6371;
   const r = Math.PI / 180;
@@ -14,7 +13,6 @@ export const ll = (p: { lat: number; lng: number }): LatLng => [p.lat, p.lng];
 
 export type Bounds = [[number, number], [number, number]];
 
-/** Bounds [[w,s],[e,n]] de una lista de coordenadas [lng,lat] */
 export function boundsOf(coords: Iterable<number[]>): Bounds | null {
   let w = Infinity,
     s = Infinity,
@@ -34,7 +32,6 @@ export function boundsOf(coords: Iterable<number[]>): Bounds | null {
     : null;
 }
 
-/** Recorre todas las posiciones de una geometría GeoJSON */
 export function* positions(g: GeoJSON.Geometry): Generator<number[]> {
   switch (g.type) {
     case 'Point':
@@ -57,7 +54,6 @@ export function* positions(g: GeoJSON.Geometry): Generator<number[]> {
   }
 }
 
-/** Polígono circular aproximado (para la precisión de la geolocalización) */
 export function circlePolygon(center: LatLng, radiusM: number, steps = 64): GeoJSON.Polygon {
   const [lat, lng] = center;
   const dLat = radiusM / 111320;

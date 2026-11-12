@@ -3,9 +3,10 @@ import type { GeoJSONSource, LngLatLike, Map as MLMap, MapGeoJSONFeature, Marker
 import type { AtlasData } from '../../data/load';
 import { CATEGORIES, CATEGORY_ORDER } from '../../data/config';
 import type { Lang, Place } from '../../data/types';
-import { pick } from '../../i18n';
+import { pick, translate } from '../../i18n';
 import { iconSvg } from '../../lib/icons';
 import type { ControllerEvents } from './controller';
+import { clusterHeader, ZOOM_SVG } from './markers';
 
 export interface ClusterHost {
   map: MLMap;
@@ -72,39 +73,23 @@ function showClusterList(
   }
   const box = document.createElement('div');
   box.className = 'cl-list';
-  const bar = document.createElement('div');
-  bar.className = 'ct-bar';
-  [...tally.values()]
-    .sort((a, b) => b.n - a.n)
-    .forEach((t) => {
-      const s = document.createElement('i');
-      s.style.width = (t.n / n) * 100 + '%';
-      s.style.background = t.color;
-      bar.appendChild(s);
-    });
-  const head = document.createElement('div');
-  head.className = 'ct-head';
-  const badge = document.createElement('b');
-  badge.className = 'ct-n';
-  badge.textContent = String(n);
-  const text = document.createElement('span');
-  const title = document.createElement('b');
-  title.textContent = L === 'en' ? (n === 1 ? 'place' : 'places') : n === 1 ? 'lugar' : 'lugares';
-  text.appendChild(title);
+  const { bar, head, text } = clusterHeader(
+    [...tally.values()].sort((a, b) => b.n - a.n),
+    n,
+    translate(L, n === 1 ? 'cl_place_one' : 'cl_place_many'),
+  );
   if (zoomIn) {
     const zb = document.createElement('button');
     zb.type = 'button';
     zb.className = 'cl-zoom';
-    zb.innerHTML =
-      '<svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.4" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true"><circle cx="11" cy="11" r="7"/><path d="m20 20-3.5-3.5"/><path d="M11 8v6"/><path d="M8 11h6"/></svg>';
-    zb.append(L === 'en' ? 'Zoom in' : 'Acercar');
+    zb.innerHTML = ZOOM_SVG;
+    zb.append(translate(L, 'cl_zoom'));
     zb.addEventListener('click', () => {
       host.listPop?.remove();
       zoomIn();
     });
     text.appendChild(zb);
   }
-  head.append(badge, text);
   box.append(bar, head);
   const ul = document.createElement('ul');
   const byCat = new Map<Place['cat'], Place[]>();

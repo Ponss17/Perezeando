@@ -1,24 +1,11 @@
 #!/usr/bin/env node
-/**
- * Enriquecimiento en español (build-time):
- *  - resuelve títulos de es.wikipedia para fichas que solo tienen en.wikipedia
- *  - corrige nombres en inglés de áreas protegidas
- *  - rellena briefs.json con resúmenes cortos de es.wikipedia / es.wikivoyage
- *  - no inventa precios, horarios ni teléfonos
- *
- * Uso: node scripts/enrich-es-content.mjs
- *      node scripts/enrich-es-content.mjs --dry
- *      node scripts/enrich-es-content.mjs --limit=80
- */
 import fs from 'node:fs';
 import path from 'node:path';
-import { fileURLToPath } from 'node:url';
-import { clip, get, log, mw, sparql } from './wiki.mjs';
+import { clip, get, log, mw } from './wiki.mjs';
+import { ES_MARK_RE, fold, isEnglishLooking, ROOT, sleep } from './shared.mjs';
 
-const ROOT = path.resolve(path.dirname(fileURLToPath(import.meta.url)), '..');
 const DRY = process.argv.includes('--dry');
 const LIMIT = +(process.argv.find((a) => a.startsWith('--limit='))?.split('=')[1] || 0);
-const sleep = (ms) => new Promise((r) => setTimeout(r, ms));
 
 const GENERIC = new Set([
   'canton de costa rica',
@@ -49,26 +36,6 @@ const GENERIC = new Set([
 
 const EN_NAME_RE =
   /\b(wildlife refuge|protected zone|forest reserve|biological reserve|national park|mixed wildlife|lacustrine wetland|experimental forest|hanging bridges|nature reserve|conservation area|rainforest preserve)\b/i;
-const EN_DESC_RE =
-  /\b(the|and|with|from|which|located|situated|known as|is a|was a|are a|national park|protected area|wildlife refuge|nature reserve|founded in|population of|square kilometres|pacific ocean|caribbean)\b/i;
-const ES_MARK_RE =
-  /[áéíóúñ¿¡]|\b(el|la|los|las|un|una|del|al|es|son|está|fue|para|con|desde|que|ubicad|conocid|parque|playa|río|volcán|provincia|municipio|refugio|reserva|área|silvestre|también|durante|entre|cerca|norte|sur|costarricense|nacional|proteg|cantón|distrito)\b/i;
-
-const fold = (x) =>
-  String(x || '')
-    .normalize('NFD')
-    .replace(/[\u0300-\u036f]/g, '')
-    .toLowerCase()
-    .replace(/\s+/g, ' ')
-    .trim();
-
-function isEnglishLooking(text) {
-  const t = String(text || '').trim();
-  if (!t || t.length < 12) return false;
-  if (ES_MARK_RE.test(t)) return false;
-  const hits = t.match(EN_DESC_RE) || [];
-  return hits.length >= 2 || (hits.length >= 1 && t.length > 50);
-}
 
 function isThinEs(text) {
   const t = String(text || '').trim();
@@ -76,20 +43,10 @@ function isThinEs(text) {
   if (GENERIC.has(fold(t))) return true;
   if (isEnglishLooking(t)) return true;
   if (t.length <= 55) return true;
-  // plantillas muy genéricas
   if (/^(Estratovolcán|Volcán|Cerro|Parque nacional|Área silvestre|Catarata|Río|Isla|Playa|Museo|Iglesia|Sitio arqueológico|Recinto deportivo|Cantón|Puesto de comida|Spot de surf|Aeropuerto|Puerto|Lugar de interés|Refugio|Reserva|Zona protectora|Humedal|Santuario|Corredor)\b/i.test(t) && t.length < 110) {
     if (/en la provincia de|en el mar territorial|Forma parte de las áreas silvestres/i.test(t)) return true;
   }
   return false;
-}
-
-function titleFromUrl(u) {
-  if (!u) return undefined;
-  try {
-    return decodeURIComponent(String(u).split('/wiki/').pop()).replace(/_/g, ' ');
-  } catch {
-    return undefined;
-  }
 }
 
 function spanishifyName(name) {
@@ -214,9 +171,7 @@ async function main() {
   const enrich = loadJson('data/enrich.json', {});
 
   const all = [...curated, ...wd, ...osm, ...extra];
-  const byId = new Map(all.map((p) => [p.id, p]));
 
-  // 1) resolver sitelinks ES para los que solo tienen EN o carecen de wiki.es
   const needQ = [];
   for (const p of [...wd, ...extra]) {
     if (!p.q) continue;
@@ -247,7 +202,6 @@ async function main() {
       p.name.es = info.labelEs;
       namesFixed++;
     }
-    // si desc.es vacío y hay label description handled later via briefs
   }
 
   for (const p of extra) {
@@ -258,14 +212,12 @@ async function main() {
     }
   }
 
-  // 2) candidatos a brief: descripciones delgadas / inglés / genéricas
   const candidates = [];
   for (const p of all) {
     const es = p.desc?.es || '';
     const hasBrief = !!briefs[p.id]?.es;
     if (hasBrief && !isThinEs(briefs[p.id].es) && !isEnglishLooking(briefs[p.id].es)) continue;
     if (!isThinEs(es) && !isEnglishLooking(es) && !(hasBrief && isThinEs(briefs[p.id].es))) continue;
-    // preferir lugares con wiki.es o qid
     const score =
       (p.wiki?.es ? 50 : 0) +
       (p.wiki?.en ? 10 : 0) +
@@ -288,7 +240,6 @@ async function main() {
     if (p.wiki?.es) sum = await wikiSummary('es', p.wiki.es);
     if (!sum && p.q && links.get(p.q)?.eswiki) sum = await wikiSummary('es', links.get(p.q).eswiki);
     if (!sum && enrich[p.id]?.voy?.es) sum = await voySummary('es', enrich[p.id].voy.es);
-    // último recurso: título = nombre ES (solo si parece artículo)
     if (!sum && p.name?.es && p.wiki?.es) {
       /* already tried */
     } else if (!sum && p.name?.es && /^(Parque|Volcán|Museo|Reserva|Refugio|Basílica|Catedral|Cerro|Isla|Playa|Río)\b/i.test(p.name.es)) {
@@ -299,9 +250,7 @@ async function main() {
       failed++;
       continue;
     }
-    // recortar a 1–2 frases útiles
     let text = clip(sum.extract, 320);
-    // evitar el nombre solo + plantilla
     if (isThinEs(text) && sum.extract.length > text.length) text = clip(sum.extract, 380);
     if (isEnglishLooking(text) || text.length < 40) {
       failed++;
@@ -326,11 +275,9 @@ async function main() {
   report.briefsUpdated = briefsUpdated;
   report.failed = failed;
 
-  // 3) persistir
   writeJson('data/places-wd.json', wd);
   writeJson('data/places-extra.json', extra);
   writeJson('data/enrich.json', enrich);
-  // briefs with pretty print
   if (!DRY) {
     fs.writeFileSync(path.join(ROOT, 'scripts/data/briefs.json'), JSON.stringify(briefs, null, 2) + '\n');
     log('escrito scripts/data/briefs.json ·', Object.keys(briefs).length, 'entradas');
