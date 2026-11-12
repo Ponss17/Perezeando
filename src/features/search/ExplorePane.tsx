@@ -37,6 +37,12 @@ export default function ExplorePane() {
   const kb = useKb((s) => s.i);
   const [searchTick, setSearchTick] = useState(0);
   const [browseAll, setBrowseAll] = useState(false);
+  const [slide, setSlide] = useState<'next' | 'prev' | null>(null);
+  const browse = (all: boolean) => {
+    if (all === browseAll) return;
+    setSlide(all ? 'next' : 'prev');
+    setBrowseAll(all);
+  };
   useEffect(() => subscribeSearch(() => setSearchTick((n) => n + 1)), []);
 
   const r = useMemo(() => {
@@ -161,12 +167,18 @@ export default function ExplorePane() {
       <div className="meta-row">
         <div className="result-meta">
           {homeMode ? (
-            <div className="browse-mode" role="group" aria-label={t('discover_must')}>
+            <div
+              className="browse-mode"
+              role="group"
+              aria-label={t('discover_must')}
+              data-all={browseAll || undefined}
+            >
+              <span className="browse-ind" aria-hidden="true" />
               <button
                 type="button"
                 className="browse-mode-btn"
                 aria-pressed={!browseAll}
-                onClick={() => setBrowseAll(false)}
+                onClick={() => browse(false)}
               >
                 {t('discover_must')}
               </button>
@@ -174,7 +186,7 @@ export default function ExplorePane() {
                 type="button"
                 className="browse-mode-btn"
                 aria-pressed={browseAll}
-                onClick={() => setBrowseAll(true)}
+                onClick={() => browse(true)}
               >
                 {t('discover_all')}
                 <span className="browse-n">{fmtNum(lang, r.list.length)}</span>
@@ -226,7 +238,11 @@ export default function ExplorePane() {
           </button>
         </div>
       </div>
-      <ul className="list" id="resultList">
+      <ul
+        className={'list' + (slide && homeMode ? ' browse-in-' + slide : '')}
+        id="resultList"
+        onAnimationEnd={(e) => e.target === e.currentTarget && setSlide(null)}
+      >
         {allHidden ? (
           <EmptyState
             icon="eye-off"

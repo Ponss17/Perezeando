@@ -771,11 +771,6 @@ body:not(.dark) .panel-head {
   opacity: 0;
 }
 
-.field:last-child .sx-list {
-  left: auto;
-  right: 0;
-}
-
 .list-more {
   height: 40px;
 }

@@ -1,4 +1,5 @@
-import { useEffect, useLayoutEffect, useId, useMemo, useRef, useState } from 'react';
+import { useCallback, useEffect, useLayoutEffect, useId, useMemo, useRef, useState } from 'react';
+import { createPortal } from 'react-dom';
 import { Icon } from './Icon';
 
 export interface SelectOption {
@@ -35,26 +36,56 @@ export function Select({ value, options, onChange, ariaLabel }: Props) {
     setOpen(true);
   };
 
-  useEffect(() => {
-    if (!open) return;
-    const down = (e: PointerEvent) => {
-      if (!root.current?.contains(e.target as Node)) setOpen(false);
-    };
-    document.addEventListener('pointerdown', down, true);
-    return () => document.removeEventListener('pointerdown', down, true);
-  }, [open]);
-
-  useLayoutEffect(() => {
+  const place = useCallback(() => {
     const ul = list.current;
     const r = root.current?.getBoundingClientRect();
-    if (!open || !ul || !r) return;
-    const vh = window.visualViewport?.height ?? window.innerHeight;
-    const below = vh - r.bottom - 12;
-    const above = r.top - 12;
-    const up = below < 220 && above > below;
+    if (!ul || !r) return;
+    const m = 8;
+    const gap = 6;
+    const vw = document.documentElement.clientWidth || window.innerWidth;
+    const vh = window.innerHeight;
+    ul.style.minWidth = r.width + 'px';
+    ul.style.maxHeight = 'none';
+    const need = ul.scrollHeight;
+    const below = vh - r.bottom - gap - m;
+    const above = r.top - gap - m;
+    const up = need > below && above > below;
+    const h = Math.max(0, Math.min(need, up ? above : below, 480));
+    ul.style.maxHeight = h + 'px';
     ul.classList.toggle('up', up);
-    ul.style.maxHeight = Math.max(140, Math.min(340, up ? above : below)) + 'px';
-  }, [open]);
+    const w = ul.offsetWidth;
+    const edge = Math.min(vw - m, root.current?.closest('.panel')?.getBoundingClientRect().right ?? vw);
+    const left = r.left + w > edge ? Math.max(m, r.right - w) : r.left;
+    ul.style.left = left + 'px';
+    ul.style.top = (up ? r.top - gap - h : r.bottom + gap) + 'px';
+  }, []);
+
+  useEffect(() => {
+    if (!open) return;
+    const inside = (t: EventTarget | null) =>
+      t instanceof Node && (!!root.current?.contains(t) || !!list.current?.contains(t));
+    const down = (e: PointerEvent) => {
+      if (!inside(e.target)) setOpen(false);
+    };
+    const scroll = (e: Event) => {
+      if (!inside(e.target)) setOpen(false);
+    };
+    const vv = window.visualViewport;
+    document.addEventListener('pointerdown', down, true);
+    document.addEventListener('scroll', scroll, true);
+    window.addEventListener('resize', place);
+    vv?.addEventListener('resize', place);
+    return () => {
+      document.removeEventListener('pointerdown', down, true);
+      document.removeEventListener('scroll', scroll, true);
+      window.removeEventListener('resize', place);
+      vv?.removeEventListener('resize', place);
+    };
+  }, [open, place]);
+
+  useLayoutEffect(() => {
+    if (open) place();
+  }, [open, place]);
 
   useEffect(() => {
     if (open)
@@ -170,11 +201,13 @@ export function Select({ value, options, onChange, ariaLabel }: Props) {
         <span className="sx-val">{sel?.label}</span>
         <Icon name="chevron-down" />
       </button>
-      {open && (
-        <ul className="sx-list" id={id + '-list'} role="listbox" aria-label={ariaLabel} ref={list}>
-          {rows}
-        </ul>
-      )}
+      {open &&
+        createPortal(
+          <ul className="sx-list" id={id + '-list'} role="listbox" aria-label={ariaLabel} ref={list}>
+            {rows}
+          </ul>,
+          document.body,
+        )}
     </div>
   );
 }

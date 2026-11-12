@@ -166,18 +166,27 @@ async function readMeta(p) {
     const maxBottom = Math.max(...boxes.map((b) => b.bottom));
     const maxH = Math.max(...boxes.map((b) => b.h));
     const active = row.querySelector('.browse-mode-btn[aria-pressed="true"]');
-    const inactive = row.querySelector('.browse-mode-btn[aria-pressed="false"]');
     const bg = (e) => (e ? getComputedStyle(e).backgroundColor : null);
     const labels = [...row.querySelectorAll('.meta-actions .text-btn.icon-only')].map(
       (e) => e.getAttribute('aria-label') || '',
     );
+    const ind = row.querySelector('.browse-ind');
+    const ir = ind?.getBoundingClientRect();
+    const ar = active?.getBoundingClientRect();
+    let indOver = false;
+    if (ir && ar) {
+      const cx = (ar.left + ar.right) / 2;
+      const cy = (ar.top + ar.bottom) / 2;
+      indOver = cx >= ir.left - 1 && cx <= ir.right + 1 && cy >= ir.top - 1 && cy <= ir.bottom + 1;
+    }
     return {
       wrap: maxBottom - minTop > maxH + 8,
       flexWrap: getComputedStyle(row).flexWrap,
       rowH: Math.round(row.getBoundingClientRect().height),
       text: row.innerText.replace(/\s+/g, ' ').trim(),
-      activeBg: bg(active),
-      inactiveBg: bg(inactive),
+      indBg: bg(ind),
+      hasInd: !!ind,
+      indOver,
       hasToggle: !!active,
       labels,
     };
@@ -193,12 +202,106 @@ function assertMeta(info, { toggle = true, label = 'meta-row' } = {}) {
   if (toggle) {
     if (!info.hasToggle) throw new Error(label + ' sin toggle');
     const clear = (c) => !c || c === 'transparent' || /^rgba\(\s*0,\s*0,\s*0,\s*0\s*\)$/.test(c);
-    if (clear(info.activeBg) || info.activeBg === info.inactiveBg)
-      throw new Error(label + ' sin estado activo: ' + info.activeBg + ' / ' + info.inactiveBg);
+    if (!info.hasInd || clear(info.indBg) || !info.indOver)
+      throw new Error(label + ' sin indicador: ' + info.indBg + ' over=' + info.indOver);
   }
   return `${info.text} h=${info.rowH}`;
 }
 
+
+async function checkBrowseToggle(p) {
+  const read = () =>
+    p.evaluate(() => ({
+      pressed:
+        document.querySelector('.browse-mode-btn[aria-pressed="true"]')?.textContent.replace(/\s+/g, ' ').trim() || '',
+      disc: !!document.querySelector('.discover-sec'),
+      dataAll: document.querySelector('.browse-mode')?.hasAttribute('data-all') || false,
+      heads: [...document.querySelectorAll('#resultList .list-head')].map((e) => e.textContent.trim()).slice(0, 3),
+    }));
+  const a = await read();
+  if (!/Imperdibles/i.test(a.pressed) || !a.disc || a.dataAll) throw new Error('inicio ' + JSON.stringify(a));
+  await p.click('.browse-mode-btn[aria-pressed="false"]');
+  await sleep(450);
+  const b = await read();
+  if (!/Todos/i.test(b.pressed) || b.disc || !b.dataAll) throw new Error('todos ' + JSON.stringify(b));
+  await p.click('.browse-mode-btn[aria-pressed="false"]');
+  await sleep(450);
+  const c = await read();
+  if (!/Imperdibles/i.test(c.pressed) || !c.disc || c.dataAll) throw new Error('vuelta ' + JSON.stringify(c));
+  return `Imperdibles ↔ Todos (${b.heads[0] || 'ok'})`;
+}
+
+async function checkMenus(p, { minOptH = 0 } = {}) {
+  const probe = () =>
+    p.evaluate(async () => {
+      const ul = document.querySelector('.sx-list');
+      if (!ul) return { open: false };
+      const opts = [...ul.querySelectorAll('[role=option]')];
+      let vis = 0;
+      const bad = [];
+      for (const o of opts) {
+        o.scrollIntoView({ block: 'nearest' });
+        await new Promise((res) => requestAnimationFrame(() => res()));
+        const b = o.getBoundingClientRect();
+        const cx = b.left + b.width / 2;
+        const cy = b.top + b.height / 2;
+        const inVp = b.top >= 0 && b.bottom <= innerHeight + 0.5 && b.left >= 0 && b.right <= innerWidth + 0.5;
+        const hit = document.elementFromPoint(cx, cy);
+        if (inVp && hit && o.contains(hit)) vis++;
+        else bad.push(o.textContent.trim().slice(0, 24));
+      }
+      const hs = opts.map((o) => o.getBoundingClientRect().height);
+      return { open: true, total: opts.length, visible: vis, bad, minOptH: Math.min(...hs) };
+    });
+  const run = async (idx, pick) => {
+    const sel = `.filters .field:nth-child(${idx + 1}) .sx-trigger`;
+    const el = await p.$(sel);
+    const tb = el && (await el.boundingBox());
+    if (!tb) throw new Error('sin trigger ' + idx);
+    await p.mouse.click(tb.x + tb.width / 2, tb.y + tb.height / 2);
+    await sleep(400);
+    const info = await probe();
+    if (!info.open) throw new Error('menú no abrió ' + idx);
+    if (info.visible !== info.total)
+      throw new Error(`menú ${idx}: ${info.visible}/${info.total} ${info.bad.join(',')}`);
+    if (minOptH && info.minOptH < minOptH - 0.5) throw new Error('optH=' + info.minOptH);
+    const opt = await p.evaluateHandle(
+      (t) => [...document.querySelectorAll('.sx-list [role=option]')].find((o) => o.textContent.includes(t)),
+      pick,
+    );
+    if (!(await opt.evaluate((o) => !!o))) throw new Error('no está ' + pick);
+    await opt.evaluate((o) => o.scrollIntoView({ block: 'nearest' }));
+    await sleep(80);
+    const ob = await opt.boundingBox();
+    if (!ob) throw new Error('sin caja ' + pick);
+    await p.mouse.click(ob.x + ob.width / 2, ob.y + ob.height / 2);
+    await sleep(400);
+    const label = await p.$eval(sel, (e) => e.textContent.trim());
+    if (!label.includes(pick)) throw new Error(`pick ${pick} → "${label}"`);
+    if (await p.$('.sx-list')) throw new Error('no cerró tras pick');
+    return { ...info, picked: label };
+  };
+  const prov = await run(0, 'Limón');
+  await p.evaluate(() => {
+    __cract.setProv('all');
+    __cract.setCat('all');
+  });
+  await sleep(300);
+  const cat = await run(1, 'Playas');
+  const t0 = await (await p.$('.filters .field:nth-child(1) .sx-trigger')).boundingBox();
+  await p.mouse.click(t0.x + t0.width / 2, t0.y + t0.height / 2);
+  await sleep(300);
+  if (!(await p.$('.sx-list'))) throw new Error('no reabrió');
+  await p.mouse.click(10, 10);
+  await sleep(250);
+  if (await p.$('.sx-list')) throw new Error('no cerró al tocar fuera');
+  await p.evaluate(() => {
+    __cract.setProv('all');
+    __cract.setCat('all');
+  });
+  await sleep(300);
+  return `prov ${prov.visible}/${prov.total} “${prov.picked}” | cat ${cat.visible}/${cat.total} “${cat.picked}”`;
+}
 
 const NOISE = /cloudflareinsights|ERR_|Failed to load resource/;
 
@@ -263,6 +366,8 @@ try {
       await sleep(200);
       return `${home} | ${prov} | ${all}`;
     });
+    await step('browse_toggle', async () => checkBrowseToggle(p));
+    await step('filters_menu', async () => checkMenus(p));
     await step('search', async () => {
       const i = await p.$('.search input, input[type=search]');
       await i.click();
@@ -612,6 +717,29 @@ try {
       await p.click('.browse-mode-btn[aria-pressed="false"]');
       await sleep(200);
       return `${home} | ${prov} | ${all}`;
+    });
+    await step('m_browse_toggle', async () => checkBrowseToggle(p));
+    await step('m_filters_menu', async () => checkMenus(p, { minOptH: 44 }));
+    await step('m_filters_menu_short', async () => {
+      const p2 = await ctx.newPage();
+      p2.setDefaultTimeout(90000);
+      try {
+        await p2.setViewport({ width: 430, height: 850, isMobile: true, hasTouch: true, deviceScaleFactor: 2 });
+        await p2.goto(BASE + '?e2e', { waitUntil: 'load', timeout: 90000 });
+        await p2.waitForFunction(() => window.__crmap && window.__crmap.loaded() && window.__cract, {
+          timeout: 90000,
+        });
+        await p2.waitForFunction(() => !document.querySelector('.boot-splash'), { timeout: 30000 }).catch(() => {});
+        await sleep(1500);
+        await p2.click('.tabs [role=tab]').catch(() => {});
+        await sleep(700);
+        const sh = await p2.$eval('#panel', (e) => e.dataset.sheet);
+        if (sh !== 'half' && sh !== 'full') throw new Error('sheet=' + sh);
+        const out = await checkMenus(p2, { minOptH: 44 });
+        return `sheet=${sh} ${out}`;
+      } finally {
+        await p2.close();
+      }
     });
     await step('m_locate', async () => {
       await p.evaluate(() => __cract.locate(true));

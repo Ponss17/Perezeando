@@ -21,8 +21,10 @@ Atlas interactivo **Perezeando**: mapa de consulta de Costa Rica (territorio + m
 
 | Pieza | Versión / nota |
 |--------|----------------|
-| Node | `>=22.13` (`engines`) |
-| Empaquetado | **pnpm** + Vite **8.3.5** |
+| Paquete | `perezeando` (el Worker de `wrangler.toml` también se llama `perezeando`) |
+| Node | `>=22.13` (`engines`); CI usa Node 22 |
+| Empaquetado | **pnpm 11.13.1** (`packageManager`) + Vite **8.3.5** |
+| Tests | Vitest **5.1** (`pnpm test`, `tests/`, fuera del bundle) |
 | UI | React **19.3** + TypeScript ~6 |
 | Mapa | MapLibre GL **6.16** (lazy `MapView`) |
 | Estado | Zustand **5** |
@@ -44,6 +46,7 @@ pnpm dev          # predev → build-data + vite
 pnpm build        # prebuild → build-data + audit-quality + tsc + vite
 pnpm preview
 pnpm typecheck
+pnpm test         # vitest run (tests/)
 pnpm audit-quality
 pnpm audit-lang
 pnpm audit-remote   # opcional, throttled; no va en build
@@ -231,7 +234,7 @@ Objetivo: traer a `/media` las imágenes **ya curadas** (sin discovery runtime).
 4. Ampliar actividades por cantón (hoy starter de 13).
 5. Dominio custom para media + hosting prod final (Pages/Workers/etc.) con `.env.production` real.
 6. Si prod usa R2: valorar **no empaquetar** `public/media` en el deploy (opt-in); mantener local para dev.
-7. Suite de tests automatizados: **casi no hay**; no asumir cobertura.
+7. ~~Suite de tests automatizados~~ → unitarios con Vitest desde el 2026-11-12 (búsqueda, cercanos, ruta, slugs, `dishKey`, haversine); UI solo con `pnpm e2e`.
 8. ~~Resolver `near-dup` estadios~~ → **hecho** (se quitó el estadio viejo `…-q3067683`; queda el actual).
 9. **Fase B + cierres (2026-11-06):** fauna `lapa-roja`/`ballena-piloto` en `/media`; Lito Monge sin foto Commons (sí desc). `thinUnder50` → **0**. Actividades **18**. Lugares `/media` **495**/835; **340** sin foto (gastro).
 
@@ -399,10 +402,29 @@ Backup: `%TEMP%\cr-mapa-v2-review7b-bak-20261112-094400.zip` (1.105.015 bytes, 0
 
 Checks: typecheck 0, lint 0, prettier 0 (sin `--write` de los 4 archivos que ya venían sucios), audit-lang 0, audit-quality 0 (495 missing-media en el box), build 0 (SW 24 archivos), e2e OK (offline + cercanos). Perf general escritorio mapLoad 4501 / móvil 3859, en el ruido de review7.
 
+### Hecho (2026-11-12, ~12:40 America/Costa_Rica) — licencia, CI, Vitest y nombre del paquete
+
+Backup: `%TEMP%\review9-bak-20261112-1228.zip` (211 archivos). Artefactos: box `/workspace/pz-out/review9/`.
+
+- `LICENSE`: MIT © 2026 Ponss17, solo para el código. El README (insignia + sección «Licencia») aclara que fotos, textos y datos de mapas conservan su licencia (CC BY-SA, ODbL, Commons, Esri).
+- `.github/workflows/ci.yml` (push y PR): pnpm desde `packageManager`, Node 22, `install --frozen-lockfile`, typecheck, lint, prettier (`src`, `tests`, raíz `*.json`/`*.md`, `eslint.config.js`, `vitest.config.ts`, el YAML), audit-lang, test y build. Sin e2e. `AUDIT_SKIP_MEDIA=1` solo en CI: `audit-quality` no busca `public/media` (ignorado en git); en local sigue igual.
+- Vitest 5.1 (`vitest.config.ts`, `tsconfig.test.json` en `tsc -b`). 50 tests en `tests/`, usan `public/data/atlas.json` real; corren en <0,5 s. El agrupado por días de `RoutePane` (dayOf/dayEnd) sigue inline y no se testea directo; sí `setRoute`/`toggleDayStart`/`sleepInTown`/`optimizeRoute`.
+- `package.json`: `name` `cr-mapa` → `perezeando`, script `test`, `packageManager`. Las claves de localStorage `crmapa.*` no se tocaron (cambiarlas borraría favoritos y ruta guardados).
+- Bundle: `dist` idéntico byte a byte antes/después.
+
+### Hecho (2026-11-12, ~13:15 America/Costa_Rica) — menús de filtros y transición Imperdibles/Todos
+
+- Menús Provincia/Categoría: en el sheet móvil a media altura la lista se cortaba (posición absoluta dentro del panel con `overflow:hidden` y `transform`; a ~430×850 solo se veía «Limón 94»). Ahora el menú se porta al `body` (`position:fixed`), se abre hacia el lado con más espacio, limita su altura y hace scroll interno. Cierra al tocar fuera o al hacer scroll. Targets ≥44 px en puntero grueso / móvil. Paleta, teclado y a11y se mantienen. Capturas before/after: `/workspace/pz-out/review9/`.
+- Toggle Imperdibles ↔ Todos: un solo `.browse-ind` se desliza con `transform` (~220 ms). La lista entra en la dirección del cambio con `translateX` + fade (mismos 220 ms, solo transform/opacity). Respeta `prefers-reduced-motion`. E2E comprueba el indicador (fondo no transparente, solapa el botón activo) y que el toggle sigue cambiando la lista (`discover-sec` ↔ secciones).
+- E2E menús: las 9 provincias y todas las categorías, cada opción dentro del viewport y clicable; elegir Limón / Playas actualiza el trigger (escritorio, 412×915 y 430×850 a medio sheet).
+- Frames (rAF, Chrome móvil CPU 4×): el primer pintado de «Todos» (~120 ítems) ya era el paso caro (pico ~250 ms antes, similar después); los frames siguientes quedan en mediana 16,7 ms, sin jank sostenido.
+
+Archivos: `Select.tsx`, `app.css`, `panel.css`, `ExplorePane.tsx`, `scripts/e2e.mjs`.
+
 ### Pendiente próximo (pedido explícito)
 
 1. **Onboarding** (opcional): tour corto primera visita — panel, filtros, ruta, medir; skip + “no volver a mostrar”.
-2. Gastro sin foto; dominio custom media; tests filtros/`visiblePlaces` (hay smoke `pnpm e2e`).
+2. Gastro sin foto; dominio custom media; tests de filtros/`visiblePlaces` (hay Vitest y `pnpm e2e`).
 4. ~~CORS en R2 y `MEDIA_HOST` del SW~~ — hecho el 2026-11-12 (falta solo el deploy, no pedido).
 3. Cola restante de lugares sin `img` (Fase B parcial).
 

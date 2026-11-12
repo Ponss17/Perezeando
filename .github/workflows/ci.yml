@@ -1,0 +1,56 @@
+name: CI
+
+on:
+  push:
+  pull_request:
+
+permissions:
+  contents: read
+
+concurrency:
+  group: ci-${{ github.ref }}
+  cancel-in-progress: true
+
+jobs:
+  check:
+    runs-on: ubuntu-latest
+    timeout-minutes: 15
+    env:
+      AUDIT_SKIP_MEDIA: '1'
+    steps:
+      - uses: actions/checkout@v7
+
+      - uses: pnpm/action-setup@v6
+
+      - uses: actions/setup-node@v7
+        with:
+          node-version: 22
+          cache: pnpm
+
+      - name: Install
+        run: pnpm install --frozen-lockfile
+
+      - name: Typecheck
+        run: pnpm typecheck
+
+      - name: Lint
+        run: pnpm lint
+
+      - name: Prettier
+        run: >-
+          pnpm exec prettier --check
+          "src/**/*.{ts,tsx,css}"
+          "tests/**/*.ts"
+          "*.{json,md}"
+          eslint.config.js
+          vitest.config.ts
+          ".github/**/*.yml"
+
+      - name: Audit language
+        run: pnpm audit-lang
+
+      - name: Unit tests
+        run: pnpm test
+
+      - name: Build
+        run: pnpm build

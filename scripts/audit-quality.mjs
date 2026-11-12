@@ -4,6 +4,7 @@ import { km } from './shared.mjs';
 const BASE = process.cwd();
 const atlas = JSON.parse(fs.readFileSync(path.join(BASE, 'public', 'data', 'atlas.json'), 'utf8'));
 const places = atlas.places;
+const skipMedia = process.env.AUDIT_SKIP_MEDIA === '1';
 const issues = [];
 const ids = new Map();
 for (const p of places) {
@@ -14,7 +15,7 @@ for (const p of places) {
   }
   const es = p.desc?.es || '';
   if (!es.trim()) issues.push({ t: 'no-desc-es', id: p.id });
-  if (p.img?.src?.startsWith('/media/')) {
+  if (!skipMedia && p.img?.src?.startsWith('/media/')) {
     const rel = p.img.src.replace(/^\//, '');
     const abs = path.join(BASE, 'public', rel);
     if (!fs.existsSync(abs)) issues.push({ t: 'missing-media', id: p.id, src: p.img.src });
@@ -48,6 +49,7 @@ const summary = {
   issues: issues.length,
   byType: issues.reduce((m, x) => ((m[x.t] = (m[x.t] || 0) + 1), m), {}),
   responsiveTokens: responsiveOk,
+  mediaChecked: !skipMedia,
   sample: issues.slice(0, 30),
 };
 fs.mkdirSync(path.join(BASE, 'perf'), { recursive: true });

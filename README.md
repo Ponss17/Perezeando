@@ -10,6 +10,7 @@
 <img src="https://img.shields.io/badge/fauna-59_especies-a0602c?style=flat-square" alt="59 especies de fauna" />
 <img src="https://img.shields.io/badge/idiomas-ES_%7C_EN-1f6feb?style=flat-square" alt="Español e inglés" />
 <img src="https://img.shields.io/badge/funciona-sin_conexión-5a0fc8?style=flat-square" alt="Funciona sin conexión" />
+<a href="./LICENSE"><img src="https://img.shields.io/badge/código-MIT-555?style=flat-square" alt="Código bajo licencia MIT" /></a>
 
 <br />
 <br />
@@ -185,6 +186,14 @@ El sitio incluye las páginas **Créditos y fuentes** y **Políticas de uso y de
 <img src="https://img.shields.io/badge/Fuse.js_7-f2a900?style=flat-square" alt="Fuse.js 7" />
 <img src="https://img.shields.io/badge/Cloudflare_Workers_+_R2-f38020?style=flat-square&logo=cloudflare&logoColor=white" alt="Cloudflare Workers y R2" />
 </p>
+
+---
+
+## 📄 Licencia
+
+El código está bajo licencia [MIT](./LICENSE) © 2026 Ponss17.
+
+La licencia MIT no cubre las fotos, los textos ni los datos de mapas. Cada uno conserva la licencia de su fuente: CC BY-SA en los textos de Wikipedia y en OpenTopoMap; ODbL en OpenStreetMap y geoBoundaries; la licencia que indica cada foto (en su mayoría CC BY, CC BY-SA, CC0 o dominio público, de Wikimedia Commons); y los términos de Esri en sus mapas base. El autor y la licencia aparecen en cada ficha y en **Créditos y fuentes**.
 
 ---
 
