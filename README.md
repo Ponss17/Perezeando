@@ -2,7 +2,7 @@
 
 <img src="./public/icons/icon-192.png" alt="Logo de Perezeando" width="96" />
 
-# Perezeando
+# Perezeando - Map
 
 **El mapa interactivo de Costa Rica: volcanes, playas, fauna, cultura y comida típica en un solo lugar.**
 
